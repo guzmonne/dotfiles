@@ -41,7 +41,8 @@ highlight clear CursorLineNR
 highlight Normal            ctermbg=NONE
 highlight LineNr            ctermbg=NONE
 highlight SignColumn        ctermbg=NONE
-highlight CursorLine        ctermbg=NONE cterm=underline
+highlight CursorLine        ctermbg=NONE
+highlight CursorLineNR      ctermbg=NONE
 highlight Folded            ctermbg=NONE cterm=bold
 highlight FoldColumn        ctermbg=NONE cterm=bold
 highlight NonText           ctermbg=NONE

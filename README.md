@@ -25,8 +25,11 @@ stow -t ~/.config repos
 # Stow the .config folder
 stow -t ~/.config .config
 
-#  Stow the .zshrc config
+# Stow the .zshrc config
 stow -t ~ ./zshrc
+
+# Stow the scripts folder
+stow -t ~/bin ./scripts
 ```
 
 After stowing the files you need to install `nvim` plugins.

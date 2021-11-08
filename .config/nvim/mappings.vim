@@ -1,6 +1,9 @@
 " Change the map leader.
 let mapleader=";"
 
+" Open a new tmux window using tmux-windownizer
+nnoremap <silent> <C-n> :silent !tmux new-window tmux-windownizer.sh<CR>
+
 " Shortcut to edit mappings.
 nnoremap <silent> <leader>ei :e ~/.config/nvim/init.vim<CR>
 nnoremap <silent> <leader>ec :e ~/.config/nvim/main.vim<CR>
@@ -12,6 +15,7 @@ nnoremap <silent> <leader>coc :CocConfig<CR>
 
 " Shortcut to save the current buffer
 nnoremap <silent> <leader>s :w<CR>
+nnoremap <silent> <C-s> :w<CR>
 
 " Shortcut to source NVIM configuration
 nnoremap <leader>sc :source ~/.config/nvim/init.vim<CR>
@@ -55,9 +59,6 @@ nnoremap <silent> <leader>ft :Tags!<CR>
 
 " Search in directory
 nnoremap <silent> <leader>rg :Rg!<space>
-
-" toggle colors to optimize based on light or dark background
-nnoremap <silent> <leader>c :call ToggleLightDark()<CR>
 
 " Replay the last command change
 nnoremap <leader>r @:<CR>
