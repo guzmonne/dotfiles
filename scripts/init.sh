@@ -50,7 +50,7 @@ parse_params() {
 # flag=0
 # param=''
   user=$USER
-  directory=/Users/gmonne/Projects/Personal
+  directory="/Users/$user/Projects/Personal"
 
   while :; do
     case "${1-}" in
@@ -58,12 +58,12 @@ parse_params() {
     -v | --verbose) set -x ;;
     --no-color) NO_COLOR=1 ;;
 #   -f | --flag) flag=1 ;; # example flag
-    -d | --directory) 
-      directory="${2-}"
-      shift
-      ;;
     -u | --user)
       user="${2-$user}"
+      shift
+      ;;
+    -d | --directory) 
+      directory="${2-\"/Users/$user/Projects/Personal\"}"
       shift
       ;;
 #   -p | --param) # example named parameter
