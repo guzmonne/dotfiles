@@ -1,3 +1,5 @@
 repos/
 .config/nvim/plugged/
 tags
+tmp/*
+!tmp/keep
