@@ -29,6 +29,14 @@ stow -t ~/.config .config
 stow -t ~ ./zshrc
 ```
 
+After stowing the files you need to install `nvim` plugins.
+
+```bash
+:PlugInstall
+```
+
+Reset `nvim` to see the new plugins in action.
+
 ## Update configuration
 
 ### `.zshrc`
