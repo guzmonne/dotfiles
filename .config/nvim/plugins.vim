@@ -36,3 +36,5 @@ let g:typescript_indent_disable = 1
 " Automatically populate airline fonts
 let g:airline_powerline_fonts = 1
 
+" Disable automatic folding on vim-markdown
+let g:vim_markdown_folding_disabled = 1

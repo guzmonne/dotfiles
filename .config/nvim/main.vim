@@ -77,3 +77,8 @@ let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
 au BufNewFile,BufFilePre,BufRead *.md set filetype=markdown
 autocmd BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
 
+" Try to keep the cursor centered
+augroup KeepCentered
+  autocmd!
+  autocmd CursorMoved * normal! zz
+augroup END

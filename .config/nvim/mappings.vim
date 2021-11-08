@@ -24,6 +24,8 @@ inoremap ;; <Esc>
 nnoremap <silent> <leader><leader> :nohlsearch<CR><C-L>
 
 " Go to the next buffer
+nnoremap <silent> <TAB> :bn<CR>
+nnoremap <silent> <S-TAB> :bp<CR>
 nnoremap <silent> <leader>bn :bn<CR>
 nnoremap <silent> <leader>bp :bp<CR>
 

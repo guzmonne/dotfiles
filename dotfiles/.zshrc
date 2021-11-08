@@ -18,9 +18,16 @@ export ZSH="/Users/gmonne/.oh-my-zsh"
 #ZSH_THEME="robbyrussell"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
-plugins=(git)
+plugins=(
+  git
+  zsh-syntax-highlighting
+  zsh-autosuggestions
+)
 
 source $ZSH/oh-my-zsh.sh
+
+# ZSH-Completion configuration
+autoload -U compinit && compinit
 
 # User configuration
 
@@ -46,6 +53,15 @@ alias ll="ls -alh --color=auto"
 alias ctags="`brew --prefix`/bin/ctags"
 alias tmux="TERM=xterm-256color tmux"
 
+# Color man pages
+export LESS_TERMCAP_mb=$'\e[1;32m'
+export LESS_TERMCAP_md=$'\e[1;32m'
+export LESS_TERMCAP_me=$'\e[0m'
+export LESS_TERMCAP_se=$'\e[0m'
+export LESS_TERMCAP_so=$'\e[01;33m'
+export LESS_TERMCAP_ue=$'\e[0m'
+export LESS_TERMCAP_us=$'\e[1;4;31m'
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
@@ -56,3 +72,10 @@ export NVM_DIR="$HOME/.nvm"
 # PATH
 export PATH=$PATH:/Users/gmonne/.cargo/bin
 export PATH=$PATH:/Users/gmonne/.local/bin
+
+# Configure completions for pipx
+eval "$(register-python-argcomplete pipx)"
+
+# Configure zsh key mappings using the escape key as leader
+bindkey -s '\em' 'if tmux has-session -t main; then tmux attach -t main; else tmux new-session -s main;fi\n'
+bindkey -s '\et' 'tmux-sessionizer.sh\n'
