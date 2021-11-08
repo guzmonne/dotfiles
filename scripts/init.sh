@@ -7,8 +7,7 @@ script_dir=$(cd "(dirname "$BASH_SOURCE[0]")" &/dev/null && pwd -P)
 
 usage() {
   tee <<-EOF
-Usage: $(basename "${BASH_SOURCE[0]}") [-h] [-v] -d
-
+Usage: $(basename "${BASH_SOURCE[0]}") [-h] [-v] [-u] -d
 
 Initialize a new mac environment
 
@@ -16,6 +15,7 @@ Available options:
 
 -h, --help          Print this help message and exit.
 -v, --verbose       Print script debug info.
+-u, --user          Mac OS user name. [Default: $USER]
 -d, --directory     Directory where the repo will be downlowded to.
 EOF
   exit
@@ -49,6 +49,7 @@ parse_params() {
   # default values of variables set from params
 # flag=0
 # param=''
+  user=$USER
   directory=/Users/gmonne/Projects/Personal
 
   while :; do
@@ -60,7 +61,11 @@ parse_params() {
     -d | --directory) 
       directory="${2-}"
       shift
-      ;; 
+      ;;
+    -u | --user)
+      user="${2-$user}"
+      shift
+      ;;
 #   -p | --param) # example named parameter
 #     param="${2-}"
 #     shift
@@ -78,7 +83,7 @@ parse_params() {
 # [[ ${#args[@]} -eq 0 ]] && die "Missing script arguments"
 
   return 0
-}
+
 
 parse_params "$@"
 setup_colors
@@ -90,6 +95,12 @@ msg "${BLUE} Installing brew:${NOFORMAT}"
 msg "${BLUE} Installing git:${NOFORMAT}"
 brew install git
 
+msg "${BLUE} Installing stow:${NOFORMAT}"
+brew install stow
+
+msg "${BLUE} Installing nvim:${NOFORMAT}"
+brew install nvim
+
 msg "${BLUE} Installing pipx:${NOFORMAT}"
 brew install pipx
 
@@ -99,5 +110,11 @@ pipx install ansible
 msg "${BLUE} Cloning repository:${NOFORMAT}"
 git clone https://github.com/guzmonne/dotfiles $directory
 
+msg "${BLUE} Creating directory strycture:${NOFORMAT}"
+mkdir -p ~/.config
+
+msg "${BLUE} Installing ansible requirements:${NOFORMAT}"
+cd $directory/ansible; ansible-galaxy install -r requirements.yml; cd -;
+
 msg "${BLUE} Running setup.yml playbook: ${NOFORMAT}"
-ansible-playbook $repo/ansible/setup.yml
+ansible-playbook $directory/ansible/setup.yml --extra-vars "user=$user"

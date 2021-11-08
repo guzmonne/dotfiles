@@ -1,0 +1,37 @@
+---
+- name: Setup new Development Environment
+  hosts: localhost
+  connection: local
+  tasks:
+    - role: gantsign.antigen
+      users:
+        - username: '{{ user }}'
+          antigen_libraries:
+            - name: oh-my-zsh
+    
+    - name: Set zsh as default shell
+      user:
+        name: '{{ user }}'
+        shell: '/usr/bin/zsh'
+        sudo: yes
+
+    - name: Stow .config
+      stow:
+        state: present
+        package: .config
+        dir: '{{ playbook_dir | dirname }}/.config'
+        target: '"$HOME"/.config'
+
+    - name: Stow .zshrc
+      stow:
+        state: present
+        package: zshrc
+        dir: '{{ playbook_dir | dirname}}/dotfiles' 
+        target: '$HOME'
+
+    - name: Stow repos
+      stow:
+        state: present
+        package: repos
+        dir: '{{ playbook_dir | dirname}}/repos'
+        target: '"$HOME"/.config'
