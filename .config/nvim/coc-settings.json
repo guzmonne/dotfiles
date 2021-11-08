@@ -1,0 +1,22 @@
+{
+  "tsserver": {
+    "enable": true,
+    "formatOnType": false,
+    "autoClosingTags": true
+  },
+  "eslint": {
+    "enable": true,
+    "packageManager": "yarn",
+    "alwaysShowStatus": true,
+    "run": "onSave",
+    "autoFixOnSave": true
+  },
+  "languageserver": {
+    "go": {
+      "command": "gopls",
+      "rootPatterns": ["go.mod"],
+      "trace.server": "verbose",
+      "filetypes": ["go"]
+    }
+  }
+}
