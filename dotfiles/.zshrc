@@ -6,11 +6,11 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # Source zsh-autocomplete repo
-source /Users/gmonne/.config/repos/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+# source /Users/gmonne/.config/repos/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 # Customize zsh-autocomplete configuration
-zstyle ':autocomplete:*' min-delay 1.0
-zstyle ':autocomplete:*' min-input 3
-zstyle ':autocomplete:*' fzf-completion yes
+# zstyle ':autocomplete:*' min-delay 1.0
+# zstyle ':autocomplete:*' min-input 3
+# zstyle ':autocomplete:*' fzf-completion yes
 
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/gmonne/.oh-my-zsh"
@@ -52,6 +52,7 @@ alias cat="bat"
 alias ll="ls -alh --color=auto"
 alias ctags="`brew --prefix`/bin/ctags"
 alias tmux="TERM=xterm-256color tmux"
+alias tldr="tldr -p=osx"
 
 # Color man pages
 export LESS_TERMCAP_mb=$'\e[1;32m'
@@ -77,5 +78,24 @@ export PATH=$PATH:/Users/gmonne/.local/bin
 eval "$(register-python-argcomplete pipx)"
 
 # Configure zsh key mappings using the escape key as leader
-bindkey -s '\em' 'if tmux has-session -t main; then tmux attach -t main; else tmux new-session -s main;fi\n'
-bindkey -s '\et' 'tmux-sessionizer.sh\n'
+bindkey -s '^s' 'tmux-main.sh\n'
+bindkey -s '^n' 'tmux-sessionizer.sh\n'
+
+# Local bin path
+export PATH=$PATH:/Users/gmonne/.local/bin
+
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/gmonne/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/gmonne/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/gmonne/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/gmonne/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
+# Fix perl locale issue
+export LC_CTYPE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
+# Fix OpenSSL link issue
+export LDFLAGS="-L/usr/local/opt/openssl@3/lib"
+export CPPFLAGS="-I/usr/local/opt/openssl@3/include"
+export PATH="/usr/local/opt/openssl@3/bin:$PATH"

@@ -11,6 +11,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'https://github.com/leafgarland/typescript-vim.git'
 Plug 'vim-airline/vim-airline'
 Plug 'plasticboy/vim-markdown'
+Plug 'tpope/vim-fugitive'
 
 " Don't configure any plugin under this line.
 call plug#end()
