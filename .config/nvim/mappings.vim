@@ -50,6 +50,7 @@ nnoremap <silent> <TAB> :bn<CR>
 nnoremap <silent> <S-TAB> :bp<CR>
 nnoremap <silent> <leader>bn :bn<CR>
 nnoremap <silent> <leader>bp :bp<CR>
+nnoremap <silent> <leader>w :bd<CR>
 
 " List buffers using fzf
 nnoremap <silent> <leader>fb :Buffers!<CR>
