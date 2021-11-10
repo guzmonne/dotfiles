@@ -12,6 +12,7 @@ Plug 'https://github.com/leafgarland/typescript-vim.git'
 Plug 'vim-airline/vim-airline'
 Plug 'plasticboy/vim-markdown'
 Plug 'tpope/vim-fugitive'
+Plug 'https://github.com/airblade/vim-gitgutter.git'
 
 " Don't configure any plugin under this line.
 call plug#end()
@@ -39,3 +40,7 @@ let g:airline_powerline_fonts = 1
 
 " Disable automatic folding on vim-markdown
 let g:vim_markdown_folding_disabled = 1
+
+" Disable default GitGutter mappings
+let g:gitgutter_map_keys = 0
+

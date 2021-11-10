@@ -31,7 +31,9 @@ set nowritebackup               " Don't write backups.
 set cmdheight=1                 " Give more space for displaying messages
 set updatetime=300              " Increade the update time
 set shortmess+=c                " Don't pass messages to |ins-completion-menu|
-set timeoutlen=550              " Update the time between multiple key presses
+set timeoutlen=1000             " Update the time between multiple key presses
+"set signcolumn="yes:[1-3]"     " Always show the sign column
+set signcolumn=number
 " Syntax
 syntax on                       " Enable syntax highlighting
 colorscheme onedark                 " Select colorschema

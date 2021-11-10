@@ -20,6 +20,9 @@ nnoremap <silent> <leader>gm :!cd ../main && git pull origin --rebase<CR>
 nnoremap <silent> <leader>gs :Git status<CR>
 nnoremap <silent> <leader>gc :Git commit<CR>
 
+" Fold all code except git hunks
+nnoremap <silent> <leader>gf :GitGutterFold<CR>
+
 " Switch to normal mode inside terminal mode
 tnoremap <silent> <leader><leader> <C-\><C-n>
 
