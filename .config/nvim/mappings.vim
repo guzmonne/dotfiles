@@ -8,7 +8,17 @@ command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
 nnoremap <silent> <C-n> :silent !tmux new-window tmux-windownizer.sh<CR>
 
 " Start a `git add -p` workflow on a new window.
-nnoremap <silent> <leader>ga :silent !tmux new-window git-add-p.sh<CR>
+nnoremap <silent> <leader>ga :tab Git add -p<CR>
+
+" Start a `git rebase -i main` workflow on a new tab.
+nnoremap <silent> <leader>gr :tab Git rebase -i main<CR>
+
+" Checkout main and pull last changes.
+nnoremap <silent> <leader>gm :!cd ../main && git pull origin --rebase<CR>
+
+" Git commands
+nnoremap <silent> <leader>gs :Git status<CR>
+nnoremap <silent> <leader>gc :Git commit<CR>
 
 " Switch to normal mode inside terminal mode
 tnoremap <silent> <leader><leader> <C-\><C-n>
@@ -71,7 +81,10 @@ nnoremap <silent> <leader>fl :Lines!<CR>
 nnoremap <silent> <leader>fa :BLines!<CR>
 
 " Search in tags
-nnoremap <silent> <leader>ft :Tags!<CR>
+nnoremap <silent> <leader>ft :BTags!<CR>
+
+" Search in all project tags
+nnoremap <silent> <leader>fa :Tags!<CR>
 
 " Search in directory
 nnoremap <silent> <leader>rg :Rg!<space>
@@ -89,13 +102,18 @@ nnoremap <silent> <leader>q :bw<CR>
 nnoremap <silent> <leader>qs <C-w>q<CR>
 
 " Close buffer but keep split
-nnoremap <silent> <leader>qb :bp\|bd %<CR>
+nnoremap <silent> <leader>qb :bd<CR>
 
 " Close vim without saving
 nnoremap <silent> <leader>qq :qa!<CR>
+nnoremap <silent> qq :qa!<CR>
 
 " Save the current buffers and close vim    
 nnoremap <silent> <leader>qw :xa<CR>
 
 " Set the cwd to the current directory
 nnoremap <silent> <leader>cd :cd%:p:h<CR>
+
+" Remap Q to quit and q to command
+nnoremap Q q
+nnoremap q <Nop

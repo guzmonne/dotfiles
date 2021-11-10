@@ -7,5 +7,5 @@ if ! tmux has-window -t "$window_name" 2> /dev/null; then
   tmux new-window -n "$window_name" -c "$window" -d
 fi
 
-tmux select-window -t "$window_name"
+TERM=xterm-256color tmux select-window -t "$window_name"
 

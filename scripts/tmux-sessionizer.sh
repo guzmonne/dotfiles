@@ -7,4 +7,4 @@ if ! tmux has-session -t "$session_name" 2> /dev/null; then
   tmux new-session -s "$session_name" -c "$session" -d
 fi
 
-tmux switch-client -t "$session_name"
+TERM=xterm-256color tmux switch-client -t "$session_name"
