@@ -92,6 +92,9 @@ nnoremap <silent> <leader>fa :Tags!<CR>
 " Search in directory
 nnoremap <silent> <leader>rg :Rg!<space>
 
+" Search in history
+nnoremap <silent> <leader>fh :History:<CR>
+
 " Replay the last command change
 nnoremap <leader>r @:<CR>
 
@@ -120,3 +123,8 @@ nnoremap <silent> <leader>cd :cd%:p:h<CR>
 " Remap Q to quit and q to command
 nnoremap Q q
 nnoremap q <Nop
+
+" Handle diffput - From cursor file to the target
+nnoremap <silent> <leader>p :diffput //1<CR>
+nnoremap <silent> <leader>] ]c
+nnoremap <silent> <leader>[ [c

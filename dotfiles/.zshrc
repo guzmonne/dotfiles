@@ -84,33 +84,22 @@ bindkey -s '^n' 'tmux-sessionizer.sh\n'
 # Local bin path
 export PATH=$PATH:/Users/gmonne/.local/bin
 
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/gmonne/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/gmonne/Downloads/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/gmonne/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/gmonne/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
-
 # Fix perl locale issue
 export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
 # Fix OpenSSL link issue
-echo 'export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"' >> ~/.zshrc
 export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
 export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
-export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
-export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
-export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
-export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
-export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
-export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
-export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
-export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
-export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
-export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
-export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
-export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
-export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
-export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
-export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
+export PATH="$PATH:/usr/local/opt/openssl@1.1/bin"
+
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/gmonne/.local/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/gmonne/.local/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/gmonne/.local/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/gmonne/.local/google-cloud-sdk/completion.zsh.inc'; fi
+
+# Add gcloud to the global path
+export PATH=$PATH:"/Users/gmonne/.local/google-cloud-sdk/bin"
+
