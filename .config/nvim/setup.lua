@@ -10,5 +10,5 @@ require("harpoon").setup({
 -- GitSigns Setup --
 require('gitsigns').setup({
   numhl = true,
-  linehl = true,
+  linehl = false,
 })
