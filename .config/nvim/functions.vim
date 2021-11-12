@@ -1,7 +1,7 @@
 " Trim extra lines at the end of a file
 function TrimEndLines()
   let l:save = winsaveview()
-  keeppatterns %s#\($\n\s*\)\+\%$##
+  keeppatterns %s/\($\n\s*\)\+\%$//e
   call winrestview(l:save)
 endfunction
 
