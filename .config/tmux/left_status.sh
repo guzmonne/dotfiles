@@ -5,7 +5,7 @@ function tmux_session() {
 }
 
 function main() {
-  echo -n "🔸$(tmux_session)🔷"
+  echo -n "🔸 $(tmux_session) 🔷"
 }
 
 main
