@@ -5,6 +5,7 @@ let mapleader=";"
 command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
 
 " Open a new tmux window using tmux-windownizer
+nnoremap <silent> <C-t> :silent !tmux new-window tmux-sessionizer.sh<CR>
 nnoremap <silent> <C-n> :silent !tmux new-window tmux-windownizer.sh<CR>
 
 " Start a `git add -p` workflow on a new window.

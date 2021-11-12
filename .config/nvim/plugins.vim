@@ -12,9 +12,9 @@ Plug 'https://github.com/leafgarland/typescript-vim.git'
 Plug 'vim-airline/vim-airline'
 Plug 'plasticboy/vim-markdown'
 Plug 'tpope/vim-fugitive'
-Plug 'https://github.com/airblade/vim-gitgutter.git'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'ThePrimeagen/harpoon'
+Plug 'lewis6991/gitsigns.nvim'
 
 " Don't configure any plugin under this line.
 call plug#end()
@@ -46,3 +46,5 @@ let g:vim_markdown_folding_disabled = 1
 " Disable default GitGutter mappings
 let g:gitgutter_map_keys = 0
 
+" Set GitSigns status line
+set statusline+=%{get(b:,'gitsigns_status','')}
