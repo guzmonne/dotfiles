@@ -91,7 +91,7 @@ export LC_ALL=en_US.UTF-8
 # Fix OpenSSL link issue
 export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
 export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
-export PATH="$PATH:/usr/local/opt/openssl@1.1/bin"
+export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
 
 
 # The next line updates PATH for the Google Cloud SDK.
