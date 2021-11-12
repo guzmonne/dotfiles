@@ -1,5 +1,5 @@
 " Change the map leader.
-let mapleader=" "
+let mapleader=";"
 
 " Setup Prettier command.
 command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
@@ -43,7 +43,7 @@ nnoremap <silent> <C-s> :w<CR>
 " Shortcut to save and quit the curren buffer.
 nnoremap <silent> <leader>wq :wq<CR>
 
-" Shortcut to give execute permissions to a file 
+" Shortcut to give execute permissions to a file
 nnoremap <silent> <leader>cx :!chmod +x %<CR>
 
 " Close current buffer
@@ -53,7 +53,7 @@ nnoremap <silent> <leader>w :w<CR>:q!<CR>
 nnoremap <leader>sc :source ~/.config/nvim/init.vim<CR>
 
 " Use ;; for escape
-vnoremap ;; <Esc> 
+vnoremap ;; <Esc>
 inoremap ;; <Esc>
 
 " Use ;; to remove highlights
@@ -115,7 +115,7 @@ nnoremap <silent> <leader>qb :bd<CR>
 nnoremap <silent> <leader>qq :qa!<CR>
 nnoremap <silent> qq :qa!<CR>
 
-" Save the current buffers and close vim    
+" Save the current buffers and close vim
 nnoremap <silent> <leader>qw :xa<CR>
 
 " Set the cwd to the current directory
