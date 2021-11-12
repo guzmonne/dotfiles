@@ -99,7 +99,7 @@ set scrolloff=8                     " Make vim start scrolling 8 lines from the 
 augroup GUX
   autocmd!
   autocmd BufWritePre * :call TrimWhitespace()
-  autocmd BufWritePre * :call TrimEndLines()
+  autocmd BufWritePre * :%s/\($\n\s*\)\+\%$//e
   autocmd BufWritePre * :call AddLastLine()
 augroup END
 
