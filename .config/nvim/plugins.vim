@@ -13,6 +13,8 @@ Plug 'vim-airline/vim-airline'
 Plug 'plasticboy/vim-markdown'
 Plug 'tpope/vim-fugitive'
 Plug 'https://github.com/airblade/vim-gitgutter.git'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'ThePrimeagen/harpoon'
 
 " Don't configure any plugin under this line.
 call plug#end()
