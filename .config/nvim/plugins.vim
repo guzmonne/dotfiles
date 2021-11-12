@@ -17,6 +17,7 @@ Plug 'ThePrimeagen/harpoon'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'tribela/vim-transparent'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'editorconfig/editorconfig-vim'
 
 " Don't configure any plugin under this line.
 call plug#end()
@@ -50,3 +51,7 @@ let g:gitgutter_map_keys = 0
 
 " Set GitSigns status line
 set statusline+=%{get(b:,'gitsigns_status','')}
+
+" Configure editorconfig
+let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
+
