@@ -15,6 +15,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'ThePrimeagen/harpoon'
 Plug 'lewis6991/gitsigns.nvim'
+Plug 'tribela/vim-transparent'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 " Don't configure any plugin under this line.
 call plug#end()

@@ -1,5 +1,5 @@
 " Change the map leader.
-let mapleader=";"
+let mapleader=" "
 
 " Setup Prettier command.
 command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
