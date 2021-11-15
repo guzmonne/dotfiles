@@ -8,7 +8,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'rafi/awesome-vim-colorschemes'
 Plug 'preservim/tagbar'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'https://github.com/leafgarland/typescript-vim.git'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'vim-airline/vim-airline'
 Plug 'plasticboy/vim-markdown'
 Plug 'tpope/vim-fugitive'

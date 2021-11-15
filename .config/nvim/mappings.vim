@@ -1,5 +1,5 @@
 " Change the map leader.
-let mapleader=";"
+let mapleader=" "
 
 " Setup Prettier command.
 command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
@@ -25,7 +25,7 @@ nnoremap <silent> <leader>gc :Git commit<CR>
 nnoremap <silent> <leader>gf :GitGutterFold<CR>
 
 " Switch to normal mode inside terminal mode
-tnoremap <silent> <leader><leader> <C-\><C-n>
+tnoremap <silent> jk <C-\><C-n>
 
 " Shortcut to edit mappings.
 nnoremap <silent> <leader>ei :e ~/.config/nvim/init.vim<CR>
@@ -53,11 +53,7 @@ nnoremap <silent> <leader>w :w<CR>:q!<CR>
 nnoremap <leader>sc :source ~/.config/nvim/init.vim<CR>
 
 " Use ;; for escape
-vnoremap ;; <Esc>
-inoremap ;; <Esc>
-
-" Use ;; to remove highlights
-nnoremap <silent> <leader><leader> :nohlsearch<CR><C-L>
+inoremap jk <Esc>
 
 " Go to the next buffer
 nnoremap <silent> <TAB> :bn<CR>
@@ -126,7 +122,7 @@ nnoremap Q q
 nnoremap q <Nop
 
 " Handle diffput - From cursor file to the target
-nnoremap <silent> <leader>p :diffput //1<CR>
+nnoremap <leader>dp :diffput //1<CR>
 nnoremap <silent> <leader>] ]c
 nnoremap <silent> <leader>[ [c
 
@@ -145,4 +141,33 @@ nnoremap <silent> t1 :lua require("harpoon.term").gotoTerminal(1)<CR>
 nnoremap <silent> t2 :lua require("harpoon.term").gotoTerminal(2)<CR>
 nnoremap <silent> t3 :lua require("harpoon.term").gotoTerminal(3)<CR>
 nnoremap <silent> t4 :lua require("harpoon.term").gotoTerminal(4)<CR>
+
+" Replace all the occurances of what you have visually selected.
+vnoremap <C-r> <Esc>:%s/<c-r>=GetVisual()<cr>//g<left><left>
+
+" Select and copy the current line.
+nnoremap y y$
+
+" Keep search centered
+nnoremap <silent>n nzzzv
+nnoremap <silent>N Nzzzv
+
+" Undo break points
+inoremap , ,<C-g>u
+inoremap . .<C-g>u
+inoremap ! !<C-g>u
+inoremap ( (<C-g>u
+inoremap ) )<C-g>u
+inoremap [ [<C-g>u
+inoremap ] ]<C-g>u
+inoremap { {<C-g>u
+inoremap } }<C-g>u
+
+" Moving text
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+inoremap <C-j> :m .+1<CR>==
+inoremap <C-k> :m .-2<CR>==
+nnoremap <leader>k :m .-2<CR>==
+nnoremap <leader>j :m .+1<CR>==
 

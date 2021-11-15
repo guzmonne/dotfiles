@@ -103,5 +103,6 @@ if [ -f '/Users/gmonne/.local/google-cloud-sdk/completion.zsh.inc' ]; then . '/U
 # Add gcloud to the global path
 export PATH=$PATH:"/Users/gmonne/.local/google-cloud-sdk/bin"
 
-# Add n to the global path
+# Add n to the global path and configure N_PREFIX
 export PATH=$PATH:"/Users/gmonne/.local/n/bin"
+export N_PREFIX="/Users/gmonne/.local/n/versions"
