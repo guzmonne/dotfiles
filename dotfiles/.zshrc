@@ -53,6 +53,7 @@ alias ll="ls -alh --color=auto"
 alias ctags="`brew --prefix`/bin/ctags"
 alias tmux="TERM=xterm-256color tmux"
 alias tldr="tldr -p=osx"
+alias ssh="TERM=xterm-256color ssh"
 
 # Color man pages
 export LESS_TERMCAP_mb=$'\e[1;32m'

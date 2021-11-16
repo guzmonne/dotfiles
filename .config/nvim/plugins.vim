@@ -18,6 +18,7 @@ Plug 'lewis6991/gitsigns.nvim'
 Plug 'tribela/vim-transparent'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'wuelnerdotexe/vim-enfocado'
+Plug 'EdenEast/nightfox.nvim'
 
 " Don't configure any plugin under this line.
 call plug#end()
@@ -57,10 +58,5 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 
 " Configure enfocado theme
 let g:enfocado_style = "neon"
-augroup enfocado_customization
-  autocmd!
-    autocmd VimEnter * ++nested colorscheme enfocado
-augroup END
+autocmd VimEnter * ++nested colorscheme enfocado
 
-" Configure airline
-let g:airline_theme = "enfocado"
