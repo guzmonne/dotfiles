@@ -38,6 +38,7 @@ nnoremap <silent> <leader>coc :CocConfig<CR>
 
 " Shortcut to save the current buffer
 nnoremap <silent> <leader>s :w<CR>
+inoremap <silent> <C-s> <Esc>:w<CR>
 nnoremap <silent> <C-s> :w<CR>
 
 " Shortcut to save and quit the curren buffer.

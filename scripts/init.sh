@@ -62,7 +62,7 @@ parse_params() {
       user="${2-$user}"
       shift
       ;;
-    -d | --directory) 
+    -d | --directory)
       directory="${2-\"/Users/$user/Projects/Personal\"}"
       shift
       ;;

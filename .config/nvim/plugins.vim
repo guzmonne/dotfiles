@@ -17,6 +17,7 @@ Plug 'ThePrimeagen/harpoon'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'tribela/vim-transparent'
 Plug 'editorconfig/editorconfig-vim'
+Plug 'wuelnerdotexe/vim-enfocado'
 
 " Don't configure any plugin under this line.
 call plug#end()
