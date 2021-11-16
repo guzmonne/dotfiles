@@ -80,7 +80,7 @@ eval "$(register-python-argcomplete pipx)"
 # Configure zsh key mappings using the escape key as leader
 bindkey -s '^t' 'tmux-main.sh\n'
 bindkey -s '^n' 'tmux-sessionizer.sh\n'
-bindkey -s '^k' 'tmux-sessions.sh\n'
+bindkey -s '^p' 'tmux-sessions.sh\n'
 
 # Local bin path
 export PATH=$PATH:/Users/gmonne/.local/bin

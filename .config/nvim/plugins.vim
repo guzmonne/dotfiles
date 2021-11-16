@@ -55,3 +55,12 @@ set statusline+=%{get(b:,'gitsigns_status','')}
 " Configure editorconfig
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 
+" Configure enfocado theme
+let g:enfocado_style = "neon"
+augroup enfocado_customization
+  autocmd!
+    autocmd VimEnter * ++nested colorscheme enfocado
+augroup END
+
+" Configure airline
+let g:airline_theme = "enfocado"
