@@ -29,9 +29,3 @@
         dir: '{{ root }}/dotfiles'
         target: '$HOME'
 
-    - name: Stow repos
-      stow:
-        state: present
-        package: repos
-        dir: '{{ root }}/repos'
-        target: '"$HOME"/.config/repos'

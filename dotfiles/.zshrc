@@ -111,10 +111,12 @@ export PATH=$PATH:"/Users/gmonne/.local/google-cloud-sdk/bin"
 export PATH=$PATH:"/Users/gmonne/.local/n/bin"
 export N_PREFIX="/Users/gmonne/.local/n/versions"
 
-# Source z.sh
+# Source z
 # You need to run the clone.yml file to be able to use this.
 # ```sh
 # ansible-playbook ansible/clone.yml --extra-vars="root=`pwd`"
 # ```
-# And, you also need to `stow` the repos folder to the ~/.config/repos directory.
 source ~/.config/repos/rupa/z/z.sh
+
+source ~/.config/repos/elasticdog/transcrypt
+

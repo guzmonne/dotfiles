@@ -1,0 +1,3 @@
+#pattern  filter=crypt diff=crypt merge=crypt
+**/secrets/** filter=crypt diff=crypt merge=crypt
+
