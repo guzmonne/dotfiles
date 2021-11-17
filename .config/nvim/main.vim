@@ -1,5 +1,4 @@
 set noignorecase                " case sensitive searches
-autocmd VimEnter * ++nested colorscheme enfocado
 set showmatch                   " show matching
 set nocompatible                " disable compatibility to old-time vi
 set hlsearch                    " highlight search
@@ -36,7 +35,7 @@ set termguicolors               " Use terminal GUI colors.
 set signcolumn=yes
 " Syntax
 syntax on                       " Enable syntax highlighting
-colorscheme enfocado            " Select colorschema
+colorscheme tokyonight          " Select colorschema
 set background=dark
 " This configuration makes the all the backgrounds transparent
 highlight clear CursorLineNR

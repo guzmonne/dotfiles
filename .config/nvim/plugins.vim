@@ -5,11 +5,10 @@ call plug#begin('~/.config/nvim/plugged')
 
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'rafi/awesome-vim-colorschemes'
 Plug 'preservim/tagbar'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'plasticboy/vim-markdown'
 Plug 'tpope/vim-fugitive'
 Plug 'nvim-lua/plenary.nvim'
@@ -17,8 +16,8 @@ Plug 'ThePrimeagen/harpoon'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'tribela/vim-transparent'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'wuelnerdotexe/vim-enfocado'
-Plug 'EdenEast/nightfox.nvim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 
 " Don't configure any plugin under this line.
 call plug#end()
@@ -38,11 +37,10 @@ let g:tagbar_type_typescript = {
   \ ]
 \ }
 
-" Disable custom indenter from typescript-vim
-let g:typescript_indent_disable = 1
-
 " Automatically populate airline fonts
 let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_theme = 'deus'
 
 " Disable automatic folding on vim-markdown
 let g:vim_markdown_folding_disabled = 1
@@ -56,7 +54,10 @@ set statusline+=%{get(b:,'gitsigns_status','')}
 " Configure editorconfig
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 
-" Configure enfocado theme
-let g:enfocado_style = "neon"
-autocmd VimEnter * ++nested colorscheme enfocado
+" Configure tokyonight
+let g:tokyonight_style = "night"
+let g:tokyonight_italic_keywords = 0
+let g:tokyonight_italic_functions = 0
+let g:tokyonight_transparent = 1
+
 

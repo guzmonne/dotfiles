@@ -7,7 +7,7 @@
   "tsserver": {
     "enable": true,
     "formatOnType": false,
-    "autoClosingTags": true
+    "autoClosingTags": false,
   },
   "eslint": {
     "enable": true,

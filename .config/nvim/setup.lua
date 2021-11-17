@@ -15,9 +15,10 @@ require('gitsigns').setup({
 
 -- NVIM Treesitter --
 require("nvim-treesitter.configs").setup({
-  ensure_installed = "maintained",
+  ensure_installed = { "typescript", "javascript", "vim", "yaml", "tsx", "rust", "python", "lua", "json", "jsdoc", "http", "html", "go", "dockerfile", "css", "bash" },
   highlight = {
     enable = true,
     disable = {"typescript"},
   }
 });
+
