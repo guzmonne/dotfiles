@@ -60,4 +60,3 @@ let g:tokyonight_italic_keywords = 0
 let g:tokyonight_italic_functions = 0
 let g:tokyonight_transparent = 1
 
-
