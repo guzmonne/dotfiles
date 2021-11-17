@@ -17,6 +17,7 @@ require('gitsigns').setup({
 require("nvim-treesitter.configs").setup({
   ensure_installed = "maintained",
   highlight = {
-    enable = false,
+    enable = true,
+    disable = {"typescript"},
   }
 });
