@@ -1,4 +1,4 @@
 repos:
-  - iterm2-color-schemes
-  - selenized
-  - z
+  - mbadolato/iterm2-color-schemes
+  - jan-warchol/selenized
+  - rupa/z

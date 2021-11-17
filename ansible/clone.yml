@@ -3,22 +3,12 @@
   hosts: localhost
   connection: local
   vars_files:
-    - '{{ root }}'/requirements.yml
+    - '{{ root }}/requirements.yml'
   tasks:
-    - tags:
-        - debug
-      debug:
-        var: root
-
-    - tags:
-        - debug
-      debug:
-        var: repos
-
     - name: Clone repositories
       git:
         repo: '{{ item }}'
-        dest: '{{ root }}/repos'
+        dest: '{{ root }}/repos/{{ item }}'
         clone: yes
         update: yes
       loop: '{{ repos }}'
