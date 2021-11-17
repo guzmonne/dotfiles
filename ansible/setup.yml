@@ -8,7 +8,7 @@
         - username: '{{ user }}'
           antigen_libraries:
             - name: oh-my-zsh
-    
+
     - name: Set zsh as default shell
       user:
         name: '{{ user }}'
@@ -19,19 +19,19 @@
       stow:
         state: present
         package: .config
-        dir: '{{ playbook_dir | dirname }}/.config'
+        dir: '{{ root }}/.config'
         target: '"$HOME"/.config'
 
-    - name: Stow .zshrc
+    - name: Stow dotfiles
       stow:
         state: present
         package: zshrc
-        dir: '{{ playbook_dir | dirname}}/dotfiles' 
+        dir: '{{ root }}/dotfiles'
         target: '$HOME'
 
     - name: Stow repos
       stow:
         state: present
         package: repos
-        dir: '{{ playbook_dir | dirname}}/repos'
-        target: '"$HOME"/.config'
+        dir: '{{ root }}/repos'
+        target: '"$HOME"/.config/repos'

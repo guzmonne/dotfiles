@@ -7,7 +7,7 @@
   tasks:
     - name: Clone repositories
       git:
-        repo: '{{ item }}'
+        repo: 'https://github.com/{{ item }}'
         dest: '{{ root }}/repos/{{ item }}'
         clone: yes
         update: yes

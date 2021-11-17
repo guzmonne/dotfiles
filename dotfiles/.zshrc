@@ -55,6 +55,9 @@ alias tmux="TERM=xterm-256color tmux"
 alias tldr="tldr -p=osx"
 alias ssh="TERM=xterm-256color ssh"
 
+# Configure default ansible config file
+export ANSIBLE_CONFIG=~/.ansible.cfg
+
 # Color man pages
 export LESS_TERMCAP_mb=$'\e[1;32m'
 export LESS_TERMCAP_md=$'\e[1;32m'
@@ -108,3 +111,11 @@ export PATH=$PATH:"/Users/gmonne/.local/google-cloud-sdk/bin"
 # Add n to the global path and configure N_PREFIX
 export PATH=$PATH:"/Users/gmonne/.local/n/bin"
 export N_PREFIX="/Users/gmonne/.local/n/versions"
+
+# Source z.sh
+# You need to run the clone.yml file to be able to use this.
+# ```sh
+# ansible-playbook ansible/clone.yml --extra-vars="root=`pwd`"
+# ```
+# And, you also need to `stow` the repos folder to the ~/.config/repos directory.
+source ~/.config/repos/rupa/z/z.sh
