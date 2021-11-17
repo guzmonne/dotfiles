@@ -1,4 +1,5 @@
 repos:
+  - elasticdog/transcrypt
   - mbadolato/iterm2-color-schemes
   - jan-warchol/selenized
   - rupa/z

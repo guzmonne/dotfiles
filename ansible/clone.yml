@@ -13,3 +13,9 @@
         update: yes
       loop: '{{ repos }}'
 
+    - name: Create a symbolic link for the transcrypt file
+      file:
+        src: '{{ root }}/repos/elasticdog/transcrypt/transcrypt'
+        dest: '~/.local/bin/transcrypt'
+        state: link
+
