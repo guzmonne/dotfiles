@@ -105,7 +105,7 @@ msg "${BLUE} Installing pipx:${NOFORMAT}"
 brew install pipx
 
 msg "${BLUE} Installing ansible:${NOFORMAT}"
-pipx install ansible
+pipx install ansible --include-deps
 
 msg "${BLUE} Cloning repository:${NOFORMAT}"
 git clone https://github.com/guzmonne/dotfiles $directory
