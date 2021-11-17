@@ -1,6 +1,5 @@
 #/usr/bin/env bash
 
-source ~/.zshrc
 session=$(folders.sh)
 session_name=$(basename "$session" | tr . _)
 
