@@ -1,3 +1,10 @@
+# Source z
+# You need to run the clone.yml file to be able to use this.
+# ```sh
+# ansible-playbook ansible/clone.yml --extra-vars="root=`pwd`"
+# ```
+source ~/.config/repos/rupa/z/z.sh
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -84,6 +91,7 @@ eval "$(register-python-argcomplete pipx)"
 # Configure zsh key mappings using the escape key as leader
 bindkey -s '^n' 'tmux-sessionizer.sh\n'
 bindkey -s '^p' 'tmux-sessions.sh\n'
+bindkey -s '^w' 'tmux-notion.sh\n'
 
 # Local bin path
 export PATH=$PATH:/Users/gmonne/.local/bin
@@ -110,13 +118,4 @@ export PATH=$PATH:"/Users/gmonne/.local/google-cloud-sdk/bin"
 # Add n to the global path and configure N_PREFIX
 export PATH=$PATH:"/Users/gmonne/.local/n/bin"
 export N_PREFIX="/Users/gmonne/.local/n/versions"
-
-# Source z
-# You need to run the clone.yml file to be able to use this.
-# ```sh
-# ansible-playbook ansible/clone.yml --extra-vars="root=`pwd`"
-# ```
-source ~/.config/repos/rupa/z/z.sh
-
-source ~/.config/repos/elasticdog/transcrypt
 

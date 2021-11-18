@@ -7,5 +7,6 @@
   z -l | awk '{print $2}' & \
   find ~ -mindepth 1 -maxdepth 1 -type d & \
   find ~/Projects/Coral/monorepo/branches -mindepth 1 -maxdepth 1 -type d & \
+  find ~/Projects/Coral/slides/branches -mindepth 1 -maxdepth 1 -type d & \
   find ~/Projects -mindepth 1 -maxdepth 2 -type d; \
 } | sort -u | fzf

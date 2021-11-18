@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+source ~/Projects/Personal/secrets/notion.env
+
+body=$(jq -n \
+  --arg database_id "$NOTION_DATABASE_ID" \
+  --arg content "$1" \
+  '{parent: {database_id: $database_id}, properties: {title:{title:[{text:{content: $content}}]}}}'
+)
+
+response=$(https --json -b POST api.notion.com/v1/pages \
+  "Authorization: Bearer $NOTION_KEY" \
+  "Notion-Version: 2021-08-16" --raw "$body")
+
+open $(echo $response | jq -r '.url')
+
