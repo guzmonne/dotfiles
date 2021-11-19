@@ -61,6 +61,7 @@ alias ctags="`brew --prefix`/bin/ctags"
 alias tmux="TERM=xterm-256color tmux"
 alias tldr="tldr -p=osx"
 alias ssh="TERM=xterm-256color ssh"
+alias node=$(n which lts || which node)
 
 # Configure default ansible config file
 export ANSIBLE_CONFIG=~/.ansible.cfg
@@ -91,7 +92,8 @@ eval "$(register-python-argcomplete pipx)"
 # Configure zsh key mappings using the escape key as leader
 bindkey -s '^n' 'tmux-sessionizer.sh\n'
 bindkey -s '^p' 'tmux-sessions.sh\n'
-bindkey -s '^w' 'tmux-notion.sh\n'
+bindkey -s '∑' 'tmux-notion.sh\n'
+bindkey -s '^[OP' 'dashdash.sh\n'
 
 # Local bin path
 export PATH=$PATH:/Users/gmonne/.local/bin
@@ -119,3 +121,9 @@ export PATH=$PATH:"/Users/gmonne/.local/google-cloud-sdk/bin"
 export PATH=$PATH:"/Users/gmonne/.local/n/bin"
 export N_PREFIX="/Users/gmonne/.local/n/versions"
 
+# Configure Perl path
+PATH="/Users/gmonne/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/Users/gmonne/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/Users/gmonne/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/Users/gmonne/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/Users/gmonne/perl5"; export PERL_MM_OPT;

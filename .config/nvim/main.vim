@@ -56,7 +56,7 @@ filetype indent on
 
 " Tags
 " Auto generate tags file on file write of *.c and *.h files
-autocmd BufWritePost *.js,*.ts silent! !ctags . &
+" autocmd BufWritePost *.js,*.ts silent! !ctags . &
 
 " Python provider configuration
 let g:python3_host_prog = '/usr/local/bin/python3'
@@ -89,7 +89,7 @@ set nobackup                        " Don't backup files
 set noswapfile                      " Disable the use of swapfiles
 set undodir=~/.vim/undodir          " Sets the location of the undo dir.
 set undofile                        " Used with plugins. Need for research.
-set scrolloff=8                     " Make vim start scrolling 8 lines from the end
+set scrolloff=16                    " Make vim start scrolling 8 lines from the end
 
 augroup GUX
   autocmd!
@@ -98,3 +98,7 @@ augroup GUX
 "  autocmd BufWritePre * :call AddLastLine()
 augroup END
 
+augroup YankHighlight
+  autocmd!
+  autocmd TextYankPost * silent! lua vim.highlight.on_yank()
+augroup end

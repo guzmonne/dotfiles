@@ -18,6 +18,7 @@ Plug 'tribela/vim-transparent'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+Plug 'ludovicchabant/vim-gutentags'
 
 " Don't configure any plugin under this line.
 call plug#end()
@@ -60,3 +61,5 @@ let g:tokyonight_italic_keywords = 0
 let g:tokyonight_italic_functions = 0
 let g:tokyonight_transparent = 1
 
+" Configure Gutentags
+:set statusline+=%{gutentags#statusline_cb(function('get_gutentags_status'))}

@@ -7,6 +7,7 @@ command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
 " Open a new tmux window using tmux-windownizer
 nnoremap <silent> <C-n> :silent !tmux new-window tmux-sessionizer.sh<CR>
 nnoremap <silent> <C-p> :silent !tmux new-window tmux-sessions.sh<CR>
+nnoremap <silent> ∑ :silent !tmux new-window tmux-notion.sh<CR>
 
 " Start a `git add -p` workflow on a new window.
 nnoremap <silent> <leader>ga :tab Git add -p<CR>
