@@ -1,68 +1,67 @@
-" Change the map leader.
-let mapleader=" "
+  " Change the map leader.
+  let mapleader=" "
 
-" Setup Prettier command.
-command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
+  " Open a new tmux window using tmux-windownizer
+  nnoremap <silent> <C-n> :silent !tmux new-window tmux-sessionizer.sh<CR>
+  nnoremap <silent> <C-p> :silent !tmux new-window tmux-sessions.sh<CR>
+  nnoremap <silent> ∑ :silent !tmux new-window tmux-notion.sh<CR>
 
-" Open a new tmux window using tmux-windownizer
-nnoremap <silent> <C-n> :silent !tmux new-window tmux-sessionizer.sh<CR>
-nnoremap <silent> <C-p> :silent !tmux new-window tmux-sessions.sh<CR>
-nnoremap <silent> ∑ :silent !tmux new-window tmux-notion.sh<CR>
+  " Start a `git add -p` workflow on a new window.
+  nnoremap <silent> <leader>ga :tab Git add -p<CR>
 
-" Start a `git add -p` workflow on a new window.
-nnoremap <silent> <leader>ga :tab Git add -p<CR>
+  " Start a `git rebase -i main` workflow on a new tab.
+  nnoremap <silent> <leader>gr :tab Git rebase -i main<CR>
 
-" Start a `git rebase -i main` workflow on a new tab.
-nnoremap <silent> <leader>gr :tab Git rebase -i main<CR>
+  " Checkout main and pull last changes.
+  nnoremap <silent> <leader>gm :!cd ../main && git pull origin --rebase<CR>
 
-" Checkout main and pull last changes.
-nnoremap <silent> <leader>gm :!cd ../main && git pull origin --rebase<CR>
+  " Git commands
+  nnoremap <silent> <leader>gs :Git status<CR>
+  nnoremap <silent> <leader>gc :Git commit<CR>
 
-" Git commands
-nnoremap <silent> <leader>gs :Git status<CR>
-nnoremap <silent> <leader>gc :Git commit<CR>
+  " Fold all code except git hunks
+  nnoremap <silent> <leader>gf :GitGutterFold<CR>
 
-" Fold all code except git hunks
-nnoremap <silent> <leader>gf :GitGutterFold<CR>
+  " Switch to normal mode inside terminal mode
+  tnoremap <silent> jk <C-\><C-n>
 
-" Switch to normal mode inside terminal mode
-tnoremap <silent> jk <C-\><C-n>
+  " Shortcut to edit mappings.
+  nnoremap <silent> <leader>ei :e ~/.config/nvim/init.vim<CR>
+  nnoremap <silent> <leader>ec :e ~/.config/nvim/main.vim<CR>
+  nnoremap <silent> <leader>ep :e ~/.config/nvim/plugins.vim<CR>
+  nnoremap <silent> <leader>ef :e ~/.config/nvim/functions.vim<CR>
+  nnoremap <silent> <leader>em :e ~/.config/nvim/mappings.vim<CR>
+  nnoremap <leader>ee :e ~/.config/nvim/
+  nnoremap <silent> <leader>cc :CocConfig<CR>
+  nnoremap <silent> <leader>cf <Plug>(coc-format-selected)
+  vnoremap <silent> <leader>cf <Plug>(coc-format-selected)
 
-" Shortcut to edit mappings.
-nnoremap <silent> <leader>ei :e ~/.config/nvim/init.vim<CR>
-nnoremap <silent> <leader>ec :e ~/.config/nvim/main.vim<CR>
-nnoremap <silent> <leader>ep :e ~/.config/nvim/plugins.vim<CR>
-nnoremap <silent> <leader>ef :e ~/.config/nvim/functions.vim<CR>
-nnoremap <silent> <leader>em :e ~/.config/nvim/mappings.vim<CR>
-nnoremap <leader>ee :e ~/.config/nvim/
-nnoremap <silent> <leader>coc :CocConfig<CR>
 
-" Shortcut to save the current buffer
-nnoremap <silent> <leader>s :w<CR>
-inoremap <silent> <C-s> <Esc>:w<CR>
-nnoremap <silent> <C-s> :w<CR>
+  " Shortcut to save the current buffer
+  nnoremap <silent> <leader>s :w<CR>
+  inoremap <silent> <C-s> <Esc>:w<CR>
+  nnoremap <silent> <C-s> :w<CR>
 
-" Shortcut to save and quit the curren buffer.
-nnoremap <silent> <leader>wq :wq<CR>
+  " Shortcut to save and quit the curren buffer.
+  nnoremap <silent> <leader>wq :wq<CR>
 
-" Shortcut to give execute permissions to a file
-nnoremap <silent> <leader>cx :!chmod +x %<CR>
+  " Shortcut to give execute permissions to a file
+  nnoremap <silent> <leader>cx :!chmod +x %<CR>
 
-" Close current buffer
-nnoremap <silent> <leader>w :w<CR>:q!<CR>
+  " Close current buffer
+  nnoremap <silent> <leader>w :w<CR>:q!<CR>
 
-" Shortcut to source NVIM configuration
-nnoremap <leader>sc :source ~/.config/nvim/init.vim<CR>
+  " Shortcut to source NVIM configuration
+  nnoremap <leader>sc :source ~/.config/nvim/init.vim<CR>
 
-" Use ;; for escape
-inoremap jk <Esc>
+  " Use ;; for escape
+  inoremap jk <Esc>
 
-" Go to the next buffer
-nnoremap <silent> <TAB> :bn<CR>
-nnoremap <silent> <S-TAB> :bp<CR>
-nnoremap <silent> <leader>bn :bn<CR>
-nnoremap <silent> <leader>bp :bp<CR>
-nnoremap <silent> <leader>w :bd<CR>
+  " Go to the next buffer
+  nnoremap <silent> <TAB> :bn<CR>
+  nnoremap <silent> <S-TAB> :bp<CR>
+  nnoremap <silent> <leader>bd :%bd\|bd#<CR>
+  nnoremap <slient> <leader>be :%bd\|e#\|bd#<CR>
 
 " List buffers using fzf
 nnoremap <silent> <leader>fb :Buffers!<CR>
@@ -89,7 +88,7 @@ nnoremap <silent> <leader>ft :BTags!<CR>
 nnoremap <silent> <leader>fa :Tags!<CR>
 
 " Search in directory
-nnoremap <silent> <leader>rg :Rg!<space>
+nnoremap <leader>rg :Rg!<space>
 
 " Search in history
 nnoremap <silent> <leader>fh :History:<CR>
@@ -173,3 +172,5 @@ inoremap <C-k> :m .-2<CR>==
 nnoremap <leader>k :m .-2<CR>==
 nnoremap <leader>j :m .+1<CR>==
 
+" Configure vim-zenroom2
+noremap <silent> <leader>z :Goyo<CR>

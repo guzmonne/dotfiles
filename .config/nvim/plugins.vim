@@ -19,24 +19,15 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 Plug 'ludovicchabant/vim-gutentags'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+Plug 'junegunn/goyo.vim'
+Plug 'amix/vim-zenroom2'
 
 " Don't configure any plugin under this line.
 call plug#end()
 
-" Custom configuration for each plugin
-let g:tagbar_type_typescript = {
-  \ 'ctagstype': 'typescript',
-  \ 'kinds': [
-    \ 'c:classes',
-    \ 'n:modules',
-    \ 'f:functions',
-    \ 'v:variables',
-    \ 'v:varlambdas',
-    \ 'm:members',
-    \ 'i:interfaces',
-    \ 'e:enums',
-  \ ]
-\ }
+" Setup `Prettier` command
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
 " Automatically populate airline fonts
 let g:airline_powerline_fonts = 1
@@ -49,9 +40,6 @@ let g:vim_markdown_folding_disabled = 1
 " Disable default GitGutter mappings
 let g:gitgutter_map_keys = 0
 
-" Set GitSigns status line
-set statusline+=%{get(b:,'gitsigns_status','')}
-
 " Configure editorconfig
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 
@@ -62,4 +50,9 @@ let g:tokyonight_italic_functions = 0
 let g:tokyonight_transparent = 1
 
 " Configure Gutentags
-:set statusline+=%{gutentags#statusline_cb(function('get_gutentags_status'))}
+let g:gutentags_cache_dir = "~/.ctags_cache"
+let g:gutentags_trace = 0 " Change this to 1 if you want to debug gutentags.
+
+" Configure Markdown Preview
+let g:mkdp_auto_start = 0
+let g:mkdp_auto_close = 1

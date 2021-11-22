@@ -25,6 +25,8 @@ export ZSH="/Users/gmonne/.oh-my-zsh"
 #ZSH_THEME="robbyrussell"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
+export POWERLEVEL9K_INSTANT_PROMPT=off
+
 plugins=(
   git
   zsh-syntax-highlighting
@@ -42,7 +44,7 @@ autoload -U compinit && compinit
 if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='vim'
 else
-  export EDITOR='mvim'
+  export EDITOR='nvim'
 fi
 
 # Compilation flags
