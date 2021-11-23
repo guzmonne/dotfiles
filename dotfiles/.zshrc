@@ -129,3 +129,14 @@ PERL5LIB="/Users/gmonne/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5L
 PERL_LOCAL_LIB_ROOT="/Users/gmonne/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
 PERL_MB_OPT="--install_base \"/Users/gmonne/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/Users/gmonne/perl5"; export PERL_MM_OPT;
+
+# Configure `fd` to work nicely with `fzf`.
+export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --exclude node_modules'
+export FZF_DEFAULT_OPTS="--color=bg+:#292e42,spinner:#bb9af7,hl:#565f89,fg:#c0caf5,header:#565f89,info:#7dcfff,pointer:#bb9af7,marker:#7dcfff,fg+:#c0caf5,preview-bg:#1f2335,prompt:#bb9af7,hl+:#bb9af7"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+# Configure colors using `vivid`
+export LS_COLORS="$(vivid generate tokyonight)"
+
+
+alias luamake=/Users/gmonne/Projects/Personal/repos/sumneko/lua-language-server/3rd/luamake/luamake

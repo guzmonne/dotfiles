@@ -35,49 +35,30 @@ set termguicolors               " Use terminal GUI colors.
 set signcolumn=yes
 " Syntax
 syntax on                       " Enable syntax highlighting
-colorscheme tokyonight          " Select colorschema
-set background=dark
 " This configuration makes the all the backgrounds transparent
-highlight clear CursorLineNR
-highlight Normal            ctermbg=NONE
-highlight LineNr            ctermbg=NONE
-highlight SignColumn        ctermbg=NONE
-highlight CursorLine        ctermbg=NONE
-highlight CursorLineNR      ctermbg=NONE
-highlight Folded            ctermbg=NONE cterm=bold
-highlight FoldColumn        ctermbg=NONE cterm=bold
-highlight NonText           ctermbg=NONE
-highlight clear LineNr
+" highlight clear CursorLineNR
+" highlight Normal            ctermbg=NONE
+" highlight LineNr            ctermbg=NONE
+" highlight SignColumn        ctermbg=NONE
+" highlight CursorLine        ctermbg=NONE
+" highlight CursorLineNR      ctermbg=NONE
+" highlight Folded            ctermbg=NONE cterm=bold
+" highlight FoldColumn        ctermbg=NONE cterm=bold
+" highlight NonText           ctermbg=NONE
+" highlight clear LineNr
 
 " Filetype
 filetype on
 filetype plugin on
 filetype indent on
 
-" Tags
-" Auto generate tags file on file write of *.c and *.h files
-" autocmd BufWritePost *.js,*.ts silent! !ctags . &
-
 " Python provider configuration
 let g:python3_host_prog = '/usr/local/bin/python3'
 " Remove Python2 support
 let g:loaded_python_provider = 0
 
-" Support JSONc
-autocmd FileType json syntax match Comment +\/\/.\+$+
-
-" Customize cursor
-" https://askubuntu.com/a/1060551
-let &t_SI = "\<esc>[5 q"  " blinking I-beam in insert mode
-let &t_SR = "\<esc>[3 q"  " blinking underline in replace mode
-let &t_EI = "\<esc>[ q"  " default cursor (usually blinking block) otherwise
-let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
-let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-
 " Allow syntax highlighting in markdown
-au BufNewFile,BufFilePre,BufRead *.md set filetype=markdown
-autocmd BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
+let g:vim_markdown_fenced_languages = ['html', 'python', 'console=sh', 'bash=sh', 'javascript', 'typescript']
 
 set exrc                            " Source coniguration every time I enter a new project
 set guicursor=                      " Set the guicursor to always be a block
@@ -89,14 +70,23 @@ set nobackup                        " Don't backup files
 set noswapfile                      " Disable the use of swapfiles
 set undodir=~/.vim/undodir          " Sets the location of the undo dir.
 set undofile                        " Used with plugins. Need for research.
-set scrolloff=16                    " Make vim start scrolling 8 lines from the end
+set scrolloff=8                     " Make vim start scrolling 8 lines from the end
+
+" Enable syntax highlighting on markdown fenced codes.
 
 augroup GUX
   autocmd!
   autocmd BufWritePre * :call TrimWhitespace()
+  autocmd BufWritePre *.ts,*.js,*.jsx,*.tsx EslintFixAll
+  autocmd TermOpen * setlocal listchars= nonumber norelativenumber nocursorline
+  autocmd TermOpen * startinsert
+  autocmd BufLeave term://* stopinsert
+  autocmd BufNewFile,BufFilePre,BufRead *.md set filetype=markdown
+  autocmd BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
+  autocmd FileType json syntax match Comment +\/\/.\+$+
 augroup END
 
 augroup YankHighlight
   autocmd!
   autocmd TextYankPost * silent! lua vim.highlight.on_yank()
-augroup end
+augroup plug#end

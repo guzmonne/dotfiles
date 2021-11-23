@@ -1,0 +1,8 @@
+- name: Run npm install
+  npm:
+    path: '{{ root }}/repos/ansible/ansible-language-server'
+
+- name: Compile
+  command:
+    chdir: '{{ root }}/repos/ansible/ansible-language-server'
+    cmd: 'npm run compile'

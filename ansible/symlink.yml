@@ -1,0 +1,14 @@
+---
+- name: Symlink files
+  hosts: localhost
+  connection: local
+  vars_files:
+    - '{{ root }}/requirements.yml'
+  tasks:
+    - name: Create a symbolic link for the transcrypt file
+      file:
+        src: '{{ root }}/repos/{{ item.src }}'
+        dest: '{{ item.dest }}'
+        state: link
+      loop: '{{ symlinks }}'
+

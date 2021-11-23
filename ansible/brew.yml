@@ -1,0 +1,14 @@
+---
+- name: Install all `brew` dependencies.
+  hosts: localhost
+  connection: local
+  vars_files:
+    - '{{ root }}/requirements.yml'
+  tasks:
+    - name: Brew install
+      community.general.homebrew:
+        name: '{{ item }}'
+        state: latest
+        update_homebrew: yes
+      loop: '{{ brew }}'
+

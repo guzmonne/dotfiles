@@ -1,0 +1,10 @@
+- name: Configure
+  command:
+    chdir: '{{ root }}/repos/sumneko/lua-language-server/3rd/luamake'
+    cmd: 'compile/install.sh'
+
+- name: Rebuild
+  command:
+    chdir: '{{ root }}/repos/sumneko/lua-language-server'
+    cmd: './3rd/luamake/luamake rebuild'
+

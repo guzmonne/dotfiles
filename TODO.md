@@ -11,6 +11,7 @@
 ## Ansible
 
 - Test setup playbook
+- Find a better way to handle the information stored inside the `requirements.yml` file.
 
 ## `vi`
 

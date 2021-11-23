@@ -1,0 +1,13 @@
+---
+- name: Install `npm` global packages
+  hosts: localhost
+  connection: local
+  vars_files:
+    - '{{ root }}/requirements.yml'
+  tasks:
+    - name: Npm instal -g
+      npm:
+        name: '{{ item }}'
+        global: yes
+      loop: '{{ npm }}'
+
