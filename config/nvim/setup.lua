@@ -8,7 +8,21 @@ local feedkey = function (key, mode)
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
 end
 
+local cmp_autopairs = require'nvim-autopairs.completion.cmp'
 local cmp = require'cmp'
+local lspkind = require'lspkind'
+local source_mapping = {
+  cmp_tabnine = '[TN]',
+  buffer = "[BUF]",
+  nvim_lsp = "[LSP]",
+  nvim_lua = "[LUA]",
+  path = "[PATH]",
+  vsnip = "[SNIP]",
+  emoji = "[EMOJI]",
+  npm = "[NPM]",
+}
+
+cmp.event.on('confirm_done', cmp_autopairs.on_confirm_done({ map_char = { tex = ''}}))
 
 cmp.setup{
   snippet = {
@@ -34,7 +48,6 @@ cmp.setup{
       select = true,
     },
     ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-    ['<CR>'] = cmp.mapping.confirm({ select = true }),
     ['<Tab>'] = cmp.mapping(function (fallback)
       if cmp.visible() then
         cmp.select_next_item()
@@ -55,6 +68,7 @@ cmp.setup{
     end, {"i", "s"}),
   },
   sources = cmp.config.sources({
+    { name = 'cmp_tabnine'},
     { name = 'nvim_lua' },
     { name = 'nvim_lsp' },
     { name = 'path' },
@@ -68,21 +82,22 @@ cmp.setup{
     ghost_text = true,
   },
   formatting = {
-    format = require'lspkind'.cmp_format({
-      with_text = false,
-      maxwidth = 50,
-      menu = {
-        buffer = "[BUF]",
-        nvim_lsp = "[LSP]",
-        nvim_lua = "[LUA]",
-        path = "[PATH]",
-        vsnip = "[SNIP]",
-        emoji = "[EMOJI]",
-        npm = "[NPM]",
-      },
-    }),
+    format = function (entry, vim_item)
+      vim_item.kind = lspkind.presets.default[vim_item.kind]
+      vim_item.with_text = false
+      local menu = source_mapping[entry.source.name]
+      if entry.source.name == 'cmp_tabnine' then
+        if entry.completion_item.data ~= nil and entry.completion_item.data.detail ~= nil then
+          menu = entry.completion_item.data.detail .. ' ' .. menu
+        end
+        vim_item.kind = ''
+      end
+      vim_item.menu = menu
+      return vim_item
+    end,
   },
 }
+
 
 -- Harpoon Setup --
 require("harpoon").setup({
@@ -173,7 +188,7 @@ require'lualine'.setup {
 
 -- Configure indent-blankline --
 require("indent_blankline").setup {
-  show_current_context = true,
+  show_current_context = false,
   show_current_context_start = true,
   show_char_blankline = " ",
 }
@@ -209,3 +224,15 @@ require'telescope'.setup {
 
 -- Configure Telescope Plugins --
 require('telescope').load_extension('fzf')
+
+-- Configure tabnine --
+require'cmp_tabnine.config':setup{
+  max_lines = 1000,
+  max_num_results = 3,
+  sort = true,
+  run_on_every_keystroke = false,
+  snippet_placeholder = "..",
+}
+
+-- Configure autopairs --
+require'nvim-autopairs'.setup{}

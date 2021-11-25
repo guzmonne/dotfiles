@@ -13,7 +13,6 @@ nnoremap <silent> <leader>gc :Git commit<CR>
 nnoremap <silent> <leader>gf :diffget //3<CR>
 nnoremap <silent> <leader>gj :diffget //2<CR>
 
-
 " Switch to normal mode inside terminal mode
 tnoremap <silent> jk <C-\><C-n>
 
@@ -122,8 +121,8 @@ noremap <down> <nop>
 noremap <left> <nop>
 
 " Move C-u to C-j
-nnoremap <C-j> <C-d>
-nnoremap <C-k> <C-u>
+nnoremap <C-j> <C-d>zz
+nnoremap <C-k> <C-u>zz
 
 " Configure Telescope
 nnoremap <leader>ff <cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})<CR>

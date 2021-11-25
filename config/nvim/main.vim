@@ -70,7 +70,7 @@ set nobackup                        " Don't backup files
 set noswapfile                      " Disable the use of swapfiles
 set undodir=~/.vim/undodir          " Sets the location of the undo dir.
 set undofile                        " Used with plugins. Need for research.
-set scrolloff=8                     " Make vim start scrolling 8 lines from the end
+set scrolloff=12                    " Make vim start scrolling 8 lines from the end
 
 " Enable syntax highlighting on markdown fenced codes.
 
@@ -90,4 +90,4 @@ augroup END
 augroup YankHighlight
   autocmd!
   autocmd TextYankPost * silent! lua vim.highlight.on_yank()
-augroup plug#end
+augroup END
