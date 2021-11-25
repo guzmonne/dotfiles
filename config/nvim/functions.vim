@@ -1,14 +1,3 @@
-function! s:get_gutentags_status(mods) abort
-  let l:msg = ''
-  if index(a:mods, 'ctags') >= 0
-     let l:msg .= '♨'
-   endif
-   if index(a:mods, 'cscope') >= 0
-     let l:msg .= '♺'
-   endif
-   return l:msg
-endfunction
-
 " Escape special characters in a string for exact matching.
 " This is useful to copying strings from the file to the search tool
 " Based on this - http://peterodding.com/code/vim/profile/autoload/xolox/escape.vim

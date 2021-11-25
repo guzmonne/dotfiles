@@ -1,5 +1,5 @@
 filetype plugin indent on       " allow auto-indenting by file-type
-filetype plugin on			        " ???
+filetype plugin on
 
 source ~/.config/nvim/main.vim
 source ~/.config/nvim/plug.vim

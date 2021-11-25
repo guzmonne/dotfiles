@@ -6,18 +6,13 @@ nnoremap <silent> <C-n> :silent !tmux new-window tmux-sessionizer.sh<CR>
 nnoremap <silent> <C-p> :silent !tmux new-window tmux-sessions.sh<CR>
 nnoremap <silent> ∑ :silent !tmux new-window tmux-notion.sh<CR>
 
-" Start a `git add -p` workflow on a new window.
-nnoremap <silent> <leader>ga :tab Git add -p<CR>
-
-" Start a `git rebase -i main` workflow on a new tab.
-nnoremap <silent> <leader>gr :tab Git rebase -i main<CR>
-
-" Checkout main and pull last changes.
-nnoremap <silent> <leader>gm :!cd ../main && git pull origin --rebase<CR>
-
 " Git commands
-nnoremap <silent> <leader>gs :Git status<CR>
+nnoremap <silent> <leader>gs :Git<CR>
+nnoremap <silent> <leader>gp :Git push<CR>
 nnoremap <silent> <leader>gc :Git commit<CR>
+nnoremap <silent> <leader>gf :diffget //3<CR>
+nnoremap <silent> <leader>gj :diffget //2<CR>
+
 
 " Switch to normal mode inside terminal mode
 tnoremap <silent> jk <C-\><C-n>
@@ -50,14 +45,9 @@ inoremap kj <Esc>
 " Go to the next buffer
 nnoremap <silent> <TAB> :bn<CR>
 nnoremap <silent> <S-TAB> :bp<CR>
-nnoremap <silent> <leader>bd :%bd\|bd#<CR>
-nnoremap <slient> <leader>be :%bd\|e#\|bd#<CR>
 
 " Replay the last command change
 nnoremap <leader>r @:<CR>
-
-" Toggle the tagbar
-nnoremap <silent> <leader>tt :TagbarToggle<CR>
 
 " Close split but keep buffer
 nnoremap <silent> <leader>qs <C-w>q<CR>
@@ -77,11 +67,6 @@ nnoremap <silent> <leader>cd :cd%:p:h<CR>
 " Remap Q to quit and q to command
 nnoremap Q q
 nnoremap q <Nop>
-
-" Handle diffput - From cursor file to the target
-nnoremap <leader>dp :diffput //1<CR>
-nnoremap <silent> <leader>] ]c
-nnoremap <silent> <leader>[ [c
 
 " Harpoon mappings
 nnoremap <silent> <C-h> :lua require("harpoon.mark").add_file()<CR>
