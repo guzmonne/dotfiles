@@ -3,6 +3,8 @@
 " Hint: Make sure you use single quotes.
 call plug#begin('~/.config/nvim/plugged')
 
+Plug 'norcalli/nvim-colorizer.lua'
+Plug 'p00f/nvim-ts-rainbow'
 Plug 'windwp/nvim-autopairs'
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'romgrk/barbar.nvim'

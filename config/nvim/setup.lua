@@ -22,8 +22,6 @@ local source_mapping = {
   npm = "[NPM]",
 }
 
-cmp.event.on('confirm_done', cmp_autopairs.on_confirm_done({ map_char = { tex = ''}}))
-
 cmp.setup{
   snippet = {
     -- REQUIRED: You must specify a snippet engine.
@@ -98,6 +96,7 @@ cmp.setup{
   },
 }
 
+cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done({ map_char = { tex = '' }}))
 
 -- Harpoon Setup --
 require("harpoon").setup({
@@ -128,6 +127,21 @@ require("nvim-treesitter.configs").setup({
       node_incremental = 'grn',
       scope_incremental = 'grc',
       node_decremental = 'grm',
+    },
+  },
+  rainbow = {
+    enable = true,
+    disable = {},
+    extended_mode = true,
+    max_file_lines = nil,
+    colors = {
+      "#0db9d7",
+      "#394b70",
+      "#7dcfff",
+      "#9d7cd8",
+      "#b4f9f8",
+      "#e0af68",
+      "#c0caf5",
     },
   },
   indent = {
@@ -236,3 +250,6 @@ require'cmp_tabnine.config':setup{
 
 -- Configure autopairs --
 require'nvim-autopairs'.setup{}
+
+-- Configure nvim-colorizer --
+require'colorizer'.setup()
