@@ -6,6 +6,8 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+Plug 'nvim-telescope/telescope.nvim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-nvim-lua'
@@ -13,14 +15,9 @@ Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/cmp-emoji'
-Plug 'quangnguyen30192/cmp-nvim-tags'
 Plug 'David-Kunz/cmp-npm'
 Plug 'onsails/lspkind-nvim'
 Plug 'hrsh7th/nvim-cmp'
-Plug 'tjdevries/colorbuddy.nvim'
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
-Plug 'preservim/tagbar'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'plasticboy/vim-markdown'
@@ -32,9 +29,9 @@ Plug 'tribela/vim-transparent'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
-Plug 'ludovicchabant/vim-gutentags'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'kyazdani42/nvim-web-devicons'
+Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production' }
 
 " Don't configure any plugin under this line.
 call plug#end()
@@ -52,10 +49,6 @@ let g:gitgutter_map_keys = 0
 
 " Configure editorconfig
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
-
-" Configure Gutentags
-let g:gutentags_cache_dir = "~/.ctags_cache"
-let g:gutentags_trace = 0 " Change this to 1 if you want to debug gutentags.
 
 " Configure Markdown Preview
 let g:mkdp_auto_start = 0

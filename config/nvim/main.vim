@@ -78,6 +78,7 @@ augroup GUX
   autocmd!
   autocmd BufWritePre * :call TrimWhitespace()
   autocmd BufWritePre *.ts,*.js,*.jsx,*.tsx EslintFixAll
+  autocmd BufWritePre *.ts,*.js,*.jsx,*.tsx Prettier
   autocmd TermOpen * setlocal listchars= nonumber norelativenumber nocursorline
   autocmd TermOpen * startinsert
   autocmd BufLeave term://* stopinsert

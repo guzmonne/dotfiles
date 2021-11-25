@@ -19,9 +19,6 @@ nnoremap <silent> <leader>gm :!cd ../main && git pull origin --rebase<CR>
 nnoremap <silent> <leader>gs :Git status<CR>
 nnoremap <silent> <leader>gc :Git commit<CR>
 
-" Fold all code except git hunks
-nnoremap <silent> <leader>gf :GitGutterFold<CR>
-
 " Switch to normal mode inside terminal mode
 tnoremap <silent> jk <C-\><C-n>
 
@@ -31,11 +28,6 @@ nnoremap <silent> <leader>ec :e ~/.config/nvim/main.vim<CR>
 nnoremap <silent> <leader>ep :e ~/.config/nvim/plugins.vim<CR>
 nnoremap <silent> <leader>ef :e ~/.config/nvim/functions.vim<CR>
 nnoremap <silent> <leader>em :e ~/.config/nvim/mappings.vim<CR>
-nnoremap <leader>ee :e ~/.config/nvim/
-nnoremap <silent> <leader>cc :CocConfig<CR>
-nnoremap <silent> <leader>cf <Plug>(coc-format-selected)
-vnoremap <silent> <leader>cf <Plug>(coc-format-selected)
-
 
 " Shortcut to save the current buffer
 nnoremap <silent> <leader>s :w<CR>
@@ -47,9 +39,6 @@ nnoremap <silent> <leader>wq :wq<CR>
 
 " Shortcut to give execute permissions to a file
 nnoremap <silent> <leader>cx :!chmod +x %<CR>
-
-" Close current buffer
-nnoremap <silent> <leader>w :w<CR>:q!<CR>
 
 " Shortcut to source NVIM configuration
 nnoremap <leader>sc :source ~/.config/nvim/init.vim<CR>
@@ -64,54 +53,20 @@ nnoremap <silent> <S-TAB> :bp<CR>
 nnoremap <silent> <leader>bd :%bd\|bd#<CR>
 nnoremap <slient> <leader>be :%bd\|e#\|bd#<CR>
 
-" List buffers using fzf
-nnoremap <silent> <leader>fb :Buffers!<CR>
-
-" List files using fzf
-nnoremap <silent> <leader>ff :Files!<CR>
-
-" List git files using fzf
-nnoremap <silent> <leader>fg :GFiles!<CR>
-
-" Select colorschem using fzf
-nnoremap <silent> <leader>fc :Colors<CR>
-
-" Search in opened buffers
-nnoremap <silent> <leader>fl :Lines!<CR>
-
-" Search in opened buffer
-nnoremap <silent> <leader>fa :BLines!<CR>
-
-" Search in tags
-nnoremap <silent> <leader>ft :BTags!<CR>
-
-" Search in all project tags
-nnoremap <silent> <leader>fa :Tags!<CR>
-
-" Search in directory
-nnoremap <leader>rg :Rg!<space>
-
-" Search in history
-nnoremap <silent> <leader>fh :History:<CR>
-
 " Replay the last command change
 nnoremap <leader>r @:<CR>
 
 " Toggle the tagbar
 nnoremap <silent> <leader>tt :TagbarToggle<CR>
 
-" Close buffer
-nnoremap <silent> <leader>q :bw<CR>
-
 " Close split but keep buffer
 nnoremap <silent> <leader>qs <C-w>q<CR>
 
 " Close buffer but keep split
-nnoremap <silent> <leader>qb :bd<CR>
+nnoremap <silent> <leader>qq :bd<CR>
 
 " Close vim without saving
-nnoremap <silent> <leader>qq :qa!<CR>
-nnoremap <silent> qq :qa!<CR>
+nnoremap <silent> <leader>qa :qa!<CR>
 
 " Save the current buffers and close vim
 nnoremap <silent> <leader>qw :xa<CR>
@@ -180,3 +135,22 @@ noremap <up> <nop>
 noremap <right> <nop>
 noremap <down> <nop>
 noremap <left> <nop>
+
+" Move C-u to C-j
+nnoremap <C-j> <C-d>
+nnoremap <C-k> <C-u>
+
+" Configure Telescope
+nnoremap <leader>ff <cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})<CR>
+nnoremap <leader>fr <cmd>lua require'telescope.builtin'.buffers({ show_all_buffers = true })<CR>
+nnoremap <leader>fg <cmd>Telescope git_files<CR>
+nnoremap <leader>fb <cmd>Telescope file_browser<CR>
+nnoremap <leader>gr <cmd>Telescope grep_string<CR>
+nnoremap <leader>rg <cmd>lua require'telescope.builtin'.live_grep()<CR>
+nnoremap <leader>fb <cmd>Telescope buffers<CR>
+nnoremap <leader>fh <cmd>Telescope help_tags<CR>
+nnoremap <leader>ma <cmd>Telescope man_pages<CR>
+nnoremap <leader>tgc <cmd>Telescope git_commits<CR>
+nnoremap <leader>tgb <cmd>Telescope git_branches<CR>
+nnoremap <leader>tgs <cmd>Telescope git_status<CR>
+

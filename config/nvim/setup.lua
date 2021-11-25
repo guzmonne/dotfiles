@@ -179,8 +179,33 @@ require("indent_blankline").setup {
 }
 
 -- Configure tokyonight --
---vim.g.tokyonight_style = "night"
-vim.g.tokyonight_italic_keywords = true
+vim.g.tokyonight_style = "night"
+vim.g.tokyonight_italic_comments = true
+vim.g.tokyonight_italic_keywords = false
 vim.g.tokyonight_italic_functions = false
 vim.g.tokyonight_transparent = true
 vim.cmd [[colorscheme tokyonight ]]
+
+-- Configure Telescope --
+require'telescope'.setup {
+  defaults = {
+    mappings = {
+      i = {
+        ["<C-h>"] = "which_key",
+      },
+    },
+  },
+  pickers = {
+  },
+  extensions = {
+    fzf = {
+      fuzzy = true,
+      override_generic_sorter = true,
+      override_file_sorter = true,
+      case_mode = "smart_case",
+    }
+  },
+}
+
+-- Configure Telescope Plugins --
+require('telescope').load_extension('fzf')
