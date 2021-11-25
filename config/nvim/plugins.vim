@@ -37,6 +37,7 @@ Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production' }
+Plug 'abecodes/tabout.nvim'
 
 " Don't configure any plugin under this line.
 call plug#end()
