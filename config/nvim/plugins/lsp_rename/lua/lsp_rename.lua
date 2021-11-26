@@ -3,7 +3,7 @@ local event = require'nui.utils.autocmd'.event
 
 local function nui_lsp_rename()
   local curr_name = vim.fn.expand("<cword>")
-  local params = vim.lsp.utils.make_position_params()
+  local params = vim.lsp.util.make_position_params()
 
   local function on_submit(new_name)
     if not new_name or #new_name == 0 or curr_name == new_name then
