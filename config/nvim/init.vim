@@ -8,3 +8,7 @@ source ~/.config/nvim/functions.vim
 source ~/.config/nvim/mappings.vim
 source ~/.config/nvim/lsp.lua
 source ~/.config/nvim/setup.lua
+
+packadd! backpack
+
+lua require'backpack'.setup()

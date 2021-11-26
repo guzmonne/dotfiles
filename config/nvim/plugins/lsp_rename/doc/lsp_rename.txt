@@ -1,0 +1,26 @@
+================================================================================
+                                                                    *lsp_rename*
+
+Lsp_rename is a custom plugin that let's you rename a text object using Neovim
+in-built lsp. It will take the word under your cursor, open a window to enter
+the new value, and then update all the places inside your codebase where the
+text object was used.
+
+It will not save the modified buffers. You have to do it manually. If you don't
+want to verify every buffer you can run `:wa` and hope for the best. Lsp_rename
+will show you a friendly remainder of this everytime you run it.
+
+To find out more:
+https://github.com/guzmonne/dotfiles
+
+================================================================================
+                                                           *lsp_rename.contents*
+
+CONTENTS
+
+  0. Installing ................. |lsp_rename.installing|
+
+================================================================================
+Section 1: Installing                                    *lsp_rename.installing*
+
+
