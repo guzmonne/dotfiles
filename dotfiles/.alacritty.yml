@@ -14,14 +14,14 @@
 # Any items in the `env` entry below will be added as
 # environment variables. Some entries may override variables
 # set by alacritty itself.
-#env:
-  #TERM: xterm-256color-italic
+env:
+  TERM: xterm-256color-italic
   #
   # This value is used to set the `$TERM` environment variable for
   # each instance of Alacritty. If it is not present, alacritty will
   # check the local terminfo database and use `alacritty` if it is
   # available, otherwise `xterm-256color` is used.
-  #TERM: alacritty
+  # TERM: alacritty
 
 window:
   # Window dimensions (changes require restart)
@@ -46,8 +46,8 @@ window:
   # Blank space added around the window in pixels. This padding is scaled
   # by DPI and the specified value is always added at both opposing sides.
   padding:
-    x: 10
-    y: 1
+    x: 0
+    y: 0
 
   # Spread additional padding evenly around the terminal content.
   dynamic_padding: false
@@ -118,10 +118,10 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    family: CartographCF Nerd Font
+    family: MesloLGS NF
 
     # The `style` can be specified to pick a specific face.
-    style: Light
+    # style: Light
 
   # Bold font face
   bold:
@@ -129,10 +129,10 @@ font:
     #
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: CartographCF Nerd Font
+    family: MesloLGS NF
 
     # The `style` can be specified to pick a specific face.
-    style: Bold
+    # style: Bold
 
   # Italic font face
   italic:
@@ -184,71 +184,38 @@ draw_bold_text_with_bright_colors: false
 
 custom_cursor_colors: false
 
-# Colors (Tomorrow Night)
-colors:
 # TokyoNight Alacritty Colors
 colors:
   # Default colors
   primary:
-    background: '0x1a1b26'
-    foreground: '0xc0caf5'
+    background: '#1a1b26'
+    foreground: '#c0caf5'
 
   # Normal colors
   normal:
-    black:   '0x15161E'
-    red:     '0xf7768e'
-    green:   '0x9ece6a'
-    yellow:  '0xe0af68'
-    blue:    '0x7aa2f7'
-    magenta: '0xbb9af7'
-    cyan:    '0x7dcfff'
-    white:   '0xa9b1d6'
+    black:   '#15161E'
+    red:     '#f7768e'
+    green:   '#9ece6a'
+    yellow:  '#e0af68'
+    blue:    '#7aa2f7'
+    magenta: '#bb9af7'
+    cyan:    '#7dcfff'
+    white:   '#a9b1d6'
 
   # Bright colors
   bright:
-    black:   '0x414868'
-    red:     '0xf7768e'
-    green:   '0x9ece6a'
-    yellow:  '0xe0af68'
-    blue:    '0x7aa2f7'
-    magenta: '0xbb9af7'
-    cyan:    '0x7dcfff'
-    white:   '0xc0caf5'
+    black:   '#414868'
+    red:     '#f7768e'
+    green:   '#9ece6a'
+    yellow:  '#e0af68'
+    blue:    '#7aa2f7'
+    magenta: '#bb9af7'
+    cyan:    '#7dcfff'
+    white:   '#c0caf5'
 
   indexed_colors:
-    - { index: 16, color: '0xff9e64' }
-    - { index: 17, color: '0xdb4b4b' }
-  # TokioNight - Night
-  # Default colors
-  # primary:
-  #   background: '#1a1b26'
-  #   foreground: '#c0caf5'
-
-  # # Normal colors
-  # normal:
-  #   black:   '#15161E'
-  #   red:     '#f7768e'
-  #   green:   '#9ece6a'
-  #   yellow:  '#e0af68'
-  #   blue:    '#7aa2f7'
-  #   magenta: '#bb9af7'
-  #   cyan:    '#7dcfff'
-  #   white:   '#a9b1d6'
-
-  # # Bright colors
-  # bright:
-  #   black:   '#414868'
-  #   red:     '#f7768e'
-  #   green:   '#9ece6a'
-  #   yellow:  '#e0af68'
-  #   blue:    '#7aa2f7'
-  #   magenta: '#bb9af7'
-  #   cyan:    '#7dcfff'
-  #   white:   '#c0caf5'
-
-  # indexed_colors:
-  #   - { index: 16, color: '#ff9e64' }
-  #   - { index: 17, color: '#db4b4b' }
+    - { index: 16, color: '#ff9e64' }
+    - { index: 17, color: '#db4b4b' }
   # Default colors
   #primary:
   #  background: '#1d1f21'
