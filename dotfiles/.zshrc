@@ -50,21 +50,6 @@ fi
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-# Aliases
-alias zshconfig="nvim ~/.zshrc"
-alias ohmyzsh="nvim ~/.oh-my-zsh"
-alias cls="clear"
-alias vim="nvim"
-alias zconfig="vim ~/.zshrc"
-alias zsource="source ~/.zshrc"
-alias cat="bat"
-alias ll="ls -alh --color=auto"
-alias ctags="`brew --prefix`/bin/ctags"
-alias tmux="TERM=xterm-256color tmux"
-alias tldr="tldr -p=osx"
-alias ssh="TERM=xterm-256color ssh"
-alias node=$(n which lts || which node)
-
 # Configure default ansible config file
 export ANSIBLE_CONFIG=~/.ansible.cfg
 
@@ -138,5 +123,20 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 # Configure colors using `vivid`
 export LS_COLORS="$(vivid generate tokyonight)"
 
-
+# Custom aliases
 alias luamake=/Users/gmonne/Projects/Personal/repos/sumneko/lua-language-server/3rd/luamake/luamake
+alias zshconfig="nvim ~/.zshrc"
+alias ohmyzsh="nvim ~/.oh-my-zsh"
+alias cls="clear"
+alias vim="nvim"
+alias zconfig="vim ~/.zshrc"
+alias zsource="source ~/.zshrc"
+alias cat="bat"
+alias ls="lsd"
+alias ll="ls -alh --color=auto"
+alias ctags="`brew --prefix`/bin/ctags"
+alias tmux="TERM=xterm-256color tmux"
+alias tldr="tldr -p=osx"
+alias node=$(n which lts || which node)
+alias ssh="TERM=xterm-256color ssh"
+

@@ -47,7 +47,7 @@ nnoremap <silent> <TAB> :bn<CR>
 nnoremap <silent> <S-TAB> :bp<CR>
 
 " Replay the last command change
-nnoremap <leader>r @:<CR>
+nnoremap <leader>@ @:<CR>
 
 " Close split but keep buffer
 nnoremap <silent> <leader>qs <C-w>q<CR>
@@ -66,7 +66,6 @@ nnoremap <silent> <leader>cd :cd%:p:h<CR>
 
 " Remap Q to quit and q to command
 nnoremap Q q
-nnoremap q <Nop>
 
 " Harpoon mappings
 nnoremap <silent> <C-h> :lua require("harpoon.mark").add_file()<CR>
@@ -82,6 +81,8 @@ nnoremap <silent> t4 :lua require("harpoon.term").gotoTerminal(4)<CR>
 
 " Replace all the occurances of what you have visually selected.
 vnoremap <C-r> <Esc>:%s/<c-r>=GetVisual()<cr>//g<left><left>
+" Replace the text object under the current cursor using lsp.
+nnoremap <leader>r :lua require('lsp_rename').lsp_rename()<CR>
 
 " Select and copy the current line.
 nnoremap y y$
@@ -139,3 +140,6 @@ nnoremap <leader>tgc <cmd>Telescope git_commits<CR>
 nnoremap <leader>tgb <cmd>Telescope git_branches<CR>
 nnoremap <leader>tgs <cmd>Telescope git_status<CR>
 
+" Apply quotes under the selected word
+nnoremap <leader>;q bi"<ESC>ea"<ESC>
+nnoremap . @a
