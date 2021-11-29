@@ -120,23 +120,8 @@ require("nvim-treesitter.configs").setup({
       node_decremental = 'grm',
     },
   },
-  rainbow = {
-    enable = true,
-    disable = {},
-    extended_mode = true,
-    max_file_lines = nil,
-    colors = {
-      "#db4b5b",
-      "#e0af68",
-      "#2ac3de",
-      "#1abc9c",
-      "#bb9af7",
-      "#ff0080",
-      "#737aa2",
-    },
-  },
   indent = {
-    enable = true,
+    enable = false,
   },
   textobjects = {
     select = {
@@ -211,8 +196,11 @@ require'telescope'.setup {
   defaults = {
     mappings = {
       i = {
-        ["<C-h>"] = "which_key",
+        ["<C-h>"] = require'trouble.providers.telescope'.open_with_trouble,
       },
+      n = {
+        ['<C-t>'] = require'trouble.providers.telescope'.open_with_trouble,
+      }
     },
   },
   pickers = {

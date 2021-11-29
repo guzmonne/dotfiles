@@ -6,7 +6,6 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'tpope/vim-liquid'
 Plug 'MunifTanjim/nui.nvim'
 Plug 'norcalli/nvim-colorizer.lua'
-Plug 'p00f/nvim-ts-rainbow'
 Plug 'windwp/nvim-autopairs'
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'romgrk/barbar.nvim'
@@ -35,6 +34,7 @@ Plug 'lewis6991/gitsigns.nvim'
 Plug 'tribela/vim-transparent'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'folke/trouble.nvim'
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'kyazdani42/nvim-web-devicons'
@@ -43,11 +43,6 @@ Plug 'abecodes/tabout.nvim'
 
 " Don't configure any plugin under this line.
 call plug#end()
-
-" Automatically populate airline fonts
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_theme = 'deus'
 
 " Disable automatic folding on vim-markdown
 let g:vim_markdown_folding_disabled = 1

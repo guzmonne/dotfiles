@@ -68,7 +68,7 @@ window:
   # Window opacity as a floating point number from `0.0` to `1.0`.
   # The value `0.0` is completely transparent and `1.0` is opaque.
   # opacity: 0.5
-background_opacity: 0.85
+background_opacity: 0.95
 
   # Startup Mode (changes require restart)
   #
@@ -103,10 +103,10 @@ background_opacity: 0.85
 scrolling:
   # Maximum number of lines in the scrollback buffer.
   # Specifying '0' will disable scrolling.
-  history: 10000
+  history: 0
 
   # Scrolling distance multiplier.
-  multiplier: 3
+  multiplier: 0
 
 # Font configuration
 font:
@@ -118,7 +118,7 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    family: MesloLGS NF
+    family: FiraCode Nerd Font
 
     # The `style` can be specified to pick a specific face.
     # style: Light
@@ -129,10 +129,10 @@ font:
     #
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: MesloLGS NF
+    family: FiraCode Nerd Font
 
     # The `style` can be specified to pick a specific face.
-    # style: Bold
+    # style: Demi Bold
 
   # Italic font face
   italic:
@@ -140,10 +140,10 @@ font:
     #
     # If the italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: CartographCF Nerd Font
+    family: FiraCode Nerd Font
 
     # The `style` can be specified to pick a specific face.
-    style: Light Italic
+    # style: Thin Italic
 
   # Bold italic font face
   bold_italic:
@@ -151,10 +151,10 @@ font:
     #
     # If the bold italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: CartographCF Nerd Font
+    family: FiraCode Nerd Font
 
     # The `style` can be specified to pick a specific face.
-    style: Bold Italic
+    # style: Demi Bold Italic
 
   # Point size
   size: 16
@@ -291,7 +291,7 @@ colors:
   # search and vi mode.
   #
   # By default, these will use the opposing primary color.
-  #line_indicator:
+  line_indicator:
   #  foreground: None
   #  background: None
 

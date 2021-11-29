@@ -1,3 +1,8 @@
+" Filetype
+filetype on
+filetype plugin on
+filetype indent on
+
 set noignorecase                " case sensitive searches
 set showmatch                   " show matching
 set nocompatible                " disable compatibility to old-time vi
@@ -5,11 +10,12 @@ set hlsearch                    " highlight search
 set incsearch                   " incremental search
 set tabstop=2                   " number of columns occupied by a tab
 set shiftwidth=2
+set autoindent
+set smartindent
+set cindent
 set softtabstop=2               " see multiple spaces as tabstops
 set expandtab                   " converts tabs to white space
 set softtabstop=0 noexpandtab   " For tab characters that appear 4-spaces-wide
-set tabstop=4 softtabstop=0 expandtab shiftwidth=2 smarttab
-set autoindent                  " indent a new line automatically
 set number                      " add line numbers
 set wildmode=longest,list       " get bash-like tab completions
 set cc=100,120                  " set a 100 and 120 column border
@@ -46,11 +52,6 @@ syntax on                       " Enable syntax highlighting
 " highlight FoldColumn        ctermbg=NONE cterm=bold
 " highlight NonText           ctermbg=NONE
 " highlight clear LineNr
-
-" Filetype
-filetype on
-filetype plugin on
-filetype indent on
 
 " Python provider configuration
 let g:python3_host_prog = '/usr/local/bin/python3'

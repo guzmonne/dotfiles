@@ -61,6 +61,10 @@ nnoremap <silent> <leader>qa :qa!<CR>
 " Save the current buffers and close vim
 nnoremap <silent> <leader>qw :xa<CR>
 
+" Save everything except the current buffer
+command! BufOnly execute '%bdelete|edit #|normal `"'
+nnoremap <silent> <leader>q1 :BufOnly<CR>
+
 " Set the cwd to the current directory
 nnoremap <silent> <leader>cd :cd%:p:h<CR>
 
@@ -142,4 +146,11 @@ nnoremap <leader>tgs <cmd>Telescope git_status<CR>
 
 " Apply quotes under the selected word
 nnoremap <leader>;q bi"<ESC>ea"<ESC>
-nnoremap . @a
+
+" Configure keybindings for Trouble
+nnoremap <leader>xx :TroubleToggle<CR>
+nnoremap <leader>xw :TroubleToggle lsp_workspace_diagnostics<CR>
+nnoremap <leader>xd :TroubleToggle lsp_document_diagnostics<CR>
+nnoremap <leader>xq :TroubleToggle quickfix<CR>
+nnoremap <leader>xl :TroubleToggle loclist<CR>
+nnoremap gR :TroubleToggle lsp_references<CR>
