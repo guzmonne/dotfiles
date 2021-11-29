@@ -8,4 +8,5 @@ function main() {
   echo -n "🔸 $(tmux_session) 🔷 "
 }
 
-main
+echo "🔸"
+
