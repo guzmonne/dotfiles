@@ -31,6 +31,7 @@ function M.setup()
     }, vim.schedule_wrap(function(code)
         if code == 0 then
           vim.cmd('packadd! '..plugin)
+					vim.cmd('helptags '..plugin_dir..'/doc')
           vim.api.nvim_out_write(string.format('%s', vim.inspect(plugin)))
         else
           vim.api.nvim_err_writeln(string.format('Failed to run %s', vim.inpspect(plugin)))

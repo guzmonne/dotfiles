@@ -10,5 +10,6 @@ source ~/.config/nvim/lsp.lua
 source ~/.config/nvim/setup.lua
 
 packadd! backpack
-
+lua vim.cmd('helptags '..vim.fn.stdpath('data')..'/site/pack/backpack/opt/backpack/doc')
 lua require'backpack'.setup()
+

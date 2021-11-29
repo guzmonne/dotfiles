@@ -52,9 +52,7 @@ your `lua` configuration file.
 
 NOTE: You should run the `setup` function after you source the `backpack` plugin.
 
->
-require('backpack').setup()
-<
+  require('backpack').setup()
 
 ================================================================================
 Section 2: Manifest File                                     *backpack.manifest*
@@ -65,9 +63,9 @@ It must be a `lua` file called `backmanifest.lua` that needs to be stored at you
 
 You defined what `plugin` to load using the local `use` function. For example:
 
->
-use { "lsp_rename" }
-<
+
+  use { "lsp_rename" }
+
 
 Backpack will try to load the `lsp_rename` plugin every time you `source` your
 configuration. It will also run `stow` every time so that you always have the
@@ -86,4 +84,4 @@ Credits go to:
   for being awesome and inspiring.
 * {Tekejasten} repo for being an awesome tool with great docs.
 
-vim:tw=78:ts=8:ft=help:norl:
+vim:ts=78:ts=8:ft=help:norl:
