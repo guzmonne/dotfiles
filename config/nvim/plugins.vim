@@ -3,43 +3,44 @@
 " Hint: Make sure you use single quotes.
 call plug#begin('~/.config/nvim/plugged')
 
-Plug 'tpope/vim-liquid'
+Plug 'David-Kunz/cmp-npm'
 Plug 'MunifTanjim/nui.nvim'
-Plug 'norcalli/nvim-colorizer.lua'
-Plug 'windwp/nvim-autopairs'
-Plug 'lukas-reineke/indent-blankline.nvim'
-Plug 'romgrk/barbar.nvim'
-Plug 'nvim-lualine/lualine.nvim'
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-Plug 'nvim-telescope/telescope.nvim'
-Plug 'neovim/nvim-lspconfig'
-Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
-Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/cmp-nvim-lua'
+Plug 'ThePrimeagen/harpoon'
+Plug 'abecodes/tabout.nvim'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+Plug 'folke/trouble.nvim'
 Plug 'hrsh7th/cmp-buffer'
-Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/cmp-emoji'
-Plug 'David-Kunz/cmp-npm'
-Plug 'onsails/lspkind-nvim'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-nvim-lua'
+Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
-Plug 'plasticboy/vim-markdown'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-commentary'
-Plug 'ThePrimeagen/harpoon'
-Plug 'lewis6991/gitsigns.nvim'
-Plug 'tribela/vim-transparent'
-Plug 'editorconfig/editorconfig-vim'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'folke/trouble.nvim'
-Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+Plug 'karb94/neoscroll.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
+Plug 'lewis6991/gitsigns.nvim'
+Plug 'lukas-reineke/indent-blankline.nvim'
+Plug 'neovim/nvim-lspconfig'
+Plug 'norcalli/nvim-colorizer.lua'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-lualine/lualine.nvim'
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'onsails/lspkind-nvim'
+Plug 'plasticboy/vim-markdown'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production' }
-Plug 'abecodes/tabout.nvim'
+Plug 'romgrk/barbar.nvim'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-liquid'
+Plug 'tribela/vim-transparent'
+Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
+Plug 'windwp/nvim-autopairs'
 
 " Don't configure any plugin under this line.
 call plug#end()

@@ -127,8 +127,10 @@ noremap <down> <nop>
 noremap <left> <nop>
 
 " Move C-u to C-j
-nnoremap <C-j> <C-d>zz
-nnoremap <C-k> <C-u>zz
+" nnoremap <C-j> <C-d>zz
+nnoremap <C-j> <cmd>lua require'neoscroll'.scroll(24, true, 150)<CR>
+nnoremap <C-k> <cmd>lua require'neoscroll'.scroll(-24, true, 150)<CR>
+" nnoremap <C-k> <C-u>zz
 
 " Configure Telescope
 nnoremap <leader>ff <cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})<CR>
