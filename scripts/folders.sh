@@ -4,7 +4,6 @@
 # them through `fzf`. The returning value can be used as input for other
 # scripts. For example, to generate new tmux windows or sessions.
 {
-  z -l | awk '{print $2}' & \
   find ~ -mindepth 1 -maxdepth 1 -type d & \
   find ~/Projects/Coral/monorepo/branches -mindepth 1 -maxdepth 1 -type d & \
   find ~/Projects/Coral/slides/branches -mindepth 1 -maxdepth 1 -type d & \
