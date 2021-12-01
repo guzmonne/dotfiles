@@ -1,0 +1,9 @@
+[init]
+	defaultBranch = main
+[user]
+	name = Guzmán Monné
+	email = guzmonne@hotmail.com
+[alias]
+	tree = log --all --graph --pretty=format:'%C(auto)%h%C(auto)%d %s %C(dim white)(%aN, %ar)'
+
+

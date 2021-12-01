@@ -136,8 +136,7 @@ alias cat="bat"
 alias ls="lsd"
 alias ll="ls -alh --color=auto"
 alias ctags="`brew --prefix`/bin/ctags"
-alias tmux="TERM=xterm-256color tmux"
+alias tmux="LC_ALL=C tmux"
 alias tldr="tldr -p=osx"
 alias node=$(n which lts || which node)
-alias ssh="TERM=xterm-256color ssh"
 

@@ -57,9 +57,9 @@ cmp.setup{
     -- end, {"i", "s"}),
   },
   sources = cmp.config.sources({
+		{ name = 'nvim_lsp' },
     { name = 'cmp_tabnine'},
     { name = 'nvim_lua' },
-    { name = 'nvim_lsp' },
     { name = 'path' },
     { name = 'vsnip' },
     { name = 'npm', keyword_length = 3 },

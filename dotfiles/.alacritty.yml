@@ -37,20 +37,20 @@ window:
   #
   # Specified in number of pixels.
   # If the position is not set, the window manager will handle the placement.
-  #position:
-  #  x: 0
-  #  y: 0
+  # position:
+  #   x: 0
+  #   y: 20
 
   # Window padding (changes require restart)
   #
   # Blank space added around the window in pixels. This padding is scaled
   # by DPI and the specified value is always added at both opposing sides.
-  padding:
-    x: 0
-    y: 0
+  # padding:
+  #   x: 0
+  #   y: 0
 
   # Spread additional padding evenly around the terminal content.
-  dynamic_padding: false
+  dynamic_padding: true
 
   # Window decorations
   #
@@ -118,10 +118,10 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    family: FiraCode Nerd Font
+    family: Victor Mono
 
     # The `style` can be specified to pick a specific face.
-    # style: Light
+    style: Light
 
   # Bold font face
   bold:
@@ -129,10 +129,10 @@ font:
     #
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: FiraCode Nerd Font
+    family: Victor Mono
 
     # The `style` can be specified to pick a specific face.
-    # style: Demi Bold
+    style: Demi Bold
 
   # Italic font face
   italic:
@@ -140,10 +140,10 @@ font:
     #
     # If the italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: FiraCode Nerd Font
+    family: Victor Mono
 
     # The `style` can be specified to pick a specific face.
-    # style: Thin Italic
+    style: Thin Italic
 
   # Bold italic font face
   bold_italic:
@@ -151,27 +151,27 @@ font:
     #
     # If the bold italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: FiraCode Nerd Font
+    family: Victor Mono
 
     # The `style` can be specified to pick a specific face.
-    # style: Demi Bold Italic
+    style: Medium Italic
 
   # Point size
-  size: 16
+  size: 18
 
   # Offset is the extra space around each character. `offset.y` can be thought
   # of as modifying the line spacing, and `offset.x` as modifying the letter
   # spacing.
   offset:
     x: 0
-    y: 0
+    y: -5
 
   # Glyph offset determines the locations of the glyphs within their cells with
   # the default being at the bottom. Increasing `x` moves the glyph to the
   # right, increasing `y` moves the glyph upward.
   glyph_offset:
     x: 0
-    y: 0
+    y: 5
 
   # Thin stroke font rendering (macOS only)
   #
@@ -188,7 +188,7 @@ custom_cursor_colors: false
 colors:
   # Default colors
   primary:
-    background: '#1a1b26'
+    background: '#111111'
     foreground: '#c0caf5'
 
   # Normal colors
@@ -291,7 +291,7 @@ colors:
   # search and vi mode.
   #
   # By default, these will use the opposing primary color.
-  line_indicator:
+  # line_indicator:
   #  foreground: None
   #  background: None
 
@@ -459,10 +459,10 @@ cursor:
 #   - (macOS) /bin/bash --login
 #   - (Linux/BSD) user login shell
 #   - (Windows) powershell
-shell:
-  program: /usr/local/bin/zsh
-  args:
-    - --login
+# shell:
+#   program: /usr/local/bin/zsh
+#   args:
+#     - --login
 
 # Startup directory
 #
