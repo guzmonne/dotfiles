@@ -2,7 +2,10 @@
 
 endpoint=$(cat $HOME/Projects/Personal/state/dashdash | fzf)
 
-url="https://dashdash.io/$endpoint"
+echo $endpoint
 
-open $url
+if [ ! -z "$endpoint" ]; then
+	url="https://dashdash.io/$endpoint"
+	open $url
+fi
 

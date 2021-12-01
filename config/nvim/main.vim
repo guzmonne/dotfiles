@@ -3,6 +3,8 @@ filetype on
 filetype plugin on
 filetype indent on
 
+set completeopt=menuone,noselect
+set fileencoding=utf-8          " Use utf-8 as encoding type for files.
 set noignorecase                " case sensitive searches
 set showmatch                   " show matching
 set nocompatible                " disable compatibility to old-time vi
