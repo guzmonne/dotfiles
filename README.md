@@ -62,14 +62,23 @@ After stowing the files you need to install `nvim` plugins.
 
 Reset `nvim` to see the new plugins in action.
 
-## Update configuration
+## Better Touch Tool
 
-### `.zshrc`
+The best tool I could find to create global keyboard shortcuts is
+"BetterTouchTool". You can install this app through SetApp, or
+look it online.
 
-You have to change the path of the `OhMyZsh` repository if your name is not `gmonne`.
+### `popup-app`
 
-```bash
-# Path to your oh-my-zsh installation.
-export ZSH="/Users/gmonne/.oh-my-zsh"
-```
+> This script requires `Alacritty` to be installed.
 
+The `popup-app` script opens a new `Alacritty` terminal running `fzf`
+over folders where macOS `app` files can be found. You can then
+fuzzy-find your way to the app you want to open. It works similar to
+how `Spotlight` or `Alfred` works. Only 100% faster and simpler.
+
+I set this script to be run when I press <Alt-Shift-P> using
+`BetterTouchTool`.
+
+> A script called `popup.sh` is available to call Alacritty with any
+> command.
