@@ -2,4 +2,4 @@
 export ZDOTDIR=$HOME/.config/zsh
 
 # Source the main configuration file.
-source "$HOME/.config/zsh/zshrc.zsh"
+source "$HOME/.config/zsh/.zshrc"

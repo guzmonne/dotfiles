@@ -1,4 +1,5 @@
-#!/usr/bin/env bash
+# Configure the folder where all zsh configuration will live.
+export ZDOTDIR=$HOME/.config/zsh
 
 setopt appendhistory
 
