@@ -136,15 +136,14 @@ nnoremap <C-k> <cmd>lua require'neoscroll'.scroll(-24, true, 150)<CR>
 nnoremap <leader>ff <cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})<CR>
 nnoremap <leader>fr <cmd>lua require'telescope.builtin'.buffers({ show_all_buffers = true })<CR>
 nnoremap <leader>fg <cmd>Telescope git_files<CR>
-nnoremap <leader>fb <cmd>Telescope file_browser<CR>
+nnoremap <leader>ex <cmd>Telescope file_browser<CR>
+nnoremap <leader>ft <cmd>Telescope tags<CR>
 nnoremap <leader>gr <cmd>Telescope grep_string<CR>
 nnoremap <leader>rg <cmd>lua require'telescope.builtin'.live_grep()<CR>
 nnoremap <leader>fb <cmd>Telescope buffers<CR>
 nnoremap <leader>fh <cmd>Telescope help_tags<CR>
 nnoremap <leader>ma <cmd>Telescope man_pages<CR>
-nnoremap <leader>tgc <cmd>Telescope git_commits<CR>
-nnoremap <leader>tgb <cmd>Telescope git_branches<CR>
-nnoremap <leader>tgs <cmd>Telescope git_status<CR>
+nnoremap <leader>ds <cmd>lua require'telescope.builtin'.lsp_document_symbols()<CR>
 
 " Apply quotes under the selected word
 nnoremap <leader>;q bi"<ESC>ea"<ESC>

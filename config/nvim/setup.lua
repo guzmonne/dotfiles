@@ -122,7 +122,7 @@ require("nvim-treesitter.configs").setup({
   ensure_installed = { "typescript", "javascript", "vim", "yaml", "tsx", "rust", "python", "lua", "json", "jsdoc", "http", "html", "go", "dockerfile", "css", "bash" },
   highlight = {
     enable = true,
-    disable = {"typescript"},
+    -- disable = {"typescript"},
   },
   incremental_selection = {
     enable = true,
@@ -245,22 +245,3 @@ require'nvim-autopairs'.setup{}
 
 -- Configure nvim-colorizer --
 require'colorizer'.setup()
-
--- Configure tabout --
-require'tabout'.setup{
-  tabkey = '<Tab>',
-  backwards_tabkey = '<S-Tab>',
-  act_as_tab = true,
-  act_as_shift_tab = true,
-  completion = true,
-  tabouts = {
-    {open = "'", close = "'"},
-    {open = '"', close = '"'},
-    {open = '`', close = '`'},
-    {open = '(', close = ')'},
-    {open = '[', close = ']'},
-    {open = '{', close = '}'}
-  },
-  ignore_beginning = true,
-  exclude = {},
-}

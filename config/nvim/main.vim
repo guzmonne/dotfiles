@@ -10,14 +10,11 @@ set showmatch                   " show matching
 set nocompatible                " disable compatibility to old-time vi
 set hlsearch                    " highlight search
 set incsearch                   " incremental search
-set tabstop=2                   " number of columns occupied by a tab
-set shiftwidth=2
 set autoindent
 set smartindent
 set cindent
-set softtabstop=2               " see multiple spaces as tabstops
-set expandtab                   " converts tabs to white space
-set softtabstop=0 noexpandtab   " For tab characters that appear 4-spaces-wide
+set tabstop=2 shiftwidth=2 expandtab
+set nofoldenable                " Deactivate fold use command.
 set number                      " add line numbers
 set wildmode=longest,list       " get bash-like tab completions
 set cc=100,120                  " set a 100 and 120 column border

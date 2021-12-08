@@ -8,6 +8,7 @@ npm:
 - typescript-language-server
 - vim-language-server
 brew:
+- just
 - lsd
 - bat
 - ctags

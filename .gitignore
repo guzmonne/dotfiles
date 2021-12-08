@@ -1,5 +1,6 @@
 repos/
 config/nvim/plugged/
+config/ansible/tmp/
 tags
 tmp/*
 !tmp/keep
