@@ -52,6 +52,9 @@ stow -t ~ ./zshrc
 
 # Stow the scripts folder
 stow -t ~/bin ./scripts
+
+# Stow ssh keys
+stow -t ~/.ssh -d secrets ssh
 ```
 
 After stowing the files you need to install `nvim` plugins.
@@ -82,3 +85,12 @@ I set this script to be run when I press <Alt-Shift-P> using
 
 > A script called `popup.sh` is available to call Alacritty with any
 > command.
+
+### `ansible`
+
+Uses `fzf` to simplify calling `ansible` playbooks.
+
+### `google-credentials.sh`
+
+Uses `fzf` to simplify changing between multiple Google Cloud projects.
+
