@@ -7,7 +7,9 @@ npm:
 - typescript
 - typescript-language-server
 - vim-language-server
+- '@rafaelrinaldi/hn-cli'
 brew:
+- jo
 - just
 - lsd
 - bat

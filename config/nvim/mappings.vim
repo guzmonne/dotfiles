@@ -155,3 +155,6 @@ nnoremap <leader>xd :TroubleToggle lsp_document_diagnostics<CR>
 nnoremap <leader>xq :TroubleToggle quickfix<CR>
 nnoremap <leader>xl :TroubleToggle loclist<CR>
 nnoremap gR :TroubleToggle lsp_references<CR>
+
+" Get current path
+nnoremap <leader>pwd :let @+ = expand("%:p")<CR>\|:echo expand("%:p")<CR>
