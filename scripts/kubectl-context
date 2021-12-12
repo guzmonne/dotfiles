@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+config=$(kubectl config get-contexts | awk '{print $2}' | tail -n '+2' | fzf-tmux -p 80%,40%)
+
+if [ -z "$config" ]; then exit 0; fi
+
+clear
+
+hr.sh '─'
+
+kubectl config set-context $config
+
+printf "\nUsing $config context\n"
+
+hr.sh '─'

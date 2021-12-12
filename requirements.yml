@@ -9,6 +9,7 @@ npm:
 - vim-language-server
 - '@rafaelrinaldi/hn-cli'
 brew:
+- helm
 - jo
 - just
 - lsd

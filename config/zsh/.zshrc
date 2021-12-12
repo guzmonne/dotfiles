@@ -49,6 +49,7 @@ zsh_add_plugin "sindresorhus/pure"
 # More completitions at: https://github.com/zsh-users/zsh-completions
 # Configure completions for pipx
 eval "$(register-python-argcomplete pipx)"
+source <(kubectl completion zsh)
 
 # Key-bindings
 bindkey -s '^n' ' tmux-sessionizer.sh\nclear\n'

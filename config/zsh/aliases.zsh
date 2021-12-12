@@ -27,3 +27,6 @@ alias cp='cp -i'
 alias mv='mv -i'
 alias rm='rm -i'
 
+# Configure Kubernetes aliases
+alias k="kubectl"
+compdef __start_kubectl k

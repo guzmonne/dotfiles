@@ -3,6 +3,8 @@
 " Hint: Make sure you use single quotes.
 call plug#begin('~/.config/nvim/plugged')
 
+Plug 'hashivim/vim-terraform'
+Plug 'martinda/Jenkinsfile-vim-syntax'
 Plug 'thesis/vim-solidity'
 Plug 'David-Kunz/cmp-npm'
 Plug 'MunifTanjim/nui.nvim'
