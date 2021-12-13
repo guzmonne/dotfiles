@@ -5,6 +5,10 @@
   vars_files:
     - '{{ root }}/requirements.yml'
   tasks:
+    - name: Brew tap
+      community.general.homebrew_tap:
+        name: '{{ item }}'
+      loop: '{{ tap }}'
     - name: Brew install
       community.general.homebrew:
         name: '{{ item }}'
