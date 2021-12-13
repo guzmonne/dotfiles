@@ -70,23 +70,27 @@ set nobackup                        " Don't backup files
 set noswapfile                      " Disable the use of swapfiles
 set undodir=~/.vim/undodir          " Sets the location of the undo dir.
 set undofile                        " Used with plugins. Need for research.
-set scrolloff=12                    " Make vim start scrolling 8 lines from the end
-
-" Enable syntax highlighting on markdown fenced codes.
+set scrolloff=8                     " Make vim start scrolling 8 lines from the end
+set backspace=indent,eol,start      " Fixes common backspace problems.
+set matchpairs+=<:>                 " Highlight matching pairs of branckets.
 
 augroup GUX
   autocmd!
   autocmd BufWritePre * :call TrimWhitespace()
   autocmd BufWritePre *.ts,*.js,*.jsx,*.tsx EslintFixAll
   autocmd BufWritePre *.ts,*.js,*.jsx,*.tsx Prettier
+  " Remove line numbers in terminal mode.
   autocmd TermOpen * setlocal listchars= nonumber norelativenumber nocursorline
   autocmd TermOpen * startinsert
   autocmd BufLeave term://* stopinsert
+  " Syntax highlight
   autocmd BufNewFile,BufFilePre,BufRead *.md set filetype=markdown
   autocmd BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
+  " Support comments on JSON files.
   autocmd FileType json syntax match Comment +\/\/.\+$+
 augroup END
 
+" Flash the selection when highlighting.
 augroup YankHighlight
   autocmd!
   autocmd TextYankPost * silent! lua vim.highlight.on_yank()

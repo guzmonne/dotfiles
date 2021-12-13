@@ -12,7 +12,7 @@
         {
           "type": "session",
           "style": "plain",
-          "foreground": "#BF616A",
+          "foreground": "#73daca",
           "properties": {
             "prefix": "",
             "template": "{{ .UserName }}"
@@ -21,7 +21,7 @@
         {
           "type": "path",
           "style": "plain",
-          "foreground": "#81A1C1",
+          "foreground": "#a9b1d6",
           "properties": {
             "prefix": "",
             "style": "full"
@@ -36,7 +36,7 @@
         {
           "type": "git",
           "style": "plain",
-          "foreground": "#6C6C6C",
+          "foreground": "#3b4261",
           "properties": {
             "prefix": "",
             "fetch_stash_count": true,
@@ -44,13 +44,25 @@
             "fetch_upstream_icon": true,
             "branch_icon": "",
             "github_icon": "",
-            "branch_ahead_icon": "<#88C0D0>\u21e1 </>",
-            "branch_behind_icon": "<#88C0D0>\u21e3 </>",
-            "local_working_icon": "<#FFAFD7>\u002a</>",
+            "branch_ahead_icon": "<#41a6b5>\u21e1 </>",
+            "branch_behind_icon": "<#41a6b5>\u21e3 </>",
+            "local_working_icon": "<#ff007c>\u002a</>",
             "template": "{{ .UpstreamIcon }}{{ .HEAD }}{{ .BranchStatus }}{{ if .Working.Changed }} \uF044 {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }} \uF046 {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }} \uF692 {{ .StashCount }}{{ end }}"
           }
         }
       ]
+    },
+    {
+      "type": "kubectl",
+      "style": "powerline",
+      "powerline_symbol": "\uE0B0",
+      "foreground": "#000000",
+      "background": "#ebcc34",
+      "properties": {
+        "prefix": " \uFD31 ",
+        "display_error": true,
+        "template": "{{.Context}}"
+      }
     },
     {
       "type": "prompt",
@@ -59,7 +71,7 @@
         {
           "type": "executiontime",
           "style": "plain",
-          "foreground": "#A3BE8C",
+          "foreground": "#9ece6a",
           "properties": {
             "style": "austin"
           }
@@ -74,8 +86,8 @@
         {
           "type": "exit",
           "style": "plain",
-          "foreground": "#B48EAD",
-          "foreground_templates": ["{{ if gt .Code 0 }}#BF616A{{ end }}"],
+          "foreground": "#9d7cd8",
+          "foreground_templates": ["{{ if gt .Code 0 }}#ff007c{{ end }}"],
           "properties": {
             "template": "\u276f",
             "prefix": "",

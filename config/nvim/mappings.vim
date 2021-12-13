@@ -128,8 +128,8 @@ noremap <left> <nop>
 
 " Move C-u to C-j
 " nnoremap <C-j> <C-d>zz
-nnoremap <C-j> <cmd>lua require'neoscroll'.scroll(24, true, 150)<CR>
-nnoremap <C-k> <cmd>lua require'neoscroll'.scroll(-24, true, 150)<CR>
+nnoremap <C-j> <cmd>lua require'neoscroll'.scroll(12, true, 150)<CR>
+nnoremap <C-k> <cmd>lua require'neoscroll'.scroll(-12, true, 150)<CR>
 " nnoremap <C-k> <C-u>zz
 
 " Configure Telescope
