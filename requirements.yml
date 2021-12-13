@@ -8,7 +8,10 @@ npm:
 - typescript-language-server
 - vim-language-server
 - '@rafaelrinaldi/hn-cli'
+tap:
+- jandedobbeleer/oh-my-posh
 brew:
+- oh-my-posh
 - helm
 - jo
 - just

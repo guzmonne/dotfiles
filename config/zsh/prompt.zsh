@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
 
-autoload -U promptinit; promptinit
-fpath+="$HOME/.config/repos/sindresorhus/pure"
+eval "$(oh-my-posh --init --shell zsh --config ~/.config/ohmyposh/theme.json)"
 
