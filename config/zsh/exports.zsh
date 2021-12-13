@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# Avoid storing commands starting with a space on the history.
-export HISTCONTROL=ignoreboth
-
 # Configure default ansible config file
 export ANSIBLE_CONFIG=~/.ansible.cfg
 
@@ -62,3 +59,5 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 # Configure colors using `vivid`
 export LS_COLORS="$(vivid generate tokyonight)"
 
+# Configure nvim as the default editor
+export EDITOR=nvim

@@ -37,6 +37,9 @@ source "$ZDOTDIR/functions.zsh"
 source "$HOME/.config/zsh/exports.zsh"
 source "$HOME/.config/zsh/aliases.zsh"
 source "$HOME/.config/zsh/prompt.zsh"
+source "$HOME/.config/zsh/history.zsh"
+source "$HOME/.config/zsh/mappings.zsh"
+source "$HOME/.config/zsh/completions.zsh"
 
 # Plugins
 # More plugins at: https://github.com/unixorn/awesome-zsh-plugins
@@ -44,12 +47,6 @@ zsh_add_plugin "zsh-users/zsh-autosuggestions"
 zsh_add_plugin "zsh-users/zsh-syntax-highlighting"
 zsh_add_plugin "hlissner/zsh-autopair"
 zsh_add_plugin "sindresorhus/pure"
-
-# Completitions
-# More completitions at: https://github.com/zsh-users/zsh-completions
-# Configure completions for pipx
-eval "$(register-python-argcomplete pipx)"
-source <(kubectl completion zsh)
 
 # Key-bindings
 bindkey -s '^n' ' tmux-sessionizer.sh\nclear\n'
