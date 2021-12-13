@@ -6,3 +6,4 @@ tmp/*
 !tmp/keep
 .zcompdump
 .zsh_history
+.env

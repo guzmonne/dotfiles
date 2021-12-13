@@ -40,8 +40,11 @@ repos:
 - jan-warchol/selenized
 - ansible/ansible-language-server
 - sumneko/lua-language-server
-symlinks:
+- bashup/dotenv
+sgmlinks:
 - src: elasticdog/transcrypt/transcrypt
   dest: ~/.local/bin/transcrypt
 - src: ansible/ansible-language-server/bin/ansible-language-server
   dest: ~/.local/bin/ansible-language-server
+- src: bashup/dotenv/dotenv
+  dest: ~/.local/bin/dotenv

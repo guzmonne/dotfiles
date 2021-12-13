@@ -9,6 +9,7 @@ clear
 hr.sh '─'
 
 kubectl config set-context $config
+dotenv -f ~/.config/ohmyposh/.env set OHMYPOSH_KUBERNETES_CONTEXT=" $config"
 
 printf "\nUsing $config context\n"
 

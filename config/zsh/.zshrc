@@ -46,7 +46,6 @@ source "$HOME/.config/zsh/completions.zsh"
 zsh_add_plugin "zsh-users/zsh-autosuggestions"
 zsh_add_plugin "zsh-users/zsh-syntax-highlighting"
 zsh_add_plugin "hlissner/zsh-autopair"
-# zsh_add_plugin "sindresorhus/pure"
 
 # Key-bindings
 bindkey -s '^n' ' tmux-sessionizer.sh\nclear\n'

@@ -53,18 +53,6 @@
       ]
     },
     {
-      "type": "kubectl",
-      "style": "powerline",
-      "powerline_symbol": "\uE0B0",
-      "foreground": "#000000",
-      "background": "#ebcc34",
-      "properties": {
-        "prefix": " \uFD31 ",
-        "display_error": true,
-        "template": "{{.Context}}"
-      }
-    },
-    {
       "type": "prompt",
       "alignment": "left",
       "segments": [
@@ -74,6 +62,21 @@
           "foreground": "#9ece6a",
           "properties": {
             "style": "austin"
+          }
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "right",
+      "segments": [
+        {
+          "type": "command",
+          "style": "plain",
+          "foreground": "#7dcfff",
+          "properties": {
+            "shell": "bash",
+            "command": "dotenv -f ~/.config/ohmyposh/.env get OHMYPOSH_KUBERNETES_CONTEXT"
           }
         }
       ]

@@ -61,3 +61,6 @@ export LS_COLORS="$(vivid generate tokyonight)"
 
 # Configure nvim as the default editor
 export EDITOR=nvim
+
+# Reset the ohmyposh .env file
+rm -Rf ~/.config/ohmyposh/.env
