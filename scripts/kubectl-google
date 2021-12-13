@@ -6,6 +6,8 @@ function details() {
   echo "Google Cloud Account"
   echo "--------------------"
   gcloud config configurations list | grep True | awk '{print "  Name:\t\t"$1"\n  Account:\t"$2"\n  Project:\t"$3}'
+  dotenv -f ~/.config/ohmyposh/.env set OHMYPOSH_KUBERNETES_CONTEXT=$config
+
   printf "  GKE Cluster:\t`kubectl config current-context`\n"
 
   hr.sh '─'

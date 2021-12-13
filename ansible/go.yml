@@ -1,0 +1,11 @@
+---
+- name: Install all `go` dependencies.
+  hosts: localhost
+  connection: local
+  vars_files:
+    - '{{ root }}/requirements.yml'
+  tasks:
+    - name: Go Install
+      command: 'go install {{ item }}'
+      loop: '{{ go }}'
+

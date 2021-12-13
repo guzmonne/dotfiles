@@ -11,6 +11,7 @@ npm:
 tap:
 - jandedobbeleer/oh-my-posh
 brew:
+- bash
 - oh-my-posh
 - helm
 - jo
@@ -48,3 +49,5 @@ sgmlinks:
   dest: ~/.local/bin/ansible-language-server
 - src: bashup/dotenv/dotenv
   dest: ~/.local/bin/dotenv
+go:
+- mvdan.cc/sh/v3/cmd/shfmt@latest
