@@ -122,7 +122,7 @@ require("nvim-treesitter.configs").setup({
   ensure_installed = { "typescript", "javascript", "vim", "yaml", "tsx", "rust", "python", "lua", "json", "jsdoc", "http", "html", "go", "dockerfile", "css", "bash" },
   highlight = {
     enable = true,
-    -- disable = {"typescript"},
+    disable = {"typescript"},
   },
   incremental_selection = {
     enable = true,
