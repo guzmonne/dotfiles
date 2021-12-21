@@ -65,9 +65,6 @@ nnoremap <silent> <leader>qw :xa<CR>
 command! BufOnly execute '%bdelete|edit #|normal `"'
 nnoremap <silent> <leader>q1 :BufOnly<CR>
 
-" Set the cwd to the current directory
-nnoremap <silent> <leader>cd :cd%:p:h<CR>
-
 " Remap Q to quit and q to command
 nnoremap Q q
 
@@ -158,3 +155,7 @@ nnoremap gR :TroubleToggle lsp_references<CR>
 
 " Get current path
 nnoremap <leader>pwd :let @+ = expand("%:p")<CR>\|:echo expand("%:p")<CR>
+nnoremap <leader>zf v%zf
+
+" Capitalize the first letter of the word under the cursor.
+nnoremap <leader>cc m`lb~``

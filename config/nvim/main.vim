@@ -40,17 +40,6 @@ set termguicolors               " Use terminal GUI colors.
 set signcolumn=yes
 " Syntax
 syntax on                       " Enable syntax highlighting
-" This configuration makes the all the backgrounds transparent
-" highlight clear CursorLineNR
-" highlight Normal            ctermbg=NONE
-" highlight LineNr            ctermbg=NONE
-" highlight SignColumn        ctermbg=NONE
-" highlight CursorLine        ctermbg=NONE
-" highlight CursorLineNR      ctermbg=NONE
-" highlight Folded            ctermbg=NONE cterm=bold
-" highlight FoldColumn        ctermbg=NONE cterm=bold
-" highlight NonText           ctermbg=NONE
-" highlight clear LineNr
 
 " Python provider configuration
 let g:python3_host_prog = '/usr/local/bin/python3'
@@ -79,6 +68,8 @@ augroup GUX
   autocmd BufWritePre * :call TrimWhitespace()
   autocmd BufWritePre *.ts,*.js,*.jsx,*.tsx EslintFixAll
   autocmd BufWritePre *.ts,*.js,*.jsx,*.tsx Prettier
+  " Run auto-format on go files.
+  autocmd BufWritePre *.go lua vim.lsp.buf.formatting()
   " Remove line numbers in terminal mode.
   autocmd TermOpen * setlocal listchars= nonumber norelativenumber nocursorline
   autocmd TermOpen * startinsert

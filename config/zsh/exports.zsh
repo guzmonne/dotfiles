@@ -64,6 +64,7 @@ export EDITOR=nvim
 
 # Add Go binary folder to the PATH
 export PATH=$PATH:"$HOME/go/bin"
+export GO111MODULE='on'
 
 # Reset the ohmyposh .env file
 rm -Rf ~/.config/ohmyposh/.env

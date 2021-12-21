@@ -12,7 +12,6 @@ Plug 'MunifTanjim/nui.nvim'
 Plug 'ThePrimeagen/harpoon'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
-Plug 'folke/trouble.nvim'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/cmp-emoji'
@@ -43,6 +42,7 @@ Plug 'tpope/vim-liquid'
 Plug 'tribela/vim-transparent'
 Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
 Plug 'windwp/nvim-autopairs'
+Plug 'folke/trouble.nvim'
 
 " Don't configure any plugin under this line.
 call plug#end()

@@ -50,4 +50,5 @@ sgmlinks:
 - src: bashup/dotenv/dotenv
   dest: ~/.local/bin/dotenv
 go:
+- github.com/rakyll/gotest@latest
 - mvdan.cc/sh/v3/cmd/shfmt@latest
