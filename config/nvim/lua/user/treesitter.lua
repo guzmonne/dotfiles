@@ -5,7 +5,8 @@ require("nvim-treesitter.configs").setup({
         "go", "dockerfile", "css", "bash"
     },
     highlight = {
-        enable = true
+        enable = true,
+        additional_vim_regex_highlighting = true
         -- disable = {"typescript"}
     },
     incremental_selection = {
