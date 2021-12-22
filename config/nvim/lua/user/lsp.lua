@@ -43,8 +43,6 @@ local has_prebuilt = false
 TSPrebuild.on_attach = function(client, bufnr)
     if has_prebuilt then return end
 
-    local query = require("vim.treesitter.query")
-
     local function safe_read(filename, read_quantifier)
         local file, err = io.open(filename, "r")
         if not file then error(err) end
@@ -62,10 +60,11 @@ TSPrebuild.on_attach = function(client, bufnr)
     end
 
     local function prebuild_query(lang, query_name)
-        local query_files = query.get_queryfiles(lang, query_name)
+        local treesitter = require("vim.treesitter")
+        local query_files = treesitter.get_query_files(lang, query_name)
         local query_string = read_query_files(query_files)
 
-        query.set_query(lang, query_name, query_string)
+        treesitter.set_query(lang, query_name, query_string)
     end
 
     local prebuild_languages = {"typescript", "javascript", "tsx"}
