@@ -18,7 +18,8 @@ require("nvim-treesitter.configs").setup({
             node_decremental = 'grm'
         }
     },
-    indent = {enable = false},
+    autopairs = {enable = true},
+    indent = {enable = true, disable = {"yaml"}},
     textobjects = {
         select = {
             enable = true,
