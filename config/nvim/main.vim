@@ -92,3 +92,9 @@ augroup YankHighlight
   autocmd!
   autocmd TextYankPost * silent! lua vim.highlight.on_yank()
 augroup END
+
+augroup _markdown
+  autocmd!
+  autocmd FileType markdown setlocal wrap
+  autocmd FileType markdown setlocal spell
+augroup end

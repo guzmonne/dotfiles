@@ -14,7 +14,7 @@ On this folder I can find all my personal configuration files and scripts.
 
 One of my key dependencies is NodeJS. I like using [`n`](https://github.com/tj/n) to handle NodeJS
 installations, but don't like to install a first version of `npm` to be able to install `n`. Instead,
-I prefer to clone the `n` repository and then build it locally providing the `PREFIX` envionment
+I prefer to clone the `n` repository and then build it locally providing the `PREFIX` environment
 variable. The `PREFIX` environment variable tells `n` where it should install the binaries and all
 versions of NodeJS. If you choose `n` to reside in a folder managed by your user you'll avoid a bunch
 of potential permission bugs.
