@@ -159,3 +159,6 @@ nnoremap <leader>zf v%zf
 
 " Capitalize the first letter of the word under the cursor.
 nnoremap <leader>cc m`lb~``
+
+" Move the rest of the line to the next line.
+nnoremap <leader>cn lv$hdo<ESC>p0f,

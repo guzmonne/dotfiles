@@ -1,0 +1,10 @@
+---
+- name: Install all `lua` packages
+  hosts: localhost
+  connection: local
+  vars_files:
+    - '{{ root }}/requirements.yml'
+  tasks:
+    - name: Luarocks install
+      command: 'luarocks install --server=https://luarocks.org/dev {{item}}'
+      loop: '{{ luarocks }}'

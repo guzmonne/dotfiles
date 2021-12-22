@@ -62,6 +62,10 @@ set undofile                        " Used with plugins. Need for research.
 set scrolloff=8                     " Make vim start scrolling 8 lines from the end
 set backspace=indent,eol,start      " Fixes common backspace problems.
 set matchpairs+=<:>                 " Highlight matching pairs of branckets.
+set conceallevel=0                  " Makes `` visible on markdown files.
+set pumheight=10                    " Pop up menu height
+set noshowmode                      " Remove --INSERT-- and similar text from the message line.
+set numberwidth=4                   " Set number width to 4 (default: 2)
 
 augroup GUX
   autocmd!
@@ -79,6 +83,8 @@ augroup GUX
   autocmd BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
   " Support comments on JSON files.
   autocmd FileType json syntax match Comment +\/\/.\+$+
+  " Auto format lua files.
+  autocmd BufWritePre *.lua lua vim.lsp.buf.formatting_sync(nil, 100)
 augroup END
 
 " Flash the selection when highlighting.
