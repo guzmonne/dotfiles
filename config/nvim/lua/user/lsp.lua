@@ -43,10 +43,10 @@ local has_prebuilt = false
 TSPrebuild.on_attach = function(client, bufnr)
     if has_prebuilt then return end
 
-    local query = require('vim.treesitter.query')
+    local query = require("vim.treesitter.query")
 
     local function safe_read(filename, read_quantifier)
-        local file, err = io.open(filename, 'r')
+        local file, err = io.open(filename, "r")
         if not file then error(err) end
         local content = file:read(read_quantifier)
         io.close(file)
@@ -55,13 +55,16 @@ TSPrebuild.on_attach = function(client, bufnr)
 
     local function read_query_files(filenames)
         local contents = {}
+
         for _, filename in ipairs(filenames) do table.insert(contents, safe_read(filename, "*a")) end
+
         return table.concat(contents, "")
     end
 
     local function prebuild_query(lang, query_name)
-        local query_files = query.get_query_files(lang, query_name)
+        local query_files = query.get_queryfiles(lang, query_name)
         local query_string = read_query_files(query_files)
+
         query.set_query(lang, query_name, query_string)
     end
 
@@ -150,7 +153,7 @@ nvim_lsp.html.setup {
     flags = {debounce_text_changes = 150}
 }
 -- Lua --
-local sumneko_root_path = "~/.config/repos/sumneko/lua-language-server"
+local sumneko_root_path = "/Users/gmonne/.config/repos/sumneko/lua-language-server"
 local sumneko_binary = sumneko_root_path .. "/bin/macOS/lua-language-server"
 local runtime_path = vim.split(package.path, ';')
 

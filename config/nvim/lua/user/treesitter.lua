@@ -1,19 +1,33 @@
 -- NVIM Treesitter --
 require("nvim-treesitter.configs").setup({
     ensure_installed = {
-        "typescript", "javascript", "vim", "yaml", "tsx", "rust", "python", "lua", "json", "jsdoc", "http", "html", "go", "dockerfile", "css", "bash"
+        "typescript", "javascript", "vim", "yaml", "tsx", "rust", "python", "lua", "json", "jsdoc", "http", "html",
+        "go", "dockerfile", "css", "bash"
     },
-    highlight = {enable = true, disable = {"typescript"}},
+    highlight = {
+        enable = true
+        -- disable = {"typescript"}
+    },
     incremental_selection = {
         enable = true,
-        keymaps = {init_selection = 'gnn', node_incremental = 'grn', scope_incremental = 'grc', node_decremental = 'grm'}
+        keymaps = {
+            init_selection = 'gnn',
+            node_incremental = 'grn',
+            scope_incremental = 'grc',
+            node_decremental = 'grm'
+        }
     },
     indent = {enable = false},
     textobjects = {
         select = {
             enable = true,
             lookahead = true,
-            keymaps = {['af'] = '@function.outer', ['if'] = '@function.inner', ['ac'] = '@class.outer', ['ic'] = '@class.inner'}
+            keymaps = {
+                ['af'] = '@function.outer',
+                ['if'] = '@function.inner',
+                ['ac'] = '@class.outer',
+                ['ic'] = '@class.inner'
+            }
         },
         move = {
             enable = true,
