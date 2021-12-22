@@ -89,6 +89,15 @@ capabilities.textDocument.completion.completionItem.relativeSupport = {
     properties = {'documentation', 'detail', 'additionalTextEdits'}
 }
 
+-- Borders --
+local border = {
+    {"╭", "FloatBorder"}, {"─", "FloatBorder"}, {"╮", "FloatBorder"}, {"│", "FloatBorder"},
+    {"╯", "FloatBorder"}, {"─", "FloatBorder"}, {"╰", "FloatBorder"}, {"│", "FloatBorder"}
+}
+
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {border = border})
+vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {border = border})
+
 -- Ansible --
 nvim_lsp.ansiblels.setup {
     cmd = {"ansible-language-server", "--stdio"},
@@ -141,8 +150,7 @@ nvim_lsp.html.setup {
     flags = {debounce_text_changes = 150}
 }
 -- Lua --
--- set the path to the sumneko installation.
-local sumneko_root_path = "/Users/gmonne/.config/repos/sumneko/lua-language-server"
+local sumneko_root_path = "~/.config/repos/sumneko/lua-language-server"
 local sumneko_binary = sumneko_root_path .. "/bin/macOS/lua-language-server"
 local runtime_path = vim.split(package.path, ';')
 
@@ -163,6 +171,7 @@ nvim_lsp.sumneko_lua.setup {
     on_attach = on_attach,
     flags = {debounce_text_changes = 150}
 }
+
 -- Typescript --
 nvim_lsp.tsserver.setup {
     cmd = {"typescript-language-server", "--stdio"},
@@ -170,6 +179,7 @@ nvim_lsp.tsserver.setup {
     on_attach = TSPrebuild.on_attach,
     flags = {debounce_text_changes = 150}
 }
+
 -- Vim --
 nvim_lsp.vimls.setup {
     cmd = {"vim-language-server", "--stdio"},
@@ -177,21 +187,12 @@ nvim_lsp.vimls.setup {
     on_attach = on_attach,
     flags = {debounce_text_changes = 150}
 }
+
 -- Python --
 nvim_lsp.pyright.setup {cmd = {"pyright-langserver", "--stdio"}, capabilities = capabilities}
 
 -- Solidity --
 nvim_lsp.solang.setup {}
-
--- Borders --
-local border = {
-    {"╭", "FloatBorder"}, {"─", "FloatBorder"}, {"╮", "FloatBorder"}, {"│", "FloatBorder"},
-    {"╯", "FloatBorder"}, {"─", "FloatBorder"}, {"╰", "FloatBorder"}, {"│", "FloatBorder"}
-}
-
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {border = border})
-
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {border = border})
 
 -- EFM Lang server --
 require"lspconfig".efm.setup {
@@ -209,3 +210,6 @@ require"lspconfig".efm.setup {
         }
     }
 }
+
+-- Terraform --
+require"lspconfig".terraformls.setup {cmd = {"terraform-ls", "serve"}}
