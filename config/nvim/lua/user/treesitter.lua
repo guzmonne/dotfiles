@@ -4,11 +4,7 @@ require("nvim-treesitter.configs").setup({
         "typescript", "javascript", "vim", "yaml", "tsx", "rust", "python", "lua", "json", "jsdoc", "http", "html",
         "go", "dockerfile", "css", "bash"
     },
-    highlight = {
-        enable = true,
-        additional_vim_regex_highlighting = true
-        -- disable = {"typescript"}
-    },
+    highlight = {enable = true, additional_vim_regex_highlighting = true, disable = {"typescript"}},
     incremental_selection = {
         enable = true,
         keymaps = {
