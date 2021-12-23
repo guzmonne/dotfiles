@@ -4,7 +4,7 @@ require'nvim-autopairs'.setup {
     ts_config = {lua = {"string", "source"}, javascript = {"string", "template_string"}},
     disable_filetype = {"TelescopePrompt", "spectre_panel"},
     fast_wrap = {
-        map = "<S-e>",
+        map = "<C-e>",
         chars = {"{", "[", "(", '"', "'"},
         pattern = string.gsub([[ [%'%"%)%>%]%)%}%,] ]], "%s+", ""),
         offset = 0, -- Offset from pattern match
