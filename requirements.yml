@@ -14,6 +14,7 @@ npm:
 tap:
 - jandedobbeleer/oh-my-posh
 brew:
+- pwgen
 - hashicorp/tap/terraform-ls
 - efm-langserver
 - luarocks
