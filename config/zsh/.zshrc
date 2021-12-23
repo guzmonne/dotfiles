@@ -48,7 +48,7 @@ zsh_add_plugin "zsh-users/zsh-syntax-highlighting"
 zsh_add_plugin "hlissner/zsh-autopair"
 
 # Key-bindings
-bindkey -s '^n' ' tmux-sessionizer.sh\nclear\n'
-bindkey -s '^p' ' tmux-sessions.sh\nclear\n'
-bindkey -s '∑' ' tmux-notion.sh\nclear\n'
-bindkey -s '^[OP' ' dashdash.sh\nclear\n'
+bindkey -s '^p' ' tmux-sessions.sh^M clear^M'
+bindkey -s '^n' ' tmux-sessionizer.sh^M clear^M'
+bindkey -s '∑' ' tmux-notion.sh^M clear^M'
+bindkey -s '^[OP' ' dashdash.sh^M clear^M'
