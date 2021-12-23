@@ -6,3 +6,6 @@ bindkey '\C-x\C-e' edit-command-line
 # [C-space] - Accept current suggestion
 bindkey '^ ' autosuggest-accept
 
+bindkey '\C-k' history-search-backward
+bindkey '\C-j' history-search-forward
+
