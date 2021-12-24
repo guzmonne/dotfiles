@@ -130,35 +130,54 @@ nnoremap <C-k> <cmd>lua require'neoscroll'.scroll(-12, true, 150)<CR>
 " nnoremap <C-k> <C-u>zz
 
 " Configure Telescope
-nnoremap <leader>ff <cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})<CR>
-nnoremap <leader>fr <cmd>lua require'telescope.builtin'.buffers({ show_all_buffers = true })<CR>
-nnoremap <leader>fg <cmd>Telescope git_files<CR>
-nnoremap <leader>ex <cmd>Telescope file_browser<CR>
-nnoremap <leader>ft <cmd>Telescope tags<CR>
-nnoremap <leader>gr <cmd>Telescope grep_string<CR>
-nnoremap <leader>rg <cmd>lua require'telescope.builtin'.live_grep()<CR>
-nnoremap <leader>fb <cmd>Telescope buffers<CR>
-nnoremap <leader>fh <cmd>Telescope help_tags<CR>
-nnoremap <leader>ma <cmd>Telescope man_pages<CR>
-nnoremap <leader>ds <cmd>lua require'telescope.builtin'.lsp_document_symbols()<CR>
+nnoremap <silent> <leader>ff <cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})<CR>
+nnoremap <silent> <leader>fr <cmd>lua require'telescope.builtin'.buffers({ show_all_buffers = true })<CR>
+nnoremap <silent> <leader>fg <cmd>Telescope git_files<CR>
+nnoremap <silent> <leader>ex <cmd>Telescope file_browser<CR>
+nnoremap <silent> <leader>gr <cmd>Telescope grep_string<CR>
+nnoremap <silent> <leader>rg <cmd>lua require'telescope.builtin'.live_grep()<CR>
+nnoremap <silent> <leader>fb <cmd>Telescope buffers<CR>
+nnoremap <silent> <leader>fh <cmd>Telescope help_tags<CR>
+nnoremap <silent> <leader>ma <cmd>Telescope man_pages<CR>
+nnoremap <silent> <leader>ft <cmd>lua require'telescope.builtin'.lsp_document_symbols()<CR>
 
 " Apply quotes under the selected word
-nnoremap <leader>;q bi"<ESC>ea"<ESC>
+nnoremap <silent> <leader>;q bi"<ESC>ea"<ESC>
 
 " Configure keybindings for Trouble
-nnoremap <leader>xx :TroubleToggle<CR>
-nnoremap <leader>xw :TroubleToggle lsp_workspace_diagnostics<CR>
-nnoremap <leader>xd :TroubleToggle lsp_document_diagnostics<CR>
-nnoremap <leader>xq :TroubleToggle quickfix<CR>
-nnoremap <leader>xl :TroubleToggle loclist<CR>
-nnoremap gR :TroubleToggle lsp_references<CR>
+nnoremap <silent> <leader>xx :TroubleToggle<CR>
+nnoremap <silent> <leader>xw :TroubleToggle lsp_workspace_diagnostics<CR>
+nnoremap <silent> <leader>xd :TroubleToggle lsp_document_diagnostics<CR>
+nnoremap <silent> <leader>xq :TroubleToggle quickfix<CR>
+nnoremap <silent> <leader>xl :TroubleToggle loclist<CR>
+nnoremap <silent>gR :TroubleToggle lsp_references<CR>
 
 " Get current path
-nnoremap <leader>pwd :let @+ = expand("%:p")<CR>\|:echo expand("%:p")<CR>
-nnoremap <leader>zf v%zf
+nnoremap <silent> <leader>pwd :let @+ = expand("%:p")<CR>\|:echo expand("%:p")<CR>
+nnoremap <silent> <leader>zf v%zf
 
 " Capitalize the first letter of the word under the cursor.
-nnoremap <leader>cc m`lb~``
+nnoremap <silent> <leader>cc m`lb~``
 
-" Move the rest of the line to the next line.
-nnoremap <leader>cn lv$hdo<ESC>p0f,
+" Move between illuminated words.
+nnoremap <silent> <leader>n :lua require("illuminate").next_reference{wrap=true}<CR>
+nnoremap <silent> <leader>p :lua require("illuminate").next_reference{reverse=true,wrap=true}<CR>
+
+" Toggle concealing characters.
+nnoremap <silent> <leader>l :exec &conceallevel ? "set conceallevel=0" : "set conceallevel=1"<CR>
+
+" Reset lualine.
+nnoremap <silent> <leader>/ :lua require("lualine").setup()<CR>
+
+" Add mappings to Debug Go
+nnoremap <silent> <leader>di :GoDebugStart<CR>
+nnoremap <silent> <leader>db :GoDebugBreakpoint<CR>
+nnoremap <silent> <leader>dc :GoDebugContinue<CR>
+nnoremap <silent> <leader>dt :GoDebugTest<CR>
+nnoremap <silent> <leader>df :GoDebugTestFunc<CR>
+nnoremap <silent> <leader>dr :GoDebugRestart<CR>
+nnoremap <silent> <leader>dn :GoDebugNext<CR>
+nnoremap <silent> <leader>ds :GoDebugStep<CR>
+nnoremap <silent> <leader>do :GoDebugStepOut<CR>
+nnoremap <silent> <leader>dh :GoDebugHalt<CR>
+

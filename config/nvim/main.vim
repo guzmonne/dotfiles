@@ -3,41 +3,60 @@ filetype on
 filetype plugin on
 filetype indent on
 
-set completeopt=menuone,noselect
-set fileencoding=utf-8          " Use utf-8 as encoding type for files.
-set noignorecase                " case sensitive searches
-set showmatch                   " show matching
-set nocompatible                " disable compatibility to old-time vi
-set hlsearch                    " highlight search
-set incsearch                   " incremental search
-set autoindent
-set smartindent
+set autoindent                      " Enable auto indent
+set autowriteall                    " Work with buffers
+set backspace=indent,eol,start      " Fixes common backspace problems.
+set cc=100,120                      " Set a 100 and 120 column border
 set cindent
-set tabstop=2 shiftwidth=2 expandtab
-set nofoldenable                " Deactivate fold use command.
-set number                      " add line numbers
-set wildmode=longest,list       " get bash-like tab completions
-set cc=100,120                  " set a 100 and 120 column border
-set mouse=a                     " enable mouse click
-set clipboard=unnamedplus       " using system clipboard
-set ttyfast                     " Speed up scrolling on vim
-set vb t_vb=                    " Disable Beep/Flash
-set nowrap                      " Disable line wraping
-set ruler                       " Enable line and column display
-set hidden                      " Keeps any buffer available
-set confirm                     " makes it easier to
-set autowriteall                " work with buffers
-set wildmenu wildmode=full      "
-set splitright                  " Split panes to the right
-set splitbelow                  " Split panes to the bottom
-set nowritebackup               " Don't write backups.
-set cmdheight=1                 " Give more space for displaying messages
-set updatetime=300              " Increade the update time
-set shortmess+=c                " Don't pass messages to |ins-completion-menu|
-set timeoutlen=1000             " Update the time between multiple key presses
-"set signcolumn="yes:[1-3]"     " Always show the sign column
-set termguicolors               " Use terminal GUI colors.
+set clipboard=unnamedplus           " Using system clipboard
+set cmdheight=1                     " Give more space for displaying messages
+set completeopt=menuone,noselect
+set conceallevel=0                  " Makes `` visible on markdown files.
+set confirm                         " Makes it easier to
+set expandtab
+set exrc                            " Source coniguration every time I enter a new project
+set fileencoding=utf-8              " Use utf-8 as encoding type for files.
+set guicursor=                      " Set the guicursor to always be a block
+set hidden                          " Keeps any buffer available
+set hlsearch                        " Highlight search
+set incsearch                       " Incremental search
+set matchpairs+=<:>                 " Highlight matching pairs of branckets.
+set mouse=a                         " Enable mouse click
+set nobackup                        " Don't backup files
+set nocompatible                    " Disable compatibility to old-time vi
+set noerrorbells                    " Disable error bells sounds
+set nofoldenable                    " Deactivate fold use command.
+set nohlsearch                      " Hide the search highlight after present enter
+set noignorecase                    " Case sensitive searches
+set noshowmode                      " Remove --INSERT-- and similar text from the message line.
+set noswapfile                      " Disable the use of swapfiles
+set nowrap                          " Disable line wraping
+set nowritebackup                   " Don't write backups.
+set number                          " Add line numbers
+set numberwidth=4                   " Set number width to 4 (default: 2)
+set pumheight=10                    " Pop up menu height
+set re=0                            " Stop old regex engine to avoid performance loss.
+set relativenumber                  " Set relative numbers
+set ruler                           " Enable line and column display
+set scrolloff=8                     " Make vim start scrolling 8 lines from the end
+set shiftwidth=2
+set shortmess+=c                    " Don't pass messages to |ins-completion-menu|
+set showmatch                       " Show matching
 set signcolumn=yes
+set smartindent
+set splitbelow                      " Split panes to the bottom
+set splitright                      " Split panes to the right
+set tabstop=2
+set termguicolors                   " Use terminal GUI colors.
+set timeoutlen=1000                 " Update the time between multiple key presses
+set ttyfast                         " Speed up scrolling on vim
+set undodir=~/.vim/undodir          " Sets the location of the undo dir.
+set undofile                        " Used with plugins. Need for research.
+set updatetime=300                  " Increade the update time
+set vb t_vb=                        " Disable Beep/Flash
+set wildmenu wildmode=full
+set wildmode=longest,list           " Get bash-like tab completions
+
 " Syntax
 syntax on                       " Enable syntax highlighting
 
@@ -47,25 +66,7 @@ let g:python3_host_prog = '/usr/local/bin/python3'
 let g:loaded_python_provider = 0
 
 " Allow syntax highlighting in markdown
-let g:vim_markdown_fenced_languages = ['html', 'python', 'console=sh', 'bash=sh', 'javascript', 'typescript']
-
-set exrc                            " Source coniguration every time I enter a new project
-set guicursor=                      " Set the guicursor to always be a block
-set relativenumber                  " Set relative numbers
-set nu                              " Set the line number instead of the 0 number at the current line
-set nohlsearch                      " Hide the search highlight after present enter
-set noerrorbells                    " Disable error bells sounds
-set nobackup                        " Don't backup files
-set noswapfile                      " Disable the use of swapfiles
-set undodir=~/.vim/undodir          " Sets the location of the undo dir.
-set undofile                        " Used with plugins. Need for research.
-set scrolloff=8                     " Make vim start scrolling 8 lines from the end
-set backspace=indent,eol,start      " Fixes common backspace problems.
-set matchpairs+=<:>                 " Highlight matching pairs of branckets.
-set conceallevel=0                  " Makes `` visible on markdown files.
-set pumheight=10                    " Pop up menu height
-set noshowmode                      " Remove --INSERT-- and similar text from the message line.
-set numberwidth=4                   " Set number width to 4 (default: 2)
+let g:vim_markdown_fenced_languages = ['go', 'html', 'python', 'console=sh', 'bash=sh', 'javascript', 'typescript']
 
 augroup GUX
   autocmd!

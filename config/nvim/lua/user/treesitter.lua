@@ -15,7 +15,7 @@ require("nvim-treesitter.configs").setup({
         }
     },
     autopairs = {enable = true},
-    indent = {enable = true, disable = {"yaml"}},
+    -- indent = {enable = true, disable = {"yaml"}},
     textobjects = {
         select = {
             enable = true,

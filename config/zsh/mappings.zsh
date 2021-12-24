@@ -21,4 +21,7 @@ bindkey -s '∑' ' tmux-notion.sh^M clear^M'
 # [F1] - Select a service to read on dashdash.
 bindkey -s '^[OP' ' dashdash.sh^M clear^M'
 
-
+# [C-b] - Move backwards one word.
+bindkey '\C-b' backward-word
+# [C-w] - Move forwards one word.
+bindkey '\C-w' forward-word

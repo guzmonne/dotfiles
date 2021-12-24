@@ -3,6 +3,10 @@
 " Hint: Make sure you use single quotes.
 call plug#begin('~/.config/nvim/plugged')
 
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'soywod/typescript.vim'
+Plug 'RRethy/vim-illuminate'
+Plug 'max397574/better-escape.nvim'
 Plug 'z0mbix/vim-shfmt', { 'for': 'sh' }
 Plug 'hashivim/vim-terraform'
 Plug 'martinda/Jenkinsfile-vim-syntax'
@@ -76,3 +80,12 @@ let g:fzf_colors =
   \ 'marker':     ['fg', 'Keyword'],
   \ 'spinner':    ['fg', 'Label'],
   \ 'header':     ['fg', 'Comment'] }
+
+" Configure vim-go
+" let g:go_debug_windows =
+" \ {
+"   \ 'vars': 'leftabove 60vnew',
+"   \ 'stack': 'leftabove 10new',
+" \ }
+let g:go_debug_breakpoint_sign_text = '🔴'
+hi GoDebugBreakpoint term=standout ctermbg=NONE ctermfg=0 guibg=NONE

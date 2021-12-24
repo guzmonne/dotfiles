@@ -6,6 +6,14 @@ setopt appendhistory
 # Useful zsh options. See man zshoptions
 setopt autocd extendedglob nomatch menucomplete
 setopt interactive_comments
+# Autocorrect commands.
+setopt correct_all
+# Automatically list choices on ambiguous completion.
+setopt auto_list
+# Automatically use menu completion.
+setopt auto_menu
+# Move cursor to end if word has one match.
+setopt always_to_end
 
 # Remove beep
 unsetopt BEEP
@@ -43,7 +51,31 @@ source "$HOME/.config/zsh/completions.zsh"
 
 # Plugins
 # More plugins at: https://github.com/unixorn/awesome-zsh-plugins
+zsh_add_plugin "Aloxaf/fzf-tab"
 zsh_add_plugin "zsh-users/zsh-autosuggestions"
-zsh_add_plugin "zsh-users/zsh-syntax-highlighting"
+zsh_add_plugin "zsh-users/zsh-completions"
+zsh_add_plugin "zdharma-continuum/fast-syntax-highlighting"
 zsh_add_plugin "hlissner/zsh-autopair"
+zsh_add_plugin "buonomo/yarn-completion"
+zsh_add_plugin "lukechilds/zsh-better-npm-completion"
 
+# Zstyles
+# Select completions with arrow keys.
+zstyle ':completion:*' menu select
+# Group results by category.
+zstyle ':completion:*' group-name
+# Enable approximate matches.
+zstyle ':completion:::::' completer _expand _complete _ignored _approximate
+
+
+# fzf-tab recommended configuration.
+# Disable sort when completing `git checkout`
+zstyle ':completion:*:git-checkout:*' sort false
+# Set descriptions format to enable group support
+zstyle ':completion:*:descriptions' format '[%d]'
+# Set list-colors to enable filename colorizing
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# Preview directory's content with exa when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+# Switch group using `,` and `.`
+zstyle ':fzf-tab:*' switch-group ',' '.'

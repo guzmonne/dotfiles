@@ -3,7 +3,7 @@ function zsh_add_plugin() {
 	ORG=$(echo $1 | cut -d "/" -f 1)
 	PLUGIN=$(echo $1 | cut -d "/" -f 2)
 	if [ ! -d "$HOME/.config/repos/$ORG/$PLUGIN" ]; then
-		git clone --depth=1 "https://github.com/$1.git" "$HOME/.config/repos/$ORG/$PLUGIN"
+		git clone --depth=1 "git@github.com:$1.git" "$HOME/.config/repos/$ORG/$PLUGIN"
 	fi
 
 	if [ -f "$HOME/.config/repos/$ORG/$PLUGIN/$PLUGIN.plugin.zsh" ]; then

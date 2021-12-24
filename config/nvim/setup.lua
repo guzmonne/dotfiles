@@ -1,3 +1,4 @@
+require('user.better-escape')
 require('user.backpack')
 require('user.neoscroll')
 require('user.cmp')
