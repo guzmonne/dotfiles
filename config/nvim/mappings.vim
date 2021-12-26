@@ -134,11 +134,8 @@ nnoremap <silent> <leader>ff <cmd>lua require'telescope.builtin'.find_files({ fi
 nnoremap <silent> <leader>fr <cmd>lua require'telescope.builtin'.buffers({ show_all_buffers = true })<CR>
 nnoremap <silent> <leader>fg <cmd>Telescope git_files<CR>
 nnoremap <silent> <leader>ex <cmd>Telescope file_browser<CR>
-nnoremap <silent> <leader>gr <cmd>Telescope grep_string<CR>
 nnoremap <silent> <leader>rg <cmd>lua require'telescope.builtin'.live_grep()<CR>
 nnoremap <silent> <leader>fb <cmd>Telescope buffers<CR>
-nnoremap <silent> <leader>fh <cmd>Telescope help_tags<CR>
-nnoremap <silent> <leader>ma <cmd>Telescope man_pages<CR>
 nnoremap <silent> <leader>ft <cmd>lua require'telescope.builtin'.lsp_document_symbols()<CR>
 
 " Apply quotes under the selected word
@@ -181,3 +178,5 @@ nnoremap <silent> <leader>ds :GoDebugStep<CR>
 nnoremap <silent> <leader>do :GoDebugStepOut<CR>
 nnoremap <silent> <leader>dh :GoDebugHalt<CR>
 
+" Toggle the maximization of a Window
+nnoremap <silent> <leader>m :lua require"toggle".toggle_window()<CR>

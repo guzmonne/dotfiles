@@ -1,0 +1,45 @@
+================================================================================
+                                                                        *toggle*
+Toggle is a custom plugin used to maximise a window on a new tab, and be able
+to switch back to where you were before. When you run a debugger you ussually
+end up with 4~6 windows, and its hard to read what is going on. There are
+mappings that can help you traverse this layout but it's still hard to read.
+With this tool you can open any of those windows on a new tab, and once you
+are done, go back to the previous layout.
+
+To find out more:
+https://github.com/guzmonne/dotfiles
+
+
+================================================================================
+                                                             *toggle.contents*
+
+CONTENTS
+
+    1. Setup ...................... |toggle.setup|
+    3. Credits .................... |toggle.credits|
+
+================================================================================
+Section 1: Setup                                                *toggle.setup*
+
+Add `toggle` to your *backpack* manifest file to load it. This will expose a
+function called `ToggleWindow`. You can then call this function directly or
+create a new `mapping`. For example:
+
+<
+  nnoremap <silent> <leader>t :GuxToggleWindow<CR>
+>
+
+================================================================================
+Section 3: Credits                                            *toggle.credits*
+
+Credits go to:
+* {rrethy} from his blog post "Write Your Own Plugin Manager With A Focus On
+  Ergonomics" (https://rrethy.github.io/book/write_a_plugin_manager.html).
+* {NeoVim} and its awesome community.
+* {Telescope.nvim} and its awesome community.
+* {ThePrimeagen} and {TK} aka {teej_dv} aka {TJDeVries} of YouTube/Twitch/VimConf
+  for being awesome and inspiring.
+* {Tekejasten} repo for being an awesome tool with great docs.
+
+vim:ts=78:ts=8:ft=help:norl:
