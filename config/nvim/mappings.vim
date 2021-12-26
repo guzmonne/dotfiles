@@ -142,12 +142,7 @@ nnoremap <silent> <leader>ft <cmd>lua require'telescope.builtin'.lsp_document_sy
 nnoremap <silent> <leader>;q bi"<ESC>ea"<ESC>
 
 " Configure keybindings for Trouble
-nnoremap <silent> <leader>xx :TroubleToggle<CR>
-nnoremap <silent> <leader>xw :TroubleToggle lsp_workspace_diagnostics<CR>
-nnoremap <silent> <leader>xd :TroubleToggle lsp_document_diagnostics<CR>
-nnoremap <silent> <leader>xq :TroubleToggle quickfix<CR>
-nnoremap <silent> <leader>xl :TroubleToggle loclist<CR>
-nnoremap <silent>gR :TroubleToggle lsp_references<CR>
+nnoremap <silent> <leader>t :TroubleToggle<CR>
 
 " Get current path
 nnoremap <silent> <leader>pwd :let @+ = expand("%:p")<CR>\|:echo expand("%:p")<CR>
