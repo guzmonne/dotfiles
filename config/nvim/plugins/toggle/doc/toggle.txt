@@ -17,6 +17,7 @@ https://github.com/guzmonne/dotfiles
 CONTENTS
 
     1. Setup ...................... |toggle.setup|
+    2. Usage ...................... |toggle.usage|
     3. Credits .................... |toggle.credits|
 
 ================================================================================
@@ -27,8 +28,23 @@ function called `ToggleWindow`. You can then call this function directly or
 create a new `mapping`. For example:
 
 <
-  nnoremap <silent> <leader>t :GuxToggleWindow<CR>
+  nnoremap <silent> <leader>t :lua require"toggle".toggle_window()<CR>
 >
+
+================================================================================
+Section 2: Usage                                                *toggle.usage*
+
+You can call the `toggle_window` function whenever you want to maximize a
+window on a new `tab`. If you create more windows on that tab you run the
+`toggle_window` on any of those to create a new tab.
+
+You can then go back to your original `window` running on your original `tab`
+by running `toggle_window` on any maximized windows. Bare in mind that if you
+run the `toggle_window` function on a maximized window that has more than onw
+window present on the maximized tab, instead of closing the tab and return to
+the original window, it will maximize that window once again.
+
+> I might consider changing this behavior in the future.
 
 ================================================================================
 Section 3: Credits                                            *toggle.credits*
