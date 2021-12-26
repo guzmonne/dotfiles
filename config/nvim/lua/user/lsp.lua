@@ -39,6 +39,9 @@ local on_attach = function(client, bufnr)
 end
 
 -- Attempt to fix slow rendering of typescript highlights when using tree-sitter.
+-- This doesn't solve the problem for all Typescript files. I don't know what the
+-- problem is exactly. I've read online that is a problem related to JSDocs, or
+-- the cadence at which Treesitter queries the file.
 -- ~~Source: https://github.com/nvim-treesitter/nvim-treesitter/issues/1396
 local TSPrebuild = {}
 local has_prebuilt = false
