@@ -3,19 +3,15 @@
 " Hint: Make sure you use single quotes.
 call plug#begin('~/.config/nvim/plugged')
 
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'soywod/typescript.vim'
-Plug 'RRethy/vim-illuminate'
-Plug 'max397574/better-escape.nvim'
-Plug 'z0mbix/vim-shfmt', { 'for': 'sh' }
-Plug 'hashivim/vim-terraform'
-Plug 'martinda/Jenkinsfile-vim-syntax'
-Plug 'thesis/vim-solidity'
 Plug 'David-Kunz/cmp-npm'
 Plug 'MunifTanjim/nui.nvim'
+Plug 'RRethy/vim-illuminate'
 Plug 'ThePrimeagen/harpoon'
 Plug 'editorconfig/editorconfig-vim'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+Plug 'folke/trouble.nvim'
+Plug 'hashivim/vim-terraform'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/cmp-emoji'
@@ -30,6 +26,8 @@ Plug 'karb94/neoscroll.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'lukas-reineke/indent-blankline.nvim'
+Plug 'martinda/Jenkinsfile-vim-syntax'
+Plug 'max397574/better-escape.nvim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'nvim-lua/plenary.nvim'
@@ -40,13 +38,17 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'onsails/lspkind-nvim'
 Plug 'plasticboy/vim-markdown'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production' }
+Plug 'simrat39/symbols-outline.nvim'
+Plug 'soywod/typescript.vim'
+Plug 'thesis/vim-solidity'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-liquid'
+Plug 'tpope/vim-surround'
 Plug 'tribela/vim-transparent'
 Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
 Plug 'windwp/nvim-autopairs'
-Plug 'folke/trouble.nvim'
+Plug 'z0mbix/vim-shfmt', { 'for': 'sh' }
 
 " Don't configure any plugin under this line.
 call plug#end()
@@ -58,6 +60,7 @@ let g:vim_markdown_folding_disabled = 1
 let g:gitgutter_map_keys = 0
 
 " Configure editorconfig
+let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 
 " Configure Markdown Preview

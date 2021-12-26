@@ -60,6 +60,8 @@ set softtabstop=2                       " Soft tab size
 set tabstop=2                           " Tab size
 set expandtab                           " Replace tabs with spaces
 set shiftwidth=2                        " Visual mode indentation (match tabstop)
+set foldmethod=expr                     " Kind of fold used for the current window.
+set foldexpr=nvim_treesitter#foldexpr() " Use Treesitter to handle folds
 
 " Syntax
 syntax on                       " Enable syntax highlighting

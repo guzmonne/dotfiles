@@ -175,3 +175,6 @@ nnoremap <silent> <leader>dh :GoDebugHalt<CR>
 
 " Toggle the maximization of a Window
 nnoremap <silent> <leader>m :lua require"toggle".toggle_window()<CR>
+
+" Open the Symbols Outline panel
+nnoremap <silent> <leader>o :SymbolsOutline<CR>
