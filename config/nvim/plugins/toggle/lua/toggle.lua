@@ -1,15 +1,25 @@
 Cache = {maximized_window_id = nil, origin_window_id = nil}
 
--- If there is more than one window we want to maximize the
--- window were we currently are. If there is only one window
--- then:
---   - if the window corresponds to a window we previously
---     maximized, then we close it and go back to the window
---     from which we arrived there.
---   - else, if the window doesn't correspond to a window
---     we previously maximized, then we do nothing.
+-- Hold the original window if for all maximized windows.
 local Map = {}
 
+-- When run on a tab with multiple windows, maximize the active one
+-- on a new `tab`. We hold the `id` of the original window on a table
+-- so we can return to the original window by running `toggle_window`
+-- on the `maximized` window.
+--
+-- It supports multiple maximized windows on multiple tabs. You can
+-- also mazimize additional windows from a maximized tab and return
+-- to the origin by running `toggle_window` multiple times.
+--
+-- TODO: Currently, if you run `togglw_window` on a maximized tab on
+--       where multiple windows are opened, we don't close the tab
+--       and move back to the original tab, we mazimize the window
+--       were we currently are. Might want to reconsider this
+--       behavior on future versions.
+-- TODO: I don't have any guards set up to handle going back to a
+--       window that is no longer opened. I don't know of an easy
+--       way to check if a window is still available.
 local function toggle_window()
     if vim.fn.winnr('$') > 1 then
         -- There is more than one window on this tab.
