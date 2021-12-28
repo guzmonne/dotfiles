@@ -1,10 +1,8 @@
 -- NVIM Treesitter --
 require("nvim-treesitter.configs").setup({
-    ensure_installed = {
-        "typescript", "javascript", "vim", "yaml", "tsx", "rust", "python", "lua", "json", "jsdoc", "http", "html",
-        "go", "dockerfile", "css", "bash"
-    },
-    highlight = {enable = true, additional_vim_regex_highlighting = true, disable = {"typescript"}},
+    ensure_installed = "maintained",
+    highlight = {enable = true, use_languagetree = true},
+    context_commentstring = {enable = true},
     incremental_selection = {
         enable = true,
         keymaps = {
@@ -15,7 +13,7 @@ require("nvim-treesitter.configs").setup({
         }
     },
     autopairs = {enable = true},
-    -- indent = {enable = true, disable = {"yaml"}},
+    indent = {enabe = true, disable = {"yaml"}},
     textobjects = {
         select = {
             enable = true,
@@ -26,14 +24,6 @@ require("nvim-treesitter.configs").setup({
                 ['ac'] = '@class.outer',
                 ['ic'] = '@class.inner'
             }
-        },
-        move = {
-            enable = true,
-            set_jumps = true,
-            goto_next_start = {[']m'] = '@function.outer', [']]'] = '@class.outer'},
-            goto_next_end = {[']M'] = '@function.outer', [']['] = '@class.outer'},
-            goto_previous_start = {['[m'] = '@function.outer', ['[['] = '@class.outer'},
-            goto_previous_end = {['[M'] = '@functions.outer', ['[]'] = '@class.outer'}
         }
     }
 });
