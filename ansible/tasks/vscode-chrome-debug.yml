@@ -1,0 +1,10 @@
+
+- name: NPM Install
+  command:
+    chdir: '{{ root }}/repos/microsoft/vscode-chrome-debug'
+    cmd: 'npm install'
+
+- name: Gulp Build
+  command:
+    chdir: '{{ root }}/repos/microsoft/vscode-chrome-debug'
+    cmd: './node_modules/.bin/gulp build'

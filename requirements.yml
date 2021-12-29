@@ -49,6 +49,8 @@ repos:
 - ansible/ansible-language-server
 - sumneko/lua-language-server
 - bashup/dotenv
+- microsoft/vscode-node-debug2
+- microsoft/vscode-chrome-debug
 sgmlinks:
 - src: elasticdog/transcrypt/transcrypt
   dest: ~/.local/bin/transcrypt

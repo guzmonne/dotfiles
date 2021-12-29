@@ -162,16 +162,12 @@ nnoremap <silent> <leader>l :exec &conceallevel ? "set conceallevel=0" : "set co
 nnoremap <silent> <leader>/ :lua require("lualine").setup()<CR>
 
 " Add mappings to Debug Go
-nnoremap <silent> <leader>di :GoDebugStart<CR>
-nnoremap <silent> <leader>db :GoDebugBreakpoint<CR>
-nnoremap <silent> <leader>dc :GoDebugContinue<CR>
-nnoremap <silent> <leader>dt :GoDebugTest<CR>
-nnoremap <silent> <leader>df :GoDebugTestFunc<CR>
-nnoremap <silent> <leader>dr :GoDebugRestart<CR>
-nnoremap <silent> <leader>dn :GoDebugNext<CR>
-nnoremap <silent> <leader>ds :GoDebugStep<CR>
-nnoremap <silent> <leader>do :GoDebugStepOut<CR>
-nnoremap <silent> <leader>dh :GoDebugHalt<CR>
+nnoremap <silent> <leader>dh :lua require'dap.ui.widgets'.hover()<CR>
+nnoremap <silent> <leader>db :lua require'dap'.toggle_breakpoint()<CR>
+nnoremap <silent> <leader>dd :lua require'dap'.continue()<CR>
+nnoremap <silent> <leader>di :lua require'dap'.step_into()<CR>
+nnoremap <silent> <leader>do :lua require'dap'.step_over()<CR>
+nnoremap <silent> <leader>ds :lua require'dap'.repl.open()<CR>
 
 " Toggle the maximization of a Window
 nnoremap <silent> <leader>mm :lua require"toggle".toggle_window()<CR>
