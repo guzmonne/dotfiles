@@ -1,3 +1,4 @@
+require('user.nvim-dap-go')
 require('user.nvim-dap')
 require('user.better-escape')
 require('user.backpack')

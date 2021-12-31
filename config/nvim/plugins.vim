@@ -3,13 +3,12 @@
 " Hint: Make sure you use single quotes.
 call plug#begin('~/.config/nvim/plugged')
 
-Plug 'mfussenegger/nvim-dap'
+Plug 'leoluz/nvim-dap-go'
 Plug 'David-Kunz/cmp-npm'
 Plug 'MunifTanjim/nui.nvim'
 Plug 'RRethy/vim-illuminate'
 Plug 'ThePrimeagen/harpoon'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 Plug 'folke/trouble.nvim'
 Plug 'hashivim/vim-terraform'
@@ -29,6 +28,7 @@ Plug 'lewis6991/gitsigns.nvim'
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'martinda/Jenkinsfile-vim-syntax'
 Plug 'max397574/better-escape.nvim'
+Plug 'mfussenegger/nvim-dap'
 Plug 'neovim/nvim-lspconfig'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'nvim-lua/plenary.nvim'

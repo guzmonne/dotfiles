@@ -168,6 +168,7 @@ nnoremap <silent> <leader>dd :lua require'dap'.continue()<CR>
 nnoremap <silent> <leader>di :lua require'dap'.step_into()<CR>
 nnoremap <silent> <leader>do :lua require'dap'.step_over()<CR>
 nnoremap <silent> <leader>ds :lua require'dap'.repl.open()<CR>
+nnoremap <silent> <leader>dt :lua require'dap-go'.debug_test()<CR>
 
 " Toggle the maximization of a Window
 nnoremap <silent> <leader>mm :lua require"toggle".toggle_window()<CR>
