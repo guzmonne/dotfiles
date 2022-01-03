@@ -127,6 +127,8 @@ noremap <left> <nop>
 " nnoremap <C-j> <C-d>zz
 nnoremap <C-j> <cmd>lua require'neoscroll'.scroll(12, true, 150)<CR>
 nnoremap <C-k> <cmd>lua require'neoscroll'.scroll(-12, true, 150)<CR>
+vnoremap <C-j> <cmd>lua require'neoscroll'.scroll(12, true, 150)<CR>
+vnoremap <C-k> <cmd>lua require'neoscroll'.scroll(-12, true, 150)<CR>
 " nnoremap <C-k> <C-u>zz
 
 " Configure Telescope
@@ -137,6 +139,7 @@ nnoremap <silent> <leader>ex <cmd>Telescope file_browser<CR>
 nnoremap <silent> <leader>rg <cmd>lua require'telescope.builtin'.live_grep()<CR>
 nnoremap <silent> <leader>fb <cmd>Telescope buffers<CR>
 nnoremap <silent> <leader>ft <cmd>lua require'telescope.builtin'.lsp_document_symbols()<CR>
+nnoremap <silent> <leader>?  <cmd>Telescope current_buffer_fuzzy_find<CR>
 
 " Apply quotes under the selected word
 nnoremap <silent> <leader>;q bi"<ESC>ea"<ESC>
@@ -169,6 +172,8 @@ nnoremap <silent> <leader>di :lua require'dap'.step_into()<CR>
 nnoremap <silent> <leader>do :lua require'dap'.step_over()<CR>
 nnoremap <silent> <leader>ds :lua require'dap'.repl.open()<CR>
 nnoremap <silent> <leader>dt :lua require'dap-go'.debug_test()<CR>
+nnoremap <silent> <leader>de :lua require'dapui'.eval()<CR>
+vnoremap <silent> <leader>de :lua require'dapui'.eval()<CR>
 
 " Toggle the maximization of a Window
 nnoremap <silent> <leader>mm :lua require"toggle".toggle_window()<CR>

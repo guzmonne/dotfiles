@@ -14,6 +14,7 @@ npm:
 tap:
 - jandedobbeleer/oh-my-posh
 brew:
+- ranger
 - pwgen
 - hashicorp/tap/terraform-ls
 - efm-langserver
@@ -43,6 +44,7 @@ brew:
 - vivid
 - ninja
 repos:
+- alexanderjeurissen/ranger_devicons
 - elasticdog/transcrypt
 - mbadolato/iterm2-color-schemes
 - jan-warchol/selenized

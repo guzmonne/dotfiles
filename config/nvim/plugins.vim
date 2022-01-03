@@ -3,7 +3,9 @@
 " Hint: Make sure you use single quotes.
 call plug#begin('~/.config/nvim/plugged')
 
+Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
 Plug 'leoluz/nvim-dap-go'
+Plug 'rcarriga/nvim-dap-ui'
 Plug 'David-Kunz/cmp-npm'
 Plug 'MunifTanjim/nui.nvim'
 Plug 'RRethy/vim-illuminate'
@@ -30,7 +32,6 @@ Plug 'martinda/Jenkinsfile-vim-syntax'
 Plug 'max397574/better-escape.nvim'
 Plug 'mfussenegger/nvim-dap'
 Plug 'neovim/nvim-lspconfig'
-Plug 'norcalli/nvim-colorizer.lua'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
@@ -93,3 +94,7 @@ let g:fzf_colors =
 " \ }
 let g:go_debug_breakpoint_sign_text = '🔴'
 hi GoDebugBreakpoint term=standout ctermbg=NONE ctermfg=0 guibg=NONE
+
+" Configure vim-hexokinase
+let g:Hexokinase_highlighters = ['virtual']
+
