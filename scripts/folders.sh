@@ -8,5 +8,11 @@
   find ~/Projects/Coral/monorepo/branches -mindepth 1 -maxdepth 1 -type d & \
   find ~/Projects/Coral/slides/branches -mindepth 1 -maxdepth 1 -type d & \
   find ~/Projects/Vntana/vntana-configs/branches -mindepth 1 -maxdepth 1 -type d & \
+  find ~/Projects/Vntana/model-ops-configs/branches -mindepth 1 -maxdepth 1 -type d & \
+  find ~/Projects/Vntana/model-ops-request-handler/branches -mindepth 1 -maxdepth 1 -type d & \
+  find ~/Projects/Vntana/model-ops-request-listener/branches -mindepth 1 -maxdepth 1 -type d & \
+  find ~/Projects/Vntana/model-ops-server/branches -mindepth 1 -maxdepth 1 -type d & \
+  find ~/Projects/Vntana/model-ops-thumbnail-generator/branches -mindepth 1 -maxdepth 1 -type d & \
+  find ~/Projects/Vntana/model_thumbnail_recorder/branches -mindepth 1 -maxdepth 1 -type d & \
   find ~/Projects -mindepth 1 -maxdepth 2 -type d; \
 } | sort -u | fzf
