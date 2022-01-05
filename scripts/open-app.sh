@@ -7,6 +7,7 @@ program=$({
   echo /Scripts/Ansible & \
   echo /Scripts/Kubectl\ Context & \
   echo /Scripts/Google\ Configuration & \
+  echo /Scripts/Files & \
 } | fzf --layout=reverse --border)
 
 case $program in
@@ -16,6 +17,10 @@ case $program in
     ;;
   "/Scripts/Google Configuration")
     google-credentials.sh
+    exit
+    ;;
+  "/Scripts/Files")
+    files.sh
     exit
     ;;
   "/Scripts/Ansible")
