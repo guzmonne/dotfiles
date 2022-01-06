@@ -3,6 +3,7 @@
 " Hint: Make sure you use single quotes.
 call plug#begin('~/.config/nvim/plugged')
 
+Plug 'tpope/vim-vinegar'
 Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
 Plug 'leoluz/nvim-dap-go'
 Plug 'rcarriga/nvim-dap-ui'
@@ -86,15 +87,8 @@ let g:fzf_colors =
   \ 'spinner':    ['fg', 'Label'],
   \ 'header':     ['fg', 'Comment'] }
 
-" Configure vim-go
-" let g:go_debug_windows =
-" \ {
-"   \ 'vars': 'leftabove 60vnew',
-"   \ 'stack': 'leftabove 10new',
-" \ }
-let g:go_debug_breakpoint_sign_text = '🔴'
-hi GoDebugBreakpoint term=standout ctermbg=NONE ctermfg=0 guibg=NONE
-
 " Configure vim-hexokinase
 let g:Hexokinase_highlighters = ['virtual']
 
+" Configure vim-vinegar
+let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'

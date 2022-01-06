@@ -6,12 +6,12 @@ local on_attach = function(client, bufnr)
     local function buf_set_keymap(...)
         vim.api.nvim_buf_set_keymap(bufnr, ...)
     end
-    local function buf_set_option(...)
-        vim.api.nvim_buf_set_option(bufnr, ...)
-    end
+    -- local function buf_set_option(...)
+    --     vim.api.nvim_buf_set_option(bufnr, ...)
+    -- end
 
     -- Enable completion triggered by <c-x><c-o>
-    buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+    -- buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
     -- Mappings.
     local opts = {noremap = true, silent = true}
@@ -202,7 +202,7 @@ nvim_lsp.pyright.setup {cmd = {"pyright-langserver", "--stdio"}, capabilities = 
 nvim_lsp.solang.setup {}
 
 -- EFM Lang server --
-require"lspconfig".efm.setup {
+nvim_lsp.efm.setup {
     init_options = {documentFormatting = true},
     filetypes = {"lua"},
     settings = {
@@ -219,4 +219,4 @@ require"lspconfig".efm.setup {
 }
 
 -- Terraform --
-require"lspconfig".terraformls.setup {cmd = {"terraform-ls", "serve"}}
+nvim_lsp.terraformls.setup {cmd = {"terraform-ls", "serve"}}
