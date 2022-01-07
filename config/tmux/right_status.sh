@@ -10,7 +10,7 @@ blue_bg="\e[0;104m${expand_bg}"
 reset="\e[0m"
 
 function tmux_session() {
-  echo -n $(tmux list-sessions | grep attached | awk '{print $1}' | tr -d ":" | xargs -n1 basename)
+  echo -n $(tmux list-sessions | grep attached | awk '{print $1}' | tr -d ":")
 }
 
 function main() {
