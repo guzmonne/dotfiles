@@ -7,6 +7,7 @@
   find ~ -mindepth 1 -maxdepth 1 -type d & \
   find ~/Projects/Coral/monorepo/branches -mindepth 1 -maxdepth 1 -type d & \
   find ~/Projects/Coral/slides/branches -mindepth 1 -maxdepth 1 -type d & \
+  find ~/Projects/Coral/dwolla-sandbox/branches -mindepth 1 -maxdepth 1 -type d & \
   find ~/Projects/Vntana/vntana-configs/branches -mindepth 1 -maxdepth 1 -type d & \
   find ~/Projects/Vntana/model-ops-configs/branches -mindepth 1 -maxdepth 1 -type d & \
   find ~/Projects/Vntana/model-ops-request-handler/branches -mindepth 1 -maxdepth 1 -type d & \
