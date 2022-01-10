@@ -5,6 +5,10 @@
   vars_files:
     - '{{ root }}/requirements.yml'
   tasks:
+    - name: Brew cask
+      community.general.homebrew_cask:
+        name: '{{ item }}'
+      loop: '{{ cask }}'
     - name: Brew tap
       community.general.homebrew_tap:
         name: '{{ item }}'

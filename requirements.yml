@@ -11,10 +11,11 @@ npm:
 - typescript-language-server
 - vim-language-server
 - '@rafaelrinaldi/hn-cli'
+cask:
+- ngrok
 tap:
 - jandedobbeleer/oh-my-posh
 brew:
-- ngrok
 - terraform
 - k9s
 - ranger
