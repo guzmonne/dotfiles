@@ -14,6 +14,8 @@ npm:
 tap:
 - jandedobbeleer/oh-my-posh
 brew:
+- ngrok
+- terraform
 - k9s
 - ranger
 - pwgen

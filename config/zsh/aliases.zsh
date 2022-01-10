@@ -30,3 +30,4 @@ alias rm='rm -i'
 # Configure Kubernetes aliases
 alias k="kubectl"
 compdef __start_kubectl k
+alias kubeclr='sed -i "" -e "s/^current-context:.*$/current-context:/" ~/.kube/config'
