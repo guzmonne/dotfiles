@@ -6,8 +6,6 @@ setopt appendhistory
 # Useful zsh options. See man zshoptions
 setopt autocd extendedglob nomatch menucomplete
 setopt interactive_comments
-# Autocorrect commands.
-setopt correct_all
 # Automatically list choices on ambiguous completion.
 setopt auto_list
 # Automatically use menu completion.
@@ -80,3 +78,5 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
 # Switch group using `,` and `.`
 zstyle ':fzf-tab:*' switch-group ',' '.'
 
+
+alias luamake=/Users/gmonne/Projects/Personal/repos/sumneko/lua-language-server/3rd/luamake/luamake

@@ -28,7 +28,7 @@ case $program in
     exit
     ;;
   *)
-    open $program
+    open "$program"
     exit
     ;;
 esac

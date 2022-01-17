@@ -16,9 +16,6 @@ alias ctags="`brew --prefix`/bin/ctags"
 # Configure tldr to fork in osx.
 alias tldr="tldr -p=osx"
 
-# Configure node to point to the lts version handled by `n`.
-alias node=$(n which lts || which node)
-
 # Colorize grep output
 alias grep='grep --color=auto'
 

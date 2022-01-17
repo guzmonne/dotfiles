@@ -1,8 +1,12 @@
 ---
+pipx:
+- yg
+- httpie
 luarocks:
 - luaformatter
 npm:
-- nvim
+- ts-node
+- neovim
 - bash-language-server
 - vscode-langservers-extracted
 - dockerfile-language-server-nodejs
@@ -13,9 +17,11 @@ npm:
 - '@rafaelrinaldi/hn-cli'
 cask:
 - ngrok
+- alacritty
 tap:
 - jandedobbeleer/oh-my-posh
 brew:
+- postgresql
 - terraform
 - k9s
 - ranger
