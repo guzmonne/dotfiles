@@ -77,7 +77,6 @@ let g:vim_markdown_fenced_languages = ['go', 'html', 'python', 'console=sh', 'ba
 augroup GUX
   autocmd!
   autocmd BufWritePre * :call TrimWhitespace()
-  autocmd BufWritePre *.ts,*.js,*.jsx,*.tsx EslintFixAll
   autocmd BufWritePre *.ts,*.js,*.jsx,*.tsx Prettier
   " Run auto-format on go files.
   autocmd BufWritePre *.go lua vim.lsp.buf.formatting()
