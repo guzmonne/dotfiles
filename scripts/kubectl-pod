@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# Runs the list of all the available pods through `fzf` and then gets
+# the contents of the selected pods.
+pods=$(
+  kubectl get pods --all-namespaces | \
+    tail -n +2 | \
+    fzf -m | \
+    awk '{ print $1"|"$2 }'
+)
+
+for pod in $pods; do
+  echo $pod | tr '|' ' ' | xargs -n2 bash -c "kubectl -n \$0 get pod \$1 $@"
+  echo '---'
+done

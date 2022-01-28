@@ -21,6 +21,8 @@ cask:
 tap:
 - jandedobbeleer/oh-my-posh
 brew:
+- yamllint
+- deno
 - postgresql
 - terraform
 - k9s

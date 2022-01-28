@@ -1,7 +1,11 @@
-# ---
-# Script to create a horizontal line.
-# Source: https://github.com/LuRsT/hr/blob/master/hr
-#
+#!/usr/bin/env bash
+
+# Script to create a horizontal line this size of the window.
+# You can select which symbol to use for the line at runtime
+# @example
+# ```sh
+# hr.sh '─'
+# ```
 COLS="$(tput cols)"
 if (( COLS <= 0 )) ; then
     COLS="${COLUMNS:-80}"
@@ -28,6 +32,5 @@ hrs() {
     hr "$WORD"
   done
 }
-# ---
 
 hrs "$@"

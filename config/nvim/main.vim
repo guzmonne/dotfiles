@@ -39,7 +39,7 @@ set re=0                                " Stop old regex engine to avoid perform
 set relativenumber                      " Set relative numbers
 set ruler                               " Enable line and column display
 set scrolloff=8                         " Make vim start scrolling 8 lines from the end
-set shortmess=a                         " Don't pass messages to |ins-completion-menu|
+set shortmess=F                         " Don't pass messages to |ins-completion-menu|
 set showmatch                           " Show matching
 set signcolumn=yes
 set smartindent
@@ -77,6 +77,7 @@ let g:vim_markdown_fenced_languages = ['go', 'html', 'python', 'console=sh', 'ba
 augroup GUX
   autocmd!
   autocmd BufWritePre * :call TrimWhitespace()
+  autocmd BufWritePre *.ts,*.js,*.jsx,*.tsx EslintFixAll
   autocmd BufWritePre *.ts,*.js,*.jsx,*.tsx Prettier
   " Run auto-format on go files.
   autocmd BufWritePre *.go lua vim.lsp.buf.formatting()

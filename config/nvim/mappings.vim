@@ -38,10 +38,6 @@ nnoremap <silent> <leader>cx :!chmod +x %<CR>
 " Shortcut to source NVIM configuration
 nnoremap <leader>sc :source ~/.config/nvim/init.vim<CR>
 
-" Use ;; for escape
-inoremap jk <Esc>
-inoremap kj <Esc>
-
 " Go to the next buffer
 nnoremap <silent> <TAB> :bn<CR>
 nnoremap <silent> <S-TAB> :bp<CR>
@@ -181,3 +177,6 @@ nnoremap <silent> <leader>mh :TSBufToggle highlight<CR>
 
 " Open the Symbols Outline panel
 nnoremap <silent> <leader>o :SymbolsOutline<CR>
+
+" Toggle statusline and ruler
+nnoremap <silent> <leader>h :call ToggleHiddenAll()<CR>

@@ -18,5 +18,6 @@
   find ~/Projects/Vntana/model-ops-thumbnail-generator/branches -mindepth 1 -maxdepth 1 -type d & \
   find ~/Projects/Vntana/model_thumbnail_recorder/branches -mindepth 1 -maxdepth 1 -type d & \
   find ~/Projects/Vntana/model-ops-jenkins-library/branches -mindepth 1 -maxdepth 1 -type d & \
+  find ~/Projects/Vntana/vntana-model-viewer-wrapper/branches -mindepth 1 -maxdepth 1 -type d & \
   find ~/Projects -mindepth 1 -maxdepth 2 -type d; \
 } | sort -u | fzf

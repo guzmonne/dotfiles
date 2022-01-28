@@ -1,3 +1,29 @@
+" Toggle the statusline
+let s:hidden_all = 0
+function! ToggleHiddenAll()
+  if s:hidden_all  == 0
+    let s:hidden_all = 1
+    set noshowmode
+    set noruler
+    set laststatus=0
+    set noshowcmd
+    set nocursorline
+    set nonumber
+    set norelativenumber
+  else
+    let s:hidden_all = 0
+    set showmode
+    set ruler
+    set laststatus=2
+    set showcmd
+    set cursorline
+    set number
+    set relativenumber
+  endif
+  Gitsigns toggle_signs
+
+endfunction
+
 " Escape special characters in a string for exact matching.
 " This is useful to copying strings from the file to the search tool
 " Based on this - http://peterodding.com/code/vim/profile/autoload/xolox/escape.vim
