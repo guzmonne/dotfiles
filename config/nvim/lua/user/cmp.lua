@@ -23,7 +23,6 @@ end
 
 cmp.setup {
     snippet = {
-        -- REQUIRED: You must specify a snippet engine.
         expand = function(args)
             vim.fn["vsnip#anonymous"](args.body)
         end

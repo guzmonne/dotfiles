@@ -21,6 +21,7 @@ cask:
 tap:
 - jandedobbeleer/oh-my-posh
 brew:
+- ffmpeg
 - yamllint
 - deno
 - postgresql

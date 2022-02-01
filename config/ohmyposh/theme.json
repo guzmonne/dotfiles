@@ -57,6 +57,16 @@
       "alignment": "left",
       "segments": [
         {
+          "type": "node",
+          "style": "powerline",
+          "powerline_symbol": "\uE0B0",
+          "foreground": "#ffffff",
+          "background": "#6CA35E",
+          "properties": {
+            "prefix": " \uE718 "
+          }
+        },
+        {
           "type": "executiontime",
           "style": "plain",
           "foreground": "#9ece6a",

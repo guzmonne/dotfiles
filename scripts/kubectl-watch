@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+clear;
+
+while true; do
+  kubectl "$@"
+  sleep 2
+  tput cup 0 0
+done
+
