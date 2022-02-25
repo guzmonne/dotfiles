@@ -71,10 +71,10 @@ nnoremap <silent> <leader>2 :lua require("harpoon.ui").nav_file(2)<CR>
 nnoremap <silent> <leader>3 :lua require("harpoon.ui").nav_file(3)<CR>
 nnoremap <silent> <leader>4 :lua require("harpoon.ui").nav_file(4)<CR>
 nnoremap <silent> <leader>, :lua require("harpoon.ui").toggle_quick_menu()<CR>
-nnoremap <silent> <leader>t1 :lua require("harpoon.term").gotoTerminal(1)<CR>
-nnoremap <silent> <leader>t2 :lua require("harpoon.term").gotoTerminal(2)<CR>
-nnoremap <silent> <leader>t3 :lua require("harpoon.term").gotoTerminal(3)<CR>
-nnoremap <silent> <leader>t4 :lua require("harpoon.term").gotoTerminal(4)<CR>
+nnoremap <silent> t1 :lua require("harpoon.term").gotoTerminal(1)<CR>
+nnoremap <silent> t2 :lua require("harpoon.term").gotoTerminal(2)<CR>
+nnoremap <silent> t3 :lua require("harpoon.term").gotoTerminal(3)<CR>
+nnoremap <silent> t4 :lua require("harpoon.term").gotoTerminal(4)<CR>
 
 " Replace all the occurances of what you have visually selected.
 vnoremap <C-r> <Esc>:%s/<c-r>=GetVisual()<cr>//g<left><left>
@@ -120,8 +120,12 @@ noremap <down> <nop>
 noremap <left> <nop>
 
 " Move C-u to C-j
-nnoremap <C-j> <C-d>zz
-nnoremap <C-k> <C-u>zz
+" nnoremap <C-j> <C-d>zz
+nnoremap <C-j> <cmd>lua require'neoscroll'.scroll(12, true, 150)<CR>
+nnoremap <C-k> <cmd>lua require'neoscroll'.scroll(-12, true, 150)<CR>
+vnoremap <C-j> <cmd>lua require'neoscroll'.scroll(12, true, 150)<CR>
+vnoremap <C-k> <cmd>lua require'neoscroll'.scroll(-12, true, 150)<CR>
+" nnoremap <C-k> <C-u>zz
 
 " Configure Telescope
 nnoremap <silent> <leader>ff <cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})<CR>
