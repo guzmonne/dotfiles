@@ -49,6 +49,7 @@ source "$HOME/.config/zsh/completions.zsh"
 
 # Plugins
 # More plugins at: https://github.com/unixorn/awesome-zsh-plugins
+zsh_add_plugin "lukechilds/zsh-nvm"
 zsh_add_plugin "Aloxaf/fzf-tab"
 zsh_add_plugin "zsh-users/zsh-autosuggestions"
 zsh_add_plugin "zsh-users/zsh-completions"

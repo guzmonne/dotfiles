@@ -10,7 +10,7 @@ hr.sh '─'
 
 kubectl config use-context $config
 
-dotenv -f ~/.config/ohmyposh/.env set OHMYPOSH_KUBERNETES_CONTEXT=" $config"
+dotenv -f ~/.config/ohmyposh/.env set OHMYPOSH_KUBERNETES_CONTEXT=" $(echo $config | sed -e 's/[^_]*_[^_]*_[^_]*_//')"
 
 printf "\nUsing $config context\n"
 

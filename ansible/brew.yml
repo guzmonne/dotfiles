@@ -13,13 +13,13 @@
       community.general.homebrew_tap:
         name: '{{ item }}'
       loop: '{{ tap }}'
+    - name: Brew install nvim
+      community.general.homebrew:
+        name: nvim
+        state: head
     - name: Brew install
       community.general.homebrew:
         name: '{{ item }}'
         state: latest
       loop: '{{ brew }}'
-    - name: Brew install nvim
-      community.general.homebrew:
-        name: nvim
-        state: head
 

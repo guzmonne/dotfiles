@@ -3,6 +3,8 @@
 " Hint: Make sure you use single quotes.
 call plug#begin('~/.config/nvim/plugged')
 
+Plug 'NoahTheDuke/vim-just'
+Plug 'IndianBoy42/tree-sitter-just'
 Plug 'tpope/vim-vinegar'
 Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
 Plug 'leoluz/nvim-dap-go'
@@ -20,12 +22,11 @@ Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/cmp-emoji'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-nvim-lua'
-Plug 'htsh7th/cmp-vsnip'
+Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
-Plug 'karb94/neoscroll.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'lukas-reineke/indent-blankline.nvim'

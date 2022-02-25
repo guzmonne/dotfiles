@@ -66,5 +66,8 @@ export EDITOR=nvim
 export PATH=$PATH:"$HOME/go/bin"
 export GO111MODULE='on'
 
+# Enable nvm autocompletions
+export NVM_COMPLETION=true
+
 # Reset the ohmyposh .env file
 rm -Rf ~/.config/ohmyposh/.env

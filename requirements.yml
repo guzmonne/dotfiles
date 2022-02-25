@@ -5,6 +5,9 @@ pipx:
 luarocks:
 - luaformatter
 npm:
+- jest
+- ts-jest
+- zx
 - ts-node
 - neovim
 - bash-language-server
@@ -21,6 +24,7 @@ cask:
 tap:
 - jandedobbeleer/oh-my-posh
 brew:
+- mongocli
 - ffmpeg
 - yamllint
 - deno
@@ -66,7 +70,7 @@ repos:
 - bashup/dotenv
 - microsoft/vscode-node-debug2
 - microsoft/vscode-chrome-debug
-sgmlinks:
+symlinks:
 - src: elasticdog/transcrypt/transcrypt
   dest: ~/.local/bin/transcrypt
 - src: ansible/ansible-language-server/bin/ansible-language-server

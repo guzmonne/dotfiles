@@ -5,6 +5,6 @@ clear;
 while true; do
   "$@"
   sleep 2
-  tput cup 0 0
+  clear
 done
 

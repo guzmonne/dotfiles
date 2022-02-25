@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+kubectl get pods "$@" -o jsonpath="{.items[*].spec.containers[*].image}" | \
+  tr -s '[[:space:]]' '\n' |\
+  sort |\
+  uniq -c

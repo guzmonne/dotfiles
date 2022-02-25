@@ -14,3 +14,4 @@ function zsh_add_plugin() {
 		source "$HOME/.config/repos/$ORG/$PLUGIN/$PLUGIN.zsh-theme"
  	fi
 }
+

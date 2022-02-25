@@ -15,6 +15,12 @@ colors:
 
 core:
   regular_file: {}
+  file_with_capability: {}
+  door: {}
+  setuid: {}
+  multi_hard_link: {}
+  reset_to_normal: {}
+  setgid: {}
 
   directory:
     foreground: blue
