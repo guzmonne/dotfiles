@@ -2,6 +2,7 @@
 pipx:
 - yg
 - httpie
+- pgcli
 luarocks:
 - luaformatter
 npm:

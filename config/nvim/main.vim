@@ -26,6 +26,7 @@ set nobackup                            " Don't backup files
 set nocompatible                        " Disable compatibility to old-time vi
 set noerrorbells                        " Disable error bells sounds
 set nofoldenable                        " Deactivate fold use command.
+set belloff=all                         " Disable all system bells
 set nohlsearch                          " Hide the search highlight after present enter
 set noignorecase                        " Case sensitive searches
 set noshowmode                          " Remove --INSERT-- and similar text from the message line.
@@ -76,9 +77,9 @@ let g:vim_markdown_fenced_languages = ['go', 'html', 'python', 'console=sh', 'ba
 
 augroup GUX
   autocmd!
-  " autocmd BufWritePre * :call TrimWhitespace()
-  " autocmd BufWritePre *.ts,*.js,*.jsx,*.tsx EslintFixAll
-  " autocmd BufWritePre *.ts,*.js,*.jsx,*.tsx Prettier
+  autocmd BufWritePre * :call TrimWhitespace()
+  autocmd BufWritePre *.ts,*.js,*.jsx,*.tsx EslintFixAll
+  autocmd BufWritePre *.ts,*.js,*.jsx,*.tsx Prettier
   " Run auto-format on go files.
   autocmd BufWritePre *.go lua vim.lsp.buf.formatting()
   " Remove line numbers in terminal mode.
