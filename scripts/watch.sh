@@ -3,8 +3,9 @@
 clear;
 
 while true; do
-  "$@"
-  sleep 2
+  screen=$("$@")
   clear
+  printf "$screen"
+  sleep 2
 done
 

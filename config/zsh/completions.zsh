@@ -2,5 +2,5 @@
 # More completitions at: https://github.com/zsh-users/zsh-completions
 # Configure completions for pipx
 eval "$(register-python-argcomplete pipx)"
-source <(kubectl completion zsh)
+[[ /Users/gmonne/.local/google-cloud-sdk/bin/kubectl ]] && source <(kubectl completion zsh)
 
