@@ -7,3 +7,4 @@ tmp/*
 .zcompdump
 .zsh_history
 .env
+.DS_Store
