@@ -1,4 +1,6 @@
 ---
+cargo:
+- argc
 pipx:
 - yg
 - httpie

@@ -1,7 +1,7 @@
-# [C-x][C-e] - Edit the current command line in $EDITOR
+# [C-x] - Edit the current command line in $EDITOR
 autoload -U edit-command-line
 zle -N edit-command-line
-bindkey '\C-x\C-e' edit-command-line
+bindkey '\C-x' edit-command-line
 
 # [C-space] - Accept current suggestion
 bindkey '^ ' autosuggest-accept
@@ -16,10 +16,12 @@ bindkey '\C-j' history-search-forward
 bindkey -s '^p' ' tmux-sessions.sh^M clear^M'
 # [C-n] Open a new tmux session.
 bindkey -s '^n' ' tmux-sessionizer.sh^M clear^M'
+# [C-q] Creates a new quick note
+bindkey -s '^[OP' ' quicknote.sh^M clear^M'
 # [A-w] Start writing a new note in Notion.
 bindkey -s '∑' ' tmux-notion.sh^M clear^M'
 # [F1] - Select a service to read on dashdash.
-bindkey -s '^[OP' ' dashdash.sh^M clear^M'
+bindkey -s '^[OR' ' dashdash.sh^M clear^M'
 
 # [C-b] - Move backwards one word.
 bindkey '\C-b' backward-word

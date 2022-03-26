@@ -1,15 +1,32 @@
 #!/usr/bin/env bash
 
-# Runs the list of all the available pods through `fzf` and then gets
-# the contents of the selected pods.
-pods=$(
+# @describe Helpers commands to deal with pods
+# @version 1.0.0
+# @author Guzmán Monné
+
+# @cmd Runs the list of all the available pods through `fzf` and then gets the contents of all the selected pods.
+all() {
+  pods=$(
   kubectl get pods --all-namespaces | \
     tail -n +2 | \
     fzf -m | \
     awk '{ print $1"|"$2 }'
-)
+  )
 
-for pod in $pods; do
-  echo $pod | tr '|' ' ' | xargs -n2 bash -c "kubectl -n \$0 get pod \$1 $@"
-  echo '---'
-done
+  for pod in $pods; do
+    echo $pod | tr '|' ' ' | xargs -n2 bash -c "kubectl -n \$0 get pod \$1 $@"
+    echo '---'
+  done
+}
+
+# @cmd Gets the status of a pod
+# @option -n --namespace Namespace from which to get the pods.
+# @arg name Name of the pod
+get() {
+  if [ -z "$argc_namespace" ]; then
+    argc_namespace=$(kubectl config current-context | cut -c 23- | tr -s '_' ' ' | awk '{print $1}')
+  fi
+  kubectl -n $argc_namespace get pods -l "app.kubernetes.io/name=$argc_name"
+}
+
+eval $(argc $0 "$@")

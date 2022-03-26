@@ -1,0 +1,13 @@
+---
+- name: Install all `cargo` dependencies.
+  hosts: localhost
+  connection: local
+  vars_files:
+    - '{{ root }}/requirements.yml'
+  tasks:
+    - name: Cargo Install
+      shell: 'cargo install {{ item }}'
+      environment:
+        CARGO_NET_GIT_FETCH_WITH_CLI: 'true'
+      loop: '{{ cargo }}'
+

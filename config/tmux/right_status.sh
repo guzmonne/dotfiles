@@ -10,7 +10,7 @@ blue_bg="\e[0;104m${expand_bg}"
 reset="\e[0m"
 
 function tmux_session() {
-  echo -n $(tmux list-sessions | grep attached | awk '{print $1}' | tr -d ":")
+  tmux display-message -p '#S' | sed 's#~/Projects/##' | sed 's#/branches/#  #'
 }
 
 function main() {

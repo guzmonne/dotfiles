@@ -28,3 +28,6 @@ alias rm='rm -i'
 alias k="kubectl"
 compdef __start_kubectl k
 alias kubeclr='sed -i "" -e "s/^current-context:.*$/current-context:/" ~/.kube/config'
+
+# Kitty alias
+alias kitty="/Applications/kitty.app/Contents/MacOS/kitty"
