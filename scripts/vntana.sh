@@ -30,11 +30,19 @@ thumbnail() {
 
   echo $(green Saving reference to current gcloud account)
   current_account=$(gcloud config configurations list | grep True | awk '{print $1}')
+  echo $current_account
 
   echo $( green Connecting to the correct google cloud account)
-  gcloud config configurations activate vntana-platform-2-$argc_environment
+  gcloud config configurations activate vntana-platform-2-$argc_environment | grep $argc_environment
 
-  echo $(green Getting PostgreSQL credentials)
+  echo $(green Saving reference to current cluster)
+  current_cluster=$(kubectl config get-contexts | grep -E "^\*" | awk '{print $2}')
+  echo $current_cluster
+
+  echo $(green Connecting to the) $(yellow $argc_environment) $(green Kubernetes Cluster)
+  kubectl config use-context $(kubectl config get-contexts | grep vntana-platform-2-$argc_environment | awk '{print $2}') | grep $argc_environment
+
+  echo $(green Getting PostgreSQL credentials for the) $(yellow $argc_environment) $(green cluster)
   if [ "$argc_environment" == "production" ]; then
     secret="postgres-secret"
     export PGUSER=vntana
@@ -47,12 +55,6 @@ thumbnail() {
   export PGPORT=5432
   export PGDATABASE=vntana
   env | grep PG
-
-  echo $(green Saving reference to current cluster)
-  current_cluster=$(kubectl config get-contexts | grep -E "^\*" | awk '{print $2}')
-
-  echo $(green Connecting to the) $(yellow $argc_environment) $(green Kubernetes Cluster)
-  kubectl config set-context $(kubectl config get-contexts | grep vntana-platform-2-$argc_environment | awk '{print $2}')
 
   echo $(green Getting the Organization UUID from the slug)
   if [ "$argc_environment" == "production" ]; then
@@ -73,7 +75,7 @@ thumbnail() {
   if [ -z "$current_cluster" ]; then
     kubeclr
   else
-    kubectl config set-context $current_cluster
+    kubectl config use-context $current_cluster
   fi
 
   echo $(green Restablishing previous account connection)
@@ -90,11 +92,18 @@ thumbnail() {
 # @option -p --path=/Users/gmonne/Projects/Vntana/vntana-configs/branches/master/gke-configs/vntana-platform-2 VNTANA service definition path.
 # @arg    service! Name of the service to upgrade.
 upgrade() {
+  echo $(green Checking if) $(yellow vntana-configs) $(green repository is clean)
+  cd ~/Projects/Vntana/vntana-configs/branches/master
+  if ! git diff --exit-code --quiet origin/master ; then
+    echo $(red You need to commit all changes or download the latest changes of the ) $(yellow vntana-configs) $(red repository before continuing)
+    exit 1
+  fi
+
   echo $(green Saving reference to current cluster)
   current_cluster=$(kubectl config get-contexts | grep -E "^\*" | awk '{print $2}')
 
   echo $(green Connecting to the) $(yellow $argc_environment) $(green Kubernetes Cluster)
-  kubectl config set-context $(kubectl config get-contexts | grep vntana-platform-2-$argc_environment | awk '{print $2}')
+  kubectl config use-context $(kubectl config get-contexts | grep vntana-platform-2-$argc_environment | awk '{print $2}')
 
   echo $(green Upgrading service) $(yellow $argc_service) $(green on the) $(yellow $argc_environment) $(green environment)
   helm -n $argc_environment upgrade $argc_service -f "$argc_path/$argc_service/values-$argc_environment.yaml" "$argc_path/$argc_service"
@@ -103,7 +112,7 @@ upgrade() {
   if [ -z "$current_cluster" ]; then
     kubeclr
   else
-    kubectl config set-context $current_cluster
+    kubectl config use-context $current_cluster
   fi
 
   echo $(green Done)
@@ -119,7 +128,7 @@ execute() {
   current_cluster=$(kubectl config get-contexts | grep -E "^\*" | awk '{print $2}')
 
   echo $(green Connecting to the) $(yellow $argc_environment) $(green Kubernetes Cluster)
-  kubectl config set-context $(kubectl config get-contexts | grep vntana-platform-2-$argc_environment | awk '{print $2}')
+  kubectl config use-context $(kubectl config get-contexts | grep vntana-platform-2-$argc_environment | awk '{print $2}')
 
   echo $(green Executing into service) $(yellow $argc_service) $(green on the) $(yellow $argc_environment) $(green environment)
   if [[ -z "$argc_namespace" ]]; then
@@ -138,7 +147,7 @@ execute() {
   if [ -z "$current_cluster" ]; then
     kubeclr
   else
-    kubectl config set-context $current_cluster
+    kubectl config use-context $current_cluster
   fi
 
   echo $(green Done)
@@ -150,6 +159,13 @@ execute() {
 # @option -p --path=/Users/gmonne/Projects/VNTANA/model-ops-configs ModelOps configs project path.
 # @arg    tag! Tag of the image to update.
 release() {
+  echo $(green Checking if) $(yellow model-ops-configs) $(green repository is clean)
+  cd ~/Projects/Vntana/model-ops-configs/branches/master
+  if ! git diff --exit-code --quiet origin/master ; then
+    echo $(red You need to commit all changes or pull the latest changes of the ) $(yellow model-ops-configs) $(red repository before continuing)
+    exit 1
+  fi
+
   echo $(green Saving reference to current gcloud account)
   current_account=$(gcloud config configurations list | grep True | awk '{print $1}')
 
@@ -168,11 +184,15 @@ release() {
   mv -f $tmp $config
   cat $config
 
+  echo $(green Commit changes to the) $(yellow $argc_environment) $(green configuration file)
+  git add .
+  git commit -m "feat($argc_environment): update request-handler version"
+
   echo $(green Saving reference to current cluster)
   current_cluster=$(kubectl config get-contexts | grep -E "^\*" | awk '{print $2}')
 
   echo $(green Connecting to the) $(yellow $argc_environment) $(green Kubernetes Cluster)
-  kubectl config set-context $(kubectl config get-contexts | grep vntana-platform-2-$argc_environment | awk '{print $2}')
+  kubectl config use-context $(kubectl config get-contexts | grep vntana-platform-2-$argc_environment | awk '{print $2}')
 
   echo $(green Deploying the new) $(yellow model-ops-request-handler) $(green version)
   kubectl apply -f ${config} -n model-ops
@@ -182,7 +202,7 @@ release() {
   if [ -z "$current_cluster" ]; then
     kubeclr
   else
-    kubectl config set-context $current_cluster
+    kubectl config use-context $current_cluster
   fi
 
   echo $(green Restablishing previous account connection)
