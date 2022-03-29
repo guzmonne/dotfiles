@@ -28,7 +28,7 @@ cmp.setup {
         end
     },
     documentation = {border = {"╭", "─", "╮", "│", "╯", "─", "╰", "│"}},
-    completion = {keyword_length = 2, autocomplete = false},
+    completion = {keyword_length = 4, autocomplete = false},
     mapping = {
         ['<C-p>'] = cmp.mapping.select_prev_item(),
         ['<C-n>'] = cmp.mapping.select_next_item(),
@@ -103,3 +103,23 @@ vim.cmd([[
   inoremap <C-x><C-s> <cmd>lua vimrc.cmp.snippet()<CR>
 ]])
 
+--  see https://github.com/hrsh7th/nvim-cmp/wiki/Menu-Appearance#how-to-add-visual-studio-code-dark-theme-colors-to-the-menu
+vim.cmd[[
+  highlight! link CmpItemMenu Comment
+  " gray
+  highlight! CmpItemAbbrDeprecated guibg=NONE gui=strikethrough guifg=#a9b1d6
+  " blue
+  highlight! CmpItemAbbrMatch guibg=NONE guifg=#7aa2f7
+  highlight! CmpItemAbbrMatchFuzzy guibg=NONE guifg=#2ac3de
+  " light blue
+  highlight! CmpItemKindVariable guibg=NONE guifg=#7dcfff
+  highlight! CmpItemKindInterface guibg=NONE guifg=#7dcfff
+  highlight! CmpItemKindText guibg=NONE guifg=#7dcfff
+  " pink
+  highlight! CmpItemKindFunction guibg=NONE guifg=#bb9af7
+  highlight! CmpItemKindMethod guibg=NONE guifg=#bb9af7
+  " front
+  highlight! CmpItemKindKeyword guibg=NONE guifg=#e0af68
+  highlight! CmpItemKindProperty guibg=NONE guifg=#e0af68
+  highlight! CmpItemKindUnit guibg=NONE guifg=#e0af68
+]]
