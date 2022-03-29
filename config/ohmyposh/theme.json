@@ -13,13 +13,13 @@
           "type": "session"
         },
         {
+          "type": "command",
+          "style": "plain",
           "foreground": "#a9b1d6",
           "properties": {
-            "style": "full",
-            "template": "{{ .Path }} "
-          },
-          "style": "plain",
-          "type": "path"
+            "shell": "zsh",
+            "command": "pwd | sed \"s|$HOME|~|\" | sed 's|/branches/| $(print -P \"%F{255}פּ%f\") |'"
+          }
         }
       ],
       "type": "prompt"
@@ -28,34 +28,28 @@
       "alignment": "left",
       "segments": [
         {
-          "foreground": "#3b4261",
-          "properties": {
-            "branch_ahead_icon": "<#41a6b5>\u21e1 </>",
-            "branch_behind_icon": "<#41a6b5>\u21e3 </>",
-            "branch_icon": "",
-            "fetch_stash_count": true,
-            "fetch_status": true,
-            "fetch_upstream_icon": true,
-            "github_icon": "",
-            "template": "{{ .UpstreamIcon }}{{ .HEAD }}{{ .BranchStatus }}{{ if .Working.Changed }}<#ff007c>*</>{{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }} \uf046 {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }} \uf692 {{ .StashCount }}{{ end }} "
-          },
+          "type": "command",
           "style": "plain",
-          "type": "git"
-        }
-      ],
-      "type": "prompt"
-    },
-    {
-      "alignment": "left",
-      "segments": [
-        {
-          "background": "#6CA35E",
           "foreground": "#ffffff",
+          "properties": {
+            "shell": "zsh",
+            "command": "if [ -d './.git' ]; then git branch --no-color --show-current; else true; fi",
+            "template": " {{ .Output }}"
+          }
+        }
+      ],
+      "type": "prompt"
+    },
+    {
+      "alignment": "left",
+      "segments": [
+        {
+          "foreground": "#6CA35E",
           "powerline_symbol": "\ue0b0",
           "properties": {
             "template": " \ue718 {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }} "
           },
-          "style": "powerline",
+          "style": "plain",
           "type": "node"
         },
         {
@@ -74,14 +68,14 @@
       "alignment": "right",
       "segments": [
         {
+          "type": "command",
           "foreground": "#7dcfff",
-          "properties": {
-            "command": "dotenv -f ~/.config/ohmyposh/.env get OHMYPOSH_KUBERNETES_CONTEXT",
-            "shell": "bash",
-            "template": " {{ .Output }} "
-          },
           "style": "plain",
-          "type": "command"
+          "properties": {
+            "shell": "zsh",
+            "command": "if [ ! -z $(pwd | grep Vntana) ]; then dotenv -f ~/.config/ohmyposh/.env get OHMYPOSH_KUBERNETES_CONTEXT; fi",
+            "tenplate": "{{ .Output }}"
+          }
         }
       ],
       "type": "prompt"
@@ -92,9 +86,7 @@
       "segments": [
         {
           "foreground": "#9d7cd8",
-          "foreground_templates": [
-            "{{ if gt .Code 0 }}#ff007c{{ end }}"
-          ],
+          "foreground_templates": ["{{ if gt .Code 0 }}#ff007c{{ end }}"],
           "properties": {
             "always_enabled": true,
             "template": "\u276f "

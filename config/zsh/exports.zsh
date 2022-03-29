@@ -69,9 +69,6 @@ export GO111MODULE='on'
 # Enable nvm autocompletions
 export NVM_COMPLETION=true
 
-# Reset the ohmyposh .env file
-rm -Rf ~/.config/ohmyposh/.env
-
 ## Colours and font styles
 ## Syntax: echo -e "${FOREGROUND_COLOUR}${BACKGROUND_COLOUR}${STYLE}Hello world!${RESET_ALL}"
 
