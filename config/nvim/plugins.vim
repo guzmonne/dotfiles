@@ -3,14 +3,13 @@
 " Hint: Make sure you use single quotes.
 call plug#begin('~/.config/nvim/plugged')
 
+Plug 'nvim-neo-tree/neo-tree.nvim'
 Plug 'nvim-neorg/neorg'
-Plug 'tpope/vim-vinegar'
 Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
 Plug 'leoluz/nvim-dap-go'
 Plug 'rcarriga/nvim-dap-ui'
 Plug 'David-Kunz/cmp-npm'
 Plug 'MunifTanjim/nui.nvim'
-Plug 'RRethy/vim-illuminate'
 Plug 'ThePrimeagen/harpoon'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
@@ -31,7 +30,6 @@ Plug 'kyazdani42/nvim-web-devicons'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'martinda/Jenkinsfile-vim-syntax'
-Plug 'max397574/better-escape.nvim'
 Plug 'mfussenegger/nvim-dap'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/plenary.nvim'
@@ -90,9 +88,6 @@ let g:fzf_colors =
 
 " Configure vim-hexokinase
 let g:Hexokinase_highlighters = ['virtual']
-
-" Configure vim-vinegar
-let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
 
 " Configure vsnip
 let g:vsnip_snippets_dir = expand('~/.config/nvim/snippets')

@@ -2,9 +2,9 @@
 cargo:
 - argc
 pipx:
-- yg
 - httpie
 - pgcli
+- rich-cli
 luarocks:
 - luaformatter
 npm:
@@ -82,6 +82,7 @@ symlinks:
 - src: bashup/dotenv/dotenv
   dest: ~/.local/bin/dotenv
 go:
+- github.com/hidetatz/kubecolor/kubecolor@latest
 - github.com/rakyll/gotest@latest
 - mvdan.cc/sh/v3/cmd/shfmt@latest
 - github.com/go-delve/delve/cmd/dlv@latest

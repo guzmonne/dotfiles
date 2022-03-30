@@ -1,0 +1,11 @@
+---
+- name: Install all `pipx` dependencies.
+  hosts: localhost
+  connection: local
+  vars_files:
+    - '{{ root }}/requirements.yml'
+  tasks:
+    - name: Pipx Install
+      shell: 'pipx install {{ item }}'
+      loop: '{{ pipx }}'
+

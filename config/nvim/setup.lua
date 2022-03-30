@@ -1,7 +1,7 @@
+require('user.neo-tree')
 require('user.nvim-dap-ui')
 require('user.nvim-dap-go')
 require('user.nvim-dap')
-require('user.better-escape')
 require('user.backpack')
 require('user.neoscroll')
 require('user.cmp')

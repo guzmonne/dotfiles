@@ -27,7 +27,10 @@ alias rm='rm -i'
 # Configure Kubernetes aliases
 alias k="kubectl"
 compdef __start_kubectl k
-alias kubeclr='sed -i "" -e "s/^current-context:.*$/current-context:/" ~/.kube/config'
+alias kubeclr='sed -i "" -e "s/^current-context:.*$/current-context:/" ~/.kube/config && dotenv -f ~/.config/ohmyposh/.env set OHMYPOSH_KUBERNETES_CONTEXT'
 
 # Kitty alias
 alias kitty="/Applications/kitty.app/Contents/MacOS/kitty"
+
+# Alias rich to always use thr same template
+alias rich="rich --theme=inkpot"

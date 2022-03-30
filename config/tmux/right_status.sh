@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-# function main() {
-#   echo -n "🗓  $(date)"
-# }
-
 blue="\e[0;94m"
 expand_bg="\e[K"
 blue_bg="\e[0;104m${expand_bg}"
@@ -14,7 +10,7 @@ function tmux_session() {
 }
 
 function main() {
-  echo -e "#[fg=colour214]#[bg=colour214,fg=black] $(tmux_session) 🔷"
+  echo -e "#[fg=colour214]#[bg=colour214,fg=black] $(tmux_session) 🔸🔷🔸"
 }
 
 main

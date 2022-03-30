@@ -186,3 +186,7 @@ nnoremap <silent> <leader>h :call ToggleHiddenAll()<CR>
 
 " Go to previous buffer
 nnoremap <silent> <leader><leader> <C-^>
+
+" Open Neo-Tree
+nnoremap <silent> - :Neotree position=current dir=%:p:h reveal_file=%:p<CR>
+nnoremap <silent> _ :Neotree source=buffers<CR>

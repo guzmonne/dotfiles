@@ -60,9 +60,6 @@ local on_attach = function(client, bufnr)
           augroup END
       ]])
     end
-
-    -- Set up illuminate --
-    require'illuminate'.on_attach(client)
 end
 
 -- Attempt to fix slow rendering of typescript highlights when using tree-sitter.
