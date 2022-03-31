@@ -5,9 +5,9 @@ local M = {}
 function M.show_line_diagnostics()
     local opts = {
         focusable = false,
-        close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+        close_events = {"BufLeave", "CursorMoved", "InsertEnter", "FocusLost"},
         border = 'rounded',
-        source = 'always',  -- show source in diagnostic popup window
+        source = 'always', -- show source in diagnostic popup window
         prefix = ' '
     }
     vim.diagnostic.open_float(nil, opts)
@@ -40,16 +40,16 @@ local on_attach = function(client, bufnr)
     ]])
 
     -- Set some key bindings conditional on server capabilities
-   if client.resolved_capabilities.document_formatting then
+    if client.resolved_capabilities.document_formatting then
         buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting_sync()<CR>", opts)
-      end
+    end
     if client.resolved_capabilities.document_range_formatting then
         buf_set_keymap("x", "<space>f", "<cmd>lua vim.lsp.buf.range_formatting()<CR><ESC>", opts)
     end
 
     -- The blow command will highlight the current variable and its usages in the buffer
-   if client.resolved_capabilities.document_highlight then
-      vim.cmd([[
+    if client.resolved_capabilities.document_highlight then
+        vim.cmd([[
           hi! link LspReferenceRead Visual
           hi! link LspReferenceText Visual
           hi! link LspReferenceWrite Visual
@@ -182,29 +182,34 @@ nvim_lsp.html.setup {
     on_attach = on_attach,
     flags = {debounce_text_changes = 150}
 }
--- Lua --
-local sumneko_root_path = "/Users/gmonne/.config/repos/sumneko/lua-language-server"
-local sumneko_binary = sumneko_root_path .. "/bin/macOS/lua-language-server"
-local runtime_path = vim.split(package.path, ';')
 
+-- Lua --
+local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
-nvim_lsp.sumneko_lua.setup {
-    cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
-    capabilities = capabilities,
+require'lspconfig'.sumneko_lua.setup {
     settings = {
         Lua = {
-            runtime = {version = 'LuaJIT', path = runtime_path},
-            diagnostics = {globals = {'vim'}},
-            workspace = {library = vim.api.nvim_get_runtime_file("", true)},
+            runtime = {
+                -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+                version = 'LuaJIT',
+                -- Setup your lua path
+                path = runtime_path
+            },
+            diagnostics = {
+                -- Get the language server to recognize the `vim` global
+                globals = {'vim'}
+            },
+            workspace = {
+                -- Make the server aware of Neovim runtime files
+                library = vim.api.nvim_get_runtime_file("", true)
+            },
+            -- Do not send telemetry data containing a randomized but unique identifier
             telemetry = {enable = false}
         }
-    },
-    on_attach = on_attach,
-    flags = {debounce_text_changes = 150}
+    }
 }
-
 -- Typescript --
 nvim_lsp.tsserver.setup {
     cmd = {"typescript-language-server", "--stdio"},
@@ -248,18 +253,12 @@ nvim_lsp.efm.setup {
 nvim_lsp.terraformls.setup {cmd = {"terraform-ls", "serve"}}
 
 -- Change diagnostics signs
-vim.fn.sign_define("DiagnosticSignError", { text = "", texthl = "DiagnosticSignError" })
-vim.fn.sign_define("DiagnosticSignWarn", { text = "", texthl = "DiagnosticSignWarn" })
-vim.fn.sign_define("DiagnosticSignInformation", { text = "", texthl = "DiagnosticSignInfo" })
-vim.fn.sign_define("DiagnosticSignHint", { text = "", texthl = "DiagnosticSignHint" })
+vim.fn.sign_define("DiagnosticSignError", {text = "", texthl = "DiagnosticSignError"})
+vim.fn.sign_define("DiagnosticSignWarn", {text = "", texthl = "DiagnosticSignWarn"})
+vim.fn.sign_define("DiagnosticSignInformation", {text = "", texthl = "DiagnosticSignInfo"})
+vim.fn.sign_define("DiagnosticSignHint", {text = "", texthl = "DiagnosticSignHint"})
 
 -- global config for diagnostic
-vim.diagnostic.config({
-  underline = false,
-  virtual_text = true,
-  signs = true,
-  severity_sort = true,
-})
+vim.diagnostic.config({underline = false, virtual_text = true, signs = true, severity_sort = true})
 
 return M
-

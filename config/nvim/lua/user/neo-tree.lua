@@ -18,7 +18,7 @@ require("neo-tree").setup({
   -- popup_border_style is for input and confirmation dialogs.
   -- Configurtaion of floating window is done in the individual source sections.
   -- "NC" is a special style that works well with NormalNC set
-  popup_border_style = "NC", -- "double", "none", "rounded", "shadow", "single" or "solid"
+  popup_border_style = "rounded", -- "double", "none", "rounded", "shadow", "single" or "solid"
   use_popups_for_input = true, -- If false, inputs will use vim.ui.input() instead of custom floats.
   close_floats_on_escape_key = true,
   enable_diagnostics = false,
@@ -27,43 +27,6 @@ require("neo-tree").setup({
   open_files_in_last_window = true, -- false = open files in top left window
   log_level = "info", -- "trace", "debug", "info", "warn", "error", "fatal"
   log_to_file = false, -- true, false, "/path/to/file.log", use :NeoTreeLogs to show the file
-  --
-  --event_handlers = {
-  --  {
-  --    event = "before_render",
-  --    handler = function (state)
-  --      -- add something to the state that can be used by custom components
-  --    end
-  --  },
-  --  {
-  --    event = "file_opened",
-  --    handler = function(file_path)
-  --      --auto close
-  --      require("neo-tree").close_all()
-  --    end
-  --  },
-  --  {
-  --    event = "file_opened",
-  --    handler = function(file_path)
-  --      --clear search after opening a file
-  --      require("neo-tree.sources.filesystem").reset_search()
-  --    end
-  --  },
-  --  {
-  --    event = "file_renamed",
-  --    handler = function(args)
-  --      -- fix references to file
-  --      print(args.source, " renamed to ", args.destination)
-  --    end
-  --  },
-  --  {
-  --    event = "file_moved",
-  --    handler = function(args)
-  --      -- fix references to file
-  --      print(args.source, " moved to ", args.destination)
-  --    end
-  --  },
-  --},
   default_component_configs = {
     indent = {
       indent_size = 2,
@@ -160,7 +123,7 @@ require("neo-tree").setup({
       { "icon" },
       {
         "name",
-        use_git_status_colors = false,
+        use_git_status_colors = true,
       },
       -- {
       --   "symlink_target",
@@ -169,7 +132,7 @@ require("neo-tree").setup({
       { "bufnr" },
       { "clipboard" },
       -- { "diagnostics" },
-      { "git_status" },
+      -- { "git_status" },
     },
   },
   nesting_rules = {},
@@ -240,7 +203,7 @@ require("neo-tree").setup({
     --  return args
     --end,
     search_limit = 50, -- max number of search results when using filters
-    follow_current_file = false, -- This will find and focus the file in the active buffer every time
+    follow_current_file = true, -- This will find and focus the file in the active buffer every time
                                  -- the current file is changed while the tree is open.
     hijack_netrw_behavior = "disabled", -- netrw disabled, opening a directory opens neo-tree
                                             -- in whatever position is specified in window.position

@@ -79,5 +79,6 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
 # Switch group using `,` and `.`
 zstyle ':fzf-tab:*' switch-group ',' '.'
 
+# Remove path duplicates
+export PATH="$(perl -e 'print join(":", grep { not $seen{$_}++ } split(/:/, $ENV{PATH}))')"
 
-alias luamake=/Users/gmonne/Projects/Personal/repos/sumneko/lua-language-server/3rd/luamake/luamake

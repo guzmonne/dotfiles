@@ -8,3 +8,14 @@
     chdir: '{{ root }}/repos/sumneko/lua-language-server'
     cmd: './3rd/luamake/luamake rebuild'
 
+- name: Stow lua-language-server binary
+  command:
+    chdir: '{{ root }}/repos/sumneko/lua-language-server/bin'
+    cmd: 'stow -t ~/.local/bin macOS'
+
+- name: Stow
+  command:
+    chdir: '{{ root }}/repos/sumneko/lua-language-server/3rd'
+    cmd: stow -t ~/.local/bin --ignore='^((?!luamake).)*$' luamake
+
+

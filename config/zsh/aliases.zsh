@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# Custom alias to make the lua language server work.
-alias luamake=/Users/gmonne/Projects/Personal/repos/sumneko/lua-language-server/3rd/luamake/luamake
-
 # Custom aliases.
 alias cls="clear"
 alias vim="nvim"

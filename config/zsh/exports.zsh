@@ -110,3 +110,6 @@ export BG_WHITE="47;"
 export FS_REG="21;24m"
 export FS_BOLD="1m"
 export FS_UL="4m"
+
+# Add luarocks env variables
+eval $(luarocks path)

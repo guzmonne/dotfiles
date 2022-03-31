@@ -1,11 +1,9 @@
 #/usr/bin/env bash
 
-session=$(folders.sh)
-#session_name=$(basename "$session" | tr . _)
-session_name=$(echo "$session" | tr . _ | sed "s|$HOME|~|g")
+session_name=$(folders.sh)
 
 if ! tmux has-session -t "$session_name" 2> /dev/null; then
-  tmux new-session -s "$session_name" -c "$session" -d
+  tmux new-session -s "$session_name" -c "$session_name" -d
 fi
 
 if ! tmux attach -t "$session_name" 2> /dev/null; then
