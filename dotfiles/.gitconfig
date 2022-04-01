@@ -5,7 +5,7 @@
 	email = guzmonne@hotmail.com
 [alias]
   branch-tree = log --graph --simplify-by-decoration --pretty=format:'%d' --all
-	tree = log --all --graph --pretty=format:'%C(auto)%h%C(auto)%d %s %C(dim white)(%aN, %ar)'
+  tree = log --all --graph --pretty=format:'%C(auto)%h%C(auto)%d %s %C(dim white)(%aN, %ar)'
 
 
 [url "git@github.com:"]

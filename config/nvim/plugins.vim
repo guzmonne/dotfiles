@@ -4,7 +4,6 @@
 call plug#begin('~/.config/nvim/plugged')
 
 Plug 'nvim-neo-tree/neo-tree.nvim'
-Plug 'nvim-neorg/neorg'
 Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
 Plug 'leoluz/nvim-dap-go'
 Plug 'rcarriga/nvim-dap-ui'
@@ -38,6 +37,7 @@ Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'onsails/lspkind-nvim'
+Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production' }
 Plug 'simrat39/symbols-outline.nvim'

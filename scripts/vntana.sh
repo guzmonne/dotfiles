@@ -89,7 +89,7 @@ thumbnail() {
 # @cmd    Upgrades the version of a service
 # @alias  u
 # @option -e --environment[development|acceptance|staging|production] VNTANA environment where the update should be applied.
-# @option -p --path=$HOME/Projects/Vntana/vntana-configs/branches/master/gke-configs/vntana-platform-2 VNTANA service definition path.
+# @option -p --path=/Users/gmonne/Projects/Vntana/vntana-configs/branches/master/gke-configs/vntana-platform-2 VNTANA service definition path.
 # @arg    service! Name of the service to upgrade.
 upgrade() {
   echo $(green Checking if) $(yellow vntana-configs) $(green repository is clean)
@@ -156,7 +156,7 @@ execute() {
 # @cmd    Updates the current version of the ModelOps Request Handler
 # @alias  r
 # @option -e --environment[development|acceptance|staging|production] VNTANA environment where the update should be applied.
-# @option -p --path=$HOME/Projects/VNTANA/model-ops-configs ModelOps configs project path.
+# @option -p --path=/Users/gmonne/Projects/VNTANA/model-ops-configs ModelOps configs project path.
 # @arg    tag! Tag of the image to update.
 release() {
   echo $(green Checking if) $(yellow model-ops-configs) $(green repository is clean)

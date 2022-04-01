@@ -5,10 +5,12 @@ On this folder I can find all my personal configuration files and scripts.
 ## Dependencies
 
 - `zsh`
-- `OhMyZsh`
 - `nvim`
 - `stow`
-- `Powerlevel10k`
+- `pipx`
+- `ansible`
+- `oh-my-posh`
+- `luarocks`
 
 ## Dependencies
 

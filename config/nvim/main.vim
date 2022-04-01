@@ -12,7 +12,7 @@ set cindent
 set clipboard=unnamedplus               " Using system clipboard
 set cmdheight=1                         " Give more space for displaying messages
 set completeopt=longest,menuone,preview " Make the completion menu behave like an IDE
-set conceallevel=0                      " Makes `` visible on markdown files.
+set conceallevel=1                      " Makes `` visible on markdown files.
 set confirm                             " Makes it easier to
 set exrc                                " Source coniguration every time I enter a new project
 set fileencoding=utf-8                  " Use utf-8 as encoding type for files.
