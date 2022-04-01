@@ -6,18 +6,20 @@
       "segments": [
         {
           "foreground": "#73daca",
+          "properties": {
+            "template": "{{ .UserName }} "
+          },
           "style": "plain",
-          "template": "{{ .UserName }} ",
           "type": "session"
         },
         {
+          "type": "command",
+          "style": "plain",
           "foreground": "#a9b1d6",
           "properties": {
-            "command": "pwd | sed \"s|$HOME|~|\" | sed 's|/branches/| $(print -P \"%F{255}\ufb44%f\") |'",
-            "shell": "zsh"
-          },
-          "style": "plain",
-          "type": "command"
+            "shell": "zsh",
+            "command": "pwd | sed \"s|$HOME|~|\" | sed 's|/branches/| $(print -P \"%F{255}פּ%f\") |'"
+          }
         }
       ],
       "type": "prompt"
@@ -26,14 +28,14 @@
       "alignment": "left",
       "segments": [
         {
+          "type": "command",
+          "style": "plain",
           "foreground": "#ffffff",
           "properties": {
+            "shell": "zsh",
             "command": "if [ -d './.git' ]; then git branch --no-color --show-current; else true; fi",
-            "shell": "zsh"
-          },
-          "style": "plain",
-          "template": "\ue709 {{ .Output }}",
-          "type": "command"
+            "template": " {{ .Output }}"
+          }
         }
       ],
       "type": "prompt"
@@ -44,17 +46,19 @@
         {
           "foreground": "#6CA35E",
           "powerline_symbol": "\ue0b0",
+          "properties": {
+            "template": " \ue718 {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }} "
+          },
           "style": "plain",
-          "template": " \ue718 {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }} ",
           "type": "node"
         },
         {
           "foreground": "#9ece6a",
           "properties": {
-            "style": "austin"
+            "style": "austin",
+            "template": " {{ .FormattedMs }} "
           },
           "style": "plain",
-          "template": " {{ .FormattedMs }} ",
           "type": "executiontime"
         }
       ],
@@ -64,14 +68,14 @@
       "alignment": "right",
       "segments": [
         {
+          "type": "command",
           "foreground": "#7dcfff",
-          "properties": {
-            "command": "if [ ! -z $(pwd | grep Vntana) ]; then dotenv -f ~/.config/ohmyposh/.env get OHMYPOSH_KUBERNETES_CONTEXT; fi",
-            "shell": "zsh",
-            "tenplate": "{{ .Output }}"
-          },
           "style": "plain",
-          "type": "command"
+          "properties": {
+            "shell": "zsh",
+            "command": "if [ ! -z $(pwd | grep Vntana) ]; then dotenv -f ~/.config/ohmyposh/.env get OHMYPOSH_KUBERNETES_CONTEXT; fi",
+            "tenplate": "{{ .Output }}"
+          }
         }
       ],
       "type": "prompt"
@@ -82,20 +86,20 @@
       "segments": [
         {
           "foreground": "#9d7cd8",
-          "foreground_templates": [
-            "{{ if gt .Code 0 }}#ff007c{{ end }}"
-          ],
+          "foreground_templates": ["{{ if gt .Code 0 }}#ff007c{{ end }}"],
           "properties": {
-            "always_enabled": true
+            "always_enabled": true,
+            "template": "\u276f "
           },
           "style": "plain",
-          "template": "\u276f ",
           "type": "exit"
         }
       ],
       "type": "prompt"
     }
   ],
+  "console_title": true,
+  "console_title_style": "template",
   "console_title_template": "{{if .Root}}(Admin){{end}} {{.PWD}}",
-  "version": 2
+  "version": 1
 }

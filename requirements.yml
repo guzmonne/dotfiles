@@ -27,6 +27,7 @@ cask:
 tap:
 - jandedobbeleer/oh-my-posh
 brew:
+- zk
 - mongocli
 - ffmpeg
 - yamllint

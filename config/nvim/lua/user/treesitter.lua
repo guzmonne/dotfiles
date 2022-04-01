@@ -1,7 +1,11 @@
 -- NVIM Treesitter --
 require("nvim-treesitter.configs").setup({
-    ensure_installed = { "bash", "css", "dockerfile", "go", "gomod", "gowork", "graphql", "html", "http", "javascript", "jsdoc", "json", "json5", "jsonc", "lua", "make", "markdown", "norg", "python", "regex", "rust", "ruby", "solidity", "toml", "tsx", "typescript", "vim", "yaml"},
-    highlight = {enable = true, use_languagetree = true},
+    ensure_installed = {
+        "bash", "css", "dockerfile", "go", "gomod", "gowork", "graphql", "html", "http", "javascript", "jsdoc", "json",
+        "json5", "jsonc", "lua", "make", "markdown", "norg", "python", "regex", "rust", "ruby", "solidity", "toml",
+        "tsx", "typescript", "vim", "yaml"
+    },
+    highlight = {enable = true, use_languagetree = true, additional_vim_regex_highlighting = {"markdown"}},
     context_commentstring = {enable = true},
     incremental_selection = {
         enable = true,
@@ -35,15 +39,15 @@ local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
 parser_configs.norg_meta = {
     install_info = {
         url = "https://github.com/nvim-neorg/tree-sitter-norg-meta",
-        files = { "src/parser.c" },
+        files = {"src/parser.c"},
         branch = "main"
-    },
+    }
 }
 
 parser_configs.norg_table = {
     install_info = {
         url = "https://github.com/nvim-neorg/tree-sitter-norg-table",
-        files = { "src/parser.c" },
+        files = {"src/parser.c"},
         branch = "main"
-    },
+    }
 }

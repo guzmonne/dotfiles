@@ -1,11 +1,12 @@
 #/usr/bin/env bash
 
-session_name=$(folders.sh)
+folder_name=$(folders.sh)
+safe_folder_name=$(printf $folder_name | tr '.' '_')
 
-if ! tmux has-session -t "$session_name" 2> /dev/null; then
-  tmux new-session -s "$session_name" -c "$session_name" -d
+if ! tmux has-session -t "=$safe_folder_name" 2> /dev/null; then
+  tmux new-session -s "$safe_folder_name" -c "$folder_name" -d
 fi
 
-if ! tmux attach -t "$session_name" 2> /dev/null; then
-  tmux switch-client -t "$session_name"
+if ! tmux attach -t "=$safe_folder_name" 2> /dev/null; then
+  tmux switch-client -t "=$safe_folder_name"
 fi
