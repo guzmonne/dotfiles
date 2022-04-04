@@ -10,8 +10,8 @@
 
 - name: Stow lua-language-server binary
   command:
-    chdir: '{{ root }}/repos/sumneko/lua-language-server/bin'
-    cmd: 'stow -t ~/.local/bin macOS'
+    chdir: '{{ root }}/repos/sumneko/lua-language-server'
+    cmd: 'stow -t ~/.local/bin bin'
 
 - name: Stow
   command:

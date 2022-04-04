@@ -8,3 +8,9 @@ tmp/*
 .zsh_history
 .env
 .DS_Store
+
+config/zsh/.histfile
+config/zsh/.zprofile
+config/zsh/.zsh_sessions/
+config/zsh/.zshrc.zni
+config/ranger/plugins
