@@ -15,7 +15,7 @@ end
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
-local on_attach = function(client, bufnr)
+function M.on_attach(client, bufnr)
     local function buf_set_keymap(...)
         vim.api.nvim_buf_set_keymap(bufnr, ...)
     end
@@ -135,14 +135,14 @@ vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.s
 nvim_lsp.ansiblels.setup {
     cmd = {"ansible-language-server", "--stdio"},
     filetypes = {"yaml", "yml", "yaml.ansible", "ansible"},
-    on_attach = on_attach,
+    on_attach = M.on_attach,
     flags = {debounce_text_changes = 150},
     capabilities = capabilities
 }
 -- Bash --
 nvim_lsp.bashls.setup {
     cmd = {"bash-language-server", "start"},
-    on_attach = on_attach,
+    on_attach = M.on_attach,
     flags = {debounce_text_changes = 150},
     capabilities = capabilities
 }
@@ -150,28 +150,28 @@ nvim_lsp.bashls.setup {
 nvim_lsp.cssls.setup {
     cmd = {"vscode-css-language-server", "--stdio"},
     capabilities = capabilities,
-    on_attach = on_attach,
+    on_attach = M.on_attach,
     flags = {debounce_text_changes = 150}
 }
 -- Docker --
 nvim_lsp.dockerls.setup {
     cmd = {"docker-langserver", "--stdio"},
     filetypes = {"Dockerfile", "dockerfile"},
-    on_attach = on_attach,
+    on_attach = M.on_attach,
     flags = {debounce_text_changes = 150},
     capabilities = capabilities
 }
 -- ESLint --
 nvim_lsp.eslint.setup {
     cmd = {"vscode-eslint-language-server", "--stdio"},
-    on_attach = on_attach,
+    on_attach = M.on_attach,
     flags = {debounce_text_changes = 150},
     capabilities = capabilities
 }
 -- Go --
 nvim_lsp.gopls.setup {
     cmd = {"gopls"},
-    on_attach = on_attach,
+    on_attach = M.on_attach,
     flags = {debounce_text_changes = 150},
     capabilities = capabilities
 }
@@ -179,7 +179,7 @@ nvim_lsp.gopls.setup {
 nvim_lsp.html.setup {
     cmd = {"vscode-html-language-server", "--stdio"},
     capabilities = capabilities,
-    on_attach = on_attach,
+    on_attach = M.on_attach,
     flags = {debounce_text_changes = 150}
 }
 
@@ -222,7 +222,7 @@ nvim_lsp.tsserver.setup {
 nvim_lsp.vimls.setup {
     cmd = {"vim-language-server", "--stdio"},
     capabilities = capabilities,
-    on_attach = on_attach,
+    on_attach = M.on_attach,
     flags = {debounce_text_changes = 150}
 }
 

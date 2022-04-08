@@ -192,3 +192,17 @@ nnoremap <silent> - :Neotree position=current dir=%:p:h reveal_file=%:p reveal_f
 nnoremap <silent> _ :Neotree source=buffers<CR>
 nnoremap <silent> = :Neotree position=current<CR>
 
+" ZK mappings
+" Create a new note after asking for its title.
+nnoremap <silent> <leader>zn :ZkNew { title = vim.fn.input('Title: ')}<CR>
+" Open notes.
+nnoremap <silent> <leader>zo :ZkNotes { sort = { 'modified' } }<CR>
+" Open notes associated with selected tasks.
+nnoremap <silent> <leader>zt :ZkTags<CR>
+" Search for the notes matching a given query.
+nnoremap <silent> <leader>zf :ZkNotes { sort = { 'modified' }, match = vim.fn.input('Search: ') }<CR>
+" Search for the notes matching the current visual selection.
+vnoremap <silent> <leader>zf :'<,'>ZkMatch<CR>
+" Preview a linked note
+nnoremap <silent> <leader>zk :lua vim.lsp.buf.hover()<CR>
+
