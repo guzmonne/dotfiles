@@ -1,7 +1,7 @@
-local zk = require("zk")
 local commands = require("zk.commands")
+local zk = require("zk")
 
-require("zk").setup({
+zk.setup({
     -- can be "telescope", "fzf", or "select" (`vim.ui.select`)
     -- it's recommended to use "telescope" or "fzf"
     picker = "telescope",
@@ -23,8 +23,20 @@ local function make_edit_fn(defaults, picker_options)
     end
 end
 
+local function new_private_note()
+    zk.new({title = vim.fn.input("Title: "), dir = "private", edit = true})
+end
+
+local function new_private_note_dir()
+    dir = "private" .. "/" .. vim.fn.input("Dir: ")
+    os.execute("mkdir -p ~/Notes/" .. dir)
+    zk.new({dir = dir, title = vim.fn.input("Title: "), edit = true})
+end
+
 commands.add("ZkOrphans", make_edit_fn({orphan = true}, {title = "Zk Orphans"}))
 commands.add("ZkRecents", make_edit_fn({createdAfter = "2 weeks ago"}, {title = "Zk Recents"}))
+commands.add("ZkPrivate", new_private_note)
+commands.add("ZkPrivateDir", new_private_note_dir)
 
 -- Add the key mappings only for Markdown files in a zk notebook.
 if require("zk.util").notebook_root(vim.fn.expand('%:p')) ~= nil then

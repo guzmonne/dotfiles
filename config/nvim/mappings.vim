@@ -205,4 +205,7 @@ nnoremap <silent> <leader>zf :ZkNotes { sort = { 'modified' }, match = vim.fn.in
 vnoremap <silent> <leader>zf :'<,'>ZkMatch<CR>
 " Preview a linked note
 nnoremap <silent> <leader>zk :lua vim.lsp.buf.hover()<CR>
-
+" Create a new private note
+nnoremap <silent> <leader>zp :ZkPrivate<CR>
+" Create a new private note on a new dir.
+nnoremap <silent> <leader>zd :ZkPrivateDir<CR>
