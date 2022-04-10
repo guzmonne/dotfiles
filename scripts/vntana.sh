@@ -156,11 +156,11 @@ execute() {
 # @cmd    Updates the current version of the ModelOps Request Handler
 # @alias  r
 # @option -e --environment[development|acceptance|staging|production] VNTANA environment where the update should be applied.
-# @option -p --path=/Users/gmonne/Projects/VNTANA/model-ops-configs ModelOps configs project path.
+# @option -p --path=/Users/gmonne/Projects/Vntana/model-ops-configs ModelOps configs project path.
 # @arg    tag! Tag of the image to update.
 release() {
   echo $(green Checking if) $(yellow model-ops-configs) $(green repository is clean)
-  cd ~/Projects/Vntana/model-ops-configs/branches/master
+  cd ~/Projects/Vntana/model-ops-configs
   if ! git diff --exit-code --quiet origin/master ; then
     echo $(red You need to commit all changes or pull the latest changes of the ) $(yellow model-ops-configs) $(red repository before continuing)
     exit 1
