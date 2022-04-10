@@ -32,11 +32,22 @@ local function new_private_note_dir()
     os.execute("mkdir -p ~/Notes/" .. dir)
     zk.new({dir = dir, title = vim.fn.input("Title: "), edit = true})
 end
+local Job = require 'plenary.job'
+
+local function sync()
+    cwd = "~/Notes"
+    Job:new({command = 'git', args = {'add', '.'}, cwd = cwd}):sync() -- or start()
+    Job:new({command = 'git', args = {'commit', '-m', '[nvim]: push updates'}, cwd = cwd}):sync() -- or start()
+    Job:new({command = 'git', args = {'pull', 'origin', 'main'}, cwd = cwd}):sync() -- or start()
+    Job:new({command = 'git', args = {'push', 'origin', 'main'}, cwd = cwd}):sync() -- or start()
+    print("Your notes have been synced")
+end
 
 commands.add("ZkOrphans", make_edit_fn({orphan = true}, {title = "Zk Orphans"}))
 commands.add("ZkRecents", make_edit_fn({createdAfter = "2 weeks ago"}, {title = "Zk Recents"}))
 commands.add("ZkPrivate", new_private_note)
 commands.add("ZkPrivateDir", new_private_note_dir)
+commands.add("ZkSync", sync)
 
 -- Add the key mappings only for Markdown files in a zk notebook.
 if require("zk.util").notebook_root(vim.fn.expand('%:p')) ~= nil then

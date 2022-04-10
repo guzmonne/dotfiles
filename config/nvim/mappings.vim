@@ -209,3 +209,7 @@ nnoremap <silent> <leader>zk :lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> <leader>zp :ZkPrivate<CR>
 " Create a new private note on a new dir.
 nnoremap <silent> <leader>zd :ZkPrivateDir<CR>
+" Push the note changes to GitHub
+nnoremap <leader>zs :ZkSync<CR>
+" Follow the link under the cursor.
+nnoremap <silent> <leader>zg :lua vim.lsp.buf.definition
