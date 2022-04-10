@@ -17,7 +17,17 @@ setopt always_to_end
 unsetopt BEEP
 
 # Completitions
+# Lines configured by zsh-newuser-install
+setopt autocd extendedglob nomatch notify
+unsetopt beep
+bindkey -v
+# End of lines configured by zsh-newuser-install
+# The following lines were added by compinstall
+zstyle :compinstall filename '/Users/gmonne/.config/zsh/.zshrc'
+
 autoload -Uz compinit
+compinit
+# End of lines added by compinstall
 zstyle ':completion:*' menu select
 zmodload zsh/complist
 

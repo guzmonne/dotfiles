@@ -113,3 +113,15 @@ export FS_UL="4m"
 
 # Add luarocks env variables
 eval $(luarocks path)
+
+# Configure the folder where all zsh configuration will live.
+export ZDOTDIR=$HOME/.config/zsh
+
+# Coursier export binaries path
+export PATH="$PATH:/Users/gmonne/Library/Application Support/Coursier/bin"
+
+# Configure the default folder for ZK notes.
+export ZK_NOTEBOOK_DIR="$HOME/Notes"
+
+# Configure BREW_TAP to install a fixed version of LibreSSL
+export BREW_TAP='coral/local-dev-setup'
