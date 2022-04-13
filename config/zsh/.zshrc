@@ -25,8 +25,8 @@ bindkey -v
 # The following lines were added by compinstall
 zstyle :compinstall filename '/Users/gmonne/.config/zsh/.zshrc'
 
-autoload -Uz compinit
-compinit
+autoload bashcompinit && bashcompinit
+autoload -Uz compinit && compinit
 # End of lines added by compinstall
 zstyle ':completion:*' menu select
 zmodload zsh/complist
@@ -56,6 +56,11 @@ source "$HOME/.config/zsh/prompt.zsh"
 source "$HOME/.config/zsh/history.zsh"
 source "$HOME/.config/zsh/mappings.zsh"
 source "$HOME/.config/zsh/completions.zsh"
+
+# Configure additional ssh keys if they are present
+if [[ -f "$HOME/.ssh/id_roku" ]]; then
+  ssh-add "$HOME/.ssh/id_roku" 2&> /dev/null
+fi
 
 # Plugins
 # More plugins at: https://github.com/unixorn/awesome-zsh-plugins
@@ -92,3 +97,5 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 # Remove path duplicates
 export PATH="$(perl -e 'print join(":", grep { not $seen{$_}++ } split(/:/, $ENV{PATH}))')"
 
+# Enable McFly
+eval "$(mcfly init zsh)"

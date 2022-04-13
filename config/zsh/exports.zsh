@@ -125,3 +125,10 @@ export ZK_NOTEBOOK_DIR="$HOME/Notes"
 
 # Configure BREW_TAP to install a fixed version of LibreSSL
 export BREW_TAP='coral/local-dev-setup'
+
+# Configure McFly
+export MCFLY_KEY_SCHEME=vim
+export MCFLY_FUZZY=2
+
+# Configure Bat
+export BAT_THEME=ansi

@@ -205,6 +205,8 @@ nnoremap <silent> <leader>zf :ZkNotes { sort = { 'modified' }, match = vim.fn.in
 vnoremap <silent> <leader>zf :'<,'>ZkMatch<CR>
 " Preview a linked note
 nnoremap <silent> <leader>zk :lua vim.lsp.buf.hover()<CR>
+" See the most recent notes
+nnoremap <silent> <leader>zr :ZkRecent<CR>
 " Create a new private note
 nnoremap <silent> <leader>zp :ZkPrivate<CR>
 " Create a new private note on a new dir.
@@ -212,4 +214,4 @@ nnoremap <silent> <leader>zd :ZkPrivateDir<CR>
 " Push the note changes to GitHub
 nnoremap <leader>zs :ZkSync<CR>
 " Follow the link under the cursor.
-nnoremap <silent> <leader>zg :lua vim.lsp.buf.definition
+nnoremap <silent> <leader>zg :lua vim.lsp.buf.definition()<CR>

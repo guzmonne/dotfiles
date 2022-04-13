@@ -4,3 +4,5 @@
 # eval "$(register-python-argcomplete pipx)"
 [[ /Users/gmonne/.local/google-cloud-sdk/bin/kubectl ]] && source <(kubectl completion zsh)
 
+# aws cli completions
+complete -C '/usr/local/bin/aws_completer' aws

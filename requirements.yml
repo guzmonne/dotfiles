@@ -23,10 +23,14 @@ npm:
 - '@rafaelrinaldi/hn-cli'
 cask:
 - ngrok
-- alacritty
+# - alacritty
 tap:
+- cantino/mcfly
 - jandedobbeleer/oh-my-posh
 brew:
+- git-delta
+- cantino/mcfly/mcfly
+- jless
 - zk
 - mongocli
 - ffmpeg
