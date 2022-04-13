@@ -16,6 +16,21 @@ require("nvim-treesitter.configs").setup({
             node_decremental = 'grm'
         }
     },
+    textobjects = {
+        lsp_interop = {
+            enable = true,
+            border = 'none',
+            peek_definition_code = {["<leader>df"] = "@function.outer", ["<leader>dF"] = "@class.outer"}
+        },
+        move = {
+            enable = true,
+            set_jumps = true,
+            goto_next_start = {["]m"] = "@function.outer", ["]]"] = "@class.outer"},
+            goto_next_end = {["]M"] = "@function.outer", ["]["] = "@class.outer"},
+            goto_previous_start = {["[m"] = "@function.outer", ["[["] = "@class.outer"},
+            goto_previous_end = {["[M"] = "@function.outer", ["[]"] = "@class.outer"}
+        }
+    },
     autopairs = {enable = true},
     indent = {enabe = true, disable = {"yaml"}},
     textobjects = {
@@ -34,20 +49,9 @@ require("nvim-treesitter.configs").setup({
 
 local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
 
--- These two are optional and provide syntax highlighting
--- for Neorg tables and the @document.meta tag
-parser_configs.norg_meta = {
-    install_info = {
-        url = "https://github.com/nvim-neorg/tree-sitter-norg-meta",
-        files = {"src/parser.c"},
-        branch = "main"
-    }
-}
-
-parser_configs.norg_table = {
-    install_info = {
-        url = "https://github.com/nvim-neorg/tree-sitter-norg-table",
-        files = {"src/parser.c"},
-        branch = "main"
-    }
-}
+require('treesitter-context').setup({
+    enable = true,
+    throttle = true,
+    max_lines = 0,
+    patterns = {default = {'class', 'function', 'method'}}
+})

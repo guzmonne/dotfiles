@@ -104,7 +104,7 @@ TSPrebuild.on_attach = function(client, bufnr)
     end
 
     has_prebuilt = true
-    on_attach(client, bufnr)
+    M.on_attach(client, bufnr)
 end
 
 -- Setup lspconfig

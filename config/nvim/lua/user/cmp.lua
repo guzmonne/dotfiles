@@ -8,9 +8,7 @@ local source_mapping = {
     nvim_lsp = "[LSP]",
     nvim_lua = "[LUA]",
     path = "[PATH]",
-    vsnip = "[SNIP]",
-    emoji = "[EMOJI]",
-    npm = "[NPM]"
+    vsnip = "[SNIP]"
 }
 
 local has_words_before = function()
@@ -60,7 +58,7 @@ cmp.setup {
     },
     sources = cmp.config.sources({
         {name = 'nvim_lsp'}, {name = 'cmp_tabnine'}, {name = 'nvim_lua'}, {name = 'path'}, {name = 'vsnip'},
-        {name = 'npm', keyword_length = 3}, {name = 'buffer', default = 5, keyword_length = 5}, {name = 'emoji'}
+        {name = 'buffer', default = 5, keyword_length = 5}
     }),
     experimental = {native_menu = false, ghost_text = true},
     formatting = {

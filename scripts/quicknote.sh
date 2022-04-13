@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-now=$(date +%H:%M)
+default_title=$(date -u +"%Y-%m-%dT%H:%M")
 
 nvim \
-  -c "Telekasten goto_today"
+  -c "ZkNew { title = vim.fn.input('Title: "$default_title"')}"
 
