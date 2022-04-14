@@ -61,6 +61,9 @@ source "$HOME/.config/zsh/completions.zsh"
 if [[ -f "$HOME/.ssh/id_roku" ]]; then
   ssh-add "$HOME/.ssh/id_roku" 2&> /dev/null
 fi
+if [[ -f "$HOME/.ssh/id_rsa" ]]; then
+  ssh-add "$HOME/.ssh/id_rsa" 2&> /dev/null
+fi
 
 # Plugins
 # More plugins at: https://github.com/unixorn/awesome-zsh-plugins

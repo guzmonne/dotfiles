@@ -64,6 +64,17 @@
       "alignment": "right",
       "segments": [
         {
+          "foreground": "#FFA400",
+          "properties": {
+            "command": "if [[ ! -z $AWS_PROFILE ]]; then echo  $AWS_PROFILE ; fi",
+            "shell": "zsh",
+            "tenplate": "{{ .Output }}"
+          },
+          "style": "plain",
+          "type": "command"
+        },
+
+        {
           "foreground": "#7dcfff",
           "properties": {
             "command": "if [ ! -z $(pwd | grep Vntana) ]; then dotenv -f ~/.config/ohmyposh/.env get OHMYPOSH_KUBERNETES_CONTEXT; fi",
@@ -82,9 +93,7 @@
       "segments": [
         {
           "foreground": "#9d7cd8",
-          "foreground_templates": [
-            "{{ if gt .Code 0 }}#ff007c{{ end }}"
-          ],
+          "foreground_templates": ["{{ if gt .Code 0 }}#ff007c{{ end }}"],
           "properties": {
             "always_enabled": true
           },
