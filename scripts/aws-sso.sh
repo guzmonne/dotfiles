@@ -10,5 +10,6 @@ fi
 profile=$(grep -E '\[' "$aws_config" | tr -d '[]' | awk '{print $2}' | fzf)
 
 export AWS_PROFILE="$profile"
+export AWS_REGION="us-east-1"
 
 aws sso login

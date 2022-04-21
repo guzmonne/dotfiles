@@ -57,14 +57,6 @@ source "$HOME/.config/zsh/history.zsh"
 source "$HOME/.config/zsh/mappings.zsh"
 source "$HOME/.config/zsh/completions.zsh"
 
-# Configure additional ssh keys if they are present
-if [[ -f "$HOME/.ssh/id_roku" ]]; then
-  ssh-add "$HOME/.ssh/id_roku" 2&> /dev/null
-fi
-if [[ -f "$HOME/.ssh/id_rsa" ]]; then
-  ssh-add "$HOME/.ssh/id_rsa" 2&> /dev/null
-fi
-
 # Plugins
 # More plugins at: https://github.com/unixorn/awesome-zsh-plugins
 zsh_add_plugin "lukechilds/zsh-nvm"

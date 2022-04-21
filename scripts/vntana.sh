@@ -13,8 +13,6 @@ red() {
   printf "${FG_RED}${FS_REG}$@${RESET_ALL}"
 }
 
-
-
 # @describe Common VNTANA tasks cli
 
 # @cmd    Regenerates the thumbnails for an organization.

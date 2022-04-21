@@ -66,7 +66,7 @@
         {
           "foreground": "#FFA400",
           "properties": {
-            "command": "if [[ ! -z $AWS_PROFILE ]]; then echo  $AWS_PROFILE ; fi",
+            "command": "if [[ ! -z $AWS_PROFILE ]]; then echo \" $AWS_PROFILE ($AWS_REGION)\" ; fi",
             "shell": "zsh",
             "tenplate": "{{ .Output }}"
           },
