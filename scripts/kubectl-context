@@ -1,6 +1,18 @@
 #!/usr/bin/env bash
 
-config=$(kubectl config get-contexts | awk '{print $2}' | tail -n '+2' | fzf-tmux -p 80%,40%)
+contexts=$(kubectl config get-contexts | awk '{print $2}' | tail -n '+2')
+
+if [[ -n "$1" ]]; then
+  grep_contexts=$(echo "$contexts" | grep "$1")
+  echo $grep_contexts
+  if [[ "$(echo $grep_contexts | wc -l | tr -d ' ')" -eq 1 ]]; then
+    config="$grep_contexts"
+  fi
+fi
+
+if [[ -z "$config" ]]; then
+  config=$(fzf-tmux -p 80%,40% <<<"$contexts")
+fi
 
 if [ -z "$config" ]; then exit 0; fi
 

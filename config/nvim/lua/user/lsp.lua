@@ -2,17 +2,6 @@ local nvim_lsp = require('lspconfig')
 
 local M = {}
 
-function M.show_line_diagnostics()
-    local opts = {
-        focusable = false,
-        close_events = {"BufLeave", "CursorMoved", "InsertEnter", "FocusLost"},
-        border = 'rounded',
-        source = 'always', -- show source in diagnostic popup window
-        prefix = ' '
-    }
-    vim.diagnostic.open_float(nil, opts)
-end
-
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 function M.on_attach(client, bufnr)
@@ -27,17 +16,13 @@ function M.on_attach(client, bufnr)
     buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
     buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
     buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-    -- buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-    buf_set_keymap('n', '<C-L>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+    buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+    buf_set_keymap('n', '<space>ll', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
     buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
     buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
     buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
     buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
     buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-
-    vim.cmd([[
-        autocmd CursorHold <buffer> lua require("user.lsp").show_line_diagnostics()
-    ]])
 
     -- Set some key bindings conditional on server capabilities
     if client.resolved_capabilities.document_formatting then
@@ -130,8 +115,13 @@ local border = {
 
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {border = border})
 vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {border = border})
-
--- Ansible --
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+    underline = false,
+    update_in_insert = false,
+    signs = true,
+    virtual_text = true
+})
+update_in_insert = false, -- Ansible --
 nvim_lsp.ansiblels.setup {
     cmd = {"ansible-language-server", "--stdio"},
     filetypes = {"yaml", "yml", "yaml.ansible", "ansible"},
@@ -214,7 +204,11 @@ require'lspconfig'.sumneko_lua.setup {
 nvim_lsp.tsserver.setup {
     cmd = {"typescript-language-server", "--stdio"},
     capabilities = capabilities,
-    on_attach = TSPrebuild.on_attach,
+    -- on_attach = TSPrebuild.on_attach,
+    on_attach = M.on_attach,
+    on_init = function(client)
+        client.config.flags.debounce_text_changes = 150
+    end,
     flags = {debounce_text_changes = 150}
 }
 

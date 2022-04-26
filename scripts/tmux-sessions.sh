@@ -5,6 +5,6 @@ session=$(tmux list-sessions | awk '{print $1}' | tr -d ':' |\
     --header 'Press CTRL-X to delete a session.' \
     --bind 'ctrl-x:execute-silent(tmux kill-session -t {+})+reload(tmux list-sessions | awk '"'"'{print $1}'"'"' | tr -d ':')')
 
-if ! tmux attach -t "$session" 2> /dev/null; then
-  tmux switch-client -t "$session"
+if ! tmux attach -t "=$session" 2> /dev/null; then
+  tmux switch-client -t "=$session"
 fi
