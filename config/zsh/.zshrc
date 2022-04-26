@@ -42,6 +42,9 @@ zle -N backward-delete-charbindkey
 zle -N menuselect
 zle -N up-lne-or-history
 
+# Add support for interactive comments
+setopt INTERACTIVE_COMMENTS
+
 # Colors
 autoload -Uz colors && colors
 
@@ -67,6 +70,7 @@ zsh_add_plugin "zdharma-continuum/fast-syntax-highlighting"
 zsh_add_plugin "hlissner/zsh-autopair"
 zsh_add_plugin "buonomo/yarn-completion"
 zsh_add_plugin "lukechilds/zsh-better-npm-completion"
+zsh_add_plugin "mattberther/zsh-pyenv"
 
 # Zstyles
 # Select completions with arrow keys.
