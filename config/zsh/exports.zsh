@@ -132,3 +132,11 @@ export MCFLY_FUZZY=2
 
 # Configure Bat
 export BAT_THEME=ansi
+
+# Add mysql@5.7 to the PATH if it has been installed through brew
+local brew_prefix=$(brew --prefix)
+if [ -d "$brew_prefix/opt/mysql@5.7" ]; then
+  export PATH="$brew_prefix/opt/mysql@5.7/bin:$PATH"
+  export LDFLAGS="$LDFLAGS -L$brew_prefix/opt/mysql@5.7/lib"
+  export CPPFLAGS="$CPPFLAGS -I$brew_prefix/opt/mysql@5.7/include"
+fi

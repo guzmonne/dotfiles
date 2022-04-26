@@ -18,6 +18,15 @@
           },
           "style": "plain",
           "type": "command"
+        },
+        {
+          "foreground": "#ffe873",
+          "properties": {
+            "command": "if [ -f './.python-version' ]; then echo  $(/bin/cat ./.python-version); fi",
+            "shell": "zsh"
+          },
+          "style": "plain",
+          "type": "command"
         }
       ],
       "type": "prompt"
@@ -66,7 +75,7 @@
         {
           "foreground": "#FFA400",
           "properties": {
-            "command": "if [[ ! -z $AWS_PROFILE ]]; then echo  $AWS_PROFILE ; fi",
+            "command": "if [[ ! -z $AWS_PROFILE ]]; then echo \" $AWS_PROFILE ($AWS_REGION)\" ; fi",
             "shell": "zsh",
             "tenplate": "{{ .Output }}"
           },
@@ -77,7 +86,7 @@
         {
           "foreground": "#7dcfff",
           "properties": {
-            "command": "if [ ! -z $(pwd | grep Vntana) ]; then dotenv -f ~/.config/ohmyposh/.env get OHMYPOSH_KUBERNETES_CONTEXT; fi",
+            "command": "echo \" $(kubectl config current-context)\"",
             "shell": "zsh",
             "tenplate": "{{ .Output }}"
           },

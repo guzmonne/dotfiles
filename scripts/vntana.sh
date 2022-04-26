@@ -1,4 +1,4 @@
-#/usr/bin/env bash
+#!/usr/bin/env bash
 
 # Helper functions.
 green() {
@@ -12,8 +12,6 @@ yellow() {
 red() {
   printf "${FG_RED}${FS_REG}$@${RESET_ALL}"
 }
-
-
 
 # @describe Common VNTANA tasks cli
 

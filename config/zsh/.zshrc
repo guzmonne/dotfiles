@@ -42,6 +42,9 @@ zle -N backward-delete-charbindkey
 zle -N menuselect
 zle -N up-lne-or-history
 
+# Add support for interactive comments
+setopt INTERACTIVE_COMMENTS
+
 # Colors
 autoload -Uz colors && colors
 
@@ -57,14 +60,6 @@ source "$HOME/.config/zsh/history.zsh"
 source "$HOME/.config/zsh/mappings.zsh"
 source "$HOME/.config/zsh/completions.zsh"
 
-# Configure additional ssh keys if they are present
-if [[ -f "$HOME/.ssh/id_roku" ]]; then
-  ssh-add "$HOME/.ssh/id_roku" 2&> /dev/null
-fi
-if [[ -f "$HOME/.ssh/id_rsa" ]]; then
-  ssh-add "$HOME/.ssh/id_rsa" 2&> /dev/null
-fi
-
 # Plugins
 # More plugins at: https://github.com/unixorn/awesome-zsh-plugins
 zsh_add_plugin "lukechilds/zsh-nvm"
@@ -75,6 +70,7 @@ zsh_add_plugin "zdharma-continuum/fast-syntax-highlighting"
 zsh_add_plugin "hlissner/zsh-autopair"
 zsh_add_plugin "buonomo/yarn-completion"
 zsh_add_plugin "lukechilds/zsh-better-npm-completion"
+zsh_add_plugin "mattberther/zsh-pyenv"
 
 # Zstyles
 # Select completions with arrow keys.
