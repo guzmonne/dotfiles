@@ -36,10 +36,12 @@ local Job = require 'plenary.job'
 
 local function sync()
     cwd = "~/Notes"
-    Job:new({command = 'git', args = {'add', '.'}, cwd = cwd}):sync() -- or start()
-    Job:new({command = 'git', args = {'commit', '-m', '[nvim]: push updates'}, cwd = cwd}):sync() -- or start()
-    Job:new({command = 'git', args = {'pull', 'origin', 'main'}, cwd = cwd}):sync() -- or start()
-    Job:new({command = 'git', args = {'push', 'origin', 'main'}, cwd = cwd}):sync() -- or start()
+    notebook_dir = os.getenv("ZK_NOTEBOOK_DIR")
+    Job:new({command = 'git', args = {'add', '.'}, cwd = cwd}):sync()
+    Job:new({command = 'git', args = {'commit', '-m', '[nvim]: push updates'}, cwd = cwd}):sync()
+    Job:new({command = 'git', args = {'pull', 'origin', 'main'}, cwd = cwd}):sync()
+    Job:new({command = 'git', args = {'push', 'origin', 'main'}, cwd = cwd}):sync()
+    Jon:new({command = 'zk', argd = {'index', '--notebook-dir', notebook_dir}, cwd = cwd}):sync()
     print("Your notes have been synced")
 end
 
