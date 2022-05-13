@@ -215,3 +215,9 @@ nnoremap <silent> <leader>zd :ZkPrivateDir<CR>
 nnoremap <leader>zs :ZkSync<CR>
 " Follow the link under the cursor.
 nnoremap <silent> <leader>zg :lua vim.lsp.buf.definition()<CR>
+
+" Add an `x` to complete a task.
+nnoremap <silent> <leader>xx :call ToggleComplete()<CR>
+
+" Toogle keeping the line centered.
+nnoremap <silent> <leader>zz :call VCenterCursor()<CR>
