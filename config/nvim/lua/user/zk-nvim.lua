@@ -37,6 +37,7 @@ local Job = require 'plenary.job'
 local function sync()
     cwd = "~/Notes"
     notebook_dir = os.getenv("ZK_NOTEBOOK_DIR")
+    local async = require("plenary.async")
     Job:new({command = 'git', args = {'add', '.'}, cwd = cwd}):sync()
     Job:new({command = 'git', args = {'commit', '-m', '[nvim]: push updates'}, cwd = cwd}):sync()
     Job:new({command = 'git', args = {'pull', 'origin', 'main'}, cwd = cwd}):sync()

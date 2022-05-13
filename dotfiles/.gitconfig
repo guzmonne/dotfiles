@@ -13,7 +13,7 @@
 [delta]
     syntax-theme = ansi
     line-numbers = true
-    side-by-side = true
+    side-by-side = false
     navigate = true  # use n and N to move between diff sections
 [merge]
     conflictstyle = diff3

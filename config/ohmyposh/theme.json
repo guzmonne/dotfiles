@@ -75,20 +75,17 @@
         {
           "foreground": "#FFA400",
           "properties": {
-            "command": "if [[ ! -z $AWS_PROFILE ]]; then echo \" $AWS_PROFILE ($AWS_REGION)\" ; fi",
-            "shell": "zsh",
-            "tenplate": "{{ .Output }}"
+            "command": "if [[ -n $AWS_PROFILE ]]; then echo \" $AWS_PROFILE ($AWS_REGION)\" ; fi",
+            "shell": "zsh"
           },
           "style": "plain",
           "type": "command"
         },
-
         {
           "foreground": "#7dcfff",
           "properties": {
-            "command": "echo \" $(kubectl config current-context)\"",
-            "shell": "zsh",
-            "tenplate": "{{ .Output }}"
+            "command": "if [[ -n \"$(rg \"current-context: .*$\" ~/.kube/config)\" ]]; then echo \" $(rg 'current-context: .*$' ~/.kube/config | sed -e 's|current-context: ||')\" ; fi",
+            "shell": "zsh"
           },
           "style": "plain",
           "type": "command"

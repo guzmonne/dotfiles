@@ -3,6 +3,7 @@
 " Hint: Make sure you use single quotes.
 call plug#begin('~/.config/nvim/plugged')
 
+Plug 'rafi/vim-venom'
 Plug 'mickael-menu/zk-nvim'
 Plug 'nvim-neo-tree/neo-tree.nvim'
 Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
@@ -89,3 +90,6 @@ let g:Hexokinase_highlighters = ['virtual']
 
 " Configure vsnip
 let g:vsnip_snippets_dir = expand('~/.config/nvim/snippets')
+
+" Disable SQLComplete
+" let g:loaded_sql_completion = 0
