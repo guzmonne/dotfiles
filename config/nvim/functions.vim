@@ -1,3 +1,23 @@
+function! ToggleComplete()
+  " Get the current line
+  let l:line = getline('.')
+
+  " Get the char to test with the help of a pattern: ' '  or 'x'.
+  " \zs and \ze lets you retrieve only the parte between themselves:
+  let l:char = matchstr(l:line, '\[\zs.\ze]')
+
+  " Invert the value
+  if l:char == 'x'
+    let l:char = ' '
+  else
+    let l:char = 'x'
+  endif
+
+  " Replace the current line with a new one, with the right size.
+  " char substituted
+  call setline(line('.'), substitute(l:line, '\[\zs.\ze]', l:char, ''))
+endfunction
+
 " Toggle the statusline
 let s:hidden_all = 0
 function! ToggleHiddenAll()
