@@ -3,6 +3,7 @@
 " Hint: Make sure you use single quotes.
 call plug#begin('~/.config/nvim/plugged')
 
+Plug 'SirVer/ultisnips'
 Plug 'rafi/vim-venom'
 Plug 'mickael-menu/zk-nvim'
 Plug 'nvim-neo-tree/neo-tree.nvim'
@@ -19,10 +20,8 @@ Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-nvim-lua'
-Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/nvim-cmp'
-Plug 'hrsh7th/vim-vsnip'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'karb94/neoscroll.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
@@ -50,6 +49,7 @@ Plug 'tribela/vim-transparent'
 Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
 Plug 'windwp/nvim-autopairs'
 Plug 'z0mbix/vim-shfmt', { 'for': 'sh' }
+Plug 'quangnguyen30192/cmp-nvim-ultisnips'
 
 " Don't configure any plugin under this line.
 call plug#end()
@@ -88,8 +88,8 @@ let g:fzf_colors =
 " Configure vim-hexokinase
 let g:Hexokinase_highlighters = ['virtual']
 
-" Configure vsnip
-let g:vsnip_snippets_dir = expand('~/.config/nvim/snippets')
+" Configure Ultisnippets
+let g:UltiSnipsEditSplit = 'vertical'
+let g:UltiSnipsSnippetStorageDirectoryForUltiSnipsEdit = $HOME.'/.config/nvim/snippets'
+let g:UltiSnipsSnippetDirectories = [$HOME.'/.config/nvim/snippets']
 
-" Disable SQLComplete
-" let g:loaded_sql_completion = 0
