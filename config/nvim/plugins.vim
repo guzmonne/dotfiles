@@ -90,6 +90,6 @@ let g:Hexokinase_highlighters = ['virtual']
 
 " Configure Ultisnippets
 let g:UltiSnipsEditSplit = 'vertical'
-let g:UltiSnipsSnippetStorageDirectoryForUltiSnipsEdit = $HOME.'/.config/nvim/snippets'
-let g:UltiSnipsSnippetDirectories = [$HOME.'/.config/nvim/snippets']
+let g:UltiSnipsSnippetStorageDirectoryForUltiSnipsEdit = $HOME.'/.config/nvim/ultisnips'
+let g:UltiSnipsSnippetDirectories = [$HOME.'/.config/nvim/ultisnips']
 

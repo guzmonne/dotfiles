@@ -147,6 +147,9 @@ thumbnail() {
   current_cluster=$(kubectl config get-contexts | grep -E "^\*" | awk '{print $2}')
   echo $current_cluster
 
+  echo $(green "Connecting to the") $(yellow $argc_environment) $(green "Kubernetes Cluster")
+  kubectl config use-context $(kubectl config get-contexts | grep vntana-$argc_environment | awk '{print $2}')
+
   if [[ -n $argc_slug ]]; then
     _thumbnail_slug $argc_environment $argc_slug
   else
