@@ -4,8 +4,6 @@ let mapleader=" "
 " Open a new tmux window using tmux-windownizer
 nnoremap <silent> <C-n> :silent !tmux new-window tmux-sessionizer.sh<CR>
 nnoremap <silent> <C-p> :silent !tmux new-window tmux-sessions.sh<CR>
-nnoremap <silent> ∑ :silent !tmux new-window tmux-notion.sh<CR>
-nnoremap <silent> <F1> :silent !tmux new-window -k -n quicknote quicknote.sh<CR>
 
 " Git commands
 nnoremap <silent> <leader>gs :Git<CR>
@@ -13,15 +11,15 @@ nnoremap <silent> <leader>gp :Gitsigns preview_hunk<CR>
 
 " Movement commands
 nnoremap <silent> <leader>gb :BufferLinePick<CR>
-nnoremap <silent><leader>b1 :BufferLineGoToBuffer 1<CR>
-nnoremap <silent><leader>b2 :BufferLineGoToBuffer 2<CR>
-nnoremap <silent><leader>b3 :BufferLineGoToBuffer 3<CR>
-nnoremap <silent><leader>b4 :BufferLineGoToBuffer 4<CR>
-nnoremap <silent><leader>b5 :BufferLineGoToBuffer 5<CR>
-nnoremap <silent><leader>b6 :BufferLineGoToBuffer 6<CR>
-nnoremap <silent><leader>b7 :BufferLineGoToBuffer 7<CR>
-nnoremap <silent><leader>b8 :BufferLineGoToBuffer 8<CR>
-nnoremap <silent><leader>b9 :BufferLineGoToBuffer 9<CR>
+nnoremap <silent> <leader>b1 :BufferLineGoToBuffer 1<CR>
+nnoremap <silent> <leader>b2 :BufferLineGoToBuffer 2<CR>
+nnoremap <silent> <leader>b3 :BufferLineGoToBuffer 3<CR>
+nnoremap <silent> <leader>b4 :BufferLineGoToBuffer 4<CR>
+nnoremap <silent> <leader>b5 :BufferLineGoToBuffer 5<CR>
+nnoremap <silent> <leader>b6 :BufferLineGoToBuffer 6<CR>
+nnoremap <silent> <leader>b7 :BufferLineGoToBuffer 7<CR>
+nnoremap <silent> <leader>b8 :BufferLineGoToBuffer 8<CR>
+nnoremap <silent> <leader>b9 :BufferLineGoToBuffer 9<CR>
 
 " Switch to normal mode inside terminal mode
 tnoremap <silent> jk <C-\><C-n>
