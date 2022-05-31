@@ -374,12 +374,10 @@ jenkins-lint() {
   echo $(green "Getting credentials for") $(yellow $argc_hostname)
   local auth=$(cat "$HOME/Projects/Personal/secrets/jenkins/$argc_hostname")
   echo $(green "Create JENKINS_CRUMB")
-  local crumb=`curl "$argc_hostname/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,\":\",//crumb)"`
+  local crumb=$(curl "$argc_hostname/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,\":\",//crumb)")
   echo $(green "Validating pipeline")
   curl -sL -X POST -H "$crumb" -F "jenkinsfile=<$argc_file" "$argc_hostname/pipeline-model-converter/validate" --anyauth --user "$auth" -vvv
 }
 
 # Run argc
 eval "$(argc $0 "$@")"
-
-

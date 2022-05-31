@@ -35,7 +35,6 @@ cmp.setup {
             vim.fn["UltiSnips#Anon"](args.body)
         end
     },
-    documentation = {border = {"╭", "─", "╮", "│", "╯", "─", "╰", "│"}},
     completion = {keyword_length = 4, autocomplete = false},
     mapping = {
         ['<C-p>'] = cmp.mapping.select_prev_item(),
@@ -71,6 +70,9 @@ cmp.setup {
             vim_item.menu = menu
             return vim_item
         end
+    },
+    window = {
+        documentation = "bordered"
     }
 }
 

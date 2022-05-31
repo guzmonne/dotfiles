@@ -6,7 +6,7 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'SirVer/ultisnips'
 Plug 'rafi/vim-venom'
 Plug 'mickael-menu/zk-nvim'
-Plug 'nvim-neo-tree/neo-tree.nvim'
+Plug 'nvim-neo-tree/neo-tree.nvim', { 'branch': 'v2.x' }
 Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
 Plug 'leoluz/nvim-dap-go'
 Plug 'rcarriga/nvim-dap-ui'
@@ -50,6 +50,8 @@ Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
 Plug 'windwp/nvim-autopairs'
 Plug 'z0mbix/vim-shfmt', { 'for': 'sh' }
 Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' }
+Plug 'ray-x/lsp_signature.nvim'
 
 " Don't configure any plugin under this line.
 call plug#end()
@@ -93,3 +95,5 @@ let g:UltiSnipsEditSplit = 'vertical'
 let g:UltiSnipsSnippetStorageDirectoryForUltiSnipsEdit = $HOME.'/.config/nvim/ultisnips'
 let g:UltiSnipsSnippetDirectories = [$HOME.'/.config/nvim/ultisnips']
 
+" Configure Neo-Tree
+let g:neo_tree_remove_legacy_commands = 1
