@@ -49,6 +49,7 @@ function M.on_attach(client, bufnr)
     -- lsp-signature
     require("lsp_signature").on_attach({
         bind = true, -- This is mandatory, otherwise border config won't get registered.
+        hint_prefix = " ",
         handler_opts = {border = "rounded"}
     }, bufnr)
 end
