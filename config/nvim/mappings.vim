@@ -9,10 +9,19 @@ nnoremap <silent> <F1> :silent !tmux new-window -k -n quicknote quicknote.sh<CR>
 
 " Git commands
 nnoremap <silent> <leader>gs :Git<CR>
-nnoremap <silent> <leader>gp :Git push<CR>
-nnoremap <silent> <leader>gc :Git commit<CR>
-nnoremap <silent> <leader>gf :diffget //3<CR>
-nnoremap <silent> <leader>gj :diffget //2<CR>
+nnoremap <silent> <leader>gp :Gitsigns preview_hunk<CR>
+
+" Movement commands
+nnoremap <silent> <leader>gb :BufferLinePick<CR>
+nnoremap <silent><leader>b1 :BufferLineGoToBuffer 1<CR>
+nnoremap <silent><leader>b2 :BufferLineGoToBuffer 2<CR>
+nnoremap <silent><leader>b3 :BufferLineGoToBuffer 3<CR>
+nnoremap <silent><leader>b4 :BufferLineGoToBuffer 4<CR>
+nnoremap <silent><leader>b5 :BufferLineGoToBuffer 5<CR>
+nnoremap <silent><leader>b6 :BufferLineGoToBuffer 6<CR>
+nnoremap <silent><leader>b7 :BufferLineGoToBuffer 7<CR>
+nnoremap <silent><leader>b8 :BufferLineGoToBuffer 8<CR>
+nnoremap <silent><leader>b9 :BufferLineGoToBuffer 9<CR>
 
 " Switch to normal mode inside terminal mode
 tnoremap <silent> jk <C-\><C-n>
@@ -221,3 +230,16 @@ nnoremap <silent> <leader>xx :call ToggleComplete()<CR>
 
 " Toogle keeping the line centered.
 nnoremap <silent> <leader>zz :call VCenterCursor()<CR>
+
+" Change camelCase to snake_case
+vnoremap <leader>cs :'<,'>SnakeCase<CR>
+" Convert snake_case to camelCase
+vnoremap  <leader>cc :'<,'>CamelCase<CR>
+
+" Allows better navigation through buffers
+nnoremap <silent><tab> :BufferLineCycleNext<CR>
+nnoremap <silent><s-tab> :BufferLineCyclePrev<CR>
+
+" These commands will move the current buffer backwards or forwards in the bufferline
+nnoremap <silent><leader><tab> :BufferLineMoveNext<CR>
+nnoremap <silent><leader><s-tab> :BufferLineMovePrev<CR>
