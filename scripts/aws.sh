@@ -39,7 +39,24 @@ refresh() {
   getawskeys
 }
 
-# @cmd    Lists or creates a new secret
+# @cmd List, read, or clone EBS volumes
+# @flag -d --describe Print the full secrets description.
+# @arg name EBS name
+ebs() {
+  if [[ -n "$argc_name" ]]; then
+    # Working over a single EBS
+    aws ec2 describe-volumes --filter Name=tag:Name,Values="$argc_name" | jq
+  else
+    # Working with all EBS
+    if [[ -n "$argc_describe" ]]; then
+      aws ec2 describe-volumes
+    else
+      aws ec2 describe-volumes | jq -r '.Volumes[] | (select(.Tags != null) | .Tags[] | select(.Key == "EBSName") | .Value) + " " + (select(.Tags != null) | .Tags[] | select(.Key == "Name") | .Value) + " " +  .VolumeId + " " + .VolumeType + " " + .AvailabilityZone' | column -t
+    fi
+  fi
+}
+
+# @cmd List, read, or write secrets using AWS Secrets Manager
 # @flag -d --describe Print the full secrets description.
 # @arg name Secret name to fetch
 # @arg value Secret value
@@ -82,11 +99,6 @@ secrets() {
     aws secretsmanager list-secrets --query='SecretList[].Name' | jq -r '.[]'
   fi
 }
-
-# @cmd    Connects to an instance through SSM identified by its `Name` tag.
-#         If more than one instance is found with that name a menu will be
-#         shown to the user to select the appropriate one.
-# @arg    name! Value of the `Name` tag for the instance
 
 # Run argc
 eval "$(argc "$0" "$@")"
