@@ -29,6 +29,7 @@ tap:
 - cantino/mcfly
 - jandedobbeleer/oh-my-posh
 brew:
+- rust-analyzer
 - coreutils
 - graphviz
 - git-delta

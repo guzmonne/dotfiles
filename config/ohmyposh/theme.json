@@ -13,7 +13,7 @@
         {
           "foreground": "#a9b1d6",
           "properties": {
-            "command": "pwd | sed \"s|$HOME|~|\" | sed 's|/branches/| $(print -P \"%F{255}\ufb44%f\") |'",
+            "command": "pwd | sed \"s|$HOME|~|\" | sed 's|/branches/| $(print -P %F{255}\ufb44%f) |'",
             "shell": "zsh"
           },
           "style": "plain",

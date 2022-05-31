@@ -253,6 +253,18 @@ nvim_lsp.efm.setup {
 -- Terraform --
 nvim_lsp.terraformls.setup {cmd = {"terraform-ls", "serve"}}
 
+-- Rust --
+nvim_lsp.rust_analyzer.setup({
+    on_attach = on_attach,
+    settings = {
+        ["rust-analyzer"] = {
+            assist = {importGranularity = "module", importPrefix = "self"},
+            cargo = {loadOutDirsFromCheck = true},
+            procMacro = {enable = true}
+        }
+    }
+})
+
 -- Change diagnostics signs
 vim.fn.sign_define("DiagnosticSignError", {text = "", texthl = "DiagnosticSignError"})
 vim.fn.sign_define("DiagnosticSignWarn", {text = "", texthl = "DiagnosticSignWarn"})
