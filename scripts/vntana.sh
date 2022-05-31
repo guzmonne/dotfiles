@@ -381,5 +381,3 @@ jenkins-lint() {
 
 # Run argc
 eval "$(argc $0 "$@")"
-
-
