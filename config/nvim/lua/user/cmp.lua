@@ -36,7 +36,7 @@ cmp.setup {
         end
     },
     completion = {keyword_length = 4, autocomplete = false},
-    mapping = {
+    mapping = cmp.mapping.preset.insert({
         ['<C-p>'] = cmp.mapping.select_prev_item(),
         ['<C-n>'] = cmp.mapping.select_next_item(),
         ['<C-d>'] = cmp.mapping.scroll_docs(-4),
@@ -50,7 +50,7 @@ cmp.setup {
         ["<S-Tab>"] = cmp.mapping(function(fallback)
             cmp_ultisnips_mappings.jump_backwards(fallback)
         end, {"i", "s" --[[ "c" (to enable the mapping in command mode) ]] })
-    },
+    }),
     sources = cmp.config.sources({
         {name = 'nvim_lsp'}, {name = 'cmp_tabnine'}, {name = 'nvim_lua'}, {name = 'path'}, {name = 'ultisnips'},
         {name = 'buffer', default = 5, keyword_length = 5}
@@ -71,9 +71,7 @@ cmp.setup {
             return vim_item
         end
     },
-    window = {
-        documentation = "bordered"
-    }
+    window = {documentation = "bordered"}
 }
 
 -- Use buffer source for `/`.

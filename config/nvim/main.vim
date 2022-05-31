@@ -92,7 +92,7 @@ augroup GUX
   " Support comments on JSON files.
   autocmd FileType json syntax match Comment +\/\/.\+$+
   " Auto format lua files.
-  autocmd BufWritePre *.lua lua vim.lsp.buf.formatting_sync(nil, 100)
+  autocmd BufWritePre *.lua lua vim.lsp.buf.format(nil, 100)
   " Use 4 spaces for tabs on certain files.
   autocmd FileType python setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4
   autocmd FileType lua setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4

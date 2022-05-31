@@ -4,6 +4,7 @@ let mapleader=" "
 " Open a new tmux window using tmux-windownizer
 nnoremap <silent> <C-n> :silent !tmux new-window tmux-sessionizer.sh<CR>
 nnoremap <silent> <C-p> :silent !tmux new-window tmux-sessions.sh<CR>
+nnoremap <silent> <C-t> :silent !tmux new-window tmux-toggle.sh<CR>
 
 " Git commands
 nnoremap <silent> <leader>gs :Git<CR>
@@ -46,9 +47,6 @@ nnoremap <silent> <leader>cx :!chmod +x %<CR>
 " Shortcut to source NVIM configuration
 nnoremap <leader>sc :source ~/.config/nvim/init.vim<CR>
 
-" Go to the next buffer
-nnoremap <silent> <TAB> :bn<CR>
-nnoremap <silent> <S-TAB> :bp<CR>
 
 " Replay the last command change
 nnoremap <leader>@ @:<CR>
@@ -235,9 +233,9 @@ vnoremap <leader>cs :'<,'>SnakeCase<CR>
 vnoremap  <leader>cc :'<,'>CamelCase<CR>
 
 " Allows better navigation through buffers
-nnoremap <silent><tab> :BufferLineCycleNext<CR>
-nnoremap <silent><s-tab> :BufferLineCyclePrev<CR>
+nnoremap <silent> <leader><tab> :BufferLineCycleNext<CR>
+nnoremap <silent> <leader><s-tab> :BufferLineCyclePrev<CR>
 
 " These commands will move the current buffer backwards or forwards in the bufferline
-nnoremap <silent><leader><tab> :BufferLineMoveNext<CR>
-nnoremap <silent><leader><s-tab> :BufferLineMovePrev<CR>
+nnoremap <silent><leader><right> :BufferLineMoveNext<CR>
+nnoremap <silent><leader><left> :BufferLineMovePrev<CR>

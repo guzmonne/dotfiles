@@ -9,14 +9,12 @@ source "$ROOT/tmux-sessionizer-history-file.sh"
 # Create history file if it doesn't exist.
 history_create_file
 
-session=$(tmux list-sessions | awk '{print $1}' | tr -d ':' |\
-  fzf \
-    --header 'Press CTRL-X to delete a session.' \
-    --bind 'ctrl-x:execute-silent(tmux kill-session -t {+})+reload(tmux list-sessions | awk '"'"'{print $1}'"'"' | tr -d ':')')
+# Get previous session
+session=$(history_get 2)
 
 # Check for the last opened session
-previous_session=$(history_get)
-if [[ "$previous_session" == "$session" ]]; then
+current_session=$(history_get)
+if [[ "$session" == "$current_session" ]]; then
   exit 0
 fi
 
