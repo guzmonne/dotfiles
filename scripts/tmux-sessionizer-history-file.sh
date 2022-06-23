@@ -8,6 +8,11 @@ history_create_file() {
   touch "$history_file"
 }
 
+# Prints the history file
+history_list() {
+  cat "$history_file"
+}
+
 # Gets the nth history entry. The index is counted from the newest to the oldest. Meaning that the
 # entry with index 0 corresponds to the last session stored on the history file.
 #
