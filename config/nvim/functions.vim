@@ -14,9 +14,6 @@ function! s:Snakeize(range) abort
   endif
 endfunction
 
-command! -range CamelCase silent! call <SID>Camelize(<range>)
-command! -range SnakeCase silent! call <SID>Snakeize(<range>)
-
 function! ToggleComplete()
   " Get the current line
   let l:line = getline('.')
@@ -143,3 +140,8 @@ function! ToggleLightDark()
   endif
 endfunction
 
+command! -range CamelCase silent! call <SID>Camelize(<range>)
+command! -range SnakeCase silent! call <SID>Snakeize(<range>)
+command! -nargs=1 Silent
+\   execute 'silent !' . <q-args>
+\ | execute 'redraw!'
