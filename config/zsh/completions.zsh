@@ -5,4 +5,10 @@
 [[ /Users/gmonne/.local/google-cloud-sdk/bin/kubectl ]] && source <(kubectl completion zsh)
 
 # aws cli completions
-complete -C '/usr/local/bin/aws_completer' aws
+if [[ -x "$(command -v aws)" ]]; then
+  complete -C '/usr/local/bin/aws_completer' aws
+fi
+# pandoc cli completions
+if [[ -x "$(command -v pandoc)" ]]; then
+  eval "$(pandoc --bash-completion)"
+fi

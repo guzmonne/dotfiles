@@ -24,11 +24,17 @@ npm:
 - '@rafaelrinaldi/hn-cli'
 cask:
 - ngrok
+- homebrew/cask/basictex
 # - alacritty
 tap:
 - cantino/mcfly
 - jandedobbeleer/oh-my-posh
 brew:
+- pandoc
+# Pandoc Dependencies
+- librsvg
+# Misc
+- fx
 - rust-analyzer
 - coreutils
 - graphviz

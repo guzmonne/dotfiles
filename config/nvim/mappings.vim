@@ -233,8 +233,8 @@ vnoremap <leader>cs :'<,'>SnakeCase<CR>
 vnoremap  <leader>cc :'<,'>CamelCase<CR>
 
 " Allows better navigation through buffers
-nnoremap <silent> <leader><tab> :BufferLineCycleNext<CR>
-nnoremap <silent> <leader><s-tab> :BufferLineCyclePrev<CR>
+nnoremap <silent> <tab> :BufferLineCycleNext<CR>
+nnoremap <silent> <s-tab> :BufferLineCyclePrev<CR>
 
 " These commands will move the current buffer backwards or forwards in the bufferline
 nnoremap <silent><leader><right> :BufferLineMoveNext<CR>

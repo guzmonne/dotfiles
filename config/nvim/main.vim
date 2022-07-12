@@ -94,7 +94,7 @@ augroup GUX
   " Auto format lua files.
   autocmd BufWritePre *.lua lua vim.lsp.buf.format(nil, 100)
   " Auto format Rust files with rustfmt
-  autocmd BufWritePost *.rs Silent !rustfmt %
+  autocmd BufWritePost *.rs Silent rustfmt %
   " Use 4 spaces for tabs on certain files.
   autocmd FileType python setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4
   autocmd FileType lua setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4
