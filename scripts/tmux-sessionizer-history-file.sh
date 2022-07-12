@@ -1,11 +1,16 @@
 #!/usr/bin/env bash
 
 history_file=${TMUX_SESSIONIZER_HISTORY_FILE:="$HOME/.tmux_sessionizer"}
-history_size=${TMUX_SESSIONIZER_HISTORY_SIZE:=10}
+history_size=${TMUX_SESSIONIZER_HISTORY_SIZE:=1000}
 
 # Create the history file
 history_create_file() {
   touch "$history_file"
+}
+
+# Prints the history file
+history_list() {
+  cat "$history_file" | sort |  uniq
 }
 
 # Gets the nth history entry. The index is counted from the newest to the oldest. Meaning that the
