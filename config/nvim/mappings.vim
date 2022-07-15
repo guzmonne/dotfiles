@@ -131,7 +131,6 @@ nnoremap <C-j> <cmd>lua require'neoscroll'.scroll(12, true, 150)<CR>
 nnoremap <C-k> <cmd>lua require'neoscroll'.scroll(-12, true, 150)<CR>
 vnoremap <C-j> <cmd>lua require'neoscroll'.scroll(12, true, 150)<CR>
 vnoremap <C-k> <cmd>lua require'neoscroll'.scroll(-12, true, 150)<CR>
-" nnoremap <C-k> <C-u>zz
 
 " Configure Telescope
 nnoremap <silent> <leader>ff <cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})<CR>
@@ -239,3 +238,6 @@ nnoremap <silent> <s-tab> :BufferLineCyclePrev<CR>
 " These commands will move the current buffer backwards or forwards in the bufferline
 nnoremap <silent><leader><right> :BufferLineMoveNext<CR>
 nnoremap <silent><leader><left> :BufferLineMovePrev<CR>
+
+" Reload luasnip snippets
+nnoremap <leader><leader>s :lua require("luasnip.loaders.from_lua").load({paths = "~/.config/nvim/lua/snippets"})<CR>

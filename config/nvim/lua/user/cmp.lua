@@ -1,7 +1,7 @@
 -- CMP --
 local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
+local luasnip = require 'luasnip'
 local cmp = require 'cmp'
-local cmp_ultisnips_mappings = require("cmp_nvim_ultisnips.mappings")
 local lspkind = require 'lspkind'
 local source_mapping = {
     cmp_tabnine = '[TN]',
@@ -21,18 +21,10 @@ local feedkey = function(key, mode)
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
 end
 
-require("cmp_nvim_ultisnips").setup {
-    filetype_source = "treesitter",
-    show_snippets = "expandable",
-    documentation = function(snippet)
-        return snippet.description
-    end
-}
-
 cmp.setup {
     snippet = {
         expand = function(args)
-            vim.fn["UltiSnips#Anon"](args.body)
+            require("luasnip").lsp_expand(args.body)
         end
     },
     completion = {keyword_length = 4, autocomplete = false},
@@ -45,14 +37,34 @@ cmp.setup {
         ['<C-y>'] = cmp.mapping.confirm {behavior = cmp.ConfirmBehavior.Insert, select = true},
         ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), {'i', 'c'}),
         ["<Tab>"] = cmp.mapping(function(fallback)
-            cmp_ultisnips_mappings.expand_or_jump_forwards(fallback)
-        end, {"i", "s" --[[ "c" (to enable the mapping in command mode) ]] }),
+            if cmp.visible() then
+                cmp.select_next_item()
+            elseif luasnip.expand_or_jumpable() then
+                luasnip.expand_or_jump()
+            elseif has_words_before() then
+                cmp.complete()
+            else
+                fallback()
+            end
+        end, {"i", "s"}),
         ["<S-Tab>"] = cmp.mapping(function(fallback)
-            cmp_ultisnips_mappings.jump_backwards(fallback)
-        end, {"i", "s" --[[ "c" (to enable the mapping in command mode) ]] })
+            if cmp.visible() then
+                cmp.select_prev_item()
+            elseif luasnip.jumpable(-1) then
+                luasnip.jump(-1)
+            else
+                fallback()
+            end
+        end, {"i", "s"})
+        -- ["<Tab>"] = cmp.mapping(function(fallback)
+        --     cmp_ultisnips_mappings.expand_or_jump_forwards(fallback)
+        -- end, {"i", "s" --[[ "c" (to enable the mapping in command mode) ]] }),
+        -- ["<S-Tab>"] = cmp.mapping(function(fallback)
+        --     cmp_ultisnips_mappings.jump_backwards(fallback)
+        -- end, {"i", "s" --[[ "c" (to enable the mapping in command mode) ]] })
     }),
     sources = cmp.config.sources({
-        {name = 'nvim_lsp'}, {name = 'cmp_tabnine'}, {name = 'nvim_lua'}, {name = 'path'}, {name = 'ultisnips'},
+        {name = 'nvim_lsp'}, {name = 'cmp_tabnine'}, {name = "luasnip"}, {name = 'nvim_lua'}, {name = 'path'},
         {name = 'buffer', default = 5, keyword_length = 5}
     }),
     experimental = {native_menu = false, ghost_text = true},

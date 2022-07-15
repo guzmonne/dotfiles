@@ -15,10 +15,4 @@ gcloud config configurations activate $config
 
 gcloud config configurations describe $config
 
-dotenv -f ~/.config/ohmyposh/.env set OHMYPOSH_GOOGLE_CREDENTIALS=$config
-
-gcloud auth login --no-launch-browser
-
-sed -i "" -e "s/^current-context:.*$/current-context:/" ~/.kube/config
-
 hr.sh '─'
