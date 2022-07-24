@@ -55,7 +55,7 @@ set updatetime=300                      " Increase the update time
 set vb t_vb=                            " Disable Beep/Flash
 set wildmenu
 set wildmode=longest,list               " Get bash-like tab completions
-set laststatus=2                        " Always show the status line, even if only one window is displayed
+set laststatus=3                        " Show global statusline
 set ofu=syntaxcomplete#Complete         " Enable omnicompletion for syntax
 set softtabstop=2                       " Soft tab size
 set tabstop=2                           " Tab size
@@ -74,6 +74,11 @@ let g:loaded_python_provider = 0
 
 " Allow syntax highlighting in markdown
 let g:vim_markdown_fenced_languages = ['go', 'html', 'python', 'console=sh', 'bash=sh', 'javascript', 'typescript']
+
+" Fix issue with SQL Complete
+let g:ftplugin_sql_omni_key = '<C-0>'
+
+
 
 augroup GUX
   autocmd!
@@ -100,6 +105,8 @@ augroup GUX
   autocmd FileType lua setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4
   " Reload ultisnip snippets stored in *.snippets folders
   autocmd BufWritePost *.snippets :CmpUltisnipsReloadSnippets
+  " Avoid opening the diagnostics on a quickfix list
+  autocmd DiagnosticChanged * lua vim.diagnostic.setqflist({open = false })
 augroup END
 
 " Flash the selection when highlighting.

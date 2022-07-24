@@ -3,14 +3,7 @@ local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
 local luasnip = require 'luasnip'
 local cmp = require 'cmp'
 local lspkind = require 'lspkind'
-local source_mapping = {
-    cmp_tabnine = '[TN]',
-    buffer = "[BUF]",
-    nvim_lsp = "[LSP]",
-    nvim_lua = "[LUA]",
-    path = "[PATH]",
-    vsnip = "[SNIP]"
-}
+local source_mapping = {buffer = "[BUF]", nvim_lsp = "[LSP]", nvim_lua = "[LUA]", path = "[PATH]", vsnip = "[SNIP]"}
 
 local has_words_before = function()
     local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -29,8 +22,8 @@ cmp.setup {
     },
     completion = {keyword_length = 4, autocomplete = false},
     mapping = cmp.mapping.preset.insert({
-        ['<C-p>'] = cmp.mapping.select_prev_item(),
-        ['<C-n>'] = cmp.mapping.select_next_item(),
+        ['<C-p>'] = cmp.mapping(cmp.mapping.select_prev_item(), {'i', 'c'}),
+        ['<C-n>'] = cmp.mapping(cmp.mapping.select_next_item(), {'i', 'c'}),
         ['<C-d>'] = cmp.mapping.scroll_docs(-4),
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
         ['<C-e>'] = cmp.mapping.close(),
@@ -56,15 +49,9 @@ cmp.setup {
                 fallback()
             end
         end, {"i", "s"})
-        -- ["<Tab>"] = cmp.mapping(function(fallback)
-        --     cmp_ultisnips_mappings.expand_or_jump_forwards(fallback)
-        -- end, {"i", "s" --[[ "c" (to enable the mapping in command mode) ]] }),
-        -- ["<S-Tab>"] = cmp.mapping(function(fallback)
-        --     cmp_ultisnips_mappings.jump_backwards(fallback)
-        -- end, {"i", "s" --[[ "c" (to enable the mapping in command mode) ]] })
     }),
     sources = cmp.config.sources({
-        {name = 'nvim_lsp'}, {name = 'cmp_tabnine'}, {name = "luasnip"}, {name = 'nvim_lua'}, {name = 'path'},
+        {name = 'nvim_lsp'}, {name = 'nvim_lua'}, {name = "luasnip"}, {name = 'path'},
         {name = 'buffer', default = 5, keyword_length = 5}
     }),
     experimental = {native_menu = false, ghost_text = true},
@@ -73,24 +60,18 @@ cmp.setup {
             vim_item.kind = lspkind.presets.default[vim_item.kind]
             vim_item.with_text = false
             local menu = source_mapping[entry.source.name]
-            if entry.source.name == 'cmp_tabnine' then
-                if entry.completion_item.data ~= nil and entry.completion_item.data.detail ~= nil then
-                    menu = entry.completion_item.data.detail .. ' ' .. menu
-                end
-                vim_item.kind = ''
-            end
             vim_item.menu = menu
             return vim_item
         end
     },
-    window = {documentation = "bordered"}
+    window = {documentation = ""}
 }
 
 -- Use buffer source for `/`.
 cmp.setup.cmdline('/', {sources = {{name = 'buffer'}}})
 
 -- User cmdline & path source for `:`
-cmp.setup.cmdline(':', {sources = cmp.config.sources({{name = 'path'}}, {{name = 'cmdline'}})})
+cmp.setup.cmdline(':', {sources = cmp.config.sources({{name = 'path'}, {name = 'cmdline'}})})
 
 -- Configure autopairs
 cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done({map_char = {tex = ''}}))
