@@ -8,8 +8,6 @@ Plug 'rafi/vim-venom'
 Plug 'mickael-menu/zk-nvim'
 Plug 'nvim-neo-tree/neo-tree.nvim', { 'branch': 'v2.x' }
 Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
-Plug 'leoluz/nvim-dap-go'
-Plug 'rcarriga/nvim-dap-ui'
 Plug 'MunifTanjim/nui.nvim'
 Plug 'ThePrimeagen/harpoon'
 Plug 'editorconfig/editorconfig-vim'
@@ -21,6 +19,7 @@ Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-nvim-lua'
 Plug 'hrsh7th/cmp-path'
+Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'karb94/neoscroll.nvim'
@@ -28,7 +27,6 @@ Plug 'kyazdani42/nvim-web-devicons'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'martinda/Jenkinsfile-vim-syntax'
-Plug 'mfussenegger/nvim-dap'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'sindrets/diffview.nvim'
@@ -40,19 +38,14 @@ Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'romgrk/nvim-treesitter-context'
 Plug 'onsails/lspkind-nvim'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production' }
-Plug 'simrat39/symbols-outline.nvim'
-Plug 'thesis/vim-solidity'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-liquid'
 Plug 'tpope/vim-surround'
 Plug 'tribela/vim-transparent'
-Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
 Plug 'windwp/nvim-autopairs'
 Plug 'z0mbix/vim-shfmt', { 'for': 'sh' }
 Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' }
 Plug 'ray-x/lsp_signature.nvim'
-Plug 'saadparwaiz1/cmp_luasnip'
 
 " Don't configure any plugin under this line.
 call plug#end()

@@ -14,11 +14,12 @@ telescope.setup({
         vimgrep_arguments = {
             "rg", "--color=never", "--no-heading", "--with-filename", "--line-number", "--column", "--smart-case"
         },
-        mappings = {i = {
-            ["?"] = action_layout.toggle_preview,
-            ["<C-t>"] = trouble.open_with_trouble}, n = {["<C-t>"] = trouble.open_with_trouble}},
-        prompt_prefix = "  ",
-        selection_caret = " ",
+        mappings = {
+            i = {["?"] = action_layout.toggle_preview, ["<C-t>"] = trouble.open_with_trouble},
+            n = {["<C-t>"] = trouble.open_with_trouble}
+        },
+        prompt_prefix = " ",
+        selection_caret = " ",
         entry_prefix = "  ",
         initial_mode = "insert",
         selection_strategy = "reset",
