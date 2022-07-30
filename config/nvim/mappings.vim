@@ -167,17 +167,6 @@
   " Reset lualine.
   nnoremap <silent> <leader>/ :lua require("lualine").setup()<CR>
 
-  " Add mappings to Debug Go
-  nnoremap <silent> <leader>dh :lua require'dap.ui.widgets'.hover()<CR>
-  nnoremap <silent> <leader>db :lua require'dap'.toggle_breakpoint()<CR>
-  nnoremap <silent> <leader>dd :lua require'dap'.continue()<CR>
-  nnoremap <silent> <leader>di :lua require'dap'.step_into()<CR>
-  nnoremap <silent> <leader>do :lua require'dap'.step_over()<CR>
-  nnoremap <silent> <leader>ds :lua require'dap'.repl.open()<CR>
-  nnoremap <silent> <leader>dt :lua require'dap-go'.debug_test()<CR>
-  nnoremap <silent> <leader>de :lua require'dapui'.eval()<CR>
-  vnoremap <silent> <leader>de :lua require'dapui'.eval()<CR>
-
   " Toggle the maximization of a Window
   nnoremap <silent> <leader>mm :lua require"toggle".toggle_window()<CR>
   nnoremap <silent> <leader>mh :TSBufToggle highlight<CR>
@@ -238,8 +227,9 @@ nnoremap <silent> <s-tab> :BufferLineCyclePrev<CR>
 nnoremap <silent><leader><right> :BufferLineMoveNext<CR>
 nnoremap <silent><leader><left> :BufferLineMovePrev<CR>
 
-" Reload luasnip snippets
+" Reload Lua
 nnoremap <leader><leader>s :lua require("luasnip.loaders.from_lua").load({paths = "~/.config/nvim/lua/snippets"})<CR>
+nnoremap <leader><leader>r :lua require("user.functions").reload()<CR>
 
 " Replace u in visual mode to be the same as y
 vnoremap u y
