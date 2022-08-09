@@ -243,3 +243,6 @@ nnoremap <leader><leader>s :lua require("luasnip.loaders.from_lua").load({paths 
 
 " Replace u in visual mode to be the same as y
 vnoremap u y
+
+" Select all
+nnoremap <leader>a gg<S-v>GG
