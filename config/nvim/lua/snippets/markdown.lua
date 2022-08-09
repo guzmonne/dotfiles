@@ -30,19 +30,12 @@ local sn = ls.sn
 -- rep(<position>)
 local rep = require("luasnip.extras").rep
 
---
-local function split_input_node(input)
-    if (input == nil) then input = 1 end
-    return f(function(import_name)
-        local parts = vim.split(import_name[1][1], ".", true)
-        return parts[#parts] or ""
-    end, {input})
-end
-
-local req = s("req", fmt([[
-        local is_{}_installed, {} = pcall(require, "{}")
-        if not is_{}_installed then return end
-    ]], {split_input_node(1), split_input_node(1), i(1), split_input_node(1)}))
+local code_block = s("```", fmt([[
+        ```{}
+        {}
+        ```
+    ]], {i(1, ""), i(0)}))
 
 ---
-return {req}
+return {code_block}
+
