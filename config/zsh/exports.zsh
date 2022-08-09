@@ -34,6 +34,9 @@ export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f "${HOME}/.local/google-cloud-sdk/path.zsh.inc" ]; then . "${HOME}/.local/google-cloud-sdk/path.zsh.inc"; fi
 
+# Make kubectl use the new gke_cloud_auth_plugin
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+
 # The next line enables shell command completion for gcloud.
 if [ -f "${HOME}/.local/google-cloud-sdk/completion.zsh.inc" ]; then . "${HOME}/.local/google-cloud-sdk/completion.zsh.inc"; fi
 
