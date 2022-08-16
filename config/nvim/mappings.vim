@@ -234,7 +234,8 @@ nnoremap <leader><leader>r :lua require("user.functions").reload()<CR>
 " Replace u in visual mode to be the same as y
 vnoremap u y
 
-" echo "something"
+" Select all
+nnoremap <leader>a gg<S-v>GG
+
 " Run selected text in terminal 1
 vnoremap <silent> <leader>s1 :lua require("user.terminal").run()<CR>
-
