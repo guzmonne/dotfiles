@@ -2,6 +2,5 @@
 
 selected=$(https -pb cht.sh/:list | fzf)
 
-read -p "? " query
+read -r -p "? " query
 tmux new-window bash -c "curl cht.sh/$selected~$query | less"
-

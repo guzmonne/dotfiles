@@ -30,6 +30,7 @@ tap:
 - cantino/mcfly
 - jandedobbeleer/oh-my-posh
 brew:
+- sqlfluff
 - kustomize
 - pandoc
 # Pandoc Dependencies

@@ -1,4 +1,4 @@
-#/usr/bin/env bash
+#!/usr/bin/env bash
 
 session=$(folders.sh)
 #session_name=$(basename "$session" | tr . _)

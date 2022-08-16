@@ -85,8 +85,9 @@ augroup GUX
   autocmd BufWritePre * :call TrimWhitespace()
   autocmd BufWritePre *.ts,*.js,*.jsx,*.tsx EslintFixAll
   autocmd BufWritePre *.ts,*.js,*.jsx,*.tsx Prettier
-  " Run auto-format on go files.
-  autocmd BufWritePre *.go lua vim.lsp.buf.formatting()
+  " Run auto-format.
+  autocmd BufWritePre *.sh lua vim.lsp.buf.format({ async = true })
+  autocmd BufWritePre *.go lua lua vim.lsp.buf.format({ async = true })
   " Remove line numbers in terminal mode.
   autocmd TermOpen * setlocal listchars= nonumber norelativenumber nocursorline
   autocmd TermOpen * startinsert

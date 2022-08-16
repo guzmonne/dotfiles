@@ -5,12 +5,12 @@ history_size=${TMUX_SESSIONIZER_HISTORY_SIZE:=1000}
 
 # Create the history file
 history_create_file() {
-  touch "$history_file"
+	touch "$history_file"
 }
 
 # Prints the history file
 history_list() {
-  cat "$history_file" | sort |  uniq
+	sort "$history_file" | uniq
 }
 
 # Gets the nth history entry. The index is counted from the newest to the oldest. Meaning that the
@@ -37,15 +37,15 @@ history_list() {
 #   history_get 2
 #
 history_get() {
-  if [[ -z "$1" ]]; then
-    cat "$history_file" | tail -n 1
-    return
-  fi
-  if [[ "$1" >="$history_size" ]]; then
-    cat "$history_file" | head -n 1
-    return
-  fi
-  cat "$history_file" | tail -n "$1" | head -n 1
+	if [[ -z "$1" ]]; then
+		tail -n 1 <"$history_file"
+		return
+	fi
+	if [[ "$1" > ="$history_size" ]]; then
+		head -n 1 <"$history_file"
+		return
+	fi
+	tail -n "$1" <"$history_file" | head -n 1
 }
 
 # Appends a new value to the bottom of the history file. It also makes sure that this file doesn't
@@ -62,7 +62,7 @@ history_get() {
 #   history_set "new-entry"
 #
 history_set() {
-  echo "$1" >> "$history_file"
-  contents=$(tail -n "$history_size" "$history_file")
-  cat <<< "$contents" > "$history_file"
+	echo "$1" >>"$history_file"
+	contents=$(tail -n "$history_size" "$history_file")
+	cat <<<"$contents" >"$history_file"
 }

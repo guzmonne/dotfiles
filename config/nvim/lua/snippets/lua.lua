@@ -40,9 +40,9 @@ local function split_input_node(input)
 end
 
 local req = s("req", fmt([[
-        local is_{}_installed, {} = pcall(require, "{}")
-        if not is_{}_installed then return end
-    ]], {split_input_node(1), split_input_node(1), i(1), split_input_node(1)}))
+    local is_{}_installed, {} = pcall(require, "{}")
+    if not is_{}_installed then return end
+]], {split_input_node(1), split_input_node(1), i(1), split_input_node(1)}))
 
 ---
 return {req}
