@@ -12,4 +12,3 @@ SESSION_NAME="$session_name" kitty --session ~/.config/kitty/session.conf --titl
 # if ! tmux attach -t "$session_name" 2> /dev/null; then
 #   tmux switch-client -t "$session_name"
 # fi
-
