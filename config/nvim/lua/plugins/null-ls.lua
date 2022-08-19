@@ -14,9 +14,4 @@ if not is_shellcheck_installed then return end
 local is_hadolint_installed, hadolint = pcall(require, "null-ls.builtins.diagnostics.hadolint")
 if not is_hadolint_installed then return end
 
-local is_sqlfluff_installed, sqlfluff = pcall(require, "null-ls.builtins.diagnostics.sqlfluff")
-if not is_sqlfluff_installed then return end
-
-null_ls.setup({
-    sources = {shfmt, prettier, shellcheck, hadolint, sqlfluff.with({extra_args = {"--dialect", "postgres"}})}
-})
+null_ls.setup({sources = {shfmt, prettier, shellcheck, hadolint}})
