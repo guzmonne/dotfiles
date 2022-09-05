@@ -23,6 +23,9 @@ npm:
 - vim-language-server
 - '@rafaelrinaldi/hn-cli'
 cask:
+# Might need to install this with
+#   brew install koekeishiya/formulae/yabai
+# - koekeishiya/formulae/yabai
 - ngrok
 - homebrew/cask/basictex
 # - alacritty
@@ -30,6 +33,7 @@ tap:
 - cantino/mcfly
 - jandedobbeleer/oh-my-posh
 brew:
+- skhd
 - sqlfluff
 - kustomize
 - pandoc
