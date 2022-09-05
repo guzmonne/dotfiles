@@ -143,3 +143,6 @@ if [ -d "$brew_prefix/opt/mysql@5.7" ]; then
   export LDFLAGS="$LDFLAGS -L$brew_prefix/opt/mysql@5.7/lib"
   export CPPFLAGS="$CPPFLAGS -I$brew_prefix/opt/mysql@5.7/include"
 fi
+
+# Allow GCP to get to external packages
+export CLOUDSDK_PYTHON_SITEPACKAGES=1
