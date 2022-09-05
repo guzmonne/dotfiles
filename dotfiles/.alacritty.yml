@@ -50,7 +50,7 @@ window:
   #   y: 0
 
   # Spread additional padding evenly around the terminal content.
-  dynamic_padding: true
+  dynamic_padding: false
 
   # Window decorations
   #
@@ -68,7 +68,7 @@ window:
   # Window opacity as a floating point number from `0.0` to `1.0`.
   # The value `0.0` is completely transparent and `1.0` is opaque.
   # opacity: 0.5
-background_opacity: 0.95
+background_opacity: 0.90
 
   # Startup Mode (changes require restart)
   #
@@ -103,10 +103,10 @@ background_opacity: 0.95
 scrolling:
   # Maximum number of lines in the scrollback buffer.
   # Specifying '0' will disable scrolling.
-  history: 0
+  history: 10000
 
   # Scrolling distance multiplier.
-  multiplier: 0
+  multiplier: 10
 
 # Font configuration
 font:
@@ -118,7 +118,7 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    family: FiraCode Nerd Font
+    family: "CartographCF Nerd Font"
 
     # The `style` can be specified to pick a specific face.
     # style: Light
@@ -129,7 +129,7 @@ font:
     #
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: FiraCode Nerd Font
+    family: "CartographCF Nerd Font"
 
     # The `style` can be specified to pick a specific face.
     # style: Demi Bold
@@ -140,7 +140,7 @@ font:
     #
     # If the italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: FiraCode Nerd Font
+    family: "CartographCF Nerd Font"
 
     # The `style` can be specified to pick a specific face.
     # style: Thin Italic
@@ -151,27 +151,27 @@ font:
     #
     # If the bold italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: FiraCode Nerd Font
+    family: "CartographCF Nerd Font"
 
     # The `style` can be specified to pick a specific face.
     # style: Medium Italic
 
   # Point size
-  size: 18
+  size: 22
 
   # Offset is the extra space around each character. `offset.y` can be thought
   # of as modifying the line spacing, and `offset.x` as modifying the letter
   # spacing.
   offset:
     x: 0
-    y: 6
+    y: -6
 
   # Glyph offset determines the locations of the glyphs within their cells with
   # the default being at the bottom. Increasing `x` moves the glyph to the
   # right, increasing `y` moves the glyph upward.
   glyph_offset:
     x: 0
-    y: 6
+    y: -3
 
   # Thin stroke font rendering (macOS only)
   #
