@@ -13,5 +13,6 @@ config/zsh/.histfile
 config/zsh/.zprofile
 config/zsh/.zsh_sessions/
 config/zsh/.zshrc.zni
+config/zsh/.zcompcache/
 config/ranger/plugins
 config/nvim/spell/en.utf-8.add

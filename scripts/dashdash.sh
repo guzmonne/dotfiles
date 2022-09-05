@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 
-endpoint=$(cat $HOME/Projects/Personal/state/dashdash | fzf)
+endpoint=$(fzf <"$HOME/Projects/Personal/state/dashdash")
 
-echo $endpoint
+echo "$endpoint"
 
-if [ ! -z "$endpoint" ]; then
+if [[ -n "$endpoint" ]]; then
 	url="https://dashdash.io/$endpoint"
-	open $url
+	open "$url"
 fi
-

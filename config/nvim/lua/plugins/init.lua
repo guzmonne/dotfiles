@@ -1,4 +1,4 @@
---
+-- Init.lua --
 require('plugins.autopairs')
 require('plugins.backpack')
 require('plugins.bufferline')
@@ -7,12 +7,12 @@ require('plugins.diffview')
 require('plugins.gitsigns')
 require('plugins.harpoon')
 require('plugins.indent_blankline')
--- init.lua
 require('plugins.lsp')
 require('plugins.lualine')
 require('plugins.luasnip')
 require('plugins.neo-tree')
 require('plugins.neoscroll')
+require('plugins.null-ls')
 require('plugins.nvim-web-devicons')
 require('plugins.telescope')
 require('plugins.tokyonight')

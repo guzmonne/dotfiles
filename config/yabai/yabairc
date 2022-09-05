@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+
+set -x
+
+# === Variables ===
+gap="12"
+
+gaps=()
+gaps["bottom"]="$gap"
+gaps["top"]="$gap"
+gaps["right"]="$gap"
+gaps["left"]="$gap"
+gaps["window"]="6"
+
+color=()
+color["active"]="0xE0808080"
+color["normal"]="0x00010101"
+color["insert"]="0xE02d74da"
+
+# === Loading Scripting Additions ===
+
+# The scripting-addition must be loaded manually if you are running yabai on macOS Big Sur or
+# Monterey. Uncomment the following line to have the injection performed when the config is executed
+# during startup.
+#
+# For this to work you must configure sudo such that it will be able to run the command without
+# password.
+sudo yabai --load-sa
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+
+# === Global Settings ===
+
+yabai -m config                                 \
+    mouse_follows_focus          off            \
+    focus_follows_mouse          off            \
+    window_origin_display        default        \
+    window_placement             second_child   \
+    window_topmost               off            \
+    window_shadow                on             \
+    window_opacity               off            \
+    window_opacity_duration      0.0            \
+    active_window_opacity        1.0            \
+    normal_window_opacity        0.90           \
+    window_border                off            \
+    window_border_width          6              \
+    active_window_border_color   "${color["active"]}"     \
+    normal_window_border_color   "${color["normal"]}"     \
+    insert_feedback_color        "${color["insert"]}"     \
+    split_ratio                  0.50           \
+    auto_balance                 off            \
+    mouse_modifier               fn             \
+    mouse_action1                move           \
+    mouse_action2                resize         \
+    mouse_drop_action            swap           \
+    layout                       bsp            \
+    top_padding                  "${gaps["top"]}"      \
+    bottom_padding               "${gaps["bottom"]}"   \
+    left_padding                 "${gaps["left"]}"     \
+    right_padding                "${gaps["right"]}"    \
+    window_gap                   "${gaps["right"]}"
+
+
+
+# === Rules ===
+
+# yabai -m rule --add label="Finder" app="^Finder$" manage=off
+# yabai -m rule --add label="Calculator" app="^Calculator$" manage=off
+# yabai -m rule --add label="Software Update" title="Software Update" manage=off
+# yabai -m rule --add label="About this Mac" app="System Information" title="About This Mac" manage=off
+# yabai -m rule --add label="1Password" app="1Password" title="1Password" manage=off
+
+# === Main ===
+
+set +x
+echo "yabai configuration loaded..."

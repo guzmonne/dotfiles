@@ -43,7 +43,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tribela/vim-transparent'
 Plug 'windwp/nvim-autopairs'
-Plug 'z0mbix/vim-shfmt', { 'for': 'sh' }
+Plug 'jose-elias-alvarez/null-ls.nvim'
 Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' }
 Plug 'ray-x/lsp_signature.nvim'
 

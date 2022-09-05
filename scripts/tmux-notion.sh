@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 
-read -p "Note title: " title
+read -r -p "Note title: " title
 
 echo "Enjoy writing your note in Notion"
 
 if [ -z "${TMUX}" ]; then
-  notion "$title"
+	notion "$title"
 else
-  tmux new-window bash -c "notion \"$title\""
+	tmux new-window bash -c "notion \"$title\""
 fi
-

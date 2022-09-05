@@ -239,3 +239,7 @@ nnoremap <leader>a gg<S-v>GG
 
 " Run selected text in terminal 1
 vnoremap <silent> <leader>s1 :lua require("user.terminal").run()<CR>
+
+" Remap go to end of the line
+nnoremap $ g_
+vnoremap $ g_
