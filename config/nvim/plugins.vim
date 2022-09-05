@@ -86,7 +86,3 @@ let g:Hexokinase_highlighters = ['virtual']
 
 " Configure Neo-Tree
 let g:neo_tree_remove_legacy_commands = 1
-
-" vim-shfmt configuration
-" let g:shfmt_extra_args = '-i 2'
-" let g:shfmt_fmt_on_save = 1
