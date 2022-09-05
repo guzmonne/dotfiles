@@ -4,7 +4,7 @@
 ROOT="$(dirname "$(readlink -f "$(which "$0")")")"
 
 # Source history file management script
-source "$ROOT/tmux-sessionizer-history-file.sh"
+source "$ROOT/sessionizer-history-file.sh"
 
 # Create history file if it doesn't exist.
 history_create_file
