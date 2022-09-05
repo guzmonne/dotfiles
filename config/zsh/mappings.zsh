@@ -22,12 +22,12 @@ bindkey -s '^p' 'tmux-sessions.sh^M ^M'
 bindkey -s '^n' 'tmux-sessionizer.sh^M ^M'
 # [C-Tab] Toggles to the previous session
 bindkey -s '^t' 'tmux-toggle.sh^M ^M'
-# [C-q] Creates a new quick note
-bindkey -s '^[OP' 'quicknote.sh^M ^M'
+# [F1] Creates a new quick note
+# bindkey -s '^[OP' 'quicknote.sh^M ^M'
 # [A-w] Start writing a new note in Notion.
 bindkey -s '∑' 'tmux-notion.sh^M ^M'
 # [F1] - Select a service to read on dashdash.
-bindkey -s '^[OR' 'dashdash.sh^M ^M'
+# bindkey -s '^[OR' 'dashdash.sh^M ^M'
 
 # [C-b] - Move backwards one word.
 bindkey '\C-e' backward-word
