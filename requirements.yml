@@ -9,6 +9,7 @@ pipx:
 luarocks:
 - luaformatter
 npm:
+- pyright
 - jest
 - ts-jest
 - zx
