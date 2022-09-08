@@ -243,3 +243,6 @@ vnoremap <silent> <leader>s1 :lua require("user.terminal").run()<CR>
 " Remap go to end of the line
 nnoremap $ g_
 vnoremap $ g_
+
+" Configure Centerpad
+nnoremap <silent> <leader>cc :lua require'centerpad'.toggle{ leftpad = 60, rightpad = 0 }<CR>

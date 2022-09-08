@@ -46,6 +46,7 @@ Plug 'windwp/nvim-autopairs'
 Plug 'jose-elias-alvarez/null-ls.nvim'
 Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' }
 Plug 'ray-x/lsp_signature.nvim'
+Plug 'smithbm2316/centerpad.nvim'
 
 " Don't configure any plugin under this line.
 call plug#end()
