@@ -1,3 +1,7 @@
+" Defaults
+unlet! skip_defaults_vim
+runtime defaults.vim
+
 " Filetype
 filetype on
 filetype plugin on
@@ -64,9 +68,6 @@ set shiftwidth=2                        " Visual mode indentation (match tabstop
 set foldmethod=expr                     " Kind of fold used for the current window.
 set foldexpr=nvim_treesitter#foldexpr() " Use Treesitter to handle folds
 
-" Syntax
-syntax on                       " Enable syntax highlighting
-
 " Python provider configuration
 let g:python3_host_prog = '/Users/gmonne/.pyenv/shims/python3'
 " Remove Python2 support
@@ -77,8 +78,6 @@ let g:vim_markdown_fenced_languages = ['go', 'html', 'python', 'console=sh', 'ba
 
 " Fix issue with SQL Complete
 let g:ftplugin_sql_omni_key = '<C-0>'
-
-
 
 augroup GUX
   autocmd!
