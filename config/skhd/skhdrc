@@ -2,15 +2,15 @@
 alt - return  : "kitty open-app.sh"
 
 # Labeled spaces
-lctrl - 1     : yabai -m space --focus "kitty"
-lctrl - 2     : yabai -m space --focus "brave"
-lctrl - 3     : yabai -m space --focus "firefox"
-lctrl - 4     : yabai -m space --focus "outlook"
-lctrl - 5     : yabai -m space --focus "slack"
-lctrl - 6     : yabai -m space --focus "fantastical"
-lctrl - 7     : yabai -m space --focus "spotify"
-lctrl - 8     : yabai -m space --focus "linear"
-lctrl - 9     : yabai -m space --focus "zoom"
+alt - 1     : yabai -m space --focus "kitty"
+alt - 2     : yabai -m space --focus "brave"
+alt - 3     : yabai -m space --focus "firefox"
+alt - 4     : yabai -m space --focus "outlook"
+alt - 5     : yabai -m space --focus "slack"
+alt - 6     : yabai -m space --focus "fantastical"
+alt - 7     : yabai -m space --focus "spotify"
+alt - 8     : yabai -m space --focus "linear"
+alt - 9     : yabai -m space --focus "zoom"
 
 # Force window arrangement
 alt - m     : yabai -m space --layout bsp && yabai -m space --balance
@@ -31,10 +31,12 @@ shift + alt - l : yabai -m window --warp east
 shift + alt - m : yabai -m window --space last; yabai -m space --focus last
 shift + alt - p : yabai -m window --space prev; yabai -m space --focus prev
 shift + alt - n : yabai -m window --space next; yabai -m space --focus next
-shift + alt - 1 : yabai -m window --space 1; yabai -m space --focus 1
-shift + alt - 2 : yabai -m window --space 2; yabai -m space --focus 2
-shift + alt - 3 : yabai -m window --space 3; yabai -m space --focus 3
-shift + alt - 4 : yabai -m window --space 4; yabai -m space --focus 4
+
+# Stack current window on top of the one on top.
+alt - s : \
+    yabai -m window --focus north; \
+    yabai -m window --focus south; \
+    yabai -m window --stack prev
 
 # Float / Unfloat Window
 shift + alt - space : \
@@ -53,6 +55,3 @@ shift + lctrl + alt - r : \
 # Make window native fullscreen
 alt - f         : yabai -m window --toggle zoom-fullscreen
 shift + alt - f : yabai -m window --toggle native-fullscreen
-
-shift + alt - up     : yabai -m window --grid 1:1:0:0:1:1F
-
