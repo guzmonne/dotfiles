@@ -41,7 +41,7 @@ set number                              " Add line numbers
 set numberwidth=4                       " Set number width to 4 (default: 2)
 set pumheight=10                        " Pop up menu height
 set re=0                                " Stop old regex engine to avoid performance loss.
-set norelativenumber                    " Un-set relative numbers
+set relativenumber                    " Un-set relative numbers
 set ruler                               " Enable line and column display
 set scrolloff=8                         " Make vim start scrolling 8 lines from the end
 set shortmess=F                         " Don't pass messages to |ins-completion-menu|

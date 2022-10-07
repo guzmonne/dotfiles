@@ -24,6 +24,7 @@
   # TERM: alacritty
 
 window:
+  opacity: 0.90
   # Window dimensions (changes require restart)
   #
   # Number of lines/columns (not pixels) in the trminal. The number of columns
@@ -68,7 +69,7 @@ window:
   # Window opacity as a floating point number from `0.0` to `1.0`.
   # The value `0.0` is completely transparent and `1.0` is opaque.
   # opacity: 0.5
-background_opacity: 0.90
+  # background_opacity: 0.90
 
   # Startup Mode (changes require restart)
   #
@@ -121,7 +122,7 @@ font:
     family: "CartographCF Nerd Font"
 
     # The `style` can be specified to pick a specific face.
-    # style: Light
+    style: Regular
 
   # Bold font face
   bold:
@@ -132,7 +133,7 @@ font:
     family: "CartographCF Nerd Font"
 
     # The `style` can be specified to pick a specific face.
-    # style: Demi Bold
+    style: Bold
 
   # Italic font face
   italic:
@@ -143,7 +144,7 @@ font:
     family: "CartographCF Nerd Font"
 
     # The `style` can be specified to pick a specific face.
-    # style: Thin Italic
+  style: Italic
 
   # Bold italic font face
   bold_italic:
@@ -154,7 +155,7 @@ font:
     family: "CartographCF Nerd Font"
 
     # The `style` can be specified to pick a specific face.
-    # style: Medium Italic
+    style: Bold Italic
 
   # Point size
   size: 22
@@ -177,7 +178,7 @@ font:
   #
   # Thin strokes are suitable for retina displays, but for non-retina screens
   # it is recommended to set `use_thin_strokes` to `false`.
-  use_thin_strokes: false
+  use_thin_strokes: true
 
 # If `true`, bold text is drawn using the bright color variants.
 draw_bold_text_with_bright_colors: false

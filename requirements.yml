@@ -86,6 +86,7 @@ brew:
 - vivid
 - ninja
 repos:
+- shaunsingh/SFMono-Nerd-Font-Ligaturized
 - k0nserv/kitty-icon
 - alexanderjeurissen/ranger_devicons
 - elasticdog/transcrypt

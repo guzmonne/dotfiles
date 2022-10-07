@@ -20,7 +20,12 @@ M.psql = function()
         command = dir .. '/dev/coral.sh',
         args = {'psql', '-c', sql},
         on_exit = function(j)
-            print(j:result()[1])
+            print('---')
+            print('QUERY:')
+            print(sql)
+            print('...')
+            for k, v in pairs(j:result()) do print('  ' .. v) end
+            print('---')
         end
     }):sync()
 end

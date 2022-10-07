@@ -1,3 +1,29 @@
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Find Nearest
+" Source: http://vim.1045645.n5.nabble.com/find-closest-occurrence-in-both-directions-td1183340.html
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! FindNearest(pattern)
+  let @/=a:pattern
+  let b:prev = search(a:pattern, 'bncW')
+  if b:prev
+    let b:next = search(a:pattern, 'ncW')
+    if b:next
+      let b:cur = line('.')
+      if b:cur - b:prev == b:next - b:cur
+        " on a match
+      elseif b:cur - b:prev < b:next - b:cur
+        ?
+      else
+        /
+      endif
+    else
+      ?
+    endif
+  else
+    /
+  endif
+endfunction
+
 function! s:Camelize(range) abort
   if a:range == 0
     s#\(\%(\<\l\+\)\%(_\)\@=\)\|_\(\l\)#\u\1\2#g
@@ -140,6 +166,7 @@ function! ToggleLightDark()
   endif
 endfunction
 
+command! -nargs=1 FN call FindNearest(<q-args>)
 command! -range CamelCase silent! call <SID>Camelize(<range>)
 command! -range SnakeCase silent! call <SID>Snakeize(<range>)
 command! -nargs=1 Silent

@@ -3,6 +3,7 @@
 " Hint: Make sure you use single quotes.
 call plug#begin('~/.config/nvim/plugged')
 
+Plug 'aliou/bats.vim'
 Plug 'L3MON4D3/LuaSnip'
 Plug 'rafi/vim-venom'
 Plug 'mickael-menu/zk-nvim'
