@@ -1,3 +1,7 @@
+" Defaults
+unlet! skip_defaults_vim
+runtime defaults.vim
+
 " Filetype
 filetype on
 filetype plugin on
@@ -37,7 +41,7 @@ set number                              " Add line numbers
 set numberwidth=4                       " Set number width to 4 (default: 2)
 set pumheight=10                        " Pop up menu height
 set re=0                                " Stop old regex engine to avoid performance loss.
-set norelativenumber                    " Un-set relative numbers
+set relativenumber                    " Un-set relative numbers
 set ruler                               " Enable line and column display
 set scrolloff=8                         " Make vim start scrolling 8 lines from the end
 set shortmess=F                         " Don't pass messages to |ins-completion-menu|
@@ -63,9 +67,6 @@ set expandtab                           " Replace tabs with spaces
 set shiftwidth=2                        " Visual mode indentation (match tabstop)
 set foldmethod=expr                     " Kind of fold used for the current window.
 set foldexpr=nvim_treesitter#foldexpr() " Use Treesitter to handle folds
-
-" Syntax
-syntax on                       " Enable syntax highlighting
 
 " Python provider configuration
 let g:python3_host_prog = '/Users/gmonne/.pyenv/shims/python3'

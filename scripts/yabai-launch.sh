@@ -142,10 +142,3 @@ main() {
 main "$@"
 
 set +x
-
-# lsblk
-# ps -ef | grep diamond
-# cd /usr/share/diamond/collectors/diskusage/
-# systemctl restart diamond
-# cd /var/log/diamond/
-#

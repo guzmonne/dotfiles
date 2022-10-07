@@ -11,6 +11,7 @@ alt - 6     : yabai -m space --focus "fantastical"
 alt - 7     : yabai -m space --focus "spotify"
 alt - 8     : yabai -m space --focus "linear"
 alt - 9     : yabai -m space --focus "zoom"
+alt - 0     : yabai -m space --focus "safari"
 
 # Force window arrangement
 alt - m     : yabai -m space --layout bsp && yabai -m space --balance

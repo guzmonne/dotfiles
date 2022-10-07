@@ -13,6 +13,7 @@ ROOT="$(dirname "$(readlink -f "$(which "$0")")")"
 "$ROOT/yabai-launch.sh" "spotify" "Spotify" 2
 "$ROOT/yabai-launch.sh" "linear" "Linear" 2
 "$ROOT/yabai-launch.sh" "zoom" "zoom.us" 2
+"$ROOT/yabai-launch.sh" "safari" "Safari" 1
 
 # Correct labels
 yabai -m space 1 --label "kitty"
@@ -24,6 +25,7 @@ yabai -m space 6 --label "fantastical"
 yabai -m space 7 --label "spotify"
 yabai -m space 8 --label "linear"
 yabai -m space 9 --label "zoom"
+yabai -m space 10 --label "safari"
 
 # Focus on kitty once eveything is done
 yabai -m space --focus "kitty"
