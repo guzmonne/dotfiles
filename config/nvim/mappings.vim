@@ -1,4 +1,4 @@
-  " Change the map leader.
+    " Change the map leader.
   let mapleader=" "
 
   " Open a new tmux window using tmux-windownizer
@@ -244,5 +244,3 @@ vnoremap <silent> <leader>s1 :lua require("user.terminal").run()<CR>
 nnoremap $ g_
 vnoremap $ g_
 
-" Configure Centerpad
-nnoremap <silent> <leader>cc :lua require'centerpad'.toggle{ leftpad = 60, rightpad = 0 }<CR>

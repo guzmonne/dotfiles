@@ -78,8 +78,6 @@ let g:vim_markdown_fenced_languages = ['go', 'html', 'python', 'console=sh', 'ba
 " Fix issue with SQL Complete
 let g:ftplugin_sql_omni_key = '<C-0>'
 
-
-
 augroup GUX
   autocmd!
   autocmd BufWritePre * :call TrimWhitespace()
