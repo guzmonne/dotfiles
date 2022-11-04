@@ -51,7 +51,7 @@ window:
   #   y: 0
 
   # Spread additional padding evenly around the terminal content.
-  dynamic_padding: false
+  dynamic_padding: true
 
   # Window decorations
   #
@@ -771,16 +771,16 @@ cursor:
 #
 # If the same trigger is assigned to multiple actions, all of them are executed
 # in the order they were defined in.
-key_bindings:
-  - { key: Comma,     mods: Command,      command:
-      {program: "sh", args: ["-c","nvim ~/.alacritty.yml"]}     }
-  - { key: N,         mods: Command,      action: SpawnNewInstance       }
-  - { key: Space,     mods: Alt,          chars: " "                     }
-  - { key: Back, mods: Super, chars: "\x15" } # delete word/line
-  - { key: Left,     mods: Alt,     chars: "\x1bb"                       } # one word left
-  - { key: Right,    mods: Alt,     chars: "\x1bf"                       } # one word right
-  - { key: Left,     mods: Command, chars: "\x1bOH",   mode: AppCursor   } # Home
-  - { key: Right,    mods: Command, chars: "\x1bOF",   mode: AppCursor   } # End
+key_bindings: []
+  # - { key: Comma,     mods: Command,      command:
+  #     {program: "sh", args: ["-c","nvim ~/.alacritty.yml"]}     }
+  # - { key: N,         mods: Command,      action: SpawnNewInstance       }
+  # - { key: Space,     mods: Alt,          chars: " "                     }
+  # - { key: Back, mods: Super, chars: "\x15" } # delete word/line
+  # - { key: Left,     mods: Alt,     chars: "\x1bb"                       } # one word left
+  # - { key: Right,    mods: Alt,     chars: "\x1bf"                       } # one word right
+  # - { key: Left,     mods: Command, chars: "\x1bOH",   mode: AppCursor   } # Home
+  # - { key: Right,    mods: Command, chars: "\x1bOF",   mode: AppCursor   } # End
   #- { key: Paste,                                       action: Paste          }
   #- { key: Copy,                                        action: Copy           }
   #- { key: L,         mods: Control,                    action: ClearLogNotice }

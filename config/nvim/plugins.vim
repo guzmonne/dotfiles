@@ -3,9 +3,9 @@
 " Hint: Make sure you use single quotes.
 call plug#begin('~/.config/nvim/plugged')
 
+Plug 'johmsalas/text-case.nvim'
 Plug 'aliou/bats.vim'
 Plug 'L3MON4D3/LuaSnip'
-Plug 'rafi/vim-venom'
 Plug 'mickael-menu/zk-nvim'
 Plug 'nvim-neo-tree/neo-tree.nvim', { 'branch': 'v2.x' }
 Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
@@ -20,8 +20,8 @@ Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-nvim-lua'
 Plug 'hrsh7th/cmp-path'
-Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'hrsh7th/nvim-cmp'
+Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'karb94/neoscroll.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
@@ -45,7 +45,6 @@ Plug 'tpope/vim-surround'
 Plug 'xiyaowong/nvim-transparent'
 Plug 'windwp/nvim-autopairs'
 Plug 'jose-elias-alvarez/null-ls.nvim'
-Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' }
 Plug 'ray-x/lsp_signature.nvim'
 
 " Don't configure any plugin under this line.
