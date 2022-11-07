@@ -217,15 +217,7 @@ nnoremap <silent> <leader>zz :call VCenterCursor()<CR>
 " Change camelCase to snake_case
 vnoremap <leader>cs :'<,'>SnakeCase<CR>
 " Convert snake_case to camelCase
-vnoremap  <leader>cc :'<,'>CamelCase<CR>
-
-" Allows better navigation through buffers
-nnoremap <silent> <tab> :BufferLineCycleNext<CR>
-nnoremap <silent> <s-tab> :BufferLineCyclePrev<CR>
-
-" These commands will move the current buffer backwards or forwards in the bufferline
-nnoremap <silent><leader><right> :BufferLineMoveNext<CR>
-nnoremap <silent><leader><left> :BufferLineMovePrev<CR>
+vnoremap  <leader>cc :lua require('textcase').current_word('to_camel_case')<CR>
 
 " Reload Lua
 nnoremap <leader><leader>s :lua require("luasnip.loaders.from_lua").load({paths = "~/.config/nvim/lua/snippets"})<CR>

@@ -181,6 +181,9 @@ nvim_lsp.html.setup {
     flags = {debounce_text_changes = 150}
 }
 
+-- Terraform --
+require'lspconfig'.terraformls.setup {}
+
 -- Lua --
 local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, "lua/?.lua")

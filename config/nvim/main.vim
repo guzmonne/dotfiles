@@ -107,6 +107,9 @@ augroup GUX
   autocmd BufWritePost *.snippets :CmpUltisnipsReloadSnippets
   " Avoid opening the diagnostics on a quickfix list
   autocmd DiagnosticChanged * lua vim.diagnostic.setqflist({open = false })
+  " Terraform format
+  autocmd BufWritePre *.tfvars lua vim.lsp.buf.format({ async = true })
+  autocmd BufWritePre *.tf lua vim.lsp.buf.format({ async = true})
 augroup END
 
 " Flash the selection when highlighting.
