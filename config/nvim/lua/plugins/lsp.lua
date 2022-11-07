@@ -128,7 +128,8 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
     signs = true,
     virtual_text = true
 })
-update_in_insert = false, -- Ansible --
+
+-- Ansible --
 nvim_lsp.ansiblels.setup {
     cmd = {"ansible-language-server", "--stdio"},
     filetypes = {"yaml", "yml", "yaml.ansible", "ansible"},

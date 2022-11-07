@@ -1,3 +1,2 @@
 -- Trouble configuration --
-
-require("trouble").setup({mode = "document_diagnostics", auto_open = false, auto_close = true})
+require("trouble").setup({mode = "quickfix", auto_open = false, auto_close = true})
