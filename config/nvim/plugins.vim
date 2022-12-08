@@ -3,6 +3,11 @@
 " Hint: Make sure you use single quotes.
 call plug#begin('~/.config/nvim/plugged')
 
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
+Plug 'puremourning/vimspector'
+Plug 'simrat39/rust-tools.nvim'
+Plug 'terrastruct/d2-vim'
 Plug 'johmsalas/text-case.nvim'
 Plug 'aliou/bats.vim'
 Plug 'L3MON4D3/LuaSnip'
@@ -18,6 +23,7 @@ Plug 'hashivim/vim-terraform'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
 Plug 'hrsh7th/cmp-nvim-lua'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/nvim-cmp'
@@ -46,6 +52,7 @@ Plug 'xiyaowong/nvim-transparent'
 Plug 'windwp/nvim-autopairs'
 Plug 'jose-elias-alvarez/null-ls.nvim'
 Plug 'ray-x/lsp_signature.nvim'
+Plug 'm-demare/hlargs.nvim'
 
 " Don't configure any plugin under this line.
 call plug#end()
@@ -64,25 +71,5 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 let g:mkdp_auto_start = 0
 let g:mkdp_auto_close = 1
 
-" Convert the current colorscheme into an fzf configuration line
-let g:fzf_colors =
-\ { 'fg':         ['fg', 'Normal'],
-  \ 'bg':         ['bg', 'Normal'],
-  \ 'preview-bg': ['bg', 'NormalFloat'],
-  \ 'hl':         ['fg', 'Comment'],
-  \ 'fg+':        ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \ 'bg+':        ['bg', 'CursorLine', 'CursorColumn'],
-  \ 'hl+':        ['fg', 'Statement'],
-  \ 'info':       ['fg', 'PreProc'],
-  \ 'border':     ['fg', 'Ignore'],
-  \ 'prompt':     ['fg', 'Conditional'],
-  \ 'pointer':    ['fg', 'Exception'],
-  \ 'marker':     ['fg', 'Keyword'],
-  \ 'spinner':    ['fg', 'Label'],
-  \ 'header':     ['fg', 'Comment'] }
-
 " Configure vim-hexokinase
 let g:Hexokinase_highlighters = ['virtual']
-
-" Configure Neo-Tree
-let g:neo_tree_remove_legacy_commands = 1

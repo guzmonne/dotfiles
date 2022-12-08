@@ -1,4 +1,5 @@
 local nvim_lsp = require('lspconfig')
+local util = require('lspconfig/util')
 
 local M = {}
 
@@ -32,7 +33,7 @@ function M.on_attach(client, bufnr)
         buf_set_keymap("x", "<space>f", "<cmd>lua vim.lsp.buf.range_formatting()<CR><ESC>", opts)
     end
 
-    -- The blow command will highlight the current variable and its usages in the buffer
+    -- The below command will highlight the current variable and its usages in the buffer
     if client.server_capabilities.document_highlight then
         vim.cmd([[
           hi! link LspReferenceRead Visual
@@ -168,10 +169,13 @@ nvim_lsp.eslint.setup {
 }
 -- Go --
 nvim_lsp.gopls.setup {
-    cmd = {"gopls"},
+    cmd = {"gopls", "serve"},
+    filetypes = {"go", "gomod"},
+    root_dir = util.root_pattern("go.work", "go.mod", ".git"),
     on_attach = M.on_attach,
     flags = {debounce_text_changes = 150},
-    capabilities = capabilities
+    capabilities = capabilities,
+    settings = {gopls = {analyses = {unusedparams = true}, staticcheck = true}}
 }
 -- HTML --
 nvim_lsp.html.setup {

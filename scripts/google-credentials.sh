@@ -7,11 +7,14 @@ config=$(gcloud config configurations list |
 
 if [ -z "$config" ]; then exit 0; fi
 
+gcloud auth revoke --all
+gcloud config configurations activate "$config"
+gcloud auth login
+gcloud auth application-default login
+
 clear
 
 hr.sh '─'
-
-gcloud config configurations activate "$config"
 
 gcloud config configurations describe "$config"
 

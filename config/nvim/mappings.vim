@@ -47,7 +47,6 @@ nnoremap <silent> <leader>cx :!chmod +x %<CR>
 " Shortcut to source NVIM configuration
 nnoremap <leader>sc :source ~/.config/nvim/init.vim<CR>
 
-
 " Replay the last command change
 nnoremap <leader>@ @:<CR>
 
@@ -84,8 +83,6 @@ nnoremap <silent> t4 :lua require("harpoon.term").gotoTerminal(4)<CR>
 
 " Replace all the occurances of what you have visually selected.
 vnoremap <C-r> <Esc>:%s/<c-r>=GetVisual()<cr>//g<left><left><c-r>=GetVisual()<cr>
-" Replace the text object under the current cursor using lsp.
-nnoremap <leader>r :lua require('lsp_rename').lsp_rename()<CR>
 
 " Select and copy the current line.
 nnoremap y y$
@@ -171,9 +168,6 @@ nnoremap <silent> <leader>/ :lua require("lualine").setup()<CR>
 nnoremap <silent> <leader>mm :lua require"toggle".toggle_window()<CR>
 nnoremap <silent> <leader>mh :TSBufToggle highlight<CR>
 
-" Open the Symbols Outline panel
-nnoremap <silent> <leader>o :SymbolsOutline<CR>
-
 " Toggle statusline and ruler
 nnoremap <silent> <leader>h :call ToggleHiddenAll()<CR>
 
@@ -245,3 +239,5 @@ nnoremap <leader>st \<<<<<<<<CR>V/=======<CR>dk/>>>>>>><CR>dd
 " find next conflict
 nnoremap <leader>fc /<<<<<<<<CR>
 
+" g; but with zt
+nnoremap g; g;zt

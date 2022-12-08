@@ -69,7 +69,7 @@ window:
   # Window opacity as a floating point number from `0.0` to `1.0`.
   # The value `0.0` is completely transparent and `1.0` is opaque.
   # opacity: 0.5
-  # background_opacity: 0.90
+  background_opacity: 0.90
 
   # Startup Mode (changes require restart)
   #
@@ -119,10 +119,10 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    family: "CartographCF Nerd Font"
+    family: "ProggyCleanTTSZ Nerd Font"
 
     # The `style` can be specified to pick a specific face.
-    style: Regular
+    #style: Book
 
   # Bold font face
   bold:
@@ -130,10 +130,10 @@ font:
     #
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: "CartographCF Nerd Font"
+    family: "ProggyCleanTTSZ Nerd Font"
 
     # The `style` can be specified to pick a specific face.
-    style: Bold
+    #style: Bold
 
   # Italic font face
   italic:
@@ -141,10 +141,10 @@ font:
     #
     # If the italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: "CartographCF Nerd Font"
+    family: "ProggyCleanTTSZ Nerd Font"
 
     # The `style` can be specified to pick a specific face.
-  style: Italic
+    #style: Italic
 
   # Bold italic font face
   bold_italic:
@@ -152,36 +152,36 @@ font:
     #
     # If the bold italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: "CartographCF Nerd Font"
+    family: "ProggyCleanTTSZ Nerd Font"
 
     # The `style` can be specified to pick a specific face.
-    style: Bold Italic
+    #style: Bold Italic
 
   # Point size
-  size: 22
+  size: 36
 
   # Offset is the extra space around each character. `offset.y` can be thought
   # of as modifying the line spacing, and `offset.x` as modifying the letter
   # spacing.
   offset:
-    x: 0
-    y: -6
+    x: 1
+    y: 17
 
   # Glyph offset determines the locations of the glyphs within their cells with
   # the default being at the bottom. Increasing `x` moves the glyph to the
   # right, increasing `y` moves the glyph upward.
   glyph_offset:
     x: 0
-    y: -3
+    y: 6
 
   # Thin stroke font rendering (macOS only)
   #
   # Thin strokes are suitable for retina displays, but for non-retina screens
   # it is recommended to set `use_thin_strokes` to `false`.
-  use_thin_strokes: true
+  use_thin_strokes: false
 
 # If `true`, bold text is drawn using the bright color variants.
-draw_bold_text_with_bright_colors: false
+draw_bold_text_with_bright_colors: true
 
 custom_cursor_colors: false
 
@@ -198,9 +198,9 @@ colors:
     red:     '#f7768e'
     green:   '#9ece6a'
     yellow:  '#e0af68'
-    blue:    '#7aa2f7'
+    blue:    '#7dcfff'
     magenta: '#bb9af7'
-    cyan:    '#7dcfff'
+    cyan:    '#41a6b5'
     white:   '#a9b1d6'
 
   # Bright colors
@@ -210,9 +210,9 @@ colors:
     green:   '#9ece6a'
     yellow:  '#e0af68'
     blue:    '#7aa2f7'
-    magenta: '#bb9af7'
-    cyan:    '#7dcfff'
-    white:   '#c0caf5'
+    magenta: '#ff007c'
+    cyan:    '#b4f9f8'
+    white:   '#ffffff'
 
   indexed_colors:
     - { index: 16, color: '#ff9e64' }

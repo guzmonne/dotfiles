@@ -48,11 +48,12 @@ cmp.setup {
         end, {"i", "s"})
     }),
     sources = cmp.config.sources({
-        {name = 'nvim_lsp'}, {name = 'nvim_lua'}, {name = "luasnip"}, {name = 'path'},
-        {name = 'buffer', default = 5, keyword_length = 5}
+        {name = 'nvim_lsp'}, {name = 'nvim_lsp_signature_help'}, {name = 'nvim_lua'}, {name = "luasnip"},
+        {name = 'path'}, {name = 'buffer', default = 5, keyword_length = 5}
     }),
     experimental = {native_menu = false, ghost_text = true},
     formatting = {
+        fields = {'menu', 'abbr', 'kind'},
         format = function(entry, vim_item)
             vim_item.kind = lspkind.presets.default[vim_item.kind]
             vim_item.with_text = false
@@ -60,8 +61,7 @@ cmp.setup {
             vim_item.menu = menu
             return vim_item
         end
-    },
-    window = {documentation = ""}
+    }
 }
 
 -- Use buffer source for `/`.
