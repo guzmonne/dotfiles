@@ -1,5 +1,4 @@
 -- CMP --
-local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
 local luasnip = require 'luasnip'
 local cmp = require 'cmp'
 local lspkind = require 'lspkind'
@@ -13,11 +12,12 @@ end
 cmp.setup {
     snippet = {
         expand = function(args)
-            require("luasnip").lsp_expand(args.body)
+            luasnip.lsp_expand(args.body)
         end
     },
     completion = {keyword_length = 4, autocomplete = false},
     mapping = cmp.mapping.preset.insert({
+        ['<CR>'] = cmp.mapping.confirm({behavior = cmp.ConfirmBehavior.Replace, select = true}),
         ['<C-p>'] = cmp.mapping(cmp.mapping.select_prev_item(), {'i', 'c'}),
         ['<C-n>'] = cmp.mapping(cmp.mapping.select_next_item(), {'i', 'c'}),
         ['<C-d>'] = cmp.mapping.scroll_docs(-4),
@@ -36,7 +36,6 @@ cmp.setup {
                 fallback()
             end
         end, {"i", "s"}),
-
         ["<S-Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_prev_item()
@@ -71,7 +70,7 @@ cmp.setup.cmdline('/', {sources = {{name = 'buffer'}}})
 cmp.setup.cmdline(':', {sources = cmp.config.sources({{name = 'path'}, {name = 'cmdline'}})})
 
 -- Configure autopairs
-cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done({map_char = {tex = ''}}))
+-- cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done({map_char = {tex = ''}}))
 
 -- Use cmp as a flexible omnifunc manager
 _G.vimrc = _G.vimrc or {}

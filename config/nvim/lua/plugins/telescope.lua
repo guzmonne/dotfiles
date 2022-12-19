@@ -15,7 +15,12 @@ telescope.setup({
             "rg", "--color=never", "--no-heading", "--with-filename", "--line-number", "--column", "--smart-case"
         },
         mappings = {
-            i = {["?"] = action_layout.toggle_preview, ["<C-t>"] = trouble.open_with_trouble},
+            i = {
+                ["<C-u>"] = false,
+                ["<C-d>"] = false,
+                ["?"] = action_layout.toggle_preview,
+                ["<C-t>"] = trouble.open_with_trouble
+            },
             n = {["<C-t>"] = trouble.open_with_trouble}
         },
         prompt_prefix = " ",

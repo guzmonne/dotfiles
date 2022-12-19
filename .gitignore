@@ -8,6 +8,7 @@ tmp/*
 .zsh_history
 .env
 .DS_Store
+.luarc.json
 
 config/zsh/.histfile
 config/zsh/.zprofile

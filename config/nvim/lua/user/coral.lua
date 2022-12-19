@@ -3,10 +3,9 @@ local M = {}
 
 local Job = require('plenary.job')
 
-dump = require('user.functions').dump
-get_text = require('user.functions').get_text
+local get_text = require('user.functions').get_text
 
-M.psql = function()
+local psql = function()
     local sql = get_text()
     local dir = ""
     Job:new({
@@ -24,11 +23,13 @@ M.psql = function()
             print('QUERY:')
             print(sql)
             print('...')
-            for k, v in pairs(j:result()) do print('  ' .. v) end
+            for _, v in pairs(j:result()) do print('  ' .. v) end
             print('---')
         end
     }):sync()
 end
 
 -- Exports
+M["psql"] = psql
+
 return M

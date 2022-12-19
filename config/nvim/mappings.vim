@@ -123,11 +123,8 @@ noremap <down> <nop>
 noremap <left> <nop>
 
 " Move C-u to C-j
-" nnoremap <C-j> <C-d>zz
-nnoremap <C-j> <cmd>lua require'neoscroll'.scroll(12, true, 150)<CR>
-nnoremap <C-k> <cmd>lua require'neoscroll'.scroll(-12, true, 150)<CR>
-vnoremap <C-j> <cmd>lua require'neoscroll'.scroll(12, true, 150)<CR>
-vnoremap <C-k> <cmd>lua require'neoscroll'.scroll(-12, true, 150)<CR>
+nnoremap <C-u> <C-u>zz
+nnoremap <C-d> <C-d>zz
 
 " Configure Telescope
 nnoremap <silent> <leader>ff <cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})<CR>
@@ -153,10 +150,6 @@ nnoremap <silent> <leader>zf v%zf
 
 " Capitalize the first letter of the word under the cursor.
 nnoremap <silent> <leader>cc m`lb~``
-
-" Move between illuminated words.
-nnoremap <silent> <leader>n :lua require("illuminate").next_reference{wrap=true}<CR>
-nnoremap <silent> <leader>p :lua require("illuminate").next_reference{reverse=true,wrap=true}<CR>
 
 " Toggle concealing characters.
 nnoremap <silent> <leader>l :exec &conceallevel ? "set conceallevel=0" : "set conceallevel=1"<CR>
@@ -241,3 +234,38 @@ nnoremap <leader>fc /<<<<<<<<CR>
 
 " g; but with zt
 nnoremap g; g;zt
+
+" Diagnostics keymaps
+nnoremap [d :lua vim.diagnostic.goto_prev()<CR>
+nnoremap ]d :lua vim.diagnostic.goto_next()<CR>
+nnoremap <leader>e :lua vim.diagnostic.open_float()<CR>
+nnoremap <leader>q :lua vim.diagnostic.setloclist()<CR>
+
+" Undotree keymap
+nnoremap <leader>u :lua vim.cmd.UndotreeToggle()<CR>
+
+" Remap J to maintain the cursor
+nnoremap J mzJ`z"
+
+" Remap paste
+xnoremap <leader>p "_dP
+nnoremap <leader>y "+y
+vnoremap <leader>y "+y
+nnoremap <leader>Y "+Y
+nnoremap <leader>d "+d
+vnoremap <leader>d "+d
+
+" Remap Ctrl-C to Esc
+inoremap <C-c> <Esc>
+
+" Disable Q
+nnoremap Q <nop>
+
+" Format keybinding
+nnoremap <leader>f :lua vim.lsp.buf.format()<CR>
+
+" Move through loclist or quicklist
+nnoremap <C-k> <cmd>cnext<CR>zz
+nnoremap <C-j> <cmd>cprev<CR>zz
+nnoremap <leader>k <cmd>lnext<CR>zz
+nnoremap <leader>j <cmd>lprev<CR>zz

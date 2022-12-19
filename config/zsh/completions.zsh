@@ -12,3 +12,9 @@ fi
 if [[ -x "$(command -v pandoc)" ]]; then
   eval "$(pandoc --bash-completion)"
 fi
+
+# dasel cli completions
+export fpath=(~/zsh/site-functions $fpath)
+mkdir -p ~/zsh/site-functions
+dasel completion zsh > ~/zsh/site-functions/_dasel
+compinit
