@@ -1,9 +1,23 @@
 -- Configure tokyonight --
-vim.g.tokyonight_style = "night"
-vim.g.tokyonight_italic_comments = true
-vim.g.tokyonight_italic_keywords = false
-vim.g.tokyonight_italic_functions = false
-vim.g.tokyonight_colors = {hint = "orange", bg_float = "none"}
-vim.g.tokyonight_transparent = vim.g.transparent_enabled
-vim.g.tokyonight_dark_float = false
-vim.cmd [[colorscheme tokyonight ]]
+require("tokyonight").setup({
+    style = "night",
+    light_style = "day",
+    transparent = true,
+    terminal_colors = true,
+    styles = {
+        functions = {italic = false},
+        comments = {italic = true},
+        keywords = {italic = false},
+        sidebars = "none",
+        floats = "none"
+    },
+    hide_inactive_statusline = false,
+    dim_inactive = true,
+    lualine_bold = true,
+    -- Change the "hint" color to Orange.
+    on_colors = function(colors)
+        colors.hint = colors.orange
+    end,
+})
+
+vim.cmd [[colorscheme tokyonight-night]]

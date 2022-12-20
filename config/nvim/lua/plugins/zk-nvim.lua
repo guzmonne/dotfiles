@@ -28,21 +28,21 @@ local function new_private_note()
 end
 
 local function new_private_note_dir()
-    dir = "private" .. "/" .. vim.fn.input("Dir: ")
+    local dir = "private" .. "/" .. vim.fn.input("Dir: ")
     os.execute("mkdir -p ~/Notes/" .. dir)
     zk.new({dir = dir, title = vim.fn.input("Title: "), edit = true})
 end
+
 local Job = require 'plenary.job'
 
 local function sync()
-    cwd = "~/Notes"
-    notebook_dir = os.getenv("ZK_NOTEBOOK_DIR")
-    local async = require("plenary.async")
+    local cwd = "~/Notes"
+    local notebook_dir = os.getenv("ZK_NOTEBOOK_DIR")
     Job:new({command = 'git', args = {'add', '.'}, cwd = cwd}):sync()
     Job:new({command = 'git', args = {'commit', '-m', '[nvim]: push updates'}, cwd = cwd}):sync()
     Job:new({command = 'git', args = {'pull', 'origin', 'main'}, cwd = cwd}):sync()
     Job:new({command = 'git', args = {'push', 'origin', 'main'}, cwd = cwd}):sync()
-    Jon:new({command = 'zk', argd = {'index', '--notebook-dir', notebook_dir}, cwd = cwd}):sync()
+    Job:new({command = 'zk', argd = {'index', '--notebook-dir', notebook_dir}, cwd = cwd}):sync()
     print("Your notes have been synced")
 end
 
@@ -57,6 +57,7 @@ if require("zk.util").notebook_root(vim.fn.expand('%:p')) ~= nil then
     local function map(...)
         vim.api.nvim_buf_set_keymap(0, ...)
     end
+
     local opts = {noremap = true, silent = false}
 
     -- Open the link under the caret.

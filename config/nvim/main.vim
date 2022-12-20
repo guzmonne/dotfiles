@@ -69,7 +69,17 @@ set foldmethod=expr                        " Kind of fold used for the current w
 set foldexpr=nvim_treesitter#foldexpr()    " Use Treesitter to handle folds
 set pumblend=15                            " Enable pseudo-transparency on pop-up windows.
 set winblend=15                            " Enable pseudo-transparency for a floating window.
+
+" Remove background on all windows.
 hi PmenuSel blend=0
+hi Normal guibg=none ctermbg=none
+hi LineNr guibg=none ctermbg=none
+hi Folded guibg=none ctermbg=none
+hi NonText guibg=none ctermbg=none
+hi SpecialKey guibg=none ctermbg=none
+hi VertSplit guibg=none ctermbg=none
+hi SignColumn guibg=none ctermbg=none
+hi EndOfBuffer guibg=none ctermbg=none
 
 " Python provider configuration
 let g:python3_host_prog = '/Users/gmonne/.pyenv/shims/python3'

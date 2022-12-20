@@ -69,7 +69,6 @@ require("neo-tree").setup({
             ["s"] = "open_vsplit",
             ["c"] = "close_node",
             ["z"] = "close_all_nodes",
-            ["R"] = "refresh",
             ["%"] = "add",
             ["d"] = "add_directory",
             ["D"] = "delete",
