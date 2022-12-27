@@ -42,9 +42,8 @@ Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --producti
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-sleuth'
+Plug 'tpope/vim-surround'
 Plug 'numToStr/Comment.nvim'
-Plug 'xiyaowong/nvim-transparent'
-Plug 'ray-x/lsp_signature.nvim'
 Plug 'jose-elias-alvarez/null-ls.nvim'
 
 " Don't configure any plugin under this line.

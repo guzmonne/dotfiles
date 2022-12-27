@@ -40,27 +40,6 @@ function M.on_attach(client, bufnr)
             vim.lsp.buf.formatting()
         end
     end, {desc = 'Format current buffer with LSP'})
-
-    -- The below command will highlight the current variable and its usages in the buffer
-    if client.server_capabilities.document_highlight then
-        vim.cmd([[
-          hi! link LspReferenceRead Visual
-          hi! link LspReferenceText Visual
-          hi! link LspReferenceWrite Visual
-          augroup lsp_document_highlight
-            autocmd! * <buffer>
-            autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-            autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-          augroup END
-      ]])
-    end
-
-    -- lsp-signature
-    require("lsp_signature").on_attach({
-        bind = true, -- This is mandatory, otherwise border config won't get registered.
-        hint_prefix = " ",
-        handler_opts = {border = "rounded"}
-    }, bufnr)
 end
 
 -- Setup lspconfig
@@ -108,13 +87,6 @@ nvim_lsp.cssls.setup {
 nvim_lsp.dockerls.setup {
     cmd = {"docker-langserver", "--stdio"},
     filetypes = {"Dockerfile", "dockerfile"},
-    on_attach = M.on_attach,
-    flags = {debounce_text_changes = 150},
-    capabilities = capabilities
-}
--- ESLint --
-nvim_lsp.eslint.setup {
-    cmd = {"vscode-eslint-language-server", "--stdio"},
     on_attach = M.on_attach,
     flags = {debounce_text_changes = 150},
     capabilities = capabilities
@@ -171,14 +143,12 @@ require'lspconfig'.sumneko_lua.setup {
 }
 -- Typescript --
 nvim_lsp.tsserver.setup {
-    cmd = {"typescript-language-server", "--stdio"},
-    capabilities = capabilities,
-    -- on_attach = TSPrebuild.on_attach,
     on_attach = M.on_attach,
-    on_init = function(client)
-        client.config.flags.debounce_text_changes = 150
-    end,
-    flags = {debounce_text_changes = 150}
+    capabilities = capabilities,
+    cmd = {"typescript-language-server", "--stdio"},
+    flags = {debounce_text_changes = 150},
+    filetypes = {"typescript", "typescriptreact", "typescript.tsx"},
+    root_dir = nvim_lsp.util.root_pattern('.git')
 }
 
 -- Vim --
