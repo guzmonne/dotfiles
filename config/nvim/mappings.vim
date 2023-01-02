@@ -173,9 +173,9 @@ nnoremap <silent> = :Neotree source=buffers<CR>
 
 " ZK mappings
 " Create a new note after asking for its title.
-nnoremap <silent> <leader>zn :ZkNew { title = vim.fn.input('Title: ')}<CR>
+nnoremap <silent> <leader>zn :lua require('user.zk').new()<CR>
 " Open notes.
-nnoremap <silent> <leader>zo :ZkNotes { sort = { 'modified' } }<CR>
+nnoremap <silent> <leader>zz :lua require('user.zk').telescope_list()<CR>
 " Open notes associated with selected tasks.
 nnoremap <silent> <leader>zt :ZkTags<CR>
 " Search for the notes matching a given query.
@@ -198,9 +198,6 @@ nnoremap <silent> <leader>zg :lua vim.lsp.buf.definition()<CR>
 " Add an `x` to complete a task.
 nnoremap <silent> <leader>xx :call ToggleComplete()<CR>
 
-" Toogle keeping the line centered.
-nnoremap <silent> <leader>zz :call VCenterCursor()<CR>
-
 " Change camelCase to snake_case
 vnoremap <leader>cs :'<,'>SnakeCase<CR>
 " Convert snake_case to camelCase
@@ -208,7 +205,7 @@ vnoremap  <leader>cc :lua require('textcase').current_word('to_camel_case')<CR>
 
 " Reload Lua
 nnoremap <leader><leader>s :lua require("luasnip.loaders.from_lua").load({paths = "~/.config/nvim/lua/snippets"})<CR>
-nnoremap <leader><leader>r :lua require("user.functions").reload()<CR>
+nnoremap <leader><leader>r :lua require("user.functions").reload()<CR><CR>
 
 " Replace u in visual mode to be the same as y
 vnoremap u y

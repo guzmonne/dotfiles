@@ -9,7 +9,6 @@ Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'MunifTanjim/nui.nvim'
 Plug 'johmsalas/text-case.nvim'
 Plug 'L3MON4D3/LuaSnip'
-Plug 'mickael-menu/zk-nvim'
 Plug 'nvim-neo-tree/neo-tree.nvim', { 'branch': 'v2.x' }
 Plug 'ThePrimeagen/harpoon'
 Plug 'editorconfig/editorconfig-vim'

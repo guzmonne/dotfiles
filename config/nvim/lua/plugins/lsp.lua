@@ -120,6 +120,7 @@ table.insert(runtime_path, "lua/?/init.lua")
 require'lspconfig'.sumneko_lua.setup {
     on_attach = M.on_attach,
     capabilities = capabilities,
+    flags = {debounce_text_changes = 150},
     settings = {
         Lua = {
             runtime = {
@@ -196,6 +197,22 @@ nvim_lsp.rust_analyzer.setup({
         }
     }
 })
+
+-- ZK --
+local configs = require('lspconfig/configs')
+
+configs.zk = {
+    default_config = {
+        cmd = {'zk', 'lsp'},
+        filetypes = {'markdown'},
+        root_dir = function()
+            return vim.loop.cwd()
+        end,
+        settings = {}
+    }
+}
+
+nvim_lsp.zk.setup({on_attach = M.on_attach})
 
 -- Change diagnostics signs
 vim.fn.sign_define("DiagnosticSignError", {text = "", texthl = "DiagnosticSignError"})

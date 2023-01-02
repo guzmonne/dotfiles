@@ -2,12 +2,21 @@
 local luasnip = require 'luasnip'
 local cmp = require 'cmp'
 local lspkind = require 'lspkind'
-local source_mapping = {buffer = "[BUF]", nvim_lsp = "[LSP]", nvim_lua = "[LUA]", path = "[PATH]", vsnip = "[SNIP]"}
+local source_mapping = {
+    buffer = "[BUF]",
+    nvim_lsp = "[LSP]",
+    nvim_lua = "[LUA]",
+    path = "[PATH]",
+    zk = "[ZK]",
+    luasnip = "[SNIP]"
+}
 
 local has_words_before = function()
     local line, col = unpack(vim.api.nvim_win_get_cursor(0))
     return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
+
+cmp.register_source('zk', require('user.zk.cmp_source'))
 
 cmp.setup {
     snippet = {
@@ -48,7 +57,7 @@ cmp.setup {
     }),
     sources = cmp.config.sources({
         {name = 'nvim_lsp'}, {name = 'nvim_lsp_signature_help'}, {name = 'nvim_lua'}, {name = "luasnip"},
-        {name = 'path'}, {name = 'buffer', default = 5, keyword_length = 5}
+        {name = 'path'}, {name = 'zk'}, {name = 'buffer', default = 5, keyword_length = 5}
     }),
     experimental = {native_menu = false, ghost_text = true},
     formatting = {
@@ -63,29 +72,14 @@ cmp.setup {
     }
 }
 
--- Use buffer source for `/`.
-cmp.setup.cmdline('/', {sources = {{name = 'buffer'}}})
+-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline({'/', '?'}, {mapping = cmp.mapping.preset.cmdline(), sources = {{name = 'buffer'}}})
 
--- User cmdline & path source for `:`
-cmp.setup.cmdline(':', {sources = cmp.config.sources({{name = 'path'}, {name = 'cmdline'}})})
-
--- Configure autopairs
--- cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done({map_char = {tex = ''}}))
-
--- Use cmp as a flexible omnifunc manager
-_G.vimrc = _G.vimrc or {}
-_G.vimrc.cmp = _G.vimrc.cmp or {}
-_G.vimrc.cmp.lsp = function()
-    cmp.complete({config = {sources = {{name = 'nvim_lsp'}}}})
-end
-_G.vimrc.cmp.snippet = function()
-    cmp.complete({config = {sources = {{name = 'vsnip'}}}})
-end
-
-vim.cmd([[
-  inoremap <C-x><C-o> <cmd>lua vimrc.cmp.lsp()<CR>
-  inoremap <C-x><C-s> <cmd>lua vimrc.cmp.snippet()<CR>
-]])
+-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline(':', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({{name = 'path'}}, {{name = 'cmdline'}})
+})
 
 --  see https://github.com/hrsh7th/nvim-cmp/wiki/Menu-Appearance#how-to-add-visual-studio-code-dark-theme-colors-to-the-menu
 vim.cmd [[
