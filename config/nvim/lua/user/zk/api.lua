@@ -23,7 +23,7 @@ local function execute_command(cmd, path, options, cb)
                          bufnr)
 end
 
---- Runs `zk.index` to create a new note.
+--- Runs `zk.new` to index existing notes.
 -- @param path {string?} Path to explicitly specify the notebook.
 -- @param options {table?} Additional options.
 -- @param cb {function?} Callback to execute after the command is run.
@@ -32,12 +32,21 @@ function M.index(path, options, cb)
     execute_command("index", path, options, cb)
 end
 
---- Runs `zk.new` to index existing notes.
+--- Runs `zk.new` to create a new note.
 -- @param path {string?} Path to explicitly specify the notebook.
 -- @param options {table?} Additional options.
 -- @param cb {function?} Callback to execute after the command is run.
 -- @see https://github.com/mickael-menu/zk/blob/main/docs/editors-integration.md#zknew
 function M.new(path, options, cb)
+    execute_command("new", path, options, cb)
+end
+
+--- Runs `zk.private` to create a new private note.
+-- @param path {string?} Path to explicitly specify the notebook.
+-- @param options {table?} Additional options.
+-- @param cb {function?} Callback to execute after the command is run.
+-- @see https://github.com/mickael-menu/zk/blob/main/docs/editors-integration.md#zknew
+function M.private(path, options, cb)
     execute_command("new", path, options, cb)
 end
 
@@ -49,10 +58,14 @@ end
 function M.list(path, options, cb)
     options.select = options.select
                          or {"filename", "absPath", "path", "body", "lead", "title", "tags", "created", "modified"}
-    execute_command("list", path, options, cb)
+    execute_command("list", path, options, function(err, notes)
+        assert(not err, tostring(err))
+        table.sort(notes, function(a, b)
+            return a.modified > b.modified
+        end)
+        cb(err, notes)
+    end)
 end
-
-M.tag = {}
 
 --- Runs `zk.tag.list` to list tags
 -- @param path {string?} Path to explicitly specify the notebook.
@@ -60,9 +73,13 @@ M.tag = {}
 -- @param cb {function?} Callback to execute after the command is run.
 -- @see https://github.com/mickael-menu/zk/blob/main/docs/editors-integration.md#zktaglist
 function M.tags(path, options, cb)
-    options.select = options.select
-                         or {"filename", "absPath", "path", "body", "lead", "title", "tags", "created", "modified"}
-    execute_command("tag.list", path, options, cb)
+    execute_command("tag.list", path, options, function(err, tags)
+        assert(not err, tostring(err))
+        table.sort(tags, function(a, b)
+            return a.note_count > b.note_count
+        end)
+        cb(err, tags)
+    end)
 end
 
 --

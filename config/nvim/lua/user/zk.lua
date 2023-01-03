@@ -51,11 +51,23 @@ function M.new(options)
             api.new(options.notebook_path, options, function(err, res)
                 assert(not err, tostring(err))
                 if options and options.dryRun ~= true and options.edit ~= false then
-                    -- NeoVim does not yet support window/showDocument, therefore we handle
-                    -- options.edit locally.
                     vim.cmd("edit " .. res.path)
                 end
             end)
+        end
+    })
+end
+
+--- Creates and opens a buffer with a new private note.
+-- @param options {table?} Additional options.
+function M.private(options)
+    options = options or {}
+    prompt({
+        title = "[Private Note Directory (@default `/`)]",
+        on_submit = function(value)
+            options.dir = "private" .. "/" .. value
+            os.execute("mkdir -p ~/Notes/" .. options.dir)
+            M.new(options)
         end
     })
 end
@@ -94,5 +106,6 @@ function M.telescope_list(options)
         end)
     end)
 end
+
 --
 return M

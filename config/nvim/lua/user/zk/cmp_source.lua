@@ -1,5 +1,3 @@
-local split = require('user.functions').split
-local dump = require('user.functions').dump
 local api = require('user.zk.api')
 
 local source = {}
@@ -23,26 +21,10 @@ function source:get_debug_name()
     return "zk"
 end
 
---- Invoke completion.
--- @param params {cmp.SourceCompletionApiParams}
--- @param callback {function(response: lsp.CompletionResponse|nil): nil}
-function source:complete(_, callback)
+--- Get notes
+-- @param callback {function}
+local function get_notes(callback)
     local completions = {}
-    -- local cursor_before_line = params.context.cursor_before_line
-    --
-    -- local reverse_cursor = string.reverse(cursor_before_line)
-    -- local start = string.find(cursor_before_line, '[[')
-    -- print(start)
-    --
-    -- if start
-    --
-    -- local chunks = split(cursor_before_line, '\\[\\[')
-    --
-    -- print(dump(chunks))
-    -- local query = chunks[#chunks]
-    -- if query == nil then return callback(completions) end
-    -- print(query)
-
     api.list("", {}, function(err, notes)
         assert(not err, tostring(err))
         for _, note in pairs(notes) do
@@ -55,6 +37,41 @@ function source:complete(_, callback)
         end
         callback(completions)
     end)
+end
+
+-- Get tags
+-- @param callback {function}
+local function get_tags(callback)
+    local completions = {}
+    api.tags("", {}, function(err, tags)
+        assert(not err, tostring(err))
+        for _, tag in pairs(tags) do
+            table.insert(completions, {
+                insertText = tag.name,
+                label = tag.name .. " (" .. tag.note_count .. ")",
+                documentation = "",
+                data = tag.name
+            })
+        end
+        callback(completions)
+    end)
+end
+
+--- Invoke completion.
+-- @param params {cmp.SourceCompletionApiParams}
+-- @param callback {function(response: lsp.CompletionResponse|nil): nil}
+function source:complete(params, callback)
+    local cursor_before_line = params.context.cursor_before_line
+    local trimmed = cursor_before_line:gsub("%s+$", "")
+    local prefix = string.sub(trimmed, -1)
+
+    if prefix == "[" then prefix = string.sub(trimmed, -2) end
+
+    if prefix == "#" then return get_tags(callback) end
+
+    if prefix == "[[" then return get_notes(callback) end
+
+    return callback({})
 end
 
 ---Resolve completion item (optional). This is called right before the completion is about to be displayed.

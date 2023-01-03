@@ -178,6 +178,8 @@ nnoremap <silent> <leader>zn :lua require('user.zk').new()<CR>
 nnoremap <silent> <leader>zz :lua require('user.zk').telescope_list()<CR>
 " Open notes associated with selected tasks.
 nnoremap <silent> <leader>zt :ZkTags<CR>
+" Create a new private note
+nnoremap <silent> <leader>zp :lua require('user.zk').private()<CR>
 " Search for the notes matching a given query.
 nnoremap <silent> <leader>zf :ZkNotes { sort = { 'modified' }, match = vim.fn.input('Search: ') }<CR>
 " Search for the notes matching the current visual selection.
@@ -186,8 +188,6 @@ vnoremap <silent> <leader>zf :'<,'>ZkMatch<CR>
 nnoremap <silent> <leader>zk :lua vim.lsp.buf.hover()<CR>
 " See the most recent notes
 nnoremap <silent> <leader>zr :ZkRecent<CR>
-" Create a new private note
-nnoremap <silent> <leader>zp :ZkPrivate<CR>
 " Create a new private note on a new dir.
 nnoremap <silent> <leader>zd :ZkPrivateDir<CR>
 " Push the note changes to GitHub
