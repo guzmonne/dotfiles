@@ -64,6 +64,7 @@ yabai -m config                                 \
 # === Rules ===
 
 yabai -m rule --add app="^Xnapper" manage=off
+yabai -m rule --add label="brave" app="^Brave Browser$" manage=on
 
 # === Main ===
 

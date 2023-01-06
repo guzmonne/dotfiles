@@ -266,3 +266,7 @@ nnoremap <C-k> <cmd>cnext<CR>zz
 nnoremap <C-j> <cmd>cprev<CR>zz
 nnoremap <leader>k <cmd>lnext<CR>zz
 nnoremap <leader>j <cmd>lprev<CR>zz
+
+" Set ChatGPT mappings
+nnoremap <leader>cc <cmd>ChatGPT<CR>
+nnoremap <leader>as <cmd>ChatGPTActAs<CR>

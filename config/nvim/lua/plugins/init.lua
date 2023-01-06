@@ -1,5 +1,6 @@
 -- Init.lua --
 require('plugins.backpack')
+require('plugins.chatgpt')
 require('plugins.cmp')
 require('plugins.comment')
 require('plugins.fidget')

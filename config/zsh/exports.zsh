@@ -146,3 +146,6 @@ fi
 
 # Allow GCP to get to external packages
 export CLOUDSDK_PYTHON_SITEPACKAGES=1
+
+# Source Secret Environment Variables
+export $(cat "$HOME/Projects/Personal/secrets/openai.env" | xargs)
