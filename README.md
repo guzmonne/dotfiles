@@ -153,3 +153,8 @@ the plugins. Open `nvim` and run `:PlugInstall` to install them. Once it finishe
 Everything should work as expected after the restart.
 
 Reset `nvim` to see the new plugins in action.
+
+## Tinker Tool
+
+Consider using [Tinker Tool](http://www.bresink.com/osx/TinkerToolOverview.html) to change the behavior of
+the finder and dock application.
