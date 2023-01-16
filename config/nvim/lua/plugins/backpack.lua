@@ -1,3 +1,0 @@
--- Backpack --
-require'backpack'.setup()
-

@@ -153,10 +153,6 @@ nnoremap <silent> <leader>l :exec &conceallevel ? "set conceallevel=0" : "set co
 " Reset lualine.
 nnoremap <silent> <leader>/ :lua require("lualine").setup()<CR>
 
-" Toggle the maximization of a Window
-nnoremap <silent> <leader>mm :lua require"toggle".toggle_window()<CR>
-nnoremap <silent> <leader>mh :TSBufToggle highlight<CR>
-
 " Go to previous buffer
 nnoremap <silent> <leader><leader> <C-^>
 

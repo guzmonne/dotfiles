@@ -22,8 +22,8 @@ alias mv='mv -i'
 alias rm='rm -i'
 
 # Configure Kubernetes aliases
-alias k="kubectl"
-compdef __start_kubectl k
+alias k="kubecolor"
+compdef __start_kubectl kubectl
 alias kubeclr='sed -i "" -e "s/^current-context:.*$/current-context:/" ~/.kube/config && dotenv -f ~/.config/ohmyposh/.env set OHMYPOSH_KUBERNETES_CONTEXT'
 
 # Kitty alias
@@ -31,3 +31,7 @@ alias kitty="/Applications/kitty.app/Contents/MacOS/kitty"
 
 # Alias rich to always use thr same template
 alias rich="rich --theme=inkpot"
+
+# luamake
+alias luamake="$HOME/Projects/Personal/repos/sumneko/lua-language-server/3rd/luamake/luamake"
+

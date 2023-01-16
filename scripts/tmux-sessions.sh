@@ -24,5 +24,5 @@ fi
 history_set "$session"
 
 if ! tmux attach -t "=$session" 2>/dev/null; then
-	tmux switch-client -t "=$session"
+	TERM=xterm-256color tmux switch-client -t "=$session"
 fi

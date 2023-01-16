@@ -4,6 +4,7 @@
   vars_files:
     - '{{ root }}/requirements.yml'
   tasks:
+    - include_tasks: ./tasks/kubectl-directories.yml
     - include_tasks: ./tasks/lua-language-server.yml
     - include_tasks: ./tasks/docker-completions.yml
     - include_tasks: ./tasks/vscode-chrome-debug.yml

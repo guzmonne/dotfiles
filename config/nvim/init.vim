@@ -1,10 +1,6 @@
 filetype plugin indent on       " allow auto-indenting by file-type
 filetype plugin on
 
-" Custom plugin manager. Run :help backpack for more information.
-packadd! backpack
-lua vim.cmd('helptags '..vim.fn.stdpath('data')..'/site/pack/backpack/opt/backpack/doc')
-
 " Use Plug to handle plugins
 source ~/.config/nvim/plug.vim
 

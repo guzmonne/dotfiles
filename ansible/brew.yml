@@ -17,6 +17,10 @@
       community.general.homebrew:
         name: nvim
         state: head
+    - name: Brew install yabai
+      ansible.builtin.command: brew install koekeishiya/formulae/yabai
+    - name: Brew install skhd
+      ansible.builtin.command: brew install koekeishiya/formulae/skhd
     - name: Brew install
       community.general.homebrew:
         name: '{{ item }}'

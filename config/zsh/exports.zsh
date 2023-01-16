@@ -132,6 +132,9 @@ export BREW_TAP='coral/local-dev-setup'
 # Configure McFly
 export MCFLY_KEY_SCHEME=vim
 export MCFLY_FUZZY=2
+export MCFLY_RESULTS=50
+export MCFLY_INTERFACE_VIEW=BOTTOM
+export MCFLY_DISABLE_MENU=TRUE
 
 # Configure Bat
 export BAT_THEME=ansi

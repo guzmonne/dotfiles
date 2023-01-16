@@ -1,0 +1,11 @@
+- name: Make directory to hold kubernetes conf
+  file:
+    path: '$HOME/.kube'
+    state: directory
+    mode: '0755'
+
+- name: Touch the .confi
+  file:
+    path: '$HOME/.kube/config'
+    mode: '0755'
+    state: touch

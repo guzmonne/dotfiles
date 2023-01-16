@@ -20,15 +20,16 @@ npm:
 - typescript-language-server
 - vim-language-server
 cask:
-# Might need to install this with
-#   brew install koekeishiya/formulae/yabai
-# - koekeishiya/formulae/yabai
 - ngrok
 - homebrew/cask/basictex
 tap:
 - cantino/mcfly
 - jandedobbeleer/oh-my-posh
 brew:
+- hidetatz/tap/kubecolor
+- dasel
+- kubectl
+- docker
 - colima
 - git-filter-repo
 - skhd

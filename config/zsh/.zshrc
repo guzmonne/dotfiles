@@ -1,6 +1,9 @@
 # Configure the folder where all zsh configuration will live.
 export ZDOTDIR=$HOME/.config/zsh
 
+# Add brew bin path
+export PATH=/opt/homebrew/bin:$PATH
+
 setopt appendhistory
 
 # Useful zsh options. See man zshoptions
@@ -53,10 +56,10 @@ autoload -Uz colors && colors
 source "$ZDOTDIR/functions.zsh"
 
 # Normal files to source
+source "$HOME/.config/zsh/history.zsh"
 source "$HOME/.config/zsh/exports.zsh"
 source "$HOME/.config/zsh/aliases.zsh"
 source "$HOME/.config/zsh/prompt.zsh"
-source "$HOME/.config/zsh/history.zsh"
 source "$HOME/.config/zsh/mappings.zsh"
 source "$HOME/.config/zsh/completions.zsh"
 

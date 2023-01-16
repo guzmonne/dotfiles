@@ -24,10 +24,10 @@ history_set "$safe_folder_name"
 
 # Create new session if it doesn't exist
 if ! tmux has-session -t "=$safe_folder_name" 2>/dev/null; then
-	tmux new-session -s "$safe_folder_name" -c "$folder_name" -d
+	TERM=xterm-256color tmux new-session -s "$safe_folder_name" -c "$folder_name" -d
 fi
 
 # Connect to existing session
 if ! tmux attach -t "=$safe_folder_name" 2>/dev/null; then
-	tmux switch-client -t "=$safe_folder_name"
+	TERM=xterm-256color tmux switch-client -t "=$safe_folder_name"
 fi
