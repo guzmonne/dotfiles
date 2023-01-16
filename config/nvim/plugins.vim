@@ -3,6 +3,7 @@
 " Hint: Make sure you use single quotes.
 call plug#begin('~/.config/nvim/plugged')
 
+Plug 'hughbien/md-vim'
 Plug 'jackMort/ChatGPT.nvim'
 Plug 'j-hui/fidget.nvim'
 Plug 'williamboman/mason.nvim'
@@ -49,9 +50,6 @@ Plug 'jose-elias-alvarez/null-ls.nvim'
 " Don't configure any plugin under this line.
 call plug#end()
 
-" Disable automatic folding on vim-markdown
-let g:vim_markdown_folding_disabled = 1
-
 " Disable default GitGutter mappings
 let g:gitgutter_map_keys = 0
 
@@ -62,3 +60,6 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 " Configure Markdown Preview
 let g:mkdp_auto_start = 0
 let g:mkdp_auto_close = 1
+
+" Configure md
+let g:md_fenced_languages = ['html', 'typescriptreact', 'json', 'jsonc', 'yaml', 'ts=typescript', 'typescript', 'sh=bash', 'bash', 'sql', 'console=bash', 'javascript', 'js=javascript', 'json=javascript']

@@ -129,6 +129,6 @@ augroup _markdown
   autocmd FileType markdown setlocal spell
 
   " Syntax highlight
-  autocmd BufNewFile,BufFilePre,BufRead *.md set filetype=markdown
-  autocmd BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
+  autocmd BufNewFile,BufRead *.md set ft=md
+  autocmd BufReadPost *.md call md#setup("q")
 augroup end

@@ -70,7 +70,7 @@ nnoremap <silent> <leader>q1 :BufOnly<CR>
 nnoremap Q q
 
 " Harpoon mappings
-nnoremap <silent> <C-h> :lua require("harpoon.mark").add_file()<CR>
+nnoremap <silent> <leader>h :lua require("harpoon.mark").add_file()<CR>
 nnoremap <silent> <leader>1 :lua require("harpoon.ui").nav_file(1)<CR>
 nnoremap <silent> <leader>2 :lua require("harpoon.ui").nav_file(2)<CR>
 nnoremap <silent> <leader>3 :lua require("harpoon.ui").nav_file(3)<CR>
@@ -107,10 +107,6 @@ vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 nnoremap <leader>k :m .-2<CR>==
 nnoremap <leader>j :m .+1<CR>==
-
-" Simpler splits
-nnoremap <silent> <leader>v :vsplit<CR>
-nnoremap <slient> <leader>h :hsplit<CR>
 
 " Better block tabbing
 vnoremap <silent> < <gv
@@ -160,9 +156,6 @@ nnoremap <silent> <leader>/ :lua require("lualine").setup()<CR>
 " Toggle the maximization of a Window
 nnoremap <silent> <leader>mm :lua require"toggle".toggle_window()<CR>
 nnoremap <silent> <leader>mh :TSBufToggle highlight<CR>
-
-" Toggle statusline and ruler
-nnoremap <silent> <leader>h :call ToggleHiddenAll()<CR>
 
 " Go to previous buffer
 nnoremap <silent> <leader><leader> <C-^>
@@ -259,7 +252,7 @@ inoremap <C-c> <Esc>
 nnoremap Q <nop>
 
 " Format keybinding
-nnoremap <leader>f :lua vim.lsp.buf.format()<CR>
+nnoremap <leader>f :lua vim.lsp.buf.format { async = true, timeout_ms = 2000 }<CR>
 
 " Move through loclist or quicklist
 nnoremap <C-k> <cmd>cnext<CR>zz
@@ -270,3 +263,6 @@ nnoremap <leader>j <cmd>lprev<CR>zz
 " Set ChatGPT mappings
 nnoremap <leader>cc <cmd>ChatGPT<CR>
 nnoremap <leader>as <cmd>ChatGPTActAs<CR>
+
+" Sort the lines according to what's after the } in a Typescript import statement
+vnoremap <leader>s :'<,'>!awk -F'}' '{print $2, $0}' \| sort -n \| awk -F'\; ' '{print $2}'<CR>

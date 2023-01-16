@@ -9,11 +9,8 @@ pipx:
 luarocks:
 - luaformatter
 npm:
+- npm-groovy-lint
 - pyright
-- jest
-- ts-jest
-- zx
-- ts-node
 - neovim
 - bash-language-server
 - vscode-langservers-extracted
@@ -22,18 +19,18 @@ npm:
 - typescript
 - typescript-language-server
 - vim-language-server
-- '@rafaelrinaldi/hn-cli'
 cask:
 # Might need to install this with
 #   brew install koekeishiya/formulae/yabai
 # - koekeishiya/formulae/yabai
 - ngrok
 - homebrew/cask/basictex
-# - alacritty
 tap:
 - cantino/mcfly
 - jandedobbeleer/oh-my-posh
 brew:
+- colima
+- git-filter-repo
 - skhd
 - sqlfluff
 - kustomize
@@ -52,23 +49,18 @@ brew:
 - mongocli
 - ffmpeg
 - yamllint
-- deno
 - postgresql
 - terraform
 - k9s
-- ranger
 - pwgen
 - hashicorp/tap/terraform-ls
-- efm-langserver
 - luarocks
 - bash
 - oh-my-posh
 - helm
 - jo
-- just
 - lsd
 - bat
-- ctags
 - fd
 - fzf
 - git
