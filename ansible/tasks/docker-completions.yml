@@ -6,10 +6,10 @@
 
 - name: Download the completions script for docker-compose
   command:
-    chdir: '/usr/local/share/zsh/site-functions'
+    chdir: '~/zsh/site-functions'
     cmd: 'curl -fLo _docker https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker'
 
 - name: Download the completions script for docker-compose
   command:
-    chdir: '/usr/local/share/zsh/site-functions'
+    chdir: '~/zsh/site-functions'
     cmd: 'curl -fLo _docker-compose https://raw.githubusercontent.com/docker/compose/1.29.2/contrib/completion/zsh/_docker-compose'

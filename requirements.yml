@@ -80,7 +80,6 @@ brew:
 repos:
 - shaunsingh/SFMono-Nerd-Font-Ligaturized
 - k0nserv/kitty-icon
-- alexanderjeurissen/ranger_devicons
 - elasticdog/transcrypt
 - mbadolato/iterm2-color-schemes
 - jan-warchol/selenized

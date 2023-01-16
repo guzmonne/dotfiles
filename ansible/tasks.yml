@@ -5,7 +5,6 @@
     - '{{ root }}/requirements.yml'
   tasks:
     - include_tasks: ./tasks/lua-language-server.yml
-    - include_tasks: ./tasks/ranger-devicons.yml
     - include_tasks: ./tasks/docker-completions.yml
     - include_tasks: ./tasks/vscode-chrome-debug.yml
     - include_tasks: ./tasks/vscode-node-debug2.yml
