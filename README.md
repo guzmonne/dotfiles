@@ -2,15 +2,24 @@
 
 On this folder I can find all my personal configuration files and scripts.
 
-## Dependencies
+## Getting Started
 
-- `zsh`
-- `nvim`
-- `stow`
-- `pipx`
-- `ansible`
-- `oh-my-posh`
-- `luarocks`
+These are the recommended steps to install everything from scratch on a new machine. First, start by
+installing `brew`. You should check their [site](https://brew.sh/) to get the current installation method. Then install GitHub's cli tool using `brew`.
+
+```bash
+brew install gh
+```
+
+We are going to need to create a new `ssh` key to access this repository:
+
+```bash
+ssh-keygen -t ed25519 -C "your_email@example.com"
+```
+
+You should now have a public and a private key on `$HOME/.ssh`. Make a note of its location.
+
+Log in to your account using `gh auth login`, and add a new `ssh` key
 
 ## Dependencies
 
