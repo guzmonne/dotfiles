@@ -158,3 +158,7 @@ Reset `nvim` to see the new plugins in action.
 
 Consider using [Tinker Tool](http://www.bresink.com/osx/TinkerToolOverview.html) to change the behavior of
 the finder and dock application.
+
+## Yabai and Skhd
+
+Lastly, install [`yabai`](https://github.com/koekeishiya/yabai) and [`skhd`](https://github.com/koekeishiya/skhd) by following their respective guides.
