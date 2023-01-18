@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 
-contexts=$(kubectl config get-contexts | awk '{print $2}' | tail -n '+2')
+contexts=$(yq '.contexts[] | .name' ~/.kube/config)
 
 if [[ -n "$1" ]]; then
   grep_contexts=$(echo "$contexts" | grep "$1")
-  echo $grep_contexts
-  if [[ "$(echo $grep_contexts | wc -l | tr -d ' ')" -eq 1 ]]; then
+  if [[ "$(echo "$grep_contexts" | wc -l | tr -d ' ')" -eq 1 ]]; then
     config="$grep_contexts"
+  else
+    config=$(fzf-tmux -p 80%,40% <<<"$grep_contexts")
   fi
 fi
 
@@ -20,10 +21,10 @@ clear
 
 hr.sh '─'
 
-kubectl config use-context $config
+kubectl config use-context "$config"
 
-dotenv -f ~/.config/ohmyposh/.env set OHMYPOSH_KUBERNETES_CONTEXT=" $(echo $config | sed -e 's/[^_]*_[^_]*_[^_]*_//')"
+dotenv -f ~/.config/ohmyposh/.env set OHMYPOSH_KUBERNETES_CONTEXT=" $config"
 
-printf "\nUsing $config context\n"
+printf "\nUsing %s context\n" "$config"
 
 hr.sh '─'

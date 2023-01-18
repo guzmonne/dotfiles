@@ -3,6 +3,8 @@
 " Hint: Make sure you use single quotes.
 call plug#begin('~/.config/nvim/plugged')
 
+Plug 'mbbill/undotree'
+Plug 'folke/which-key.nvim'
 Plug 'hughbien/md-vim'
 Plug 'jackMort/ChatGPT.nvim'
 Plug 'j-hui/fidget.nvim'

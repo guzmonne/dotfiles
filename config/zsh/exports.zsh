@@ -31,6 +31,11 @@ export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
 export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
 export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
 
+# Add Python 3.9 (default on MavOS) bin directory
+if [ -d "${HOME}/Library/Python/3.9/bin" ]; then
+  export PATH="${HOME}/Library/Python/3.9/bin:${PATH}"
+fi
+
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f "${HOME}/.local/google-cloud-sdk/path.zsh.inc" ]; then . "${HOME}/.local/google-cloud-sdk/path.zsh.inc"; fi
 

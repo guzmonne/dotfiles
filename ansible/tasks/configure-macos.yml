@@ -1,0 +1,15 @@
+- name: Only show active apps
+  ansible.builtin.command: |
+    defaults write com.apple.dock static-only -bool TRUE
+
+- name: Indicate hidden app icons
+  ansible.builtin.command: |
+    defaults write com.apple.dock showhidden -bool TRUE
+
+- name: Disable auto-hide delay
+  ansible.builtin.command: |
+    defaults write com.apple.dock autohide-time-modified -float 0
+
+- name: Restart Dock
+  ansible.builtin.command: |
+    killall Dock

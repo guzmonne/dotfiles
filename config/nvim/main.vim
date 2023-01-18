@@ -51,7 +51,7 @@ set nosmartindent                          " Don't use VIM smart indentation.
 set splitbelow                             " Split panes to the bottom
 set splitright                             " Split panes to the right
 set termguicolors                          " Use terminal GUI colors.
-set timeoutlen=1000                        " Update the time between multiple key presses
+set timeoutlen=500                         " Update the time between multiple key presses
 set ttyfast                                " Speed up scrolling on vim
 set undodir=~/.vim/undodir                 " Sets the location of the undo dir.
 set undofile                               " Used with plugins. Need for research.

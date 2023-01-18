@@ -6,7 +6,9 @@
 
 # aws cli completions
 if [[ -x "$(command -v aws)" ]]; then
-  complete -C '/usr/local/bin/aws_completer' aws
+  autoload bashcompinit && bashcompinit
+  autoload -Uz compinit && compinit
+  complete -C '/opt/homebrew/Cellar/awscli/2.9.15/bin/aws_completer' aws
 fi
 # pandoc cli completions
 if [[ -x "$(command -v pandoc)" ]]; then

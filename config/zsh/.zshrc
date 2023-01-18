@@ -55,14 +55,6 @@ autoload -Uz colors && colors
 # Source: https://github.com/ChristianChiarulli/Machfiles
 source "$ZDOTDIR/functions.zsh"
 
-# Normal files to source
-source "$HOME/.config/zsh/history.zsh"
-source "$HOME/.config/zsh/exports.zsh"
-source "$HOME/.config/zsh/aliases.zsh"
-source "$HOME/.config/zsh/prompt.zsh"
-source "$HOME/.config/zsh/mappings.zsh"
-source "$HOME/.config/zsh/completions.zsh"
-
 # Plugins
 # More plugins at: https://github.com/unixorn/awesome-zsh-plugins
 zsh_add_plugin "lukechilds/zsh-nvm"
@@ -74,6 +66,16 @@ zsh_add_plugin "hlissner/zsh-autopair"
 zsh_add_plugin "buonomo/yarn-completion"
 zsh_add_plugin "lukechilds/zsh-better-npm-completion"
 zsh_add_plugin "mattberther/zsh-pyenv"
+zsh_add_plugin "zsh-users/zsh-history-substring-search"
+
+# Normal files to source
+source "$HOME/.config/zsh/history.zsh"
+source "$HOME/.config/zsh/exports.zsh"
+source "$HOME/.config/zsh/aliases.zsh"
+source "$HOME/.config/zsh/prompt.zsh"
+source "$HOME/.config/zsh/mappings.zsh"
+source "$HOME/.config/zsh/completions.zsh"
+source "$HOME/.config/zsh/autoload.zsh"
 
 # Zstyles
 # Select completions with arrow keys.

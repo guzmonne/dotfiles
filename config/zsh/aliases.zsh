@@ -22,7 +22,8 @@ alias mv='mv -i'
 alias rm='rm -i'
 
 # Configure Kubernetes aliases
-alias k="kubecolor"
+alias k="kubectl"
+alias kc="kubecolor"
 compdef __start_kubectl kubectl
 alias kubeclr='sed -i "" -e "s/^current-context:.*$/current-context:/" ~/.kube/config && dotenv -f ~/.config/ohmyposh/.env set OHMYPOSH_KUBERNETES_CONTEXT'
 
