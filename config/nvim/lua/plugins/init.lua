@@ -1,6 +1,8 @@
 -- Init.lua --
 require('plugins.chatgpt')
+require('plugins.cinnamon')
 require('plugins.cmp')
+require('plugins.codeium')
 require('plugins.comment')
 require('plugins.fidget')
 require('plugins.gitsigns')

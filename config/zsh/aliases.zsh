@@ -9,6 +9,7 @@ alias cat="bat"
 alias ls="lsd"
 alias ll="ls -alh --color=auto"
 alias ctags="`brew --prefix`/bin/ctags"
+alias uuid="uuidgen | tr '[:upper:]' '[:lower:]' | xargs -n1 -I {} echo -n {} | pbcopy"
 
 # Configure tldr to fork in osx.
 alias tldr="tldr -p=osx"

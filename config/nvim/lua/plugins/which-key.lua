@@ -152,15 +152,17 @@ wk.register({
         z = { require('user.zk').telescope_list, 'Find notes' },
         p = { require('user.zk').private, 'Create a new private note' },
     },
-    -- X
+    -- Misc
     x = {
+        name = 'Misc',
         x = { '<cmd>ToggleComplete()<CR>', 'Add an `x` to a complete task' }
     },
-    -- Lua
+    -- Lua / Lsp
     l = {
-        name = 'lua',
+        name = 'lua/lsp',
         f = { format, 'Format current buffer using LSP' },
         l = { reload_lua_plugins, 'Reload Lua plugins' },
+        e = { vim.diagnostic.open_float, 'Open diagnostic float' },
         r = { require('user.functions').reload, 'Reload user lua modules' },
         p = { pwd, 'Print and copy the buffer full path' },
     },

@@ -15,6 +15,8 @@ setopt auto_list
 setopt auto_menu
 # Move cursor to end if word has one match.
 setopt always_to_end
+# Force the user to type exit or logout instead of pressing Ctrl-D.
+setopt ignoreeof
 
 # Remove beep
 unsetopt BEEP

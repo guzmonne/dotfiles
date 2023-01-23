@@ -3,6 +3,8 @@
 " Hint: Make sure you use single quotes.
 call plug#begin('~/.config/nvim/plugged')
 
+Plug 'declancm/cinnamon.nvim'
+Plug 'Exafunction/codeium.vim'
 Plug 'mbbill/undotree'
 Plug 'folke/which-key.nvim'
 Plug 'hughbien/md-vim'
