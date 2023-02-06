@@ -12,4 +12,4 @@ yabai -m space 9 --label "zoom"
 yabai -m space 10 --label "safari"
 
 # Focus on kitty once eveything is done
-yabai -m space --focus "kitty"
+yabai -m space --focus "kitty" || True
