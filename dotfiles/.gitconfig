@@ -1,11 +1,12 @@
 [init]
-	defaultBranch = main
+    defaultBranch = main
 [user]
-	name = Guzmán Monné
-	email = guzmonne@hotmail.com
+    name = Guzmán Monné
+    email = guzmonne@hotmail.com
 [alias]
-  branch-tree = log --graph --simplify-by-decoration --pretty=format:'%d' --all
-  tree = log --all --graph --pretty=format:'%C(auto)%h%C(auto)%d %s %C(dim white)(%aN, %ar)'
+    branch-tree = log --graph --simplify-by-decoration --pretty=format:'%d' --all
+    tree = log --all --graph --pretty=format:'%C(auto)%h%C(auto)%d %s %C(dim white)(%aN, %ar)'
+    rank = shortlog -s -n --no-merges
 [core]
     pager = delta
 [interactive]
@@ -20,4 +21,6 @@
 [diff]
     colorMoved = default
 [url "git@github.com:"]
-	insteadOf = https://github.com
+    insteadOf = https://github.com
+[advice]
+	detachedHead = false

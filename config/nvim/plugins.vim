@@ -3,6 +3,9 @@
 " Hint: Make sure you use single quotes.
 call plug#begin('~/.config/nvim/plugged')
 
+Plug 'Aasim-A/scrollEOF.nvim'
+Plug 'kevinhwang91/promise-async'
+Plug 'kevinhwang91/nvim-ufo'
 Plug 'declancm/cinnamon.nvim'
 Plug 'Exafunction/codeium.vim'
 Plug 'mbbill/undotree'
@@ -66,4 +69,4 @@ let g:mkdp_auto_start = 0
 let g:mkdp_auto_close = 1
 
 " Configure md
-let g:md_fenced_languages = ['html', 'typescriptreact', 'json', 'jsonc', 'yaml', 'ts=typescript', 'typescript', 'sh=bash', 'bash', 'sql', 'console=bash', 'javascript', 'js=javascript', 'json=javascript']
+let g:md_fenced_languages = ['shell', 'html', 'typescriptreact', 'json', 'jsonc', 'yaml', 'ts=typescript', 'typescript', 'sh', 'bash', 'sql', 'console=sh', 'javascript', 'js=javascript', 'json=javascript']

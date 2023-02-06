@@ -136,6 +136,8 @@ main() {
 	fi
 
 	app_open "$app" "$space_sel"
+
+	gum confirm "Continue?"
 }
 
 # Execute main function

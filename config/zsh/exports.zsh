@@ -161,3 +161,6 @@ export $(cat "$HOME/Projects/Personal/secrets/openai.env" | xargs)
 # Source JAVA_HOME
 export JAVA_HOME=$(/usr/libexec/java_home)
 export PATH=$JAVA_HOME/bin:$PATH
+
+# Configure the bash-language-server extension through the use of environment variables
+export INCLUDE_ALL_WORKSPACE_SYMBOLS=true

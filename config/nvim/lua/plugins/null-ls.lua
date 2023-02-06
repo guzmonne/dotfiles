@@ -18,5 +18,5 @@ local is_npm_groovy_lint_installed, npm_groovy_lint = pcall(require, "null-ls.bu
 if not is_npm_groovy_lint_installed then return end
 
 null_ls.setup({ debug = true,
-    sources = { shfmt, prettier, shellcheck, hadolint,
+    sources = { shfmt.with({ args = { '-s', '-i', '2', '-ci', '-kp' } }), prettier, shellcheck, hadolint,
         npm_groovy_lint.with({ timeout = 5000, args = { '--format', '-', '--failon', 'none' } }) } })

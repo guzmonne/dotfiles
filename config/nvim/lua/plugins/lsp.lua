@@ -32,6 +32,7 @@ function M.on_attach(client, bufnr)
     nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
     nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
     nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+    nmap('E', vim.diagnostic.open_float, 'Show line diagnostics')
 
     -- Create a command `:Format` local to the LSP buffer.
     vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
@@ -75,7 +76,7 @@ nvim_lsp.bashls.setup {
     cmd = { "bash-language-server", "start" },
     on_attach = M.on_attach,
     flags = { debounce_text_changes = 150 },
-    capabilities = capabilities
+    capabilities = capabilities,
 }
 -- CSS --
 nvim_lsp.cssls.setup {
