@@ -20,3 +20,6 @@ config/nvim/spell/en.utf-8.add
 
 config/ansible/collections
 config/ansible/roles
+
+config/pgcli/history
+config/pgcli/log

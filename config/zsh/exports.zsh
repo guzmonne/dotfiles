@@ -164,3 +164,6 @@ export PATH=$JAVA_HOME/bin:$PATH
 
 # Configure the bash-language-server extension through the use of environment variables
 export INCLUDE_ALL_WORKSPACE_SYMBOLS=true
+
+# Configure Rust through environment variables
+export CARGO_NET_GIT_FETCH_WITH_CLI=true

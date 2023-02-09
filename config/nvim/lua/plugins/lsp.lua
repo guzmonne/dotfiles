@@ -169,15 +169,27 @@ nvim_lsp.pyright.setup { cmd = { "pyright-langserver", "--stdio" }, capabilities
 nvim_lsp.terraformls.setup { cmd = { "terraform-ls", "serve" } }
 
 -- Rust --
-nvim_lsp.rust_analyzer.setup({
-    on_attach = M.on_attach,
-    settings = {
-        ["rust-analyzer"] = {
-            assist = { importGranularity = "module", importPrefix = "self" },
-            cargo = { loadOutDirsFromCheck = true },
-            procMacro = { enable = true }
-        }
-    }
+-- nvim_lsp.rust_analyzer.setup({
+--     capabilities = capabilities,
+--     on_attach = M.on_attach,
+--     cmd = {
+--         "rustup", "run", "stable", "rust-analyzer",
+--     }
+-- })
+local rt = require('rust-tools')
+rt.setup({
+    server = {
+        on_attach = function(client, bufnr)
+            M.on_attach(client, bufnr)
+            require("which-key").register({
+                r = {
+                    name = 'Rust Tools',
+                    h = { rt.hover_actions.hover_actions, 'Hover actions' },
+                    c = { rt.code_action_group.code_action_group, 'Code action group' },
+                }
+            }, { prefix = "<leader>" })
+        end,
+    },
 })
 
 -- ZK --
