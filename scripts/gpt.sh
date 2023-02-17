@@ -24,7 +24,7 @@ self="$0"
 # @cmd Make a request to GPT
 # @option --prompt GPT Prompt.
 # @option --file File to store the request response.
-# @option --model=text-davinci-003 GPT Model.
+# @option --model=completion-davinci-003 GPT Model.
 # @option --maxTokens=256 GPT max tokens.
 # @option --temperature=0 GPT temperature.
 request() {
@@ -46,47 +46,67 @@ request() {
     -o "$argc_file"
 }
 
+_spinner() {
+  local pid=$1
+  local spinner=("⣼" "⣹" "⢻" "⠿" "⡟" "⣏" "⣧" "⣶")
+  while true; do
+    for i in "${spinner[@]}"; do
+      if ! kill -0 "$pid" 2>/dev/null; then
+        break 2
+      fi
+      printf "\r%s $2" "$i"
+      sleep 0.05
+    done
+  done
+  wait "$pid"
+}
+
 # @cmd Execute the command
+# @flag --clean Clean the GPT history.
 # @option --model=text-davinci-003 GPT Model.
 # @option --maxTokens=256 GPT max tokens.
 # @option --temperature=0 GPT temperature.
 main() {
-  local response_file
+  local tmp
+  local history_file
   local response
   local prompt
+  local completion
   local text
-  local color="5"
 
-  response_file="$(mktemp)"
+  history_file="/tmp/gpt.sh.history"
 
-  gum write --width 80 --height 10 --show-cursor-line --char-limit=0 --header "GPT Prompt [Ctrl-D or Esc to end the prompt]" >"$response_file"
-
-  prompt="$(cat "$response_file")"
-
-  $self request --model "$argc_model" --maxTokens "$argc_maxTokens" --temperature "$argc_temperature" --prompt "$prompt" --file "$response_file" &
-
-  local pid=$!
-  local spinner=("⣼" "⣹" "⢻" "⠿" "⡟" "⣏" "⣧" "⣶")
-  while true; do
-    for i in "${spinner[@]}"; do
-      if ! kill -0 $pid 2>/dev/null; then
-        break 2
-      fi
-      printf "\r%s Running..." "$i"
-      sleep 0.05
-    done
-  done
-
-  wait $pid
-
-  if [[ $? != 0 ]]; then
-    color="1"
+  if [[ -n $argc_clean ]]; then
+    /bin/rm -r "$history_file"
   fi
 
-  response="$(cat "$response_file")"
+  tmp="$(mktemp)"
+
+  cp "$history_file" "$tmp"
+  "$EDITOR" + "$tmp"
+
+  if [[ -z $(diff "$tmp" "$history_file") ]]; then
+    echo "No changes detected"
+    exit 0
+  fi
+
+  prompt="$(cat "$history_file")"
+
+  $self request --model "$argc_model" --maxTokens "$argc_maxTokens" --temperature "$argc_temperature" --prompt "$prompt" --file "$tmp" &
+
+  _spinner $! "Running..."
+
+  response="$(cat "$tmp")"
+  completion=$(printf '%s' "$response" | jq -r '.choices[0].completion')
   text=$(printf '%s' "$response" | jq -r '.choices[0].text')
 
-  gum style --foreground "$color" "$(printf "\r%s%s" "$prompt" "$text")"
+  if [[ $completion == "null" ]] || [[ $completion == "" ]]; then
+    completion="$text"
+  fi
+
+  echo "$completion" >>"$history_file"
+
+  "$EDITOR" + "$history_file"
 }
 
 if [[ $1 != "request" ]] && [[ $1 != "--help" ]] && [[ $1 != "main" ]]; then

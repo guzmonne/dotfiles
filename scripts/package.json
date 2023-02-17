@@ -1,0 +1,20 @@
+{
+  "name": "scripts",
+  "version": "1.0.0",
+  "description": "Personal Scripts",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Guzmán Monné",
+  "license": "MIT",
+  "dependencies": {
+    "cmd-ts": "^0.12.1",
+    "dedent": "^0.7.0",
+    "prompt-engine": "^0.0.31"
+  },
+  "devDependencies": {
+    "@types/dedent": "^0.7.0",
+    "@types/node": "^18.13.0"
+  }
+}

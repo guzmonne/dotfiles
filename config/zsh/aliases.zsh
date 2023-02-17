@@ -37,3 +37,5 @@ alias rich="rich --theme=inkpot"
 # luamake
 alias luamake="$HOME/Projects/Personal/repos/sumneko/lua-language-server/3rd/luamake/luamake"
 
+# Youplot
+alias uplot="arch -arm64 youplot"
