@@ -77,13 +77,14 @@ main() {
   history_file="/tmp/gpt.sh.history"
 
   if [[ -n $argc_clean ]]; then
-    /bin/rm -r "$history_file"
+    /bin/rm -r "$history_file" || true
+    touch "$history_file"
   fi
 
   tmp="$(mktemp)"
 
   cp "$history_file" "$tmp"
-  "$EDITOR" + "$tmp"
+  "$EDITOR" + "$history_file"
 
   if [[ -z $(diff "$tmp" "$history_file") ]]; then
     echo "No changes detected"
