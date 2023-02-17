@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC2154
+# @describe Run troubleshooting commands.
+# @version 1.0.0
+# @author Guzmán Monné
+
+# @cmd Start a debugging pod inside a node.
+# @option --node Kubernetes node to connect to.
+# @option --image=ubuntu Image to use for the container pod.
+node() {
+  if [[ -z "$argc_node" ]]; then
+    gum style --foreground 5 "Select a node from the list:"
+    argc_node=$(kubectl get nodes -o=jsonpath='{.items[*].metadata.name}' | xargs -n1 | gum choose)
+  fi
+
+  if [[ -z "$argc_node" ]]; then
+    gum style --foreground 1 "You must select a node"
+    exit 1
+  fi
+
+  kubectl debug node/"$argc_node" -it --image="$argc_image"
+
+  local pod
+  pod=$(kubectl get pods --all-namespaces | grep debugger-"$argc_node" | awk '{ print $2 }')
+  gum style --foreground 5 "Deleting pod: $(gum style --foreground 3 "$pod")"
+  kubectl delete pod "$pod"
+}
+
+eval "$(argc "$0" "$@")"
+

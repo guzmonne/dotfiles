@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+# @describe Interact with the Kubernetes Metrics API
+# @version 1.0.0
+# @author Guzmán Monné
+
+URL="/apis/metrics.k8s.io/v1beta1/namespaces"
+
+# @cmd Gets metrics from the Kubernetes metrics API.
+# @option -n --namespace=default Kubernetes namespace.
+# @arg resource Kubernetes resource.
+# @arg name Kubernetes resource name.
+get() {
+  local url="$URL/$argc_namespace/$argc_resource"
+
+  if [[ -n "$argc_name" ]]; then
+    url+="/$argc_name"
+  fi
+
+  kubectl get --raw "$url"
+}
+
+eval $(argc $0 "$@")
+

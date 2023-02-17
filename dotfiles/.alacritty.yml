@@ -14,8 +14,8 @@
 # Any items in the `env` entry below will be added as
 # environment variables. Some entries may override variables
 # set by alacritty itself.
-# env:
-#   TERM: xterm-256color-italic
+env:
+  TERM: xterm-256color-italic
   #
   # This value is used to set the `$TERM` environment variable for
   # each instance of Alacritty. If it is not present, alacritty will
@@ -80,13 +80,13 @@ window:
   #
   # Values for `startup_mode` (macOS only):
   #   - SimpleFullscreen
-  #startup_mode: Windowed
+  startup_mode: Windowed
 
   # Window title
   #title: Alacritty
 
   # Allow terminal applications to change Alacritty's window title.
-  #dynamic_title: true
+  dynamic_title: true
 
   # Window class (Linux/BSD only):
   #class:
@@ -110,6 +110,7 @@ scrolling:
   multiplier: 10
 
 # Font configuration
+
 font:
   # Normal (roman) font face
   normal:
@@ -119,10 +120,10 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    family: "ProggyCleanTTSZ Nerd Font"
+    family: "JetBrainsMono Nerd Font"
 
     # The `style` can be specified to pick a specific face.
-    #style: Book
+    style: Regular
 
   # Bold font face
   bold:
@@ -130,10 +131,10 @@ font:
     #
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: "ProggyCleanTTSZ Nerd Font"
+    family: "JetBrainsMono Nerd Font"
 
     # The `style` can be specified to pick a specific face.
-    #style: Bold
+    style: Bold
 
   # Italic font face
   italic:
@@ -141,10 +142,10 @@ font:
     #
     # If the italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: "ProggyCleanTTSZ Nerd Font"
+    family: "JetBrainsMono Nerd Font"
 
     # The `style` can be specified to pick a specific face.
-    #style: Italic
+    style: Italic
 
   # Bold italic font face
   bold_italic:
@@ -152,38 +153,39 @@ font:
     #
     # If the bold italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: "ProggyCleanTTSZ Nerd Font"
+    family: "JetBrainsMono Nerd Font"
 
     # The `style` can be specified to pick a specific face.
-    #style: Bold Italic
+    style: ExtraBold
 
   # Point size
-  size: 36
+  size: 24
 
   # Offset is the extra space around each character. `offset.y` can be thought
   # of as modifying the line spacing, and `offset.x` as modifying the letter
   # spacing.
   offset:
     x: 1
-    y: 17
+    y: 0
 
   # Glyph offset determines the locations of the glyphs within their cells with
   # the default being at the bottom. Increasing `x` moves the glyph to the
   # right, increasing `y` moves the glyph upward.
   glyph_offset:
     x: 0
-    y: 6
+    y: 0
 
   # Thin stroke font rendering (macOS only)
   #
   # Thin strokes are suitable for retina displays, but for non-retina screens
   # it is recommended to set `use_thin_strokes` to `false`.
-  use_thin_strokes: false
+  use_thin_strokes: true
 
 # If `true`, bold text is drawn using the bright color variants.
+
 draw_bold_text_with_bright_colors: true
 
-custom_cursor_colors: false
+custom_cursor_colors: true
 
 # TokyoNight Alacritty Colors
 colors:
@@ -426,7 +428,7 @@ cursor:
     #   - Off: Disable blinking by default
     #   - On: Enable blinking by default
     #   - Always: Force the cursor to always blink
-    #blinking: Off
+    blinking: On
 
   # Vi mode cursor style
   #
@@ -771,9 +773,16 @@ cursor:
 #
 # If the same trigger is assigned to multiple actions, all of them are executed
 # in the order they were defined in.
-key_bindings: []
-  # - { key: Comma,     mods: Command,      command:
-  #     {program: "sh", args: ["-c","nvim ~/.alacritty.yml"]}     }
+
+key_bindings:
+  - key: Comma
+    mods: Command
+    command:
+      program: sh
+      args:
+        - -c
+        - nvim
+        - "~/.alacritty.yml"
   # - { key: N,         mods: Command,      action: SpawnNewInstance       }
   # - { key: Space,     mods: Alt,          chars: " "                     }
   # - { key: Back, mods: Super, chars: "\x15" } # delete word/line

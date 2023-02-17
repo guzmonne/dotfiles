@@ -6,7 +6,6 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'Aasim-A/scrollEOF.nvim'
 Plug 'kevinhwang91/promise-async'
 Plug 'kevinhwang91/nvim-ufo'
-Plug 'declancm/cinnamon.nvim'
 Plug 'Exafunction/codeium.vim'
 Plug 'mbbill/undotree'
 Plug 'folke/which-key.nvim'

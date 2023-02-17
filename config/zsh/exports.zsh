@@ -157,6 +157,7 @@ export CLOUDSDK_PYTHON_SITEPACKAGES=1
 
 # Source Secret Environment Variables
 export $(cat "$HOME/Projects/Personal/secrets/openai.env" | xargs)
+export $(cat "$HOME/Projects/Personal/secrets/newrelic.env" | xargs)
 
 # Source JAVA_HOME
 export JAVA_HOME=$(/usr/libexec/java_home)

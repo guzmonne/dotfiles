@@ -13,7 +13,9 @@ bindkey '\C-k' history-substring-search-up
 # [C-k] - Search history forwards.
 bindkey '\C-j' history-substring-search-down
 # [C-h] - Use a custom history command search powered by fzf
-bindkey -s '\C-g' 'history 1 | fzf-search.sh^M'
+bindkey -s '\C-h' 'history 1 | fzf-search.sh^M'
+# [C-g] - Use a custom history command search powered by fzf
+bindkey -s '\C-g' 'gpt.sh^M'
 # [C-f] - Use a custom tmux pane command search powered by fzf
 bindkey -s '\C-f' 'tmux capture-pane -pS -99999 | fzf-search.sh^M'
 
