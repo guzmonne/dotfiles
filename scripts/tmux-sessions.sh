@@ -10,19 +10,19 @@ source "$ROOT/sessionizer-history-file.sh"
 history_create_file
 
 session=$(tmux list-sessions | awk '{print $1}' | tr -d ':' |
-	fzf \
-		--header 'Press CTRL-X to delete a session.' \
-		--bind 'ctrl-x:execute-silent(tmux kill-session -t {+})+reload(tmux list-sessions | awk '"'"'{print $1}'"'"' | tr -d ':')')
+  fzf \
+    --header 'Press CTRL-X to delete a session.' \
+    --bind 'ctrl-x:execute-silent(tmux kill-session -t {+})+reload(tmux list-sessions | awk '"'"'{print $1}'"'"' | tr -d ':')')
 
 # Check for the last opened session
 previous_session=$(history_get)
-if [[ "$previous_session" == "$session" ]]; then
-	exit 0
+if [[ $previous_session == "$session" ]]; then
+  exit 0
 fi
 
 # Save session in history file and keep only TMUX_SESSIONIZER_HISTORY_SIZE lines
 history_set "$session"
 
 if ! tmux attach -t "=$session" 2>/dev/null; then
-	TERM=xterm-256color tmux switch-client -t "=$session"
+  TERM=xterm-256color tmux switch-client -t "=$session"
 fi

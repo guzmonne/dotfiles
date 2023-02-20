@@ -23,8 +23,6 @@ hr.sh '─'
 
 kubectl config use-context "$config"
 
-dotenv -f ~/.config/ohmyposh/.env set OHMYPOSH_KUBERNETES_CONTEXT=" $config"
-
 printf "\nUsing %s context\n" "$config"
 
 hr.sh '─'

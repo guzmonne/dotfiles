@@ -31,3 +31,4 @@ fi
 if ! tmux attach -t "=$safe_folder_name" 2>/dev/null; then
 	TERM=xterm-256color tmux switch-client -t "=$safe_folder_name"
 fi
+
