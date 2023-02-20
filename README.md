@@ -7,7 +7,8 @@ On this folder I can find all my personal configuration files and scripts.
 ### Clone repository
 
 These are the recommended steps to install everything from scratch on a new machine. First, start by
-installing `brew`. You should check their [site](https://brew.sh/) to get the current installation method. Then install GitHub's cli tool using `brew`.
+installing `brew`. You should check their [site](https://brew.sh/) to get the current installation method.
+Then install GitHub's cli tool using `brew`.
 
 ```bash
 brew install gh
@@ -133,7 +134,7 @@ At this point you should be able to open a new `zsh` session with no errors and 
 
 ### Font Configuration
 
-I use [`CartographCF`](https://connary.com/cartograph.html) as my main terminal font. Unfortunately, 
+I use [`CartographCF`](https://connary.com/cartograph.html) as my main terminal font. Unfortunately,
 it doesn't come with a NERDFont variant, so I had to create my own. I won't provide a link to it
 given that its not a free font.
 
@@ -149,7 +150,7 @@ and your fonts, you can restart `kitty` to see the new configuration taking effe
 ### Nvim Configuration
 
 The first time you open `nvim` it will show a bunch of errors. This is because we need to install all
-the plugins. Open `nvim` and run `:PlugInstall` to install them. Once it finishes restart `nvim`. 
+the plugins. Open `nvim` and run `:PlugInstall` to install them. Once it finishes restart `nvim`.
 Everything should work as expected after the restart.
 
 Reset `nvim` to see the new plugins in action.
