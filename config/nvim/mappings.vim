@@ -2,9 +2,8 @@
 let mapleader=" "
 
 " Open a new tmux window using tmux-windownizer
-nnoremap <silent> <C-n> :silent !tmux new-window tmux-sessionizer.sh<CR>
-nnoremap <silent> <C-p> :silent !tmux new-window tmux-sessions.sh<CR>
-nnoremap <silent> <C-t> :silent !tmux new-window tmux-toggle.sh<CR>
+nnoremap <silent> <C-n> :silent !tmux new-window sessionizer sessions new<CR>
+nnoremap <silent> <C-p> :silent !tmux new-window sessionizer sessions go<CR>
 
 " Switch to normal mode inside terminal mode
 tnoremap <silent> jk <C-\><C-n>

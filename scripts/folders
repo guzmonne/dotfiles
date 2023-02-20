@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC2154
+# @describe Handle Sessionizer folders
+# @author Guzmán Monné
+# @version 0.1.0
+
+ROOT="$(dirname "$(readlink -f "$(which "$0")")")"
+CONFIG="${SESSIONIZER_CONFIG:-"$HOME/.sessionizer.yaml"}"
+
+utils="$ROOT/utils"
+self="$0"
+
+# @cmd Add a new folder
+# @option --mindepth=1 Min depth to look inside the folder.
+# @option --maxdepth=1 Max depth to look inside the folder.
+# @option --grep=".*" Additional regulare expression to parse the find output.
+# @option --folder=~ Folder to add
+# @option --id Folder custom unique identifier
+add() {
+  if [[ -z "$argc_id" ]]; then
+    argc_id="$($utils uuid)"
+  fi
+
+  folder=$({\
+    tee <<-EOF
+{
+  "id": "$argc_id",
+  "folder": "$argc_folder",
+  "mindepth": "$argc_mindepth",
+  "maxdepth": "$argc_maxdepth",
+  "grep": "$argc_grep"
+}
+EOF
+  } | jq -r)
+  yq '.folders |= . + ['"$folder"']' -i "$CONFIG"
+}
+
+# @cmd Removes a folder
+# @arg id! Folder unique identifier
+remove() {
+  yq 'del(.folders[] | select(.id == "'"$argc_id"'" ))' -i "$CONFIG"
+}
+
+# @cmd Output the list of available folders
+list() {
+  {
+    echo "Id Folder MinDepth MaxDepth Grep"
+    yq '.folders[] | .id + " " + .folder + " " + .mindepth + " " + .maxdepth + " " + .grep' "$CONFIG"
+  } | column -t
+}
+
+# @cmd Evaluate all folders according to their configuration
+evaluate() {
+  local folder
+  local mindepth
+  local maxdepth
+  local grep
+
+  {
+    while read -r line; do
+      folder=$(echo "$line" | awk '{ print $2 }')
+      mindepth=$(echo "$line" | awk '{print $3 }')
+      maxdepth=$(echo "$line" | awk '{print $4 }')
+      grep=$(echo "$line" | awk '{print $5 }')
+      find "$folder" -mindepth "$mindepth"  -maxdepth "$maxdepth" -type d | grep -E "$grep" &
+    done <<<"$($self list | tail -n +2)"
+  } | sort -u | fzf
+}
+
+eval "$(argc "$0" "$@")"

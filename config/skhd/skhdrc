@@ -1,6 +1,3 @@
-# Runs Tmux-Sessionizer
-alt - return  : "kitty open-app.sh"
-
 # Labeled spaces
 alt - 1     : yabai -m space --focus "kitty"
 alt - 2     : yabai -m space --focus "brave"
@@ -57,9 +54,10 @@ shift + lctrl + alt - r : \
 alt - f         : yabai -m window --toggle zoom-fullscreen
 shift + alt - f : yabai -m window --toggle native-fullscreen
 
-# Open tmux-sessionizer
-ctrl + alt - n : { source $HOME/Projects/Personal/dotfiles/.bashrc; popup.sh "tmux-sessionizer.sh" }
-ctrl + alt - p : { source $HOME/Projects/Personal/dotfiles/.bashrc; popup.sh "tmux-sessions.sh" }
-ctrl + alt - j : tmux switch-client -n
-ctrl + alt - k : tmux switch-client -p
+# Open sessionizer
+shift + lctrl - p : { source $HOME/Projects/Personal/dotfiles/.bashrc; popup.sh "tmux-sessions.sh" }
+alt - w  : { source $HOME/Projects/Personal/dotfiles/.bashrc; sessionizer sessions next }
+alt - b  : { source $HOME/Projects/Personal/dotfiles/.bashrc; sessionizer sessions prev }
+shift + alt - w : tmux switch-client -n
+shift + alt - b : tmux switch-client -p
 

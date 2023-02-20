@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC2154
+# @describe Useful toolbox of reusable functions
+# @author Guzmán Monné
+# @version 0.1.0
+
+# @cmd Creates a new uuid
+uuid() {
+  uuidgen | tr '[:upper:]' '[:lower:]' | xargs -n1 -I {} echo -n {}
+}
+
+eval "$(argc "$0" "$@")"

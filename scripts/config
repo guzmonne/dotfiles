@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC2154
+# @describe Handle the Sessionizer configuration
+# @author Guzmán Monné
+# @version 0.1.0
+
+ROOT="$(dirname "$(readlink -f "$(which "$0")")")"
+
+source "$ROOT/constants"
+
+# @cmd Creates the init file
+# @flag --force Override the current values of the init script.
+init() {
+  if [[ -n "$argc_force" ]] || [[ ! -f $CONFIG ]]; then
+  tee > "$HOME/.sessionizer.yaml" <<-EOF
+---
+folders: []
+sessions:
+  current: ""
+  history: []
+env: []
+...
+EOF
+  fi
+}
+
+# @cmd Edits the config file
+edit() {
+  "$EDITOR" "$CONFIG"
+}
+
+eval "$(argc "$0" "$@")"
