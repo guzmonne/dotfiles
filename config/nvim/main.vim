@@ -87,7 +87,7 @@ let g:python3_host_prog = '/Users/gmonne/.pyenv/shims/python3'
 let g:loaded_python_provider = 0
 
 " Allow syntax highlighting in markdown
-let g:vim_markdown_fenced_languages = ['go', 'html', 'python', 'console=sh', 'bash=sh', 'javascript', 'typescript']
+let g:vim_markdown_fenced_languages = ['bash', 'rust', 'shell', 'sh', 'go', 'html', 'python', 'console=sh', 'bash=sh', 'javascript', 'typescript']
 
 " Fix issue with SQL Complete
 let g:ftplugin_sql_omni_key = '<C-0>'
@@ -123,12 +123,12 @@ augroup YankHighlight
   autocmd TextYankPost * silent! lua vim.highlight.on_yank()
 augroup END
 
-augroup _markdown
-  autocmd!
-  autocmd FileType markdown setlocal wrap
-  autocmd FileType markdown setlocal spell
-
-  " Syntax highlight
-  autocmd BufNewFile,BufRead *.md set ft=md
-  autocmd BufReadPost *.md call md#setup("q")
-augroup end
+" augroup _markdown
+"   autocmd!
+"   autocmd FileType markdown setlocal wrap
+"   autocmd FileType markdown setlocal spell
+"
+"   " Syntax highlight
+"   autocmd BufNewFile,BufRead *.md set ft=md
+"   autocmd BufReadPost *.md call md#setup("q")
+" augroup end

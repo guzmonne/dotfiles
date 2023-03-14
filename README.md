@@ -6,9 +6,9 @@ On this folder I can find all my personal configuration files and scripts.
 
 ### Clone repository
 
-These are the recommended steps to install everything from scratch on a new machine. First, start by
-installing `brew`. You should check their [site](https://brew.sh/) to get the current installation method.
-Then install GitHub's cli tool using `brew`.
+These are the recommended steps to install everything from scratch on a new machine. First, start
+by installing `brew`. You should check their [site](https://brew.sh/) to get the current
+installation method. Then install GitHub's cli tool using `brew`.
 
 ```bash
 brew install gh

@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC2154
+# @describe Custom commands to handle Tekton TaskRuns from the cli.
+# @author Guzmán Monné
+# @version 0.1.0
+
+# @cmd taskRun Run commands related to TaskRuns.
+# @option -n --namespace=tekton-pipeline-runs Kubernetes namespace storing Tekton resources.
+# @arg name! TaskRun name.
+logs() {
+    kubectl logs -n "$argc_namespace" --selector="tekton.dev/taskRun=$argc_name"
+}
+
+# Run `argc`
+eval "$(argc "$0" "$@")"
+

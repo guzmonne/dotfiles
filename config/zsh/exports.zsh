@@ -168,3 +168,18 @@ export INCLUDE_ALL_WORKSPACE_SYMBOLS=true
 
 # Configure Rust through environment variables
 export CARGO_NET_GIT_FETCH_WITH_CLI=true
+
+# Configure ~/.local/bin/kafka as part of the PATH
+if [[ -d "$HOME/.local/kafka" ]]; then
+  export PATH="$HOME/.local/kafka/bin:$PATH"
+fi
+
+# Configure ~ as part of the PATH
+if [[ -d "/opt/homebrew/opt/gnu-getopt/bin" ]]; then
+  export PATH="/opt/homebrew/opt/gnu-getopt/bin:$PATH"
+fi
+
+# Add miniconda as part of the PATH
+if [[ -d "$HOME/miniconda/bin" ]]; then
+  export PATH="$HOME/miniconda/bin:$PATH"
+fi

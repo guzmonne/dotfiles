@@ -24,8 +24,8 @@ self="$0"
 # @cmd Make a request to GPT
 # @option --prompt GPT Prompt.
 # @option --file File to store the request response.
-# @option --model=completion-davinci-003 GPT Model.
-# @option --maxTokens=256 GPT max tokens.
+# @option --model=text-davinci-003 GPT Model.
+# @option --maxTokens=2096 GPT max tokens.
 # @option --temperature=0 GPT temperature.
 request() {
   local request_body
@@ -44,6 +44,8 @@ request() {
     --data "$request_body" \
     "https://api.openai.com/v1/completions" \
     -o "$argc_file"
+
+  cat "$argc_file"
 }
 
 _spinner() {
@@ -64,8 +66,8 @@ _spinner() {
 # @cmd Execute the command
 # @flag --clean Clean the GPT history.
 # @option --model=text-davinci-003 GPT Model.
-# @option --maxTokens=256 GPT max tokens.
-# @option --temperature=0 GPT temperature.
+# @option --maxTokens=2096 GPT max tokens.
+# @option --temperature=0.2 GPT temperature.
 main() {
   local tmp
   local history_file
@@ -75,6 +77,7 @@ main() {
   local text
 
   history_file="/tmp/gpt.sh.history"
+  touch "$history_file"
 
   if [[ -n $argc_clean ]]; then
     /bin/rm -r "$history_file" || true
@@ -107,11 +110,75 @@ main() {
 
   echo "$completion" >>"$history_file"
 
+  cat "$history_file" >"$tmp"
+
   "$EDITOR" + "$history_file"
+
+  if [[ -z $(diff "$tmp" "$history_file") ]]; then
+    printf "\rNo changes detected\n"
+    exit 0
+  else
+    $self main \
+      --model="$argc_model" \
+      --maxTokens="$argc_maxTokens" \
+      --temperature="$argc_temperature"
+  fi
+
 }
 
-if [[ $1 != "request" ]] && [[ $1 != "--help" ]] && [[ $1 != "main" ]]; then
+# @cmd Record an mp3 audio file, send it to OpenAI's whisper API, and print the response content to stdout.
+# @option -p --path Record file path.
+# @option --completionModel=text-davinci-003 GPT Model.
+# @option --whisperModel=whisper-1
+# @option --maxTokens=256 GPT max tokens.
+# @option --temperature=0 GPT temperature.
+whisper() {
+  if [[ -z $argc_path ]]; then
+    argc_path="$(mktemp).mp3"
+  fi
+
+  # Record an mp3 audio file
+  rec -c 1 -r 16000 -b 16 -e signed-integer -t raw - |
+    sox -t raw -r 16000 -b 16 -e signed-integer - -t mp3 "$argc_path"
+
+  # Send the audio file to OpenAI's whisper API
+  response=$(
+    curl -X POST "https://api.openai.com/v1/audio/transcriptions" \
+      -H "Content-Type: multipart/form-data" \
+      -H "Authorization: Bearer $OPENAI_API_KEY" \
+      --form file=@"$argc_path" \
+      --form "model=$argc_whisperModel"
+  )
+
+  # Print the response content to stdtut
+  prompt="$(jq -r '.text' <<<"$response" | tr '[:upper:]' '[:lower:]')"
+  tmp="$(mktemp)"
+  $self request --model "$argc_completionModel" --maxTokens "$argc_maxTokens" --temperature "$argc_temperature" --prompt "$prompt" --file "$tmp" &
+
+  _spinner $! "Running..."
+
+  response="$(cat "$tmp")"
+  completion=$(printf '%s' "$response" | jq -r '.choices[0].completion')
+  text=$(printf '%s' "$response" | jq -r '.choices[0].text')
+
+  if [[ $completion == "null" ]] || [[ $completion == "" ]]; then
+    completion="$text"
+  fi
+
+  echo
+  echo "$prompt"
+  echo "$completion"
+}
+
+if [[ -z $1 ]]; then
   set -- "main" "$@"
 fi
+
+case "$1" in
+  -h | --help) ;;
+  -*)
+    set -- "main" "$@"
+    ;;
+esac
 
 eval "$(argc "$self" "$@")"

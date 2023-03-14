@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# @describe Custom commands to handle Tekton from the cli.
+# @author Guzmán Monné
+# @version 0.1.0
+
+# Root director for all our Tekton scripts.
+ROOT="$(dirname "$(readlink -f "$(which "$0")")")"
+
+# @cmd taskRun Run commands related to TaskRuns.
+taskrun() {
+   "$ROOT/kubectl-taskrun" "$@"
+}
+
+# Support sub-commands when working with `argc`.
+case "$1" in
+    task-run) shift; task-run "$@"; exit;;
+esac
+
+# Run `argc`
+eval "$(argc "$0" "$@")"
+

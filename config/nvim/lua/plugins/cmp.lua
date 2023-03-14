@@ -24,16 +24,22 @@ cmp.setup {
             luasnip.lsp_expand(args.body)
         end
     },
-    completion = {keyword_length = 4, autocomplete = false},
+    completion = { keyword_length = 4, autocomplete = false },
     mapping = cmp.mapping.preset.insert({
-        ['<CR>'] = cmp.mapping.confirm({behavior = cmp.ConfirmBehavior.Replace, select = true}),
-        ['<C-p>'] = cmp.mapping(cmp.mapping.select_prev_item(), {'i', 'c'}),
-        ['<C-n>'] = cmp.mapping(cmp.mapping.select_next_item(), {'i', 'c'}),
+        ['<CR>'] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+        ['<C-p>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 'c' }),
+        ['<C-n>'] = cmp.mapping(function()
+            if cmp.visible() then
+                cmp.select_next_item()
+            else
+                cmp.complete()
+            end
+        end, { 'i', 'c' }),
         ['<C-d>'] = cmp.mapping.scroll_docs(-4),
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
         ['<C-e>'] = cmp.mapping.close(),
-        ['<C-y>'] = cmp.mapping.confirm {behavior = cmp.ConfirmBehavior.Insert, select = true},
-        ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), {'i', 'c'}),
+        ['<C-y>'] = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Insert, select = true },
+        ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
         ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_next_item()
@@ -44,7 +50,7 @@ cmp.setup {
             else
                 fallback()
             end
-        end, {"i", "s"}),
+        end, { "i", "s" }),
         ["<S-Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_prev_item()
@@ -53,15 +59,15 @@ cmp.setup {
             else
                 fallback()
             end
-        end, {"i", "s"})
+        end, { "i", "s" })
     }),
     sources = cmp.config.sources({
-        {name = 'nvim_lsp'}, {name = 'nvim_lsp_signature_help'}, {name = 'nvim_lua'}, {name = "luasnip"},
-        {name = 'path'}, {name = 'zk'}, {name = 'buffer', default = 5, keyword_length = 5}
+        { name = 'nvim_lsp' }, { name = 'nvim_lsp_signature_help' }, { name = 'nvim_lua' }, { name = "luasnip" },
+        { name = 'path' }, { name = 'zk' }, { name = 'buffer', default = 5, keyword_length = 5 }
     }),
-    experimental = {native_menu = false, ghost_text = true},
+    experimental = { native_menu = false, ghost_text = true },
     formatting = {
-        fields = {'menu', 'abbr', 'kind'},
+        fields = { 'menu', 'abbr', 'kind' },
         format = function(entry, vim_item)
             vim_item.kind = lspkind.presets.default[vim_item.kind]
             vim_item.with_text = false
@@ -73,12 +79,12 @@ cmp.setup {
 }
 
 -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
-cmp.setup.cmdline({'/', '?'}, {mapping = cmp.mapping.preset.cmdline(), sources = {{name = 'buffer'}}})
+cmp.setup.cmdline({ '/', '?' }, { mapping = cmp.mapping.preset.cmdline(), sources = { { name = 'buffer' } } })
 
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline(':', {
     mapping = cmp.mapping.preset.cmdline(),
-    sources = cmp.config.sources({{name = 'path'}}, {{name = 'cmdline'}})
+    sources = cmp.config.sources({ { name = 'path' } }, { { name = 'cmdline' } })
 })
 
 --  see https://github.com/hrsh7th/nvim-cmp/wiki/Menu-Appearance#how-to-add-visual-studio-code-dark-theme-colors-to-the-menu
