@@ -88,3 +88,6 @@ nnoremap Q <nop>
 " Move through loclist or quicklist
 nnoremap <C-k> <cmd>cnext<CR>zz
 nnoremap <C-j> <cmd>cprev<CR>zz
+
+" Copy everything inside a markdown code fence
+nnoremap <leader>m :?```<CR>jVNky

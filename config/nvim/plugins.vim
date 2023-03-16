@@ -3,6 +3,8 @@
 " Hint: Make sure you use single quotes.
 call plug#begin('~/.config/nvim/plugged')
 
+Plug 'godlygeek/tabular'
+Plug 'preservim/vim-markdown'
 Plug 'Aasim-A/scrollEOF.nvim'
 Plug 'kevinhwang91/promise-async'
 Plug 'kevinhwang91/nvim-ufo'
