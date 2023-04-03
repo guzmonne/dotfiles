@@ -1,13 +1,8 @@
 \set QUIET 1
 \set ON_ERROR_ROLLBACK interactive
-\set VERBOSITY verbose
-\x auto
 \set PROMPT1 '%[%033[38;5;27m%]%`hostname -f`%[%033[38;5;102m%]/%/ %[%033[31;5;27m%]%`~/.local/bin/role.sh`%[%033[0m%] %# '
 \set PROMPT2 ''
 \set HISTFILE ~/.psql_history- :DBNAME
 \set HISTCONTROL ignoredups
 \pset null [null]
-\pset pager always
-\timing
 \unset QUIET
-\x auto

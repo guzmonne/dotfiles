@@ -91,3 +91,9 @@ nnoremap <C-j> <cmd>cprev<CR>zz
 
 " Copy everything inside a markdown code fence
 nnoremap <leader>m :?```<CR>jVNky
+
+" Codeium mappings
+imap <script><silent><nowait><expr> <C-y> codeium#Accept()
+imap <C-[>   <Cmd>call codeium#CycleCompletions(1)<CR>
+imap <C-]>   <Cmd>call codeium#CycleCompletions(-1)<CR>
+imap <C-x>   <Cmd>call codeium#Clear()<CR>

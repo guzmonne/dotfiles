@@ -121,3 +121,6 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+
+# bun completions
+[ -s "/Users/guzmanmonne/.bun/_bun" ] && source "/Users/guzmanmonne/.bun/_bun"

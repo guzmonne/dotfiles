@@ -85,10 +85,6 @@ hi EndOfBuffer guibg=none ctermbg=none
 let g:python3_host_prog = '/Users/gmonne/.pyenv/shims/python3'
 " Remove Python2 support
 let g:loaded_python_provider = 0
-
-" Allow syntax highlighting in markdown
-let g:vim_markdown_fenced_languages = ['bash', 'rust', 'shell', 'sh', 'go', 'html', 'python', 'console=sh', 'bash=sh', 'javascript', 'typescript']
-
 " Fix issue with SQL Complete
 let g:ftplugin_sql_omni_key = '<C-0>'
 
@@ -114,7 +110,9 @@ augroup GUX
   autocmd DiagnosticChanged * lua vim.diagnostic.setqflist({ open = false })
   " Terraform format
   autocmd BufWritePre *.tfvars lua vim.lsp.buf.format({ async = true })
-  autocmd BufWritePre *.tf lua vim.lsp.buf.format({ async = true})
+  autocmd BufWritePre *.tf lua vim.lsp.buf.format({ async = true })
+  " Rust format
+  autocmd BufWritePre *.rs lua vim.lsp.buf.format({ async = false })
 augroup END
 
 " Flash the selection when highlighting.
@@ -122,13 +120,3 @@ augroup YankHighlight
   autocmd!
   autocmd TextYankPost * silent! lua vim.highlight.on_yank()
 augroup END
-
-" augroup _markdown
-"   autocmd!
-"   autocmd FileType markdown setlocal wrap
-"   autocmd FileType markdown setlocal spell
-"
-"   " Syntax highlight
-"   autocmd BufNewFile,BufRead *.md set ft=md
-"   autocmd BufReadPost *.md call md#setup("q")
-" augroup end

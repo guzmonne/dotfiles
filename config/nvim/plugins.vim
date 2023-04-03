@@ -3,6 +3,7 @@
 " Hint: Make sure you use single quotes.
 call plug#begin('~/.config/nvim/plugged')
 
+Plug 'krivahtoo/silicon.nvim', { 'do': './install.sh build' }
 Plug 'godlygeek/tabular'
 Plug 'preservim/vim-markdown'
 Plug 'Aasim-A/scrollEOF.nvim'

@@ -1,16 +1,19 @@
 local nvim_lsp = require('lspconfig')
 local configs = require('lspconfig/configs')
 local util = require('lspconfig/util')
+local add_bun_prefix = require('plugins.bun').add_bun_prefix
+
+util.on_setup = util.add_hook_before(util.on_setup, add_bun_prefix)
 
 local M = {}
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 function M.on_attach(client, bufnr)
-    if client.name == "eslint" then
-        vim.cmd.LspStop("eslint")
-        return
-    end
+    -- if client.name == "eslint" then
+    --     vim.cmd.LspStop("eslint")
+    --     return
+    -- end
 
     -- Mappings.
     local nmap = function(keys, func, desc)
@@ -112,14 +115,14 @@ nvim_lsp.html.setup {
 }
 
 -- Terraform --
-require 'lspconfig'.terraformls.setup {}
+nvim_lsp.terraformls.setup {}
 
 -- Lua --
 local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
-require 'lspconfig'.lua_ls.setup {
+nvim_lsp.lua_ls.setup {
     on_attach = M.on_attach,
     capabilities = capabilities,
     flags = { debounce_text_changes = 150 },
@@ -168,14 +171,7 @@ nvim_lsp.pyright.setup { cmd = { "pyright-langserver", "--stdio" }, capabilities
 -- Terraform --
 nvim_lsp.terraformls.setup { cmd = { "terraform-ls", "serve" } }
 
--- Rust --
--- nvim_lsp.rust_analyzer.setup({
---     capabilities = capabilities,
---     on_attach = M.on_attach,
---     cmd = {
---         "rustup", "run", "stable", "rust-analyzer",
---     }
--- })
+-- Rust
 local rt = require('rust-tools')
 rt.setup({
     server = {
@@ -226,7 +222,9 @@ vim.diagnostic.config({
     update_in_insert = false,
     underline = true,
     severity_sort = false,
-    float = { source = 'always', header = '', prefix = '' }
+    float = { source = 'always', header = '', prefix = '' },
+    setloclist = { open = false },
+    setqflist = { open = false },
 })
 
 return M
