@@ -85,8 +85,11 @@ hi EndOfBuffer guibg=none ctermbg=none
 let g:python3_host_prog = '/Users/gmonne/.pyenv/shims/python3'
 " Remove Python2 support
 let g:loaded_python_provider = 0
-" Fix issue with SQL Complete
-let g:ftplugin_sql_omni_key = '<C-0>'
+" Disable tab_map in Copilot
+let g:copilot_no_tab_map = v:true
+" Disable netrw
+let g:loaded_netrw = 1
+let g:loaded_netrwPlugin = 1
 
 augroup GUX
   autocmd!

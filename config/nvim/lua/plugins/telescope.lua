@@ -1,12 +1,10 @@
 -- Telescope --
 local is_telescope_installed, telescope = pcall(require, "telescope")
-local is_telescope_actions_installed, telescope_actions = pcall(require, "telescope.actions")
 local is_trouble_installed, trouble = pcall(require, "trouble.providers.telescope")
 local is_action_layout, action_layout = pcall(require, "telescope.actions.layout")
 
 if not is_telescope_installed then return end
 if not is_trouble_installed then return end
-if not is_telescope_actions_installed then return end
 if not is_action_layout then return end
 
 telescope.setup({
@@ -42,8 +40,8 @@ telescope.setup({
         generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
         path_display = { "truncate" },
         winblend = 0,
-        -- border = {},
-        -- borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+        border = {},
+        borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
         color_devicons = true,
         use_less = true,
         extensions = {

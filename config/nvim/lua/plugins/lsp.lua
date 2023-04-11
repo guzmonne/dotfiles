@@ -66,14 +66,6 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
     virtual_text = true
 })
 
--- Ansible --
-nvim_lsp.ansiblels.setup {
-    cmd = { "ansible-language-server", "--stdio" },
-    filetypes = { "yaml", "yml", "yaml.ansible", "ansible" },
-    on_attach = M.on_attach,
-    flags = { debounce_text_changes = 150 },
-    capabilities = capabilities
-}
 -- Bash --
 nvim_lsp.bashls.setup {
     cmd = { "bash-language-server", "start" },

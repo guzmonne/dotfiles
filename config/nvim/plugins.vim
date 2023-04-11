@@ -3,13 +3,13 @@
 " Hint: Make sure you use single quotes.
 call plug#begin('~/.config/nvim/plugged')
 
-Plug 'krivahtoo/silicon.nvim', { 'do': './install.sh build' }
+Plug 'rmagatti/auto-session'
+Plug 'github/copilot.vim'
 Plug 'godlygeek/tabular'
 Plug 'preservim/vim-markdown'
 Plug 'Aasim-A/scrollEOF.nvim'
 Plug 'kevinhwang91/promise-async'
 Plug 'kevinhwang91/nvim-ufo'
-Plug 'Exafunction/codeium.vim'
 Plug 'mbbill/undotree'
 Plug 'folke/which-key.nvim'
 Plug 'j-hui/fidget.nvim'
@@ -18,12 +18,10 @@ Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'MunifTanjim/nui.nvim'
 Plug 'johmsalas/text-case.nvim'
 Plug 'L3MON4D3/LuaSnip'
-Plug 'nvim-neo-tree/neo-tree.nvim', { 'branch': 'v2.x' }
 Plug 'ThePrimeagen/harpoon'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 Plug 'folke/trouble.nvim'
-Plug 'hashivim/vim-terraform'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/cmp-nvim-lsp'
@@ -34,6 +32,7 @@ Plug 'hrsh7th/nvim-cmp'
 Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'kyazdani42/nvim-web-devicons'
+Plug 'nvim-tree/nvim-tree.lua'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'martinda/Jenkinsfile-vim-syntax'
