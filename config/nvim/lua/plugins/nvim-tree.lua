@@ -7,8 +7,9 @@ local function toggle_replace()
     if view.is_visible() then
         api.tree.close()
     else
-        require("nvim-tree").open_replacing_current_buffer()
+        require("nvim-tree").open_replacing_current_buffer({ path = vim.fn.expand('%') })
     end
+    -- require("nvim-tree.actions.reloaders.reloaders").reload_git()
 end
 
 local HEIGHT_RATIO = 0.8
@@ -19,7 +20,7 @@ require("nvim-tree").setup({
     hijack_unnamed_buffer_when_opening = true,
     live_filter = {
         prefix = "[FILTER]: ",
-        always_show_folderd = false,
+        always_show_folders = false,
     },
     diagnostics = {
         enable = true,

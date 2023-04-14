@@ -186,7 +186,7 @@ wk.register({
     z = { '<cmd>Telescope spell_suggest<CR>', 'Spell suggest' },
     l = { live_grep, 'Live grep' },
   },
-  ['-'] = { '<cmd>NvimTreeOpen<CR>', 'Open nvim-tree' },
+  ['-'] = { function() require("nvim-tree.api").tree.open({ path = vim.fn.expand('%:h') }) end, 'Open nvim-tree' },
   ['?'] = { '<cmd>Telescope current_buffer_fuzzy_find<CR>', 'Fuzzy find inside current file' },
 }, { prefix = "<leader>" })
 

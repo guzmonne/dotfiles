@@ -159,6 +159,7 @@ export CLOUDSDK_PYTHON_SITEPACKAGES=1
 export $(cat "$HOME/Projects/Personal/secrets/openai.env" | xargs)
 export $(cat "$HOME/Projects/Personal/secrets/newrelic.env" | xargs)
 export $(cat "$HOME/Projects/Personal/secrets/anthropic.env" | xargs)
+export $(cat "$HOME/Projects/Personal/secrets/github.env" | xargs)
 
 # Source JAVA_HOME
 export JAVA_HOME=$(/usr/libexec/java_home)

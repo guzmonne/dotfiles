@@ -1,6 +1,7 @@
 -- Init.lua --
 require('plugins.auto-session')
 require('plugins.cmp')
+require('plugins.copilot')
 require('plugins.comment')
 require('plugins.fidget')
 require('plugins.gitsigns')
