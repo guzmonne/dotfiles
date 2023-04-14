@@ -41,7 +41,14 @@ Changes to file $file:
 """
 
 Git Diff:
-$(git diff --staged -- "$file")
+$(
+          while read -r line; do
+            case "$line" in
+              +*) printf "%s\n" "$line" ;;
+              -*) printf "%s\n" "$line" ;;
+            esac
+          done <<<"$(git diff --staged -- "$file")"
+        )
 EOF
         echo
         echo
