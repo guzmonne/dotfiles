@@ -21,6 +21,38 @@ fi
 
 self="$0"
 
+# @cmd Create a proper Git Commit message from the diff of changes.
+commit() {
+  echo "Generating a commit message with all the changes done since the last commit."
+  echo
+  echo "This may take a while. Please be patient..."
+  changes="$(mktemp)"
+  {
+    for file in $(git diff --name-only); do
+      echo Changes summary for file "$file"
+      echo
+      cat <<-EOF | b chats create
+Create a bullet point summary of the changes made to the file $file on the current git commit
+from its "git diff" output. Please avoid printing back sensitive information like the values
+of environment variables, or passwords.
+
+Git Diff:
+$(git diff -- "$file")
+EOF
+      echo
+      echo
+    done
+  } >"$changes"
+
+  cat <<-EOF | b chats create
+  Create a brief summary of all the changes done since the last git commit.
+
+  $(cat "$changes")
+
+EOF
+  cat "$changes"
+}
+
 # @cmd Make a request to GPT
 # @option --prompt GPT Prompt.
 # @option --file File to store the request response.
