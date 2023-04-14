@@ -17,7 +17,7 @@ alias tldr="tldr -p=osx"
 # Colorize grep output
 alias grep='grep --color=auto'
 
-# Configmr before overwriting something
+# Confirm before overwriting something
 alias cp='cp -i'
 alias mv='mv -i'
 alias rm='rm -i'

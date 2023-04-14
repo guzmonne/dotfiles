@@ -23,33 +23,67 @@ self="$0"
 
 # @cmd Create a proper Git Commit message from the diff of changes.
 commit() {
-  echo "Generating a commit message with all the changes done since the last commit."
-  echo
-  echo "This may take a while. Please be patient..."
   changes="$(mktemp)"
   {
-    for file in $(git diff --name-only); do
-      echo Changes summary for file "$file"
-      echo
-      cat <<-EOF | b chats create
+    for file in $(git diff --staged --name-only); do
+      {
+        cat <<-EOF | b --silent chats create
 Create a bullet point summary of the changes made to the file $file on the current git commit
 from its "git diff" output. Please avoid printing back sensitive information like the values
 of environment variables, or passwords.
 
+Include the name of the file in the summary as the heading. For example:
+
+"""
+Changes to file $file:
+
+- ...
+"""
+
 Git Diff:
-$(git diff -- "$file")
+$(git diff --staged -- "$file")
 EOF
-      echo
-      echo
+        echo
+        echo
+      } &
     done
+    wait
   } >"$changes"
 
-  cat <<-EOF | b chats create
-  Create a brief summary of all the changes done since the last git commit.
+  if [[ -z $(cat "$changes") ]]; then
+    echo "No changes detected"
+    exit 0
+  fi
 
-  $(cat "$changes")
+  cat <<-EOF | b chats create
+Create a brief summary using a single paragraph describing all the main changes done
+since the last git commit from the following list of changes. Also, the first line must
+be a "Semantic Commit Message" that describes the changes in a single line.
+
+You MUST separate the semantic commit from the summary paragraph with a new line.
+
+Examples:
+
+"""
+feat: add support for GPT-3
+
+fix: fix bug in the google-credentials.sh script
+
+chore: update the aws.sh script
+"""
+
+List of changes:
+
+"""
+$(cat "$changes")
+"""
 
 EOF
+
+  echo
+  echo
+  echo ---
+  echo
   cat "$changes"
 }
 
