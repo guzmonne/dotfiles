@@ -1,4 +1,4 @@
-" Defaults
+
 unlet! skip_defaults_vim
 runtime defaults.vim
 
@@ -69,6 +69,8 @@ set foldmethod=expr                        " Kind of fold used for the current w
 set foldexpr=nvim_treesitter#foldexpr()    " Use Treesitter to handle folds
 set pumblend=15                            " Enable pseudo-transparency on pop-up windows.
 set winblend=15                            " Enable pseudo-transparency for a floating window.
+set textwidth=100                          " Set text width to 80
+set wrapmargin=2                           " Set wrap margin to 2
 
 " Remove background on all windows.
 hi PmenuSel blend=0

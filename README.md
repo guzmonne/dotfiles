@@ -18,9 +18,9 @@ On this folder I can find all my personal configuration files and scripts.
 
 ### Clone repository
 
-These are the recommended steps to install everything from scratch on a new machine. First, start
-by installing `brew`. You should check their [site](https://brew.sh/) to get the current
-installation method. Then install GitHub's cli tool using `brew`.
+These are the recommended steps to install everything from scratch on a new machine. First, start by
+installing `brew`. You should check their [site](https://brew.sh/) to get the current installation
+method. Then install GitHub's cli tool using `brew`.
 
 ```bash
 brew install gh
@@ -161,17 +161,18 @@ and your fonts, you can restart `kitty` to see the new configuration taking effe
 
 ### Nvim Configuration
 
-The first time you open `nvim` it will show a bunch of errors. This is because we need to install all
-the plugins. Open `nvim` and run `:PlugInstall` to install them. Once it finishes restart `nvim`.
-Everything should work as expected after the restart.
+The first time you open `nvim` it will show a bunch of errors. This is because we need to install
+all the plugins. Open `nvim` and run `:PlugInstall` to install them. Once it finishes restart
+`nvim`. Everything should work as expected after the restart.
 
 Reset `nvim` to see the new plugins in action.
 
 ## Tinker Tool
 
-Consider using [Tinker Tool](http://www.bresink.com/osx/TinkerToolOverview.html) to change the behavior of
-the finder and dock application.
+Consider using [Tinker Tool](http://www.bresink.com/osx/TinkerToolOverview.html) to change the
+behavior of the finder and dock application.
 
 ## Yabai and Skhd
 
-Lastly, install [`yabai`](https://github.com/koekeishiya/yabai) and [`skhd`](https://github.com/koekeishiya/skhd) by following their respective guides.
+Lastly, install [`yabai`](https://github.com/koekeishiya/yabai) and
+[`skhd`](https://github.com/koekeishiya/skhd) by following their respective guides.

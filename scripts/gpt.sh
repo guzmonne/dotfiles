@@ -27,7 +27,7 @@ commit() {
   {
     for file in $(git diff --staged --name-only); do
       {
-        cat <<-EOF | b --silent chats create
+        cat <<-EOF | b --silent chats create --system "Use concise language. Dont repeat yourself. Use short sentences" -
 Create a bullet point summary of the changes made to the file $file on the current git commit
 from its "git diff" output. Please avoid printing back sensitive information like the values
 of environment variables, or passwords.
@@ -62,11 +62,13 @@ EOF
     exit 0
   fi
 
-  cat <<-EOF | b chats create
+  cat <<-EOF | b chats create --system "Use concise language. Dont repeat yourself. Use short sentences" -
 Create a brief summary using a single paragraph describing all the main changes done
 since the last git commit from the following list of changes. Also, the first line must
-be a "Semantic Commit Message" that describes the changes in a single line.
+be a "Semantic Commit Message" that describes the changes in a single line of no more than
+80 characters.
 
+The semantic commit must not be longer than 80 characters.
 You MUST separate the semantic commit from the summary paragraph with a new line.
 
 Examples:
