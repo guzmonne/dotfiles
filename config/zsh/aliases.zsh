@@ -39,3 +39,17 @@ alias luamake="$HOME/Projects/Personal/repos/sumneko/lua-language-server/3rd/lua
 
 # Youplot
 alias uplot="arch -arm64 youplot"
+
+if command -v gum>/dev/null; then
+	alias write="gum write --char-limit 0 --width 90 --height=20"
+	alias glow="glow -s $HOME/.config/glow/style.json"
+fi
+
+# ChatGPT Aliases
+if command -v b>/dev/null; then
+	function rusty() { b chats create --session rusty "$@" | glow }
+	function kuby() { b chats create --session kuby "$@" | glow }
+	function javy() { b chats create --session javy "$@" | glow }
+	function bashy() { b chats create --session bashy "$@" | glow }
+	function releasy() { b chats create --session releasy "$@" | glow }
+fi
