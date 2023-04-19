@@ -27,7 +27,7 @@ go() {
   session=$(tmux list-sessions | awk '{print $1}' | tr -d ':' |
     fzf \
       --header 'Press CTRL-X to delete a session.' \
-      --bind 'ctrl-x:execute-silent(tmux kill-session -t {+})+reload(tmux list-sessions | awk '"'"'{print $1}'"'"' | tr -d ':')')
+      --bind 'ctrl-x:execute-silent(sessionizer sessions remove {+})+reload(tmux list-sessions | awk '"'"'{print $1}'"'"' | tr -d ':')')
 
   if [[ -z "$session" ]]; then
     exit 0
@@ -45,6 +45,15 @@ go() {
   yq '.sessions.current |= "'"$session"'" | del(.sessions.history[] | select(. ==  "'"$session"'"))' -i "$CONFIG"
 
   $self set "$session"
+}
+
+# @cmd Remove a session from the history
+# @arg name! Session name
+remove() {
+  tmux kill-session -t "$argc_name"
+  session_name="$(printf "%s" "$argc_name" | tr '·' '.')"
+  yq '.sessions.history -= ["'"$session_name"'"]' "$CONFIG" -i
+  echo yq '.sessions.history -= ["'"$session_name"'"]' "$CONFIG" -i
 }
 
 # @cmd Sets a session

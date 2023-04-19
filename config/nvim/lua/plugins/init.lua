@@ -1,4 +1,5 @@
 -- Init.lua --
+require('plugins.colors')
 require('plugins.auto-session')
 require('plugins.cmp')
 require('plugins.copilot')
