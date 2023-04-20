@@ -94,3 +94,7 @@ nnoremap <leader>m :?```<CR>jVNky
 
 " Codepilot mappings
 imap <silent><script><expr> <C-y> copilot#Accept("\<CR>")
+
+" Maximize the current window
+nnoremap <leader>M :ZoomToggle<CR>
+
