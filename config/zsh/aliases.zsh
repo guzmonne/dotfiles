@@ -42,7 +42,7 @@ alias uplot="arch -arm64 youplot"
 
 if command -v gum>/dev/null; then
 	alias write="gum write --char-limit 0 --width 90 --height=20"
-	alias glow="glow -s $HOME/.config/glow/style.json"
+	# alias glow="glow -s $HOME/.config/glow/style.json"
 fi
 
 # ChatGPT Aliases
@@ -52,4 +52,5 @@ if command -v b>/dev/null; then
 	function javy() { b chats create --session javy "$@" | glow }
 	function bashy() { b chats create --session bashy "$@" | glow }
 	function releasy() { b chats create --session releasy "$@" | glow }
+	function vimy() { b chats create --session vimy "$@" | glow }
 fi
