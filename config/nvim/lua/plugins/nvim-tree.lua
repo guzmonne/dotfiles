@@ -1,5 +1,15 @@
 -- Nvim-Tree Configuration --
 
+local git_icons = {
+    unstaged = "",
+    staged = "",
+    unmerged = "",
+    renamed = "➜",
+    untracked = "",
+    deleted = "",
+    ignored = "◌",
+}
+
 local function toggle_replace()
     local view = require("nvim-tree.view")
     local api = require("nvim-tree.api")
@@ -26,6 +36,12 @@ require("nvim-tree").setup({
         enable = true,
         show_on_dirs = true,
         show_on_open_dirs = false,
+        icons = {
+            hint = "",
+            info = "",
+            warning = "",
+            error = "",
+        },
     },
     actions = {
         open_file = {
@@ -35,23 +51,30 @@ require("nvim-tree").setup({
         },
     },
     renderer = {
+        highlight_git = true,
+        highlight_opened_files = "none",
+        root_folder_label = ":~",
         full_name = true,
         group_empty = true,
         indent_markers = {
             enable = true,
+            icons = {
+                corner = "└ ",
+                edge = "│ ",
+                none = "  ",
+            },
         },
         icons = {
+            show = {
+                file = true,
+                folder = true,
+                folder_arrow = true,
+                git = true,
+                modified = true,
+            },
             git_placement = "signcolumn",
             glyphs = {
-                git = {
-                    unstaged = "",
-                    staged = "",
-                    unmerged = "",
-                    renamed = "",
-                    untracked = "",
-                    deleted = "",
-                    ignored = "◌",
-                }
+                git = git_icons,
             }
         }
     },

@@ -1,9 +1,9 @@
 -- Init.lua --
-require('plugins.colors')
 require('plugins.auto-session')
 require('plugins.cmp')
-require('plugins.copilot')
+require('plugins.colors')
 require('plugins.comment')
+require('plugins.copilot')
 require('plugins.fidget')
 require('plugins.gitsigns')
 require('plugins.harpoon')

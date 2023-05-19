@@ -1,5 +1,6 @@
 {
   "name": "scripts",
+  "type": "module",
   "version": "1.0.0",
   "description": "Personal Scripts",
   "main": "index.js",
@@ -10,8 +11,10 @@
   "license": "MIT",
   "dependencies": {
     "cmd-ts": "^0.12.1",
+    "cross-fetch": "^3.1.6",
     "dedent": "^0.7.0",
-    "prompt-engine": "^0.0.31"
+    "prompt-engine": "^0.0.31",
+    "replicate": "^0.12.1"
   },
   "devDependencies": {
     "@types/dedent": "^0.7.0",

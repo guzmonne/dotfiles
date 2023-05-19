@@ -13,11 +13,11 @@ alt - 0     : yabai -m space --focus "safari"
 # Force window arrangement
 alt - m     : yabai -m space --layout bsp && yabai -m space --balance
 
-# Navigation
-alt - h       : yabai -m window --focus west
-alt - j       : yabai -m window --focus south
-alt - k       : yabai -m window --focus north
-alt - l       : yabai -m window --focus east
+# Window Navigation
+# alt - h       : yabai -m window --focus west
+# alt - j       : yabai -m window --focus south
+# alt - k       : yabai -m window --focus north
+# alt - l       : yabai -m window --focus east
 
 # Moving Windows
 shift + alt - h : yabai -m window --warp west
@@ -62,6 +62,13 @@ alt - b  : { source $HOME/Projects/Personal/dotfiles/.bashrc; sessionizer sessio
 shift + alt - w : tmux switch-client -n
 shift + alt - b : tmux switch-client -p
 
+# Tmux Window Navigation
 f1 : tmux select-window -t 1
 f2 : tmux select-window -t 2
 f3 : tmux select-window -t 3
+
+# Tmux Pane Navigation
+alt - h       : tmux select-pane -L
+alt - j       : tmux select-pane -D
+alt - k       : tmux select-pane -U
+alt - l       : tmux select-pane -R

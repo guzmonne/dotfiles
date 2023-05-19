@@ -21,6 +21,17 @@ fi
 
 self="$0"
 
+# @cmd Edit the GPT sessions.
+# @arg file! File to edit.
+edit() {
+  tmp="$(mktemp).yaml"
+
+  yq -P "$argc_file" >"$tmp"
+  "$EDITOR" "$tmp"
+  yq -o j "$tmp" >"$argc_file"
+  rm -Rf "$tmp"
+}
+
 # @cmd Create a proper Git Commit message from the diff of changes.
 commit() {
   changes="$(mktemp)"

@@ -45,12 +45,39 @@ if command -v gum>/dev/null; then
 	# alias glow="glow -s $HOME/.config/glow/style.json"
 fi
 
+function bbb() {
+	if [ -z "$1" ]; then
+		echo "Please provide a session name"
+		return 1
+	fi
+
+	session="$1"
+	shift
+
+	if [[ "$1" == "edit" ]]; then
+		gpt.sh edit "$HOME/.b/sessions/$session"
+		return 0
+	fi
+
+	if [[ "$1" == "-" ]]; then
+		b chats create --session "$session" - <"/dev/stdin" | glow
+		return $?
+	fi
+
+	if [ -z "$1" ]; then
+		write --placeholder="Enter your message for $session..." | b chats create --session "$session" - | glow
+	else
+		echo -n "$@" | b chats create --session "$session" - | glow
+	fi
+}
+
 # ChatGPT Aliases
 if command -v b>/dev/null; then
-	function rusty() { b chats create --session rusty "$@" | glow }
-	function kuby() { b chats create --session kuby "$@" | glow }
-	function javy() { b chats create --session javy "$@" | glow }
-	function bashy() { b chats create --session bashy "$@" | glow }
-	function releasy() { b chats create --session releasy "$@" | glow }
-	function vimy() { b chats create --session vimy "$@" | glow }
+	function awsy() { bbb awsy "$@" }
+	function rusty() { bbb rusty "$@" }
+	function kuby() { bbb kuby "$@" }
+	function javy() { bbb javy "$@" }
+	function bashy() { bbb bashy "$@" }
+	function releasy() { bbb releasy "$@" }
+	function vimy() { bbb vimy "$@" }
 fi

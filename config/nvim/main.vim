@@ -7,6 +7,8 @@ filetype on
 filetype plugin on
 filetype indent on
 
+set cursorline                             " Highlight the current line
+set emoji                                  " Fix emoji display
 set autoindent                             " Inherit indentation from previous line.
 set autoread                               " Reload the file when external changes are detected
 set autowriteall                           " Work with buffers
@@ -14,11 +16,12 @@ set backspace=indent,eol,start             " Fixes common backspace problems.
 set cc=100,120                             " Set a 100 and 120 column border
 set cindent
 set clipboard=unnamedplus                  " Using system clipboard
-set cmdheight=1                            " Give more space for displaying messages
-set completeopt=menuone,noselect,noinsert  " Make the completion menu behave like an IDE
+set cmdheight=0                            " Give more space for displaying messages
+set completeopt=menu,menuone,noselect      " Make the completion menu behave like an IDE
 set conceallevel=0                         " Makes `` visible on markdown files.
 set confirm                                " Makes it easier to
 set exrc                                   " Source coniguration every time I enter a new project
+set encoding=utf-8                         " Set encoding to utf-8
 set fileencoding=utf-8                     " Use utf-8 as encoding type for files.
 set guicursor=                             " Set the guicursor to always be a block
 set hidden                                 " Keeps any buffer available
@@ -59,7 +62,7 @@ set updatetime=50                          " Increase the update time
 set vb t_vb=                               " Disable Beep/Flash
 set wildmenu                               " Better CMP menu.
 set wildmode=longest,list                  " Get bash-like tab completions
-set laststatus=3                           " Show global statusline
+set laststatus=2                           " Show global statusline
 set ofu=syntaxcomplete#Complete            " Enable omnicompletion for syntax
 set softtabstop=2                          " Soft tab size
 set tabstop=2                              " Tab size
@@ -71,6 +74,7 @@ set pumblend=15                            " Enable pseudo-transparency on pop-u
 set winblend=15                            " Enable pseudo-transparency for a floating window.
 set textwidth=100                          " Set text width to 80
 set wrapmargin=2                           " Set wrap margin to 2
+set wildignore+=*/node_modules/*           " Ignore node_modules
 
 " Remove background on all windows.
 hi PmenuSel blend=0
@@ -83,6 +87,13 @@ hi VertSplit guibg=none ctermbg=none
 hi SignColumn guibg=none ctermbg=none
 hi EndOfBuffer guibg=none ctermbg=none
 
+" Change color of the cursor line
+highlight CursorLine ctermbg=none guibg=#0f0f0f gui=NONE cterm=NONE
+augroup CursorLineTransparency
+  autocmd!
+  autocmd ColorScheme * highlight CursorLine guibg=#0f0f0f ctermbg=none
+augroup END
+
 " Python provider configuration
 let g:python3_host_prog = '/Users/gmonne/.pyenv/shims/python3'
 " Remove Python2 support
@@ -90,6 +101,19 @@ let g:loaded_python_provider = 0
 " Disable netrw
 let g:loaded_netrw = 1
 let g:loaded_netrwPlugin = 1
+" Don't configure any plugin under this line.
+call plug#end()
+" Disable default GitGutter mappings
+let g:gitgutter_map_keys = 0
+" Configure editorconfig
+let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
+let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
+" Configure Markdown Preview
+let g:mkdp_auto_start = 0
+let g:mkdp_auto_close = 1
+" Configure md
+let g:md_fenced_languages = ['shell', 'html', 'typescriptreact', 'json', 'jsonc', 'yaml', 'ts=typescript', 'typescript', 'sh', 'bash', 'sql', 'console=sh', 'javascript', 'js=javascript', 'json=javascript']
+
 
 augroup GUX
   autocmd!
@@ -100,6 +124,7 @@ augroup GUX
   autocmd BufWritePre *.sh lua vim.lsp.buf.format({ async = true })
   autocmd BufWritePre *.go lua vim.lsp.buf.format({ async = true })
   autocmd BufWritePre *.lua lua vim.lsp.buf.format({ async = true }, 100)
+  autocmd BufWritePre *.rs lua vim.lsp.buf.format({ async = false })
   " Remove line numbers in terminal mode.
   autocmd TermOpen * setlocal listchars= nonumber norelativenumber nocursorline
   autocmd TermOpen * startinsert
@@ -109,17 +134,19 @@ augroup GUX
   " Use 4 spaces for tabs on certain files.
   autocmd FileType python setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4
   autocmd FileType lua setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4
+  autocmd FileType rust setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4
+  autocmd BufWritePost python setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4
+  autocmd BufWritePost lua setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4
+  autocmd BufWritePost rust setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4
   " Avoid opening the diagnostics on a quickfix list
   autocmd DiagnosticChanged * lua vim.diagnostic.setqflist({ open = false })
   " Terraform format
   autocmd BufWritePre *.tfvars lua vim.lsp.buf.format({ async = true })
   autocmd BufWritePre *.tf lua vim.lsp.buf.format({ async = true })
-  " Rust format
-  autocmd BufWritePre *.rs lua vim.lsp.buf.format({ async = false })
-augroup END
-
-" Flash the selection when highlighting.
-augroup YankHighlight
-  autocmd!
+  " Flash the selection when highlighting.
   autocmd TextYankPost * silent! lua vim.highlight.on_yank()
+  " Disable diagnostics in node modules (0 is current buffer only)
+  autocmd BufRead */node_modules/* :lua vim.lsp.diagnostic.disable(0)
+  autocmd BufNewFile */node_modules/* :lua vim.lsp.diagnostic.disable(0)
+
 augroup END

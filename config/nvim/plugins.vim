@@ -55,20 +55,3 @@ Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-surround'
 Plug 'numToStr/Comment.nvim'
 Plug 'jose-elias-alvarez/null-ls.nvim'
-
-" Don't configure any plugin under this line.
-call plug#end()
-
-" Disable default GitGutter mappings
-let g:gitgutter_map_keys = 0
-
-" Configure editorconfig
-let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
-let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
-
-" Configure Markdown Preview
-let g:mkdp_auto_start = 0
-let g:mkdp_auto_close = 1
-
-" Configure md
-let g:md_fenced_languages = ['shell', 'html', 'typescriptreact', 'json', 'jsonc', 'yaml', 'ts=typescript', 'typescript', 'sh', 'bash', 'sql', 'console=sh', 'javascript', 'js=javascript', 'json=javascript']

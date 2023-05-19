@@ -98,3 +98,5 @@ imap <silent><script><expr> <C-y> copilot#Accept("\<CR>")
 " Maximize the current window
 nnoremap <leader>M :ZoomToggle<CR>
 
+" Remap Ctrl-w-h to Alt-h
+nnoremap <M-h> <C-w>h
