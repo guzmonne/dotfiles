@@ -81,3 +81,7 @@ if command -v b>/dev/null; then
 	function releasy() { bbb releasy "$@" }
 	function vimy() { bbb vimy "$@" }
 fi
+
+function oc() {
+	npx -y opencommit "$@"
+}

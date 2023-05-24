@@ -40,13 +40,13 @@ require("oil").setup({
     -- it will use the mapping at require("oil.actions").<name>
     -- Set to `false` to remove a keymap
     -- See :help oil-actions for a list of all available actions
+    -- Set to false to disable all of the above keymaps
+    use_default_keymaps = false,
     keymaps = {
         ["g?"] = "actions.show_help",
         ["<CR>"] = "actions.select",
-        ["<C-s>"] = "actions.select_vsplit",
+        ["<C-t>"] = "actions.select_vsplit",
         ["<C-h>"] = "actions.select_split",
-        ["<C-t>"] = "actions.select_tab",
-        ["<C-p>"] = "actions.preview",
         ["<C-c>"] = "actions.close",
         ["<C-l>"] = "actions.refresh",
         ["-"] = "actions.parent",
@@ -55,8 +55,6 @@ require("oil").setup({
         ["~"] = "actions.tcd",
         ["g."] = "actions.toggle_hidden",
     },
-    -- Set to false to disable all of the above keymaps
-    use_default_keymaps = true,
     view_options = {
         -- Show files and directories that start with "."
         show_hidden = true,
