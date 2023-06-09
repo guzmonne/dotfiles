@@ -11,7 +11,7 @@ require("nvim-treesitter.configs").setup({
         -- Set this to `true` if you depend on `syntax` being enabled (like for indentation).
         -- Using this option may slow down your editor, and you may see some duplicate highlights.
         -- Instead of true it can also be a list of languages.
-        additional_vim_regex_highlighting = false
+        additional_vim_regex_highlighting = { 'yaml' }
     },
     rainbow = { enable = true, extended_mode = true, max_file_lines = nil },
     context_commentstring = { enable = true, enable_autocmd = false, },
@@ -56,7 +56,30 @@ require("nvim-treesitter.configs").setup({
             swap_next = { ['<leader>a'] = '@parameter.inner' },
             swap_previous = { ['<leader>A'] = '@parameter.inner' }
         }
-    }
+    },
+    playground = {
+        enable = true,
+        disable = {},
+        updatetime = 25,         -- Debounced time for highlighting nodes in the playground from source code
+        persist_queries = false, -- Whether the query persists across vim sessions
+        keybindings = {
+            toggle_query_editor = 'o',
+            toggle_hl_groups = 'i',
+            toggle_injected_languages = 't',
+            toggle_anonymous_nodes = 'a',
+            toggle_language_display = 'I',
+            focus_language = 'f',
+            unfocus_language = 'F',
+            update = 'R',
+            goto_node = '<cr>',
+            show_help = '?'
+        }
+    },
+    query_linter = {
+        enable = true,
+        use_virtual_text = true,
+        lint_events = { "BufWrite", "CursorHold" }
+    },
 });
 
 require('nvim-treesitter.parsers').get_parser_configs()

@@ -45,6 +45,37 @@ if command -v gum>/dev/null; then
 	# alias glow="glow -s $HOME/.config/glow/style.json"
 fi
 
+function aaa() {
+	if [ -z "$1" ]; then
+		echo "Please provide a session name"
+		return 1
+	fi
+
+	session="$1"
+	shift
+
+	if [[ "$1" == "edit" ]]; then
+		gpt.sh edit "$HOME/.b/sessions/$session"
+		return 0
+	fi
+
+	if [[ "$1" == "render" ]]; then
+		jq -r '.prompt'  "$HOME/.b/sessions/$session" | sed 's/Human:/---\n\n> Human:\n\n/' | sed 's/Assistant:/> Assistant:\n\n/' | glow
+		return 0
+	fi
+
+	if [[ "$1" == "-" ]]; then
+		b anthropic create --session "$session" - <"/dev/stdin" | glow
+		return $?
+	fi
+
+	if [ -z "$1" ]; then
+		write --placeholder="Enter your message for $session..." | b anthropic create --session "$session" - | glow
+	else
+		echo -n "$@" | b anthropic create --session "$session" - | glow
+	fi
+}
+
 function bbb() {
 	if [ -z "$1" ]; then
 		echo "Please provide a session name"
@@ -80,6 +111,17 @@ if command -v b>/dev/null; then
 	function bashy() { bbb bashy "$@" }
 	function releasy() { bbb releasy "$@" }
 	function vimy() { bbb vimy "$@" }
+fi
+
+# Anthropic Aliases
+if command -v b>/dev/null; then
+	function aawsy() { aaa aawsy "$@" }
+	function arusty() { aaa arusty "$@" }
+	function akuby() { aaa akuby "$@" }
+	function ajavy() { aaa ajavy "$@" }
+	function abashy() { aaa abashy "$@" }
+	function areleasy() { aaa areleasy "$@" }
+	function avimy() { aaa avimy "$@" }
 fi
 
 function oc() {

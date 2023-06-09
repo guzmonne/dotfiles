@@ -8,7 +8,6 @@ Plug 'brenoprata10/nvim-highlight-colors'
 Plug 'rmagatti/auto-session'
 Plug 'github/copilot.vim'
 Plug 'godlygeek/tabular'
-Plug 'preservim/vim-markdown'
 Plug 'Aasim-A/scrollEOF.nvim'
 Plug 'kevinhwang91/promise-async'
 Plug 'kevinhwang91/nvim-ufo'
@@ -47,6 +46,7 @@ Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+Plug 'nvim-treesitter/playground'
 Plug 'romgrk/nvim-treesitter-context'
 Plug 'onsails/lspkind-nvim'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production' }

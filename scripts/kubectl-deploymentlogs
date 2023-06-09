@@ -1,0 +1,95 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC2181
+# shellcheck disable=SC2145
+# shellcheck disable=SC2068
+# shellcheck disable=SC2009
+
+set -x
+
+usage() {
+  tee <<-EOF
+  kubectl deploymentlogs [OPTIONS] [KUBECTL_OPTIONS]
+
+  Options
+  -------
+
+    -c,--color                      Colorize output
+    -d,--deployments <deployments>  Comma separated list of deployments to get logs from
+    -h,--help                       Show this help message
+
+  Example
+  -------
+
+  kubectl deploymentlogs -d deployment1,deployment2 -n default -f
+EOF
+}
+
+main() {
+  # Define options
+  opts=$(getopt -o cd:fht: --long color,deployments:,follow,help,tail: --name "$(basename "$0")" -- "$@")
+  positional_parameters=()
+  bin="kubectl"
+
+  # Process options
+  eval set -- "$opts"
+  while true; do
+    case "$1" in
+      -t|--tail)
+        shift
+        positional_parameters+=("--tail $1")
+        shift;
+        ;;
+      -c|--color)
+        shift
+        if command -v kubecolor &> /dev/null; then
+          bin="kubecolor"
+        fi
+        break
+        ;;
+      -d|--deployments)
+        shift
+        deployments=("$1")
+        break
+        ;;
+      -h|--help)
+        usage
+        exit 0
+        ;;
+      -f|--follow)
+        positional_parameters+=("-f")
+        shift;
+        ;;
+      --)
+        shift
+        break
+        ;;
+      *)
+        shift
+        ;;
+    esac
+  done
+
+  for deployment in ${deployments[@]}; do
+    echo "Getting logs for deployment: $deployment"
+    echo $bin logs -l "app=${deployment}" --container="${deployment}" ${positional_parameters[@]}
+    $bin logs -l "app=${deployment}" ${positional_parameters[@]} | jq 1> >(sed -u "s/^/${deployment}:\t /") &
+  done
+
+  wait
+}
+
+# Define cleanup function
+cleanup() {
+  echo "Received SIGINT signal, cleaning up..."
+  ps aux | grep "kubectl logs -l app=" | awk '{print $2}' | xargs -n1 -I {} kill -9 {} 2> /dev/null
+  exit 0
+}
+
+# Set trap for SIGINT signal
+trap cleanup SIGINT
+
+# Your script commands go here
+echo "Running your script, press Ctrl-C to trigger cleanup"
+
+main "$@"
+
