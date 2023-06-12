@@ -113,7 +113,10 @@ let g:mkdp_auto_start = 0
 let g:mkdp_auto_close = 1
 " Configure md
 let g:md_fenced_languages = ['shell', 'html', 'typescriptreact', 'json', 'jsonc', 'yaml', 'ts=typescript', 'typescript', 'sh', 'bash', 'sql', 'console=sh', 'javascript', 'js=javascript', 'json=javascript']
-
+" Configure 'lifepillar/pgsql.vim'
+let g:sql_type_default = 'pgsql'
+let b:sql_type_override = 'pgsql' | set ft=sql
+let g:psql_pl = ['typescript']
 
 augroup GUX
   autocmd!
