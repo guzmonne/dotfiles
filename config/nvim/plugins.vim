@@ -3,10 +3,9 @@
 " Hint: Make sure you use single quotes.
 call plug#begin('~/.config/nvim/plugged')
 
+Plug 'RRethy/vim-illuminate'
 Plug 'stevearc/oil.nvim'
-Plug 'lifepillar/pgsql.vim'
 Plug 'brenoprata10/nvim-highlight-colors'
-Plug 'rmagatti/auto-session'
 Plug 'github/copilot.vim'
 Plug 'godlygeek/tabular'
 Plug 'Aasim-A/scrollEOF.nvim'
@@ -57,3 +56,7 @@ Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-surround'
 Plug 'numToStr/Comment.nvim'
 Plug 'jose-elias-alvarez/null-ls.nvim'
+
+" Don't configure any plugin under this line.
+call plug#end()
+

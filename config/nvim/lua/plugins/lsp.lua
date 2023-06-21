@@ -10,11 +10,6 @@ local M = {}
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 function M.on_attach(_, bufnr)
-    -- if client.name == "eslint" then
-    --     vim.cmd.LspStop("eslint")
-    --     return
-    -- end
-
     -- Mappings.
     local nmap = function(keys, func, desc)
         if desc then desc = 'LSP: ' .. desc end
@@ -47,9 +42,13 @@ function M.on_attach(_, bufnr)
     end, { desc = 'Format current buffer with LSP' })
 end
 
--- Setup lspconfig
+-- Setup CMP
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+capabilities.textDocument.completion.completionItem.resolveSupport = {
+    properties = { 'documentation', 'detail', 'additionalTextEdits' }
+}
 
 -- Borders --
 local border = {

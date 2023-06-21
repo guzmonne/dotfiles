@@ -1,4 +1,3 @@
-
 unlet! skip_defaults_vim
 runtime defaults.vim
 
@@ -89,20 +88,20 @@ hi EndOfBuffer guibg=none ctermbg=none
 
 " Change color of the cursor line
 highlight CursorLine ctermbg=none guibg=#0f0f0f gui=NONE cterm=NONE
-augroup CursorLineTransparency
-  autocmd!
-  autocmd ColorScheme * highlight CursorLine guibg=#0f0f0f ctermbg=none
-augroup END
 
 " Python provider configuration
-let g:python3_host_prog = '/Users/gmonne/.pyenv/shims/python3'
+let g:python3_host_prog = '/Users/guzmanmonne/miniconda/bin/python'
 " Remove Python2 support
 let g:loaded_python_provider = 0
+" Remove Ruby provider
+let g:loaded_ruby_provider = 0
+" Remove Perl provider
+let g:loaded_perl_provider = 0
+
 " Disable netrw
 let g:loaded_netrw = 1
 let g:loaded_netrwPlugin = 1
-" Don't configure any plugin under this line.
-call plug#end()
+
 " Disable default GitGutter mappings
 let g:gitgutter_map_keys = 0
 " Configure editorconfig
@@ -113,10 +112,14 @@ let g:mkdp_auto_start = 0
 let g:mkdp_auto_close = 1
 " Configure md
 let g:md_fenced_languages = ['shell', 'html', 'typescriptreact', 'json', 'jsonc', 'yaml', 'ts=typescript', 'typescript', 'sh', 'bash', 'sql', 'console=sh', 'javascript', 'js=javascript', 'json=javascript']
-" Configure 'lifepillar/pgsql.vim'
-let g:sql_type_default = 'pgsql'
-let b:sql_type_override = 'pgsql' | set ft=sql
-let g:psql_pl = ['typescript']
+
+" Try to disable SQLComplete Something
+let g:omni_sql_no_default_maps = 1
+
+" Configure vim-illuminate
+let g:Illuminate_useDeprecated = 0
+let g:Illuminate_delay = 0
+let g:Illuminate_ftblacklist = ['fugitive', 'oil']
 
 augroup GUX
   autocmd!
@@ -141,8 +144,6 @@ augroup GUX
   autocmd BufWritePost python setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4
   autocmd BufWritePost lua setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4
   autocmd BufWritePost rust setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4
-  " Avoid opening the diagnostics on a quickfix list
-  autocmd DiagnosticChanged * lua vim.diagnostic.setqflist({ open = false })
   " Terraform format
   autocmd BufWritePre *.tfvars lua vim.lsp.buf.format({ async = true })
   autocmd BufWritePre *.tf lua vim.lsp.buf.format({ async = true })
@@ -152,4 +153,11 @@ augroup GUX
   autocmd BufRead */node_modules/* :lua vim.lsp.diagnostic.disable(0)
   autocmd BufNewFile */node_modules/* :lua vim.lsp.diagnostic.disable(0)
 
+  " Vim-Illuminate highlight configuration
+  autocmd VimEnter * hi link illuminatedWord CursorLine
+  autocmd VimEnter * hi illuminatedWord cterm=underline gui=underline
+  autocmd VimEnter * hi illuminatedCurWord cterm=italic gui=italic
+
+  " Cursorline transparency
+  autocmd ColorScheme * highlight CursorLine guibg=#0f0f0f ctermbg=none
 augroup END

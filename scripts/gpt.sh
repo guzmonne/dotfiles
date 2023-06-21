@@ -113,6 +113,8 @@ EOF
 # @option --model=text-davinci-003 GPT Model.
 # @option --maxTokens=2096 GPT max tokens.
 # @option --temperature=0 GPT temperature.
+# @option --functions GPT functions JSON schema.
+# @option --function_call GTP function to call from the JSON schema.
 request() {
   local request_body
   local escaped_prompt
@@ -122,7 +124,12 @@ request() {
   GPT_TEMPERATURE=${GPT_TEMPERATURE:-"$argc_temperature"}
 
   escaped_prompt="$(printf '%s' "$argc_prompt" | jq -Rsa .)"
-  request_body='{"prompt": '"$escaped_prompt"', "model": "'"${GPT_MODEL}"'", "max_tokens": '"${GPT_MAX_TOKENS}"', "temperature": '"${GPT_TEMPERATURE}"' }'
+
+  if [[ -n "$argc_functions" ]]; then
+    request_body='{"prompt": '"$escaped_prompt"', "model": "'"${GPT_MODEL}"'", "max_tokens": '"${GPT_MAX_TOKENS}"', "temperature": '"${GPT_TEMPERATURE}"', functions: '"$argc_functions"', "function_call": "'"${argc_function_call}"'" }'
+  else
+    request_body='{"prompt": '"$escaped_prompt"', "model": "'"${GPT_MODEL}"'", "max_tokens": '"${GPT_MAX_TOKENS}"', "temperature": '"${GPT_TEMPERATURE}"' }'
+  fi
 
   curl -s -X POST \
     -H "Content-Type: application/json" \

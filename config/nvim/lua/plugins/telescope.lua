@@ -2,6 +2,7 @@
 local is_telescope_installed, telescope = pcall(require, "telescope")
 local is_trouble_installed, trouble = pcall(require, "trouble.providers.telescope")
 local is_action_layout, action_layout = pcall(require, "telescope.actions.layout")
+local is_actions, actions = pcall(require, "telescope.actions")
 
 if not is_telescope_installed then return end
 if not is_trouble_installed then return end
@@ -14,6 +15,7 @@ telescope.setup({
         },
         mappings = {
             i = {
+                ["<C-n>"] = actions.move_selection_next,
                 ["<C-u>"] = false,
                 ["<C-d>"] = false,
                 ["?"] = action_layout.toggle_preview,

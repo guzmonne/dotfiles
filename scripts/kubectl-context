@@ -17,8 +17,6 @@ fi
 
 if [ -z "$config" ]; then exit 0; fi
 
-clear
-
 hr.sh '─'
 
 kubectl config use-context "$config"

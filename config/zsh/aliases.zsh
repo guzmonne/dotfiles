@@ -60,7 +60,10 @@ function aaa() {
 	fi
 
 	if [[ "$1" == "render" ]]; then
-		jq -r '.prompt'  "$HOME/.b/sessions/$session" | sed 's/Human:/---\n\n> Human:\n\n/' | sed 's/Assistant:/> Assistant:\n\n/' | glow
+		prompt="$(jq -r '.prompt'  "$HOME/.b/sessions/$session" | sed 's/Human:/---\n\n> Human:\n\n/' | sed 's/Assistant:/> Assistant:\n\n/')"
+		ss="$(jq -r '.system // ""'  "$HOME/.b/sessions/$session" | sed 's/Human:/---\n\n> Human:\n\n/' | sed 's/Assistant:/> Assistant:\n\n/')"
+		echo "$ss" | glow
+		echo "$prompt" | glow
 		return 0
 	fi
 
@@ -126,4 +129,25 @@ fi
 
 function oc() {
 	npx -y opencommit "$@"
+}
+
+# The defer function allows for a resource to be cleaned up upon exit of the function or script,
+# similar to the defer keyword in Go. This ensures resources are released properly even if the
+# script exits early, improving idempotence.
+#
+# Source: https://cedwards.xyz/defer-for-shell/
+#
+# Usage:
+#   # Mount /tmp as tmpfs and umount it on script exit.
+#   mount -t tmpfs tmpfs /tmp
+#   defer umount -f /tmp
+
+#   # Create a temporary file and delete it on script exit.
+#   TEMP=$(mktemp)
+#   echo "Hello!" > "$TEMP"
+#   defer rm -f "$TEMP"
+DEFER=
+defer() {
+    DEFER="$*; ${DEFER}"
+    trap "{ $DEFER }" EXIT
 }

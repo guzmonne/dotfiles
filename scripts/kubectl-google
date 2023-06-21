@@ -12,5 +12,5 @@ function details() {
   hr.sh '─'
 }
 
-details | grep --color=auto -E "^|production|staging|assurance|development|test"
+details | grep --color=auto -E "^|production|staging|acceptance|development|test"
 
