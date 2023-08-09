@@ -208,6 +208,11 @@ rt.setup({
         end,
         settings = {
             ["rust-analyzer"] = {
+                diagnostics = {
+                    enable = true,
+                    disabled = { "unresolved-proc-macro" },
+                    enableExperimental = true
+                },
                 checkOnSave = {
                     command = "clippy"
                 }
