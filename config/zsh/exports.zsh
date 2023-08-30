@@ -159,8 +159,13 @@ export CLOUDSDK_PYTHON_SITEPACKAGES=1
 export $(cat "$HOME/Projects/Personal/secrets/openai.env" | xargs)
 export $(cat "$HOME/Projects/Personal/secrets/newrelic.env" | xargs)
 export $(cat "$HOME/Projects/Personal/secrets/anthropic.env" | xargs)
+export $(cat "$HOME/Projects/Personal/secrets/huggingface.env" | xargs)
+export $(cat "$HOME/Projects/Personal/secrets/c.env" | xargs)
 export $(cat "$HOME/Projects/Personal/secrets/github.env" | xargs)
 export $(cat "$HOME/Projects/Personal/secrets/replicate.env" | xargs)
+export $(cat "$HOME/Projects/Personal/secrets/gooseai.env" | xargs)
+export $(cat "$HOME/Projects/Personal/secrets/novelai.env" | xargs)
+export $(cat "$HOME/Projects/Personal/secrets/nlpcloud.env" | xargs)
 
 # Source JAVA_HOME
 export JAVA_HOME=$(/usr/libexec/java_home)
@@ -186,3 +191,4 @@ fi
 if [[ -d "$HOME/miniconda/bin" ]]; then
   export PATH="$HOME/miniconda/bin:$PATH"
 fi
+

@@ -3,6 +3,9 @@
 " Hint: Make sure you use single quotes.
 call plug#begin('~/.config/nvim/plugged')
 
+Plug 'willothy/moveline.nvim', { 'do': 'make' }
+Plug 'lepture/vim-jinja'
+Plug 'folke/zen-mode.nvim'
 Plug 'RRethy/vim-illuminate'
 Plug 'stevearc/oil.nvim'
 Plug 'brenoprata10/nvim-highlight-colors'
@@ -33,7 +36,6 @@ Plug 'hrsh7th/nvim-cmp'
 Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'kyazdani42/nvim-web-devicons'
-Plug 'nvim-tree/nvim-tree.lua'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'martinda/Jenkinsfile-vim-syntax'

@@ -160,4 +160,7 @@ augroup GUX
 
   " Cursorline transparency
   autocmd ColorScheme * highlight CursorLine guibg=#0f0f0f ctermbg=none
+
+  " Jinja Highlight
+  au BufNewFile,BufRead *.tera set ft=jinja
 augroup END

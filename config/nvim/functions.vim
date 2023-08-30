@@ -1,4 +1,17 @@
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Enable ZenMode
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! GoZen() abort
+  ZenMode
+  set wrap
+  set nolinebreak
+  set lbr
+  set textwidth=0 wrapmargin=0
+endfunction
+command! GoZen call GoZen()
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Zoom / Restore window.
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! s:ZoomToggle() abort
     if exists('t:zoomed') && t:zoomed
         execute t:zoom_winrestcmd
