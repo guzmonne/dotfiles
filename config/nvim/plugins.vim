@@ -3,7 +3,6 @@
 " Hint: Make sure you use single quotes.
 call plug#begin('~/.config/nvim/plugged')
 
-Plug 'willothy/moveline.nvim', { 'do': 'make' }
 Plug 'lepture/vim-jinja'
 Plug 'folke/zen-mode.nvim'
 Plug 'RRethy/vim-illuminate'
