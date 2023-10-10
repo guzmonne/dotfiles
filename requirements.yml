@@ -26,6 +26,7 @@ tap:
 - cantino/mcfly
 - jandedobbeleer/oh-my-posh
 brew:
+- lsd
 - rg
 - java
 - vivid
