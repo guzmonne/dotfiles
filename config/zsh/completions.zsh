@@ -27,4 +27,7 @@ if [[ -x "$(command -v eksctl)" ]]; then
   eksctl completion zsh > ~/zsh/site-functions/_eksctl
 fi
 
+# bun completions
+[ -s "/Users/guzmanmonne/.bun/_bun" ] && source "$HOME/.bun/_bun"
+
 compinit

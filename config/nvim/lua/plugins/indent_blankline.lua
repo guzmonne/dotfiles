@@ -3,6 +3,7 @@ local highlight = {
     "CursorColumn",
     "Whitespace",
 }
+
 require("ibl").setup {
     indent = { highlight = highlight, char = "" },
     whitespace = {
@@ -11,4 +12,3 @@ require("ibl").setup {
     },
     scope = { enabled = false },
 }
-

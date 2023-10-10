@@ -110,3 +110,5 @@ nnoremap k gk
 vnoremap j gj
 vnoremap k gk
 
+" Show the diagnostic view floating
+nnoremap gl :lua vim.diagnostic.open_float()<CR>

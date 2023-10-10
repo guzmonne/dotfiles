@@ -1,3 +1,4 @@
+zmodload zsh/zprof
 # Configure the folder where all zsh configuration will live.
 export ZDOTDIR=$HOME/.config/zsh
 
@@ -106,21 +107,4 @@ export PATH="$(perl -e 'print join(":", grep { not $seen{$_}++ } split(/:/, $ENV
 # Enable McFly
 eval "$(mcfly init zsh)"
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/guzmanmonne/miniconda/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/Users/guzmanmonne/miniconda/etc/profile.d/conda.sh" ]; then
-        . "/Users/guzmanmonne/miniconda/etc/profile.d/conda.sh"
-    else
-        export PATH="/Users/guzmanmonne/miniconda/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-
-
-# bun completions
-[ -s "/Users/guzmanmonne/.bun/_bun" ] && source "/Users/guzmanmonne/.bun/_bun"
+zprof > /tmp/foo

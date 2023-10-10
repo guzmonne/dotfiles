@@ -45,10 +45,10 @@ end
 -- Setup CMP
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-capabilities.textDocument.completion.completionItem.resolveSupport = {
-    properties = { 'documentation', 'detail', 'additionalTextEdits' }
-}
+-- capabilities.textDocument.completion.completionItem.snippetSupport = true
+-- capabilities.textDocument.completion.completionItem.resolveSupport = {
+--     properties = { 'documentation', 'detail', 'additionalTextEdits' }
+-- }
 
 -- Borders --
 local border = {
@@ -208,6 +208,20 @@ rt.setup({
         end,
         settings = {
             ["rust-analyzer"] = {
+                imports = {
+                    granularity = {
+                        group = "module",
+                    },
+                    prefix = "self",
+                },
+                cargo = {
+                    buildScripts = {
+                        enable = true,
+                    },
+                },
+                procMacro = {
+                    enable = true,
+                },
                 diagnostics = {
                     enable = true,
                     disabled = { "unresolved-proc-macro" },

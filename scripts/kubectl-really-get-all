@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+usage() {
+  cat <<-'EOF'
+Lists resources of all kinds supported on the server, not just the ones shown by kubectl get all
+
+Examples:
+  # List all resources in the current namespace
+  kubectl really get all
+
+  # List all resources in the specified namespace
+  kubectl really get all -n my-namespace
+
+  # List all resources in the whole cluster (all cluster-scoped resources and all namespaced
+  # resources in all namespaces)
+  kubectl really get all --all-namespaces
+
+  # List all resources with the label foo=bar
+  kubectl really get all --selector foo=bar
+
+  # List all resources in the whole cluster in YAML format
+  kubectl really get all -o yaml
+
+Usage:
+  kubectl really get all [--all-namespaces|-n namespace]
+
+Also supports (almost all) other parameters supported by kubectl get.
+
+EOF
+}
+
+NAMESPACE_ONLY="--namespaced"
+
+case "$1" in
+  -h|--help)
+    usage
+    exit 0
+    ;;
+  --all-namespaces)
+    NAMESPACE_ONLY=""
+    ;;
+esac
+
+RESOURCES="$(kubectl api-resources --verbs=list "${NAMESPACE_ONLY}" -o name | tr "\n" ,)"
+kubectl get "${RESOURCES%?}" --show-kind --ignore-not-found "$@"
+
+

@@ -89,8 +89,6 @@ hi EndOfBuffer guibg=none ctermbg=none
 " Change color of the cursor line
 highlight CursorLine ctermbg=none guibg=#0f0f0f gui=NONE cterm=NONE
 
-" Python provider configuration
-let g:python3_host_prog = '/Users/guzmanmonne/miniconda/bin/python'
 " Remove Python2 support
 let g:loaded_python_provider = 0
 " Remove Ruby provider
@@ -130,7 +128,7 @@ augroup GUX
   autocmd BufWritePre *.sh lua vim.lsp.buf.format({ async = true })
   autocmd BufWritePre *.go lua vim.lsp.buf.format({ async = true })
   autocmd BufWritePre *.lua lua vim.lsp.buf.format({ async = true }, 100)
-  autocmd BufWritePre *.rs lua vim.lsp.buf.format({ async = false })
+  autocmd BufWritePre *.rs lua vim.lsp.buf.format({ async = true }, 100)
   " Remove line numbers in terminal mode.
   autocmd TermOpen * setlocal listchars= nonumber norelativenumber nocursorline
   autocmd TermOpen * startinsert
@@ -163,4 +161,8 @@ augroup GUX
 
   " Jinja Highlight
   au BufNewFile,BufRead *.tera set ft=jinja
+
+  " Nvim-Lint
+  au BufWritePost *.md lua require("lint").try_lint()
+  au BufWritePost *.txt lua require("lint").try_lint()
 augroup END

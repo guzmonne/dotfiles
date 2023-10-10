@@ -156,6 +156,7 @@ fi
 export CLOUDSDK_PYTHON_SITEPACKAGES=1
 
 # Source Secret Environment Variables
+export $(cat "$HOME/Projects/Personal/secrets/cloudflare.env" | xargs)
 export $(cat "$HOME/Projects/Personal/secrets/openai.env" | xargs)
 export $(cat "$HOME/Projects/Personal/secrets/newrelic.env" | xargs)
 export $(cat "$HOME/Projects/Personal/secrets/anthropic.env" | xargs)
@@ -188,8 +189,9 @@ if [[ -d "/opt/homebrew/opt/gnu-getopt/bin" ]]; then
   export PATH="/opt/homebrew/opt/gnu-getopt/bin:$PATH"
 fi
 
-# Add miniconda as part of the PATH
-if [[ -d "$HOME/miniconda/bin" ]]; then
-  export PATH="$HOME/miniconda/bin:$PATH"
+# Configure the PATH to include the folder where the `bun` binary is installed
+if [[ -d "$HOME/.bun/bin" ]]; then
+  export BUN_INSTALL="$HOME/.bun"
+  export PATH="$BUN_INSTALL/bin:$PATH"
 fi
 

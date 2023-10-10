@@ -32,11 +32,6 @@ M.methods.feedkeys = feedkeys
 ---@param dir number 1 for forward, -1 for backward; defaults to 1
 ---@return boolean true if a jumpable luasnip field is found while inside a snippet
 local function jumpable(dir)
-    local luasnip_ok, luasnip = pcall(require, "luasnip")
-    if not luasnip_ok then
-        return false
-    end
-
     local win_get_cursor = vim.api.nvim_win_get_cursor
     local get_current_buf = vim.api.nvim_get_current_buf
 
