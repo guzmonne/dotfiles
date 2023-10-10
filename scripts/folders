@@ -21,17 +21,8 @@ add() {
     argc_id="$($utils uuid)"
   fi
 
-  folder=$({\
-    tee <<-EOF
-{
-  "id": "$argc_id",
-  "folder": "$argc_folder",
-  "mindepth": "$argc_mindepth",
-  "maxdepth": "$argc_maxdepth",
-  "grep": "$argc_grep"
-}
-EOF
-  } | jq -r)
+  folder="$(jo id="$argc_id" folder="$argc_folder" mindepth="$argc_mindepth" maxdepth="$argc_maxdepth" grep="$argc_grep" | jq -r)"
+
   yq '.folders |= . + ['"$folder"']' -i "$CONFIG"
 }
 
