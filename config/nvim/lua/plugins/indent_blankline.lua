@@ -1,7 +1,14 @@
 -- indent-blankline --
-require("indent_blankline").setup {
-    char = '┊',
-    show_char_blankline = " ",
-    show_current_context = false,
-    show_current_context_start = true
+local highlight = {
+    "CursorColumn",
+    "Whitespace",
 }
+require("ibl").setup {
+    indent = { highlight = highlight, char = "" },
+    whitespace = {
+        highlight = highlight,
+        remove_blankline_trail = false,
+    },
+    scope = { enabled = false },
+}
+

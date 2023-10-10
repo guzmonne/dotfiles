@@ -26,6 +26,10 @@ tap:
 - cantino/mcfly
 - jandedobbeleer/oh-my-posh
 brew:
+- rg
+- java
+- vivid
+- fzf
 - pgcli
 - hidetatz/tap/kubecolor
 - dasel
@@ -64,7 +68,6 @@ brew:
 - lsd
 - bat
 - fd
-- fzf
 - git
 - hadolint
 - jq

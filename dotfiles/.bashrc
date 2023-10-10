@@ -15,3 +15,4 @@ export PATH="$(perl -e 'print join(":", grep { not $seen{$_}++ } split(/:/, $ENV
 
 
 
+. "$HOME/.cargo/env"
