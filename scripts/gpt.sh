@@ -21,6 +21,34 @@ fi
 
 self="$0"
 
+# @cmd Write a simple request to gpt4 or claude2
+# @option -m --model[=gpt4|claude2] Anthropic or OpenAI model.
+write() {
+  if [[ "$argc_model" == "gpt4" ]]; then
+    command="o"
+  elif [[ "$argc_model" == "claude2" ]]; then
+    command="a"
+  else
+    echo "Invalid model: $argc_model"
+    exit 1
+  fi
+
+  prompt="$(
+    gum write \
+      --width 81 \
+      --height 10 \
+      --header "Chat" \
+      --placeholder "Write your prompt here..." \
+      --show-cursor-line \
+      --show-line-numbers \
+      --char-limit 0 \
+  )"
+
+  echo "$prompt" | gum format
+
+  c $command --stream "$prompt" | gum format
+}
+
 # @cmd Edit the GPT sessions.
 # @arg file! File to edit.
 edit() {

@@ -20,10 +20,16 @@ sessions() {
   "$ROOT/sessions" "$@"
 }
 
+# @cmd Handle Sessionizer sources
+sources() {
+  "$ROOT/sources" "$@"
+}
+
 case "$1" in
   config)  shift; config  "$@"; exit;;
   folders) shift; folders "$@"; exit;;
   sessions) shift; sessions "$@"; exit;;
+  sources) shift; sources "$@"; exit;;
 esac
 
 eval "$(argc "$0" "$@")"

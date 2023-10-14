@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC2154
+# shellcheck disable=SC2218
+# @describe Handle sessionizer sessions
+# @author Guzmán Monné
+# @version 0.1.0
+
+ROOT="$(dirname "$(readlink -f "$(which "$0")")")"
+CONFIG="${SESSIONIZER_CONFIG:-"$HOME/.sessionizer.yaml"}"
+
+source "$ROOT/constants"
+
+self="$0"
+folders="$ROOT/folders"
+
+# @cmd Add a new source for the current folder
+# @option --folder=- Folder to add
+# @option --script! Script to source
+add() {
+  if [[ "$argc_folder" == "-" ]]; then
+    argc_folder="$(pwd)"
+  fi
+
+  yq '.sources.'"$argc_folder"' |= . + ["'"$argc_script"'"]' -i "$CONFIG"
+}
+
+# @cmd Sources all the scripts for the current folder
+# @option --folder=- Folder to add
+source() {
+  if [[ "$argc_folder" == "-" ]]; then
+    argc_folder="$(pwd)"
+  fi
+
+  scripts="$(yq '.sources.'"$argc_folder"'[]' "$CONFIG" | xargs)"
+
+  for script in $scripts; do
+    echo "source $script"
+  done
+}
+
+eval "$(argc "$0" "$@")"
