@@ -195,3 +195,5 @@ if [[ -d "$HOME/.bun/bin" ]]; then
   export PATH="$BUN_INSTALL/bin:$PATH"
 fi
 
+# PyEnv configuration
+export PYENV_VIRTUALENV_DISABLE_PROMPT=1

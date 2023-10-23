@@ -10,9 +10,6 @@ CONFIG="${SESSIONIZER_CONFIG:-"$HOME/.sessionizer.yaml"}"
 
 source "$ROOT/constants"
 
-self="$0"
-folders="$ROOT/folders"
-
 # @cmd Add a new source for the current folder
 # @option --folder=- Folder to add
 # @option --script! Script to source

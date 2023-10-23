@@ -187,7 +187,11 @@ nvim_lsp.vimls.setup {
 }
 
 -- Python --
-nvim_lsp.pyright.setup { cmd = { "pyright-langserver", "--stdio" }, capabilities = capabilities }
+nvim_lsp.pyright.setup {
+    cmd = { "pyright-langserver", "--stdio" },
+    capabilities = capabilities,
+    on_attach = M.on_attach,
+}
 
 -- Terraform --
 nvim_lsp.terraformls.setup { cmd = { "terraform-ls", "serve" } }

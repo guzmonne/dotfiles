@@ -112,3 +112,6 @@ vnoremap k gk
 
 " Show the diagnostic view floating
 nnoremap gl :lua vim.diagnostic.open_float()<CR>
+
+" Fold mappings
+nnoremap <leader>zz zf%
