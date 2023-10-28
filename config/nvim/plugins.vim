@@ -3,6 +3,7 @@
 " Hint: Make sure you use single quotes.
 call plug#begin('~/.config/nvim/plugged')
 
+Plug 'jvirtanen/vim-hcl'
 Plug 'mfussenegger/nvim-lint'
 Plug 'stevearc/dressing.nvim'
 Plug 'lepture/vim-jinja'
@@ -14,7 +15,6 @@ Plug 'github/copilot.vim'
 Plug 'godlygeek/tabular'
 Plug 'Aasim-A/scrollEOF.nvim'
 Plug 'kevinhwang91/promise-async'
-Plug 'kevinhwang91/nvim-ufo'
 Plug 'mbbill/undotree'
 Plug 'folke/which-key.nvim'
 Plug 'j-hui/fidget.nvim', { 'branch': 'legacy' }

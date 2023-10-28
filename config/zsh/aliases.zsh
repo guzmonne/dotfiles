@@ -13,6 +13,10 @@ alias ll="ls -la --icons --group-directories-first --git --no-user"
 alias ctags="`brew --prefix`/bin/ctags"
 alias uuid="uuidgen | tr '[:upper:]' '[:lower:]' | xargs -n1 -I {} echo -n {} | pbcopy"
 
+# Prompt aliases that simplifies copying code from my own prompts and other sites
+alias ❯=""
+alias $=""
+
 # Configure tldr to fork in osx.
 alias tldr="tldr -p=osx"
 

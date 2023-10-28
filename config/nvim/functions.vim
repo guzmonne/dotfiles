@@ -7,6 +7,7 @@ function! GoZen() abort
   set nolinebreak
   set lbr
   set textwidth=0 wrapmargin=0
+  set conceallevel=1
 endfunction
 command! GoZen call GoZen()
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

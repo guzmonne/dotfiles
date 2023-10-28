@@ -4,7 +4,7 @@ export HISTCONTROL=ignoreboth
 # History file configuration
 [ -z "$HISTFILE" ] && HISTFILE="$HOME/.zsh_history"
 [ "$HISTSIZE" -lt 50000 ] && HISTSIZE=50000
-[ "$SAVEHIST" -lt 10000 ] && SAVEHIST=10000
+[ "$SAVEHIST" -lt 20000 ] && SAVEHIST=20000
 
 # History command configuration
 setopt extended_history       # Record timestamp of command in HISTFILE.

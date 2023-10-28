@@ -31,9 +31,15 @@ export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
 export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
 export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
 
-# Add Python 3.9 (default on MavOS) bin directory
+# Add Python 3.9 (default on MacOS) bin directory
 if [ -d "${HOME}/Library/Python/3.9/bin" ]; then
   export PATH="${HOME}/Library/Python/3.9/bin:${PATH}"
+fi
+
+# Add conda install through homebrew to the path if it exists.
+if [ -d "/opt/homebrew/anaconda3/bin" ]; then
+  export PATH="/opt/homebrew/anaconda3/bin:${PATH}"
+  conda init zsh 1>/dev/null
 fi
 
 # The next line updates PATH for the Google Cloud SDK.
