@@ -135,6 +135,8 @@ add_usage() {
   printf "  add -h|--help\n"
 
   printf "\n\033[4m%s\033[0m\n" "Options:"
+  printf "  --all\n"
+  printf "    Add all files\n"
   printf "  --no-git-commit\n"
   printf "    Don't run the git commit command automatically.\n"
   printf "  -h --help\n"
@@ -156,6 +158,10 @@ parse_add_arguments() {
   while [[ $# -gt 0 ]]; do
     key="$1"
     case "$key" in
+      --all)
+        rargs_all=1
+        shift
+        ;;
       --no-git-commit)
         rargs_no_git_commit=1
         shift
@@ -179,15 +185,19 @@ add() {
   # Parse command arguments
   parse_add_arguments "$@"
 
-  # Output the list of modified files
-  modified_files=$(git ls-files --modified)
-  # Use fzf for interactive selection
-  selected_file=$(echo "$modified_files" | fzf -m \
-      --preview 'git diff -- {}' \
-      --preview-window=up:80% \
-      --height 80% \
-      --border)
-  git add "$selected_file"
+  if [[ -n "$rargs_all" ]]; then
+    git add -A
+  else
+    # Output the list of modified files
+    modified_files=$(git ls-files --modified)
+    # Use fzf for interactive selection
+    selected_file=$(echo "$modified_files" | fzf -m \
+        --preview 'git diff -- {}' \
+        --preview-window=up:80% \
+        --height 80% \
+        --border)
+    git add "$selected_file"
+  fi
   if [[ -z "$rargs_no_git_commit" ]]; then
     semantic
   fi
@@ -281,9 +291,8 @@ EOF
   response="$(mktemp)"
   c a --stream --model claude2 - <"$tmp" | tee "$response"
   if [[ -z "$rargs_no_git_commit" ]]; then
-    awk '/<output>/,/<\/output>/' "$response" \
-      | grep -vE '<output>|<\/output>' \
-      | git commit -F -
+    commit="$(awk '/<output>/,/<\/output>/' "$response" | grep -vE '<output>|<\/output>' | tr -d '\n')"
+    printf '%s' "$commit" | git commit -F -
     git commit --amend
   fi
 }

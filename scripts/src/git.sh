@@ -58,28 +58,33 @@ EOF
   c a --stream --model claude2 - <"$tmp" | tee "$response"
 
   if [[ -z "$rargs_no_git_commit" ]]; then
-    awk '/<output>/,/<\/output>/' "$response" \
-      | grep -vE '<output>|<\/output>' \
-      | git commit -F -
+    commit="$(awk '/<output>/,/<\/output>/' "$response" | grep -vE '<output>|<\/output>' | tr -d '\n')"
+
+    printf '%s' "$commit" | git commit -F -
 
     git commit --amend
   fi
 }
 
 # @cmd Simplifies the process of staging files for a commit.
+# @flag --all Add all files
 # @flag --no-git-commit Don't run the git commit command automatically.
 add() {
-  # Output the list of modified files
-  modified_files=$(git ls-files --modified)
+  if [[ -n "$rargs_all" ]]; then
+    git add -A
+  else
+    # Output the list of modified files
+    modified_files=$(git ls-files --modified)
 
-  # Use fzf for interactive selection
-  selected_file=$(echo "$modified_files" | fzf -m \
-      --preview 'git diff -- {}' \
-      --preview-window=up:80% \
-      --height 80% \
-      --border)
+    # Use fzf for interactive selection
+    selected_file=$(echo "$modified_files" | fzf -m \
+        --preview 'git diff -- {}' \
+        --preview-window=up:80% \
+        --height 80% \
+        --border)
 
-  git add "$selected_file"
+    git add "$selected_file"
+  fi
 
   if [[ -z "$rargs_no_git_commit" ]]; then
     semantic
