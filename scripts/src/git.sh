@@ -58,7 +58,9 @@ EOF
   c a --stream --model claude2 - <"$tmp" | tee "$response"
 
   if [[ -z "$rargs_no_git_commit" ]]; then
-    awk '/<output>/,/<\/output>/' "$response" | grep -vE '<output>|<\/output>' | perl -p -e 'chomp if eof' | git commit -F -
+    commit="$(awk '/<output>/,/<\/output>/' "$response" | grep -vE '<output>|<\/output>' | perl -p -e 'chomp if eof')"
+
+    printf '%s' "$commit" | git commit -F -
 
     git commit --amend
   fi
