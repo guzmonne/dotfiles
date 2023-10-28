@@ -65,24 +65,35 @@ inspect_args() {
   fi
 }
 
-
+version() {
+  echo "0.1.0"
+}
 usage() {
+  printf "Some specific git commands that I personally use.\n"
   printf "\n\033[4m%s\033[0m\n" "Usage:"
-  printf "  script [OPTIONS] [COMMAND] [COMMAND_OPTIONS]\n"
-  printf "  script -h|--help\n"
+  printf "  git.sh [OPTIONS] [COMMAND] [COMMAND_OPTIONS]\n"
+  printf "  git.sh -h|--help\n"
+  printf "  git.sh -v|--version\n"
   printf "\n\033[4m%s\033[0m\n" "Commands:"
   cat <<EOF
   semantic .... Create a semantic git commit from the git diff output.
 EOF
+  printf "  [@default semantic]\n"
 
   printf "\n\033[4m%s\033[0m\n" "Options:"
   printf "  -h --help\n"
   printf "    Print help\n"
+  printf "  -v --version\n"
+  printf "    Print version\n"
 }
 
 parse_arguments() {
   while [[ $# -gt 0 ]]; do
     case "${1:-}" in
+      -v|--version)
+        version
+        exit
+        ;;
       -h|--help)
         usage
         exit
@@ -104,10 +115,10 @@ parse_arguments() {
       exit
       ;;
     "")
+      action="semantic"
       ;;
     *)
-      printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Invalid command: " "$action" >&2
-      exit 1
+      action="semantic"
       ;;
   esac
 }
@@ -157,12 +168,13 @@ semantic() {
   # Parse command arguments
   parse_semantic_arguments "$@"
 
-  diff="$(git diff --staged)"
+  diff="$(git diff --staged -- . ':(exclude)package-lock.json')"
   if [[ -z "$diff" ]]; then
     echo "No changes to commit."
     return 0
   fi
-  cat <<-EOF | c a --stream --model claude2 -
+  tmp="$(mktemp)"
+  cat <<-EOF | tee "$tmp"
 Consider the following text as your guide to creating a semantic git commit from the given 'git diff' output.
 Your semantic commit should start with one of these prefixes:
 - feat: Introducing a new feature
@@ -175,15 +187,26 @@ Your semantic commit should start with one of these prefixes:
 - build: Alterations affecting the build system or external dependencies
 - ci: Revisions to Continuous Integration configuration files and scripts
 - chore: Other changes that don't affect source or test files
-If a single semantic commit does not precisely categorize the changes, write a list of all required semantic commits.
-Above all, try to identify the main service affected by these changes. Include this service in your semantic commit in parentheses. For instance, if changes have been made to the 'sessionizer' service, you should write '(sessionizer)' following the prefix. If you've decided on the 'feat' prefix, the final semantic commit would read as 'feat(sessionizer): ...'.
-Begin your response with a '<context></context>' section that highlights all code changes. Next, provide a '<thinking></thinking>' section where you meticulously explain your thought process regarding what needs to be done.
-The final section should contain your reply with no superfluous commentary—only the outcome of your reasoning, adhering to the provided guidelines.
+If a single semantic commit does not precisely categorize the changes, write a list of all required
+semantic commits.
+Above all, try to identify the main service affected by these changes. Include this service in your
+semantic commit in parentheses. For instance, if changes have been made to the 'sessionizer'
+service, you should write '(sessionizer)' following the prefix. If you've decided on the 'feat'
+prefix, the final semantic commit would read as 'feat(sessionizer): ...'.
+Begin your response with a '<context></context>' section that highlights all code changes. Next,
+provide a '<thinking></thinking>' section where you meticulously explain your thought process
+regarding what needs to be done. Lastly, create your reply inside the '<output></output>' section.
+Your reply with no superfluous commentary—only the outcome of your reasoning, adhering to the provided guidelines.
 Here is the 'git diff' output for your evaluation:
 """
 $diff
 """
 EOF
+  c a --model claude2 - <"$tmp" \
+    | awk '/<output>/,/<\/output>/' \
+    | grep -vE '<output>|<\/output>' \
+    | git commit -F -
+  git commit --amend
 }
 
 run() {
@@ -198,9 +221,8 @@ run() {
       exit
       ;;
     "")
-      printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Missing command. Select one of " "semantic" >&2
-      usage >&2
-      exit 1
+      semantic
+      exit
       ;;
     
   esac

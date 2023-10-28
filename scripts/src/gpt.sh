@@ -29,16 +29,26 @@ write() {
     prompt=$(cat)
   elif [[ -z "$rargs_prompt" ]]; then
     tmp="$(mktemp)"
-    nvim  \
+    if ! nvim  \
       -c "setlocal filetype=markdown" \
       -c "startinsert" \
       -c "setlocal spell" \
       -c "setlocal spelllang=en_us" \
-      "$tmp"
+      "$tmp"; then
+      exit 1
+    fi
     prompt="$(cat "$tmp")"
   else
     prompt="$rargs_prompt"
   fi
+
+  # If the prompt is empty we'll exit.
+  if [[ -z "$prompt" ]]; then
+    echo "Prompt is empty."
+    exit 1
+  fi
+
+  echo "$prompt"
 
   # Call `c` with the right command and pass in the prompt.
   printf '%s' "$prompt" | c "$command" -m "$rargs_model" --stream -
