@@ -67,6 +67,7 @@ EOF
 }
 
 # @cmd Simplifies the process of staging files for a commit.
+# @flag --no-git-commit Don't run the git commit command automatically.
 add() {
   # Output the list of modified files
   modified_files=$(git ls-files --modified)
@@ -79,4 +80,10 @@ add() {
       --border)
 
   git add "$selected_file"
+
+  if [[ -z "$rargs_no_git_commit" ]]; then
+    semantic
+  fi
 }
+
+
