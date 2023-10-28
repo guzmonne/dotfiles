@@ -76,6 +76,7 @@ usage() {
   printf "  git.sh -v|--version\n"
   printf "\n\033[4m%s\033[0m\n" "Commands:"
   cat <<EOF
+  add ......... Simplifies the process of staging files for a commit.
   semantic .... Create a semantic git commit from the git diff output.
 EOF
   printf "  [@default semantic]\n"
@@ -106,6 +107,10 @@ parse_arguments() {
   action="${1:-}"
 
   case $action in
+    add)
+      action="add"
+      input=("${input[@]:1}")
+      ;;
     semantic)
       action="semantic"
       input=("${input[@]:1}")
@@ -122,6 +127,71 @@ parse_arguments() {
       ;;
   esac
 }
+add_usage() {
+  printf "Simplifies the process of staging files for a commit.\n"
+
+  printf "\n\033[4m%s\033[0m\n" "Usage:"
+  printf "  add [OPTIONS]\n"
+  printf "  add -h|--help\n"
+
+  printf "\n\033[4m%s\033[0m\n" "Options:"
+  printf "  --no-git-commit\n"
+  printf "    Don't run the git commit command automatically.\n"
+  printf "  -h --help\n"
+  printf "    Print help\n"
+}
+parse_add_arguments() {
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      -h|--help)
+        add_usage
+        exit
+        ;;
+      *)
+        break
+        ;;
+    esac
+  done
+
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      --no-git-commit)
+        rargs_no_git_commit=1
+        shift
+        ;;
+      -?*)
+        printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Invalid option: " "$key" >&2
+        exit 1
+        ;;
+      *)
+        if [[ "$key" == "" ]]; then
+          break
+        fi
+        printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Invalid argument: " "$key" >&2
+        exit 1
+        ;;
+    esac
+  done
+}
+# Simplifies the process of staging files for a commit.
+add() {
+  # Parse command arguments
+  parse_add_arguments "$@"
+
+  # Output the list of modified files
+  modified_files=$(git ls-files --modified)
+  # Use fzf for interactive selection
+  selected_file=$(echo "$modified_files" | fzf -m \
+      --preview 'git diff -- {}' \
+      --preview-window=up:80% \
+      --height 80% \
+      --border)
+  git add "$selected_file"
+  if [[ -z "$rargs_no_git_commit" ]]; then
+    semantic
+  fi
+}
 semantic_usage() {
   printf "Create a semantic git commit from the git diff output.\n"
 
@@ -130,6 +200,8 @@ semantic_usage() {
   printf "  semantic -h|--help\n"
 
   printf "\n\033[4m%s\033[0m\n" "Options:"
+  printf "  --no-git-commit\n"
+  printf "    Don't run the git commit command automatically.\n"
   printf "  -h --help\n"
   printf "    Print help\n"
 }
@@ -149,6 +221,10 @@ parse_semantic_arguments() {
   while [[ $# -gt 0 ]]; do
     key="$1"
     case "$key" in
+      --no-git-commit)
+        rargs_no_git_commit=1
+        shift
+        ;;
       -?*)
         printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Invalid option: " "$key" >&2
         exit 1
@@ -202,11 +278,14 @@ Here is the 'git diff' output for your evaluation:
 $diff
 """
 EOF
-  c a --model claude2 - <"$tmp" \
-    | awk '/<output>/,/<\/output>/' \
-    | grep -vE '<output>|<\/output>' \
-    | git commit -F -
-  git commit --amend
+  response="$(mktemp)"
+  c a --stream --model claude2 - <"$tmp" | tee "$response"
+  if [[ -z "$rargs_no_git_commit" ]]; then
+    awk '/<output>/,/<\/output>/' "$response" \
+      | grep -vE '<output>|<\/output>' \
+      | git commit -F -
+    git commit --amend
+  fi
 }
 
 run() {
@@ -216,6 +295,10 @@ run() {
   parse_arguments "${input[@]}"
   # Call the right command action
   case "$action" in
+    "add")
+      add "${input[@]}"
+      exit
+      ;;
     "semantic")
       semantic "${input[@]}"
       exit

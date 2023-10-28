@@ -7,6 +7,7 @@
 # @default semantic
 
 # @cmd Create a semantic git commit from the git diff output.
+# @flag --no-git-commit Don't run the git commit command automatically.
 semantic() {
   diff="$(git diff --staged -- . ':(exclude)package-lock.json')"
 
@@ -53,10 +54,29 @@ $diff
 """
 EOF
 
-  c a --model claude2 - <"$tmp" \
-    | awk '/<output>/,/<\/output>/' \
-    | grep -vE '<output>|<\/output>' \
-    | git commit -F -
+  response="$(mktemp)"
+  c a --stream --model claude2 - <"$tmp" | tee "$response"
 
-  git commit --amend
+  if [[ -z "$rargs_no_git_commit" ]]; then
+    awk '/<output>/,/<\/output>/' "$response" \
+      | grep -vE '<output>|<\/output>' \
+      | git commit -F -
+
+    git commit --amend
+  fi
+}
+
+# @cmd Simplifies the process of staging files for a commit.
+add() {
+  # Output the list of modified files
+  modified_files=$(git ls-files --modified)
+
+  # Use fzf for interactive selection
+  selected_file=$(echo "$modified_files" | fzf -m \
+      --preview 'git diff -- {}' \
+      --preview-window=up:80% \
+      --height 80% \
+      --border)
+
+  git add "$selected_file"
 }
