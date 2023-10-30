@@ -102,7 +102,9 @@ local function get_prev_n_words(from_line, n)
     end
   end
 
-  return M.reverse_table(words)
+  words = M.reverse_table(words)
+
+  return words
 end
 
 --- Gets up to the next n words if they exist.

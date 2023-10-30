@@ -10,18 +10,15 @@ local options = {
 }
 
 local EDIT_SYSTEM_PROMPT = [[
-
 ]]
-
 
 local CONTINUE_SYSTEM_PROMPT = [[
 You are a ghostwriter, in charge of working with other authors extending their writings. You'll be
 provided with the context of the writing that came before and after the place you have to continue,
 and you'll return text that fits in between.
 
-The previous lines of the user's text will be given inside the `<before></before>` tags, and the
-following lines will be given inside the `<after></after>` tags. You can use this context to guide
-your writing.
+You'll be given the piece of text and a placeholder looking like `<|continue|>`. You'll have to
+write the text that will reoplace it, taking into account the sorrounding text.
 
 Your task is ensuring that the intended narrative flow is perfectly maintained; this demands not
 just comprehension, but also imaginatio n and a sense of narrative continuity. Get a sense of the
@@ -56,36 +53,42 @@ Be creative but also try to be consistent with the style and content of the prev
 --- Tries to continue the text by taking the last `max_previous_words` words, and the next `max_next_words` words using GPT-4 or claude.
 function M.continue()
     local prev_words, next_words = functions.get_words_around_cursor(options.max_previous_words, options.max_next_words)
+    print("Prev words: " .. vim.inspect(prev_words))
+    print("Next words: " .. vim.inspect(next_words))
 
     if prev_words == nil or next_words == nil then
         return
     end
 
-    local prompt = "<before>\n"
+    local prompt = ""
     if #prev_words > 0 then
-        prompt = prompt .. table.concat(prev_words, " ") .. "\n"
+        prompt = prompt .. table.concat(prev_words, " ")
     end
-    prompt = prompt .. "</before>\n<after>\n"
+    prompt = prompt .. "<|continue|>"
     if #next_words > 0 then
-        prompt = prompt .. table.concat(next_words, " ") .. "\n"
+        prompt = prompt .. table.concat(next_words, " ")
     end
-    prompt = prompt .. "</after>\n\n"
+
+    if options.debug then
+        print("Prompt: " .. prompt)
+    end
+
 
     local output = vim.fn.system({ "c", "o", "--model", "gpt4", "--max-tokens", options.max_tokens,
         "--system",
         CONTINUE_SYSTEM_PROMPT,
         prompt })
 
+    -- Trim the output newline
+    output = output:sub(1, -2)
+
     -- Print the type of the output for debugging.
     if options.debug then
-        print("Output type: " .. type(output))
         print("Output: " .. output)
     end
 
     -- Split the output by newline characters
     local lines = functions.split_newline(output)
-    print("Lines: " .. vim.inspect(lines))
-    print("Lines length: " .. #lines)
 
     -- Get the current line and column number
     local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -96,14 +99,23 @@ function M.continue()
 
     -- If there are more lines in the lines, we add them without replacing existing lines.
     if #lines == 1 then
+        lines[1] = before .. lines[1]
+        lines[1] = lines[1] .. after
         -- Append the lines between at the cursor on the current line.
-        vim.api.nvim_buf_set_lines(0, line - 1, line, false, { before .. lines[1] .. after })
+        vim.api.nvim_buf_set_lines(0, line - 1, line, false, { lines[1] })
     else
-        vim.api.nvim_buf_set_lines(0, line - 1, line, false, { before })
-        vim.api.nvim_buf_set_text(0, line, col, line, col, { lines[1] })
-        vim.api.nvim_buf_set_lines(0, line + 1, line + #lines - 1, false, functions.slice_table(lines, 2))
-        -- Append after at the end of the last line
-        vim.api.nvim_buf_set_lines(0, line + #lines - 1, line + #lines - 1, false, { after })
+        lines[1] = before .. lines[1]
+        lines[#lines] = lines[#lines] .. after
+        -- Get all the lines on the buffer
+        local buffer = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+        -- Add the lines from the current cursor position
+        vim.api.nvim_buf_set_lines(0, line - 1, line + #lines - 1, false, lines)
+        -- Add the remaining buffer lines
+        vim.api.nvim_buf_set_lines(0, line + #lines, #buffer + #lines - 1, false,
+            functions.slice_table(buffer, line, #buffer))
+    end
+    if options.debug then
+        print("Lines: " .. vim.inspect(lines))
     end
 end
 
@@ -115,9 +127,9 @@ end
 
 -- Setup custom options
 M.setup({
-    debug = true,
-    max_previous_words = 20,
-    max_next_words = 20,
+    debug = false,
+    max_previous_words = 100,
+    max_next_words = 100,
     max_tokens = 100,
 })
 
