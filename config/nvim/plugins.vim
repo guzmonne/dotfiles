@@ -3,6 +3,7 @@
 " Hint: Make sure you use single quotes.
 call plug#begin('~/.config/nvim/plugged')
 
+Plug 'javiorfo/nvim-spinetta'
 Plug 'jvirtanen/vim-hcl'
 Plug 'mfussenegger/nvim-lint'
 Plug 'stevearc/dressing.nvim'
