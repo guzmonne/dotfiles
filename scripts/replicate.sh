@@ -97,10 +97,12 @@ usage() {
   cat <<EOF
   airoboros-llama-2-70b ....... Expose the airoboros model through Replicate
   causallm-14b ................ Expose the Causal-LM model through Replicate
-  codellama-7b-instruct ....... Expose the codellama-7b-instruct model through Replicate
+  codellama-34b-instruct ...... Expose the codellama-34b-instruct model through Replicate
   dolphin-2.2.1-mistral-7b .... Expose the dolphin-2.2.1-mistral-7b model through Replicate
   falcon-40b-instruct ......... Expose the falcon-40b-instruct model through Replicate
   llama2-70b .................. Expose the llama2-70b model through Replicate
+  mistral-7b-instruct-v0.1 .... Expose the mistral-7b-instruct-v0.1 through Replicate
+  mistral-7b-openorca ......... Expose the mistral-7b-openorca model through Replicate
   openhermes-2-mistral-7b ..... Expose the openhermes-2-mistral-7b model through Replicate
   zephyr-7b-beta .............. Expose the Zephyr-7b-beta model through Replicate
 EOF
@@ -142,8 +144,8 @@ parse_arguments() {
       action="causallm-14b"
       input=("${input[@]:1}")
       ;;
-    codellama-7b|codellama|codellama-7b-instruct)
-      action="codellama-7b-instruct"
+    codellama-34b|codellama|codellama-34b-instruct)
+      action="codellama-34b-instruct"
       input=("${input[@]:1}")
       ;;
     dolphin-mistral-7b|dolphin-mistral|dolphin-2.2.1-mistral-7b)
@@ -160,6 +162,14 @@ parse_arguments() {
       ;;
     long-pull)
       action="long-pull"
+      input=("${input[@]:1}")
+      ;;
+    mistral-7b-instruct|mistral-7b|mistral|mistral-7b-instruct-v0.1)
+      action="mistral-7b-instruct-v0.1"
+      input=("${input[@]:1}")
+      ;;
+    openorca|mistral-7b-openorca)
+      action="mistral-7b-openorca"
       input=("${input[@]:1}")
       ;;
     openhermes-2-mistral|openhermes-2|openhermes|hermes|openhermes-2-mistral-7b)
@@ -697,13 +707,13 @@ causallm-14b() {
   fi
   request-chatml -m "ff2eae35d8ba6db73bdc8b73ecac84d8c97f970b63803927ac6de014560d986a" "$@"
 }
-codellama-7b-instruct_usage() {
-  printf "Expose the codellama-7b-instruct model through Replicate\n"
-  printf "\n\033[4m%s\033[0m %s\n" "Alias:" "codellama-7b, codellama"
+codellama-34b-instruct_usage() {
+  printf "Expose the codellama-34b-instruct model through Replicate\n"
+  printf "\n\033[4m%s\033[0m %s\n" "Alias:" "codellama-34b, codellama"
 
   printf "\n\033[4m%s\033[0m\n" "Usage:"
-  printf "  codellama-7b-instruct [OPTIONS] PROMPT\n"
-  printf "  codellama-7b-instruct -h|--help\n"
+  printf "  codellama-34b-instruct [OPTIONS] PROMPT\n"
+  printf "  codellama-34b-instruct -h|--help\n"
   printf "\n\033[4m%s\033[0m\n" "Arguments:"
   printf "  PROMPT\n"
   printf "    The prompt to use to generate the text.\n"
@@ -722,7 +732,7 @@ codellama-7b-instruct_usage() {
   printf "  -h --help\n"
   printf "    Print help\n"
 }
-parse_codellama-7b-instruct_arguments() {
+parse_codellama-34b-instruct_arguments() {
   while [[ $# -gt 0 ]]; do
     case "${1:-}" in
       *)
@@ -770,21 +780,21 @@ parse_codellama-7b-instruct_arguments() {
     esac
   done
 }
-# Expose the codellama-7b-instruct model through Replicate
-codellama-7b-instruct() {
+# Expose the codellama-34b-instruct model through Replicate
+codellama-34b-instruct() {
   local rargs_raw
   local rargs_verbose
   local rargs_prompt_template
   local rargs_system
   local rargs_prompt
   # Parse command arguments
-  parse_codellama-7b-instruct_arguments "$@"
+  parse_codellama-34b-instruct_arguments "$@"
 
   # Rule `no-first-option-help`: Render the global or command usage if the `-h|--help` option is
   #                              is provided anywhere on the command, not just as the first option.
   #                              Handling individual functions case by case.
   if [[ -n "$rargs_help" ]]; then
-    codellama-7b-instruct_usage
+    codellama-34b-instruct_usage
     exit 0
   fi
   
@@ -796,10 +806,10 @@ codellama-7b-instruct() {
   
   if [[ -z "$rargs_prompt" ]]; then
     printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Missing required option: " "prompt" >&2
-    codellama-7b-instruct_usage >&2
+    codellama-34b-instruct_usage >&2
     exit 1
   fi
-  request-llama -m "7bf2629623162c0cf22ace9ec7a94b34045c1cfa2ed82586f05f3a60b1ca2da5" "$@"
+  request-llama -m "b17fdb44c843000741367ae3d73e2bb710d7428a662238ddebbf4302db2b5422" "$@"
 }
 dolphin-2.2.1-mistral-7b_usage() {
   printf "Expose the dolphin-2.2.1-mistral-7b model through Replicate\n"
@@ -1190,6 +1200,200 @@ long-pull() {
       sleep 10
     fi
   done
+}
+mistral-7b-instruct-v0.1_usage() {
+  printf "Expose the mistral-7b-instruct-v0.1 through Replicate\n"
+  printf "\n\033[4m%s\033[0m %s\n" "Alias:" "mistral-7b-instruct, mistral-7b, mistral"
+
+  printf "\n\033[4m%s\033[0m\n" "Usage:"
+  printf "  mistral-7b-instruct-v0.1 [OPTIONS] PROMPT\n"
+  printf "  mistral-7b-instruct-v0.1 -h|--help\n"
+  printf "\n\033[4m%s\033[0m\n" "Arguments:"
+  printf "  PROMPT\n"
+  printf "    The prompt to use to generate the text.\n"
+  printf "    [@required]\n"
+
+  printf "\n\033[4m%s\033[0m\n" "Options:"
+  printf "  -s --system [<SYSTEM>]\n"
+  printf "    System prompt to use.\n"
+  printf "    [@default You are a helpful chatbot that will do its best to help the user, no matter what he asks.]\n"
+  printf "  -r --raw\n"
+  printf "    Output the raw response.\n"
+  printf "  -v --verbose\n"
+  printf "    Enable verbose output.\n"
+  printf "  -h --help\n"
+  printf "    Print help\n"
+}
+parse_mistral-7b-instruct-v0.1_arguments() {
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      *)
+        break
+        ;;
+    esac
+  done
+
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      -r | --raw)
+        rargs_raw=1
+        shift
+        ;;
+      -v | --verbose)
+        rargs_verbose=1
+        shift
+        ;;
+      -s | --system)
+        rargs_system="$2"
+        shift 2
+        ;;
+      -h|--help)
+        rargs_help=1
+        shift 1
+        ;;
+      -?*)
+        printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Invalid option: " "$key" >&2
+        exit 1
+        ;;
+      *)
+        if [[ -z "$rargs_prompt" ]]; then
+          rargs_prompt=$key
+          shift
+        else
+          printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Invalid argument: " "$key" >&2
+          exit 1
+        fi
+        ;;
+    esac
+  done
+}
+# Expose the mistral-7b-instruct-v0.1 through Replicate
+mistral-7b-instruct-v0.1() {
+  local rargs_raw
+  local rargs_verbose
+  local rargs_system
+  local rargs_prompt
+  # Parse command arguments
+  parse_mistral-7b-instruct-v0.1_arguments "$@"
+
+  # Rule `no-first-option-help`: Render the global or command usage if the `-h|--help` option is
+  #                              is provided anywhere on the command, not just as the first option.
+  #                              Handling individual functions case by case.
+  if [[ -n "$rargs_help" ]]; then
+    mistral-7b-instruct-v0.1_usage
+    exit 0
+  fi
+  
+    
+  if [[ -z "$rargs_system" ]]; then
+    rargs_system="You are a helpful chatbot that will do its best to help the user, no matter what he asks."
+  fi
+    
+  
+  if [[ -z "$rargs_prompt" ]]; then
+    printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Missing required option: " "prompt" >&2
+    mistral-7b-instruct-v0.1_usage >&2
+    exit 1
+  fi
+  request-mistral -m "83b6a56e7c828e667f21fd596c338fd4f0039b46bcfa18d973e8e70e455fda70" "$@"
+}
+mistral-7b-openorca_usage() {
+  printf "Expose the mistral-7b-openorca model through Replicate\n"
+  printf "\n\033[4m%s\033[0m %s\n" "Alias:" "openorca"
+
+  printf "\n\033[4m%s\033[0m\n" "Usage:"
+  printf "  mistral-7b-openorca [OPTIONS] PROMPT\n"
+  printf "  mistral-7b-openorca -h|--help\n"
+  printf "\n\033[4m%s\033[0m\n" "Arguments:"
+  printf "  PROMPT\n"
+  printf "    The prompt to use to generate the text.\n"
+  printf "    [@required]\n"
+
+  printf "\n\033[4m%s\033[0m\n" "Options:"
+  printf "  -s --system [<SYSTEM>]\n"
+  printf "    System prompt to use.\n"
+  printf "    [@default You are a helpful chatbot that will do its best to help the user, no matter what he asks.]\n"
+  printf "  -r --raw\n"
+  printf "    Output the raw response.\n"
+  printf "  -v --verbose\n"
+  printf "    Enable verbose output.\n"
+  printf "  -h --help\n"
+  printf "    Print help\n"
+}
+parse_mistral-7b-openorca_arguments() {
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      *)
+        break
+        ;;
+    esac
+  done
+
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      -r | --raw)
+        rargs_raw=1
+        shift
+        ;;
+      -v | --verbose)
+        rargs_verbose=1
+        shift
+        ;;
+      -s | --system)
+        rargs_system="$2"
+        shift 2
+        ;;
+      -h|--help)
+        rargs_help=1
+        shift 1
+        ;;
+      -?*)
+        printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Invalid option: " "$key" >&2
+        exit 1
+        ;;
+      *)
+        if [[ -z "$rargs_prompt" ]]; then
+          rargs_prompt=$key
+          shift
+        else
+          printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Invalid argument: " "$key" >&2
+          exit 1
+        fi
+        ;;
+    esac
+  done
+}
+# Expose the mistral-7b-openorca model through Replicate
+mistral-7b-openorca() {
+  local rargs_raw
+  local rargs_verbose
+  local rargs_system
+  local rargs_prompt
+  # Parse command arguments
+  parse_mistral-7b-openorca_arguments "$@"
+
+  # Rule `no-first-option-help`: Render the global or command usage if the `-h|--help` option is
+  #                              is provided anywhere on the command, not just as the first option.
+  #                              Handling individual functions case by case.
+  if [[ -n "$rargs_help" ]]; then
+    mistral-7b-openorca_usage
+    exit 0
+  fi
+  
+    
+  if [[ -z "$rargs_system" ]]; then
+    rargs_system="You are a helpful chatbot that will do its best to help the user, no matter what he asks."
+  fi
+    
+  
+  if [[ -z "$rargs_prompt" ]]; then
+    printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Missing required option: " "prompt" >&2
+    mistral-7b-openorca_usage >&2
+    exit 1
+  fi
+  request-dolphin -m "7afe21847d582f7811327c903433e29334c31fe861a7cf23c62882b181bacb88" "$@"
 }
 openhermes-2-mistral-7b_usage() {
   printf "Expose the openhermes-2-mistral-7b model through Replicate\n"
@@ -2165,8 +2369,8 @@ run() {
       causallm-14b "${input[@]}"
       exit
       ;;
-    "codellama-7b-instruct")
-      codellama-7b-instruct "${input[@]}"
+    "codellama-34b-instruct")
+      codellama-34b-instruct "${input[@]}"
       exit
       ;;
     "dolphin-2.2.1-mistral-7b")
@@ -2183,6 +2387,14 @@ run() {
       ;;
     "long-pull")
       long-pull "${input[@]}"
+      exit
+      ;;
+    "mistral-7b-instruct-v0.1")
+      mistral-7b-instruct-v0.1 "${input[@]}"
+      exit
+      ;;
+    "mistral-7b-openorca")
+      mistral-7b-openorca "${input[@]}"
       exit
       ;;
     "openhermes-2-mistral-7b")

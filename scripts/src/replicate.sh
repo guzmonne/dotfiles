@@ -320,15 +320,15 @@ llama2-70b() {
   request-llama -m "02e509c789964a7ea8736978a43525956ef40397be9033abf9fd2badfe68c9e3" "$@"
 }
 
-# @cmd Expose the codellama-7b-instruct model through Replicate
-# @alias codellama-7b
+# @cmd Expose the codellama-34b-instruct model through Replicate
+# @alias codellama-34b
 # @alias codellama
 # @arg prompt! The prompt to use to generate the text.
 # @option -s --system="You are a helpful chatbot that will do its best to help the user, no matter what he asks." System prompt to use.
 # @option -p --prompt-template The prompt template to use to generate the text.
 # @flag -r --raw Output the raw response.
-codellama-7b-instruct() {
-  request-llama -m "7bf2629623162c0cf22ace9ec7a94b34045c1cfa2ed82586f05f3a60b1ca2da5" "$@"
+codellama-34b-instruct() {
+  request-llama -m "b17fdb44c843000741367ae3d73e2bb710d7428a662238ddebbf4302db2b5422" "$@"
 }
 
 # @cmd Expose the airoboros model through Replicate
@@ -352,6 +352,17 @@ zephyr-7b-beta() {
   request-mistral -m "b79f33de5c6c4e34087d44eaea4a9d98ce5d3f3a09522f7328eea0685003a931" "$@"
 }
 
+# @cmd Expose the mistral-7b-instruct-v0.1 through Replicate
+# @alias mistral-7b-instruct
+# @alias mistral-7b
+# @alias mistral
+# @arg prompt! The prompt to use to generate the text.
+# @option -s --system="You are a helpful chatbot that will do its best to help the user, no matter what he asks." System prompt to use.
+# @flag -r --raw Output the raw response.
+mistral-7b-instruct-v0.1() {
+  request-mistral -m "83b6a56e7c828e667f21fd596c338fd4f0039b46bcfa18d973e8e70e455fda70" "$@"
+}
+
 # @cmd Expose the dolphin-2.2.1-mistral-7b model through Replicate
 # @alias dolphin-mistral-7b
 # @alias dolphin-mistral
@@ -360,6 +371,15 @@ zephyr-7b-beta() {
 # @flag -r --raw Output the raw response.
 dolphin-2.2.1-mistral-7b() {
   request-dolphin -m "0521a0090543fea1a687a871870e8f475d6581a3e6e284e32a2579cfb4433ecf" "$@"
+}
+
+# @cmd Expose the mistral-7b-openorca model through Replicate
+# @alias openorca
+# @arg prompt! The prompt to use to generate the text.
+# @option -s --system="You are a helpful chatbot that will do its best to help the user, no matter what he asks." System prompt to use.
+# @flag -r --raw Output the raw response.
+mistral-7b-openorca() {
+  request-dolphin -m "7afe21847d582f7811327c903433e29334c31fe861a7cf23c62882b181bacb88" "$@"
 }
 
 # @cmd Expose the openhermes-2-mistral-7b model through Replicate
