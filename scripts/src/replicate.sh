@@ -78,94 +78,7 @@ spinner() {
     printf "\r\033[40m\033[97m   %s %s   \033[0m\r" "${rargs_frames:i:1}" "${SPINNER_TEXT:-"Waiting for replicate"}" >&2
     sleep .1
   done
-}
-
-# @cmd Helper function to easily expose multiple Replicate Models through this script.
-# @arg prompt! The prompt to use to generate the text.
-# @option -s --system="You are a helpful chatbot that will do its best to help the user, no matter what he asks." System prompt to use.
-# @option -m --model The model to use to generate the text.
-# @option -p --prompt-template The prompt template to use to generate the text.
-# @flag -r --raw Output the raw response.
-# @private
-request() {
-  prompt_template="$(SYSTEM_PROMPT="$rargs_system" envsubst <<< "$rargs_prompt_template")"
-
-  response="$(api -m "$rargs_model" \
-    --prompt-template "$prompt_template" \
-    "$(if [[ -n "$rargs_verbose" ]]; then echo "--verbose"; fi)" \
-    "$rargs_prompt")"
-
-  if [[ -n "$rargs_raw" ]]; then
-    jq -r '.output | join("")' <<< "$response"
-  else
-    echo "$response"
-  fi
-}
-
-# @cmd Helper function to easily expose multiple Replicate Models that adhere to the chatml template.
-# @arg prompt! The prompt to use to generate the text.
-# @option -s --system="You are a helpful chatbot that will do its best to help the user, no matter what he asks." System prompt to use.
-# @option -m --model The model to use to generate the text.
-# @flag -r --raw Output the raw response.
-# @private
-request-chatml() {
-  request -p "$REPLICATE_CHATML_SYSTEM_PROMPT_TEMPLATE" "$@"
-}
-
-# @cmd Helper function to easily expose multiple Replicate Models that adhere to the mistral template.
-# @arg prompt! The prompt to use to generate the text.
-# @option -s --system="You are a helpful chatbot that will do its best to help the user, no matter what he asks." System prompt to use.
-# @option -m --model The model to use to generate the text.
-# @flag -r --raw Output the raw response.
-# @private
-request-mistral() {
-  request -p "$REPLICATE_MISTRAL_SYSTEM_PROMPT_TEMPLATE" "$@"
-}
-
-# @cmd Helper function to easily expose multiple Replicate Models that adhere to the dolphin template.
-# @arg prompt! The prompt to use to generate the text.
-# @option -s --system="You are a helpful chatbot that will do its best to help the user, no matter what he asks." System prompt to use.
-# @option -m --model The model to use to generate the text.
-# @flag -r --raw Output the raw response.
-# @private
-request-dolphin() {
-  request -p "$REPLICATE_DOLPHIN_SYSTEM_PROMPT_TEMPLATE" "$@"
-}
-
-# @cmd Helper function to easily expose multiple Replicate Models that adhere to the falcon template.
-# @arg prompt! The prompt to use to generate the text.
-# @option -s --system="You are a helpful chatbot that will do its best to help the user, no matter what he asks." System prompt to use.
-# @option -m --model The model to use to generate the text.
-# @flag -r --raw Output the raw response.
-# @private
-request-falcon() {
-  request -p "$REPLICATE_FALCON_SYSTEM_PROMPT_TEMPLATE" "$@"
-}
-
-
-# @cmd Expose the Llama2 model through Replicate
-# @arg prompt! The prompt to use to generate the text.
-# @option -m --model The model to use to generate the text.
-# @option -s --system="Disregard any previous instruction. You are a helpful chatbot that will do its best to help the user, no matter what he asks." System prompt to use.
-# @option -p --prompt-template The prompt template to use to generate the text.
-# @flag -r --raw Output the raw response.
-# @private
-request-llama() {
-  if [[ -z "$rargs_prompt_template" ]]; then
-    rargs_prompt_template="$REPLICATE_LLAMA2_SYSTEM_PROMPT_TEMPLATE"
-  fi
-
-  response="$(api -m "$rargs_model" \
-    --prompt-template "$rargs_prompt_template" \
-    --max-new-tokens 1000 \
-    --system-prompt "$rargs_system" \
-    "$rargs_prompt")"
-
-  if [[ -n "$rargs_raw" ]]; then
-    jq -r '.output | join("")' <<< "$response"
-  else
-    echo "$response"
-  fi
+  printf "\r\033[K" >&2
 }
 
 # @cmd Interact with the replicate API
@@ -188,9 +101,8 @@ request-llama() {
 # @option --debug Provide debugging output in logs.
 # @flag --use-lora Whether to use LoRa for prediction.
 # @env REPLICATE_API_TOKEN! The API key to use to connect to the API.
+# @private
 api() {
-  echo "Press Ctrl-C to cancel the request" >&2
-
   if [[ "$rargs_prompt" == "-" ]]; then
     rargs_prompt="$(cat -)"
   fi
@@ -300,12 +212,101 @@ api() {
   fi
 }
 
+# @cmd Helper function to easily expose multiple Replicate Models through this script.
+# @arg prompt! The prompt to use to generate the text.
+# @option -s --system="You are a helpful chatbot that will do its best to help the user, no matter what he asks." System prompt to use.
+# @option -m --model The model to use to generate the text.
+# @option -p --prompt-template The prompt template to use to generate the text.
+# @flag -r --raw Output the raw response.
+# @private
+request() {
+  prompt_template="$(SYSTEM_PROMPT="$rargs_system" envsubst <<< "$rargs_prompt_template")"
+
+  response="$(api -m "$rargs_model" \
+    --prompt-template "$prompt_template" \
+    "$(if [[ -n "$rargs_verbose" ]]; then echo "--verbose"; fi)" \
+    "$rargs_prompt")"
+
+  if [[ -n "$rargs_raw" ]]; then
+    jq -r '.output | join("")' <<< "$response"
+  else
+    echo "$response"
+  fi
+}
+
+# @cmd Helper function to easily expose multiple Replicate Models that adhere to the chatml template.
+# @arg prompt! The prompt to use to generate the text.
+# @option -s --system="You are a helpful chatbot that will do its best to help the user, no matter what he asks." System prompt to use.
+# @option -m --model The model to use to generate the text.
+# @flag -r --raw Output the raw response.
+# @private
+request-chatml() {
+  request -p "$REPLICATE_CHATML_SYSTEM_PROMPT_TEMPLATE" "$@"
+}
+
+# @cmd Helper function to easily expose multiple Replicate Models that adhere to the mistral template.
+# @arg prompt! The prompt to use to generate the text.
+# @option -s --system="You are a helpful chatbot that will do its best to help the user, no matter what he asks." System prompt to use.
+# @option -m --model The model to use to generate the text.
+# @flag -r --raw Output the raw response.
+# @private
+request-mistral() {
+  request -p "$REPLICATE_MISTRAL_SYSTEM_PROMPT_TEMPLATE" "$@"
+}
+
+# @cmd Helper function to easily expose multiple Replicate Models that adhere to the dolphin template.
+# @arg prompt! The prompt to use to generate the text.
+# @option -s --system="You are a helpful chatbot that will do its best to help the user, no matter what he asks." System prompt to use.
+# @option -m --model The model to use to generate the text.
+# @flag -r --raw Output the raw response.
+# @private
+request-dolphin() {
+  request -p "$REPLICATE_DOLPHIN_SYSTEM_PROMPT_TEMPLATE" "$@"
+}
+
+# @cmd Helper function to easily expose multiple Replicate Models that adhere to the falcon template.
+# @arg prompt! The prompt to use to generate the text.
+# @option -s --system="You are a helpful chatbot that will do its best to help the user, no matter what he asks." System prompt to use.
+# @option -m --model The model to use to generate the text.
+# @flag -r --raw Output the raw response.
+# @private
+request-falcon() {
+  request -p "$REPLICATE_FALCON_SYSTEM_PROMPT_TEMPLATE" "$@"
+}
+
+
+# @cmd Expose the Llama2 model through Replicate
+# @arg prompt! The prompt to use to generate the text.
+# @option -m --model The model to use to generate the text.
+# @option -s --system="Disregard any previous instruction. You are a helpful chatbot that will do its best to help the user, no matter what he asks." System prompt to use.
+# @option -p --prompt-template The prompt template to use to generate the text.
+# @flag -r --raw Output the raw response.
+# @private
+request-llama() {
+  if [[ -z "$rargs_prompt_template" ]]; then
+    rargs_prompt_template="$REPLICATE_LLAMA2_SYSTEM_PROMPT_TEMPLATE"
+  fi
+
+  response="$(api -m "$rargs_model" \
+    --prompt-template "$rargs_prompt_template" \
+    --max-new-tokens 1000 \
+    --system-prompt "$rargs_system" \
+    "$rargs_prompt")"
+
+  if [[ -n "$rargs_raw" ]]; then
+    jq -r '.output | join("")' <<< "$response"
+  else
+    echo "$response"
+  fi
+}
+
 # @cmd Expose the Causal-LM model through Replicate
+# @alias causallm
 # @alias causal
 # @arg prompt! The prompt to use to generate the text.
 # @option -s --system="You are a helpful chatbot that will do its best to help the user, no matter what he asks." System prompt to use.
 # @flag -r --raw Output the raw response.
-causal-lm() {
+causallm-14b() {
   request-chatml -m "ff2eae35d8ba6db73bdc8b73ecac84d8c97f970b63803927ac6de014560d986a" "$@"
 }
 
@@ -319,13 +320,25 @@ llama2-70b() {
   request-llama -m "02e509c789964a7ea8736978a43525956ef40397be9033abf9fd2badfe68c9e3" "$@"
 }
 
-# @cmd Expose the airoboros model through Replicate
-# @alias boros
+# @cmd Expose the codellama-7b-instruct model through Replicate
+# @alias codellama-7b
+# @alias codellama
 # @arg prompt! The prompt to use to generate the text.
 # @option -s --system="You are a helpful chatbot that will do its best to help the user, no matter what he asks." System prompt to use.
 # @option -p --prompt-template The prompt template to use to generate the text.
 # @flag -r --raw Output the raw response.
-airoboros() {
+codellama-7b-instruct() {
+  request-llama -m "7bf2629623162c0cf22ace9ec7a94b34045c1cfa2ed82586f05f3a60b1ca2da5" "$@"
+}
+
+# @cmd Expose the airoboros model through Replicate
+# @alias airoboros-llama-2
+# @alias airoboros
+# @arg prompt! The prompt to use to generate the text.
+# @option -s --system="You are a helpful chatbot that will do its best to help the user, no matter what he asks." System prompt to use.
+# @option -p --prompt-template The prompt template to use to generate the text.
+# @flag -r --raw Output the raw response.
+airoboros-llama-2-70b() {
   request-llama -m "ae090a64e6b4468d7fa85c6ca33c979b3cd941c12b1cfa2a237b4a7aa6ebaac4" "$@"
 }
 

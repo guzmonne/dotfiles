@@ -95,9 +95,9 @@ usage() {
   printf "  replicate.sh --version\n"
   printf "\n\033[4m%s\033[0m\n" "Commands:"
   cat <<EOF
-  airoboros ................... Expose the airoboros model through Replicate
-  api ......................... Interact with the replicate API
-  causal-lm ................... Expose the Causal-LM model through Replicate
+  airoboros-llama-2-70b ....... Expose the airoboros model through Replicate
+  causallm-14b ................ Expose the Causal-LM model through Replicate
+  codellama-7b-instruct ....... Expose the codellama-7b-instruct model through Replicate
   dolphin-2.2.1-mistral-7b .... Expose the dolphin-2.2.1-mistral-7b model through Replicate
   falcon-40b-instruct ......... Expose the falcon-40b-instruct model through Replicate
   llama2-70b .................. Expose the llama2-70b model through Replicate
@@ -130,16 +130,20 @@ parse_arguments() {
   action="${1:-}"
 
   case $action in
-    boros|airoboros)
-      action="airoboros"
+    airoboros-llama-2|airoboros|airoboros-llama-2-70b)
+      action="airoboros-llama-2-70b"
       input=("${input[@]:1}")
       ;;
     api)
       action="api"
       input=("${input[@]:1}")
       ;;
-    causal|causal-lm)
-      action="causal-lm"
+    causallm|causal|causallm-14b)
+      action="causallm-14b"
+      input=("${input[@]:1}")
+      ;;
+    codellama-7b|codellama|codellama-7b-instruct)
+      action="codellama-7b-instruct"
       input=("${input[@]:1}")
       ;;
     dolphin-mistral-7b|dolphin-mistral|dolphin-2.2.1-mistral-7b)
@@ -206,13 +210,13 @@ parse_arguments() {
       ;;
   esac
 }
-airoboros_usage() {
+airoboros-llama-2-70b_usage() {
   printf "Expose the airoboros model through Replicate\n"
-  printf "\n\033[4m%s\033[0m %s\n" "Alias:" "boros"
+  printf "\n\033[4m%s\033[0m %s\n" "Alias:" "airoboros-llama-2, airoboros"
 
   printf "\n\033[4m%s\033[0m\n" "Usage:"
-  printf "  airoboros [OPTIONS] PROMPT\n"
-  printf "  airoboros -h|--help\n"
+  printf "  airoboros-llama-2-70b [OPTIONS] PROMPT\n"
+  printf "  airoboros-llama-2-70b -h|--help\n"
   printf "\n\033[4m%s\033[0m\n" "Arguments:"
   printf "  PROMPT\n"
   printf "    The prompt to use to generate the text.\n"
@@ -231,7 +235,7 @@ airoboros_usage() {
   printf "  -h --help\n"
   printf "    Print help\n"
 }
-parse_airoboros_arguments() {
+parse_airoboros-llama-2-70b_arguments() {
   while [[ $# -gt 0 ]]; do
     case "${1:-}" in
       *)
@@ -280,20 +284,20 @@ parse_airoboros_arguments() {
   done
 }
 # Expose the airoboros model through Replicate
-airoboros() {
+airoboros-llama-2-70b() {
   local rargs_raw
   local rargs_verbose
   local rargs_prompt_template
   local rargs_system
   local rargs_prompt
   # Parse command arguments
-  parse_airoboros_arguments "$@"
+  parse_airoboros-llama-2-70b_arguments "$@"
 
   # Rule `no-first-option-help`: Render the global or command usage if the `-h|--help` option is
   #                              is provided anywhere on the command, not just as the first option.
   #                              Handling individual functions case by case.
   if [[ -n "$rargs_help" ]]; then
-    airoboros_usage
+    airoboros-llama-2-70b_usage
     exit 0
   fi
   
@@ -305,7 +309,7 @@ airoboros() {
   
   if [[ -z "$rargs_prompt" ]]; then
     printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Missing required option: " "prompt" >&2
-    airoboros_usage >&2
+    airoboros-llama-2-70b_usage >&2
     exit 1
   fi
   request-llama -m "ae090a64e6b4468d7fa85c6ca33c979b3cd941c12b1cfa2a237b4a7aa6ebaac4" "$@"
@@ -510,7 +514,6 @@ api() {
     api_usage >&2
     exit 1
   fi
-  echo "Press Ctrl-C to cancel the request" >&2
   if [[ "$rargs_prompt" == "-" ]]; then
     rargs_prompt="$(cat -)"
   fi
@@ -597,13 +600,13 @@ api() {
     fi
   fi
 }
-causal-lm_usage() {
+causallm-14b_usage() {
   printf "Expose the Causal-LM model through Replicate\n"
-  printf "\n\033[4m%s\033[0m %s\n" "Alias:" "causal"
+  printf "\n\033[4m%s\033[0m %s\n" "Alias:" "causallm, causal"
 
   printf "\n\033[4m%s\033[0m\n" "Usage:"
-  printf "  causal-lm [OPTIONS] PROMPT\n"
-  printf "  causal-lm -h|--help\n"
+  printf "  causallm-14b [OPTIONS] PROMPT\n"
+  printf "  causallm-14b -h|--help\n"
   printf "\n\033[4m%s\033[0m\n" "Arguments:"
   printf "  PROMPT\n"
   printf "    The prompt to use to generate the text.\n"
@@ -620,7 +623,7 @@ causal-lm_usage() {
   printf "  -h --help\n"
   printf "    Print help\n"
 }
-parse_causal-lm_arguments() {
+parse_causallm-14b_arguments() {
   while [[ $# -gt 0 ]]; do
     case "${1:-}" in
       *)
@@ -665,19 +668,19 @@ parse_causal-lm_arguments() {
   done
 }
 # Expose the Causal-LM model through Replicate
-causal-lm() {
+causallm-14b() {
   local rargs_raw
   local rargs_verbose
   local rargs_system
   local rargs_prompt
   # Parse command arguments
-  parse_causal-lm_arguments "$@"
+  parse_causallm-14b_arguments "$@"
 
   # Rule `no-first-option-help`: Render the global or command usage if the `-h|--help` option is
   #                              is provided anywhere on the command, not just as the first option.
   #                              Handling individual functions case by case.
   if [[ -n "$rargs_help" ]]; then
-    causal-lm_usage
+    causallm-14b_usage
     exit 0
   fi
   
@@ -689,10 +692,114 @@ causal-lm() {
   
   if [[ -z "$rargs_prompt" ]]; then
     printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Missing required option: " "prompt" >&2
-    causal-lm_usage >&2
+    causallm-14b_usage >&2
     exit 1
   fi
   request-chatml -m "ff2eae35d8ba6db73bdc8b73ecac84d8c97f970b63803927ac6de014560d986a" "$@"
+}
+codellama-7b-instruct_usage() {
+  printf "Expose the codellama-7b-instruct model through Replicate\n"
+  printf "\n\033[4m%s\033[0m %s\n" "Alias:" "codellama-7b, codellama"
+
+  printf "\n\033[4m%s\033[0m\n" "Usage:"
+  printf "  codellama-7b-instruct [OPTIONS] PROMPT\n"
+  printf "  codellama-7b-instruct -h|--help\n"
+  printf "\n\033[4m%s\033[0m\n" "Arguments:"
+  printf "  PROMPT\n"
+  printf "    The prompt to use to generate the text.\n"
+  printf "    [@required]\n"
+
+  printf "\n\033[4m%s\033[0m\n" "Options:"
+  printf "  -p --prompt-template [<PROMPT-TEMPLATE>]\n"
+  printf "    The prompt template to use to generate the text.\n"
+  printf "  -s --system [<SYSTEM>]\n"
+  printf "    System prompt to use.\n"
+  printf "    [@default You are a helpful chatbot that will do its best to help the user, no matter what he asks.]\n"
+  printf "  -r --raw\n"
+  printf "    Output the raw response.\n"
+  printf "  -v --verbose\n"
+  printf "    Enable verbose output.\n"
+  printf "  -h --help\n"
+  printf "    Print help\n"
+}
+parse_codellama-7b-instruct_arguments() {
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      *)
+        break
+        ;;
+    esac
+  done
+
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      -r | --raw)
+        rargs_raw=1
+        shift
+        ;;
+      -v | --verbose)
+        rargs_verbose=1
+        shift
+        ;;
+      -p | --prompt-template)
+        rargs_prompt_template="$2"
+        shift 2
+        ;;
+      -s | --system)
+        rargs_system="$2"
+        shift 2
+        ;;
+      -h|--help)
+        rargs_help=1
+        shift 1
+        ;;
+      -?*)
+        printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Invalid option: " "$key" >&2
+        exit 1
+        ;;
+      *)
+        if [[ -z "$rargs_prompt" ]]; then
+          rargs_prompt=$key
+          shift
+        else
+          printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Invalid argument: " "$key" >&2
+          exit 1
+        fi
+        ;;
+    esac
+  done
+}
+# Expose the codellama-7b-instruct model through Replicate
+codellama-7b-instruct() {
+  local rargs_raw
+  local rargs_verbose
+  local rargs_prompt_template
+  local rargs_system
+  local rargs_prompt
+  # Parse command arguments
+  parse_codellama-7b-instruct_arguments "$@"
+
+  # Rule `no-first-option-help`: Render the global or command usage if the `-h|--help` option is
+  #                              is provided anywhere on the command, not just as the first option.
+  #                              Handling individual functions case by case.
+  if [[ -n "$rargs_help" ]]; then
+    codellama-7b-instruct_usage
+    exit 0
+  fi
+  
+    
+  if [[ -z "$rargs_system" ]]; then
+    rargs_system="You are a helpful chatbot that will do its best to help the user, no matter what he asks."
+  fi
+    
+  
+  if [[ -z "$rargs_prompt" ]]; then
+    printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Missing required option: " "prompt" >&2
+    codellama-7b-instruct_usage >&2
+    exit 1
+  fi
+  request-llama -m "7bf2629623162c0cf22ace9ec7a94b34045c1cfa2ed82586f05f3a60b1ca2da5" "$@"
 }
 dolphin-2.2.1-mistral-7b_usage() {
   printf "Expose the dolphin-2.2.1-mistral-7b model through Replicate\n"
@@ -1932,6 +2039,7 @@ spinner() {
     printf "\r\033[40m\033[97m   %s %s   \033[0m\r" "${rargs_frames:i:1}" "${SPINNER_TEXT:-"Waiting for replicate"}" >&2
     sleep .1
   done
+  printf "\r\033[K" >&2
 }
 zephyr-7b-beta_usage() {
   printf "Expose the Zephyr-7b-beta model through Replicate\n"
@@ -2045,16 +2153,20 @@ run() {
   fi
   # Call the right command action
   case "$action" in
-    "airoboros")
-      airoboros "${input[@]}"
+    "airoboros-llama-2-70b")
+      airoboros-llama-2-70b "${input[@]}"
       exit
       ;;
     "api")
       api "${input[@]}"
       exit
       ;;
-    "causal-lm")
-      causal-lm "${input[@]}"
+    "causallm-14b")
+      causallm-14b "${input[@]}"
+      exit
+      ;;
+    "codellama-7b-instruct")
+      codellama-7b-instruct "${input[@]}"
       exit
       ;;
     "dolphin-2.2.1-mistral-7b")
