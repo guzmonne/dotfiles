@@ -24,6 +24,10 @@ local function get_current_line_previous_words(n)
   local line = vim.api.nvim_get_current_line()
   local col = vim.api.nvim_win_get_cursor(0)[2]
 
+  if col > 1 then
+    col = col - 1
+  end
+
   local words = {}
   for w in line:sub(1, col):gmatch("%S+") do
     table.insert(words, w)

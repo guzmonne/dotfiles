@@ -135,7 +135,7 @@ wk.register({
     g = { '<cmd>Copilot enable<CR>', 'Enable GitHub Copilot for current buffer' },
     x = { '<cmd>!chmod +x %<CR>', 'Add execute permission to current file' },
     e = { require('user.gpt').edit, 'Edit the current line with GPT-4' },
-    c = { require('user.gpt').complete, 'Complete the current line with GPT-4' },
+    c = { require('user.gpt').continue, 'Complete the current line with GPT-4' },
   },
   -- Quit buffers
   q = {
