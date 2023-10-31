@@ -2033,6 +2033,7 @@ request-llama() {
   fi
   response="$(api -m "$rargs_model" \
     --prompt-template "$rargs_prompt_template" \
+    "$(if [[ -n "$rargs_verbose" ]]; then echo "--verbose"; fi)" \
     --max-new-tokens 1000 \
     --system-prompt "$rargs_system" \
     "$rargs_prompt")"
