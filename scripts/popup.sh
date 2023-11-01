@@ -8,4 +8,4 @@ alacritty --class popup \
   -o window.padding.x=0 \
   -o window.padding.y=0 \
   -o font.offset.y=6 \
-  --command "$1"
+  --command "$@"

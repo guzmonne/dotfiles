@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# @name novelai
+# @name ollama
 # @version 0.1.0
 # @description A rargs script template
-# @author 
+# @author
 
 # Remember that all comments will be striped by default. You can use `##` to keep them around.
 

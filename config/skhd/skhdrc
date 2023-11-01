@@ -55,7 +55,8 @@ alt - f         : yabai -m window --toggle zoom-fullscreen
 shift + alt - f : yabai -m window --toggle native-fullscreen
 
 # Open sessionizer
-shift + lctrl - p : { source $HOME/Projects/Personal/dotfiles/.bashrc; popup.sh "tmux-sessions.sh" }
+cmd - p : { source $HOME/Projects/Personal/dotfiles/.bashrc; tmux new-window sessionizer sessions go }
+cmd - n : { source $HOME/Projects/Personal/dotfiles/.bashrc; tmux new-window sessionizer sessions new }
 alt - w  : { source $HOME/Projects/Personal/dotfiles/.bashrc; sessionizer sessions next }
 alt - b  : { source $HOME/Projects/Personal/dotfiles/.bashrc; sessionizer sessions prev }
 shift + alt - w : tmux switch-client -n

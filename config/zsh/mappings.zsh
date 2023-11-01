@@ -15,13 +15,9 @@ bindkey '\C-j' history-substring-search-down
 
 # Key-bindings
 # [C-p] Select open tmux session.
-bindkey -s '^p' 'sessionizer sessions go^M'
+# bindkey -s '^p' 'sessionizer sessions go^M'
 # [C-n] Open a new tmux session.
-bindkey -s '^n' 'sessionizer sessions new ^M'
-# [A-b] Goes to the previous session in the history
-bindkey -s '∫' 'sessionizer sessions prev ^M'
-# [A-w] Goes to the next session in the history
-bindkey -s '∑' 'sessionizer sessions next ^M'
+# bindkey -s '^n' 'sessionizer sessions new ^M'
 
 # [C-b] - Move backwards one word.
 bindkey '\C-e' backward-word
