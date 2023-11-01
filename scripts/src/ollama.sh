@@ -25,6 +25,12 @@ generate() {
       continue
     fi
 
-    eval printf "%s" "$(jq '.response' <<<"$line" | grep -v '^null$' | perl -pe 's/\\n/\n/g')"
+    # Get the response key
+    response="$(jq '.response' <<<"$line")"
+
+    # Replace any backtick (`) with an escaped backtick (\`)
+    response="${response//\`/\\\`}"
+
+    eval printf "%s" "$(printf '%s' "$response" | grep -v '^null$' | perl -pe 's/\\n/\n/g')" 2>/dev/null
   done
 }

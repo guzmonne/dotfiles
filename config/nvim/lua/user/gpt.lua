@@ -203,7 +203,7 @@ end
 
 -- Setup custom options
 M.setup({
-    debug = false ,
+    debug = false,
     previous_lines = 3,
     novelai_previous_lines = 10,
     max_tokens = 256,
