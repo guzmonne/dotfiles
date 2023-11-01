@@ -1,5 +1,26 @@
 local M = {}
 
+--- Gets the previous n non empty lines
+-- @param from_line {number} Line to start searching from.
+-- @param n {number} Number of lines to get.
+-- @return {table} The previous n non empty lines.
+local function get_previous_non_empty_lines(from_line, n)
+  local result = {} -- result holder
+  local ln = from_line
+
+  -- while the result size is less than n and line number is valid.
+  while #result < n and ln > 0 do
+    local currentLine = vim.api.nvim_buf_get_lines(0, ln - 1, ln, false)[1]
+    -- check if line is not empty
+    if currentLine and currentLine ~= '' then
+      table.insert(result, 1, currentLine) -- add line to the begining of the result
+    end
+    ln = ln - 1                            -- go to the previous line
+  end
+
+  return result
+end
+
 --- Gets, at most, the next `n` remaining words from the current cursor position in the current line.
 -- @param n {number} Number of words to get.
 -- @return {table} The next `n` words if they exist.
@@ -320,6 +341,7 @@ M["catch"] = catch
 M["try"] = try
 M["dump"] = dump
 M["get_words_around_cursor"] = get_words_around_cursor
+M["get_previous_non_empty_lines"] = get_previous_non_empty_lines
 
 --
 return M

@@ -1,8 +1,16 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Enable ZenMode
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! GoZen() abort
+function! GoFullZen() abort
   ZenMode
+  set wrap
+  set nolinebreak
+  set lbr
+  set textwidth=0 wrapmargin=0
+  set conceallevel=1
+endfunction
+command! GoFullZen call GoFullZen()
+function! GoZen() abort
   set wrap
   set nolinebreak
   set lbr

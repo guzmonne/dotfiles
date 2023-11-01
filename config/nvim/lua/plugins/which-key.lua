@@ -132,10 +132,12 @@ wk.register({
   -- Handle file permissions
   c = {
     name = 'Commands',
-    g = { '<cmd>Copilot enable<CR>', 'Enable GitHub Copilot for current buffer' },
+    p = { '<cmd>Copilot enable<CR>', 'Enable GitHub Copilot for current buffer' },
     x = { '<cmd>!chmod +x %<CR>', 'Add execute permission to current file' },
-    e = { require('user.gpt').edit, 'Edit the current line with GPT-4' },
+    t = { require('user.gpt').tlit, 'Edit the current line with ollama technical prompt' },
+    e = { require('user.gpt').olit, 'Edit the current line with the olit session' },
     c = { require('user.gpt').continue, 'Complete the current line with GPT-4' },
+    g = { require('user.gpt').generate, 'Complete the current line with NovelAi' },
   },
   -- Quit buffers
   q = {
