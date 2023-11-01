@@ -18,7 +18,7 @@ generate() {
     rargs_prompt="$(cat -)"
   fi
 
-  if [[ "$rargs_echo" == "true" ]]; then
+  if [[ -n "$rargs_echo" ]]; then
     printf "%s\n" "$rargs_prompt"
   fi
 

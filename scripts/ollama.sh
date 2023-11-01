@@ -215,7 +215,7 @@ generate() {
   if [[ "$rargs_prompt" == "-" ]]; then
     rargs_prompt="$(cat -)"
   fi
-  if [[ "$rargs_echo" == "true" ]]; then
+  if [[ -n "$rargs_echo" ]]; then
     printf "%s\n" "$rargs_prompt"
   fi
   curl -N -sX POST "http://localhost:11434/api/generate" -d "$(jo \
