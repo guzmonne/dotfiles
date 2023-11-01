@@ -134,6 +134,8 @@ generate_usage() {
   printf "\n\033[4m%s\033[0m\n" "Options:"
   printf "  -m --model <MODEL>\n"
   printf "    The model to run\n"
+  printf "  --echo\n"
+  printf "    Echo the prompt\n"
   printf "  -v --verbose\n"
   printf "    Enable verbose output.\n"
   printf "  -h --help\n"
@@ -151,6 +153,10 @@ parse_generate_arguments() {
   while [[ $# -gt 0 ]]; do
     key="$1"
     case "$key" in
+      --echo)
+        rargs_echo=1
+        shift
+        ;;
       -v | --verbose)
         rargs_verbose=1
         shift
@@ -181,6 +187,7 @@ parse_generate_arguments() {
 }
 # Runs ollama against the given model
 generate() {
+  local rargs_echo
   local rargs_verbose
   local rargs_model
   local rargs_prompt
@@ -207,6 +214,9 @@ generate() {
   fi
   if [[ "$rargs_prompt" == "-" ]]; then
     rargs_prompt="$(cat -)"
+  fi
+  if [[ "$rargs_echo" == "true" ]]; then
+    printf "%s\n" "$rargs_prompt"
   fi
   curl -N -sX POST "http://localhost:11434/api/generate" -d "$(jo \
     model="$rargs_model" \
