@@ -30,6 +30,8 @@ generate() {
 
     # Replace any backtick (`) with an escaped backtick (\`)
     response="${response//\`/\\\`}"
+    # Remove \r characters.
+    response="${response//$'\r'/}"
 
     eval printf "%s" "$(printf '%s' "$response" | grep -v '^null$' | perl -pe 's/\\n/\n/g')" 2>/dev/null
   done
