@@ -1,5 +1,41 @@
 local M = {}
 
+--- Spawns a process and then adds the returned output to the current buffer from line onwards.
+-- @param command {table} Command to execute.
+-- @param line {number} Line to start adding the output from.
+-- @param debug {boolean} Whether to print debug information.
+-- @return {void}
+function M.spawn(command, line, debug)
+  -- If no line is provided, default to the current one
+  line = line or vim.api.nvim_win_get_cursor(0)[1]
+
+  if debug then
+    print("Command: " .. vim.inspect(command))
+    print("Line: " .. line)
+  end
+
+  local output = vim.fn.system(command)
+
+  output = output:sub(1, -2)
+
+  if debug then
+    print("Output: " .. output)
+  end
+
+  local lines = M.split_newline(output)
+
+  local buffer = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+
+  vim.api.nvim_buf_set_lines(0, line - 1, line + #lines - 1, false, lines)
+
+  vim.api.nvim_buf_set_lines(0, line + #lines, #buffer + #lines - 2, false,
+    M.slice_table(buffer, line + 1, #buffer))
+
+  if debug then
+    print("Lines: " .. vim.inspect(lines))
+  end
+end
+
 --- Gets the previous n non empty lines
 -- @param from_line {number} Line to start searching from.
 -- @param n {number} Number of lines to get.
@@ -307,7 +343,7 @@ end
 --- Splits a string into a table of strings separated by a newline including individual newlines.
 -- @param input {string} Input string
 -- @return {table} The input string split into multiple strings.
-function M.split_newline(input)
+local function split_newline(input)
   local result = {}
   local from = 1
   local delim_from, delim_to = string.find(input, "\n", from)
@@ -342,6 +378,7 @@ M["try"] = try
 M["dump"] = dump
 M["get_words_around_cursor"] = get_words_around_cursor
 M["get_previous_non_empty_lines"] = get_previous_non_empty_lines
+M["split_newline"] = split_newline
 
 --
 return M

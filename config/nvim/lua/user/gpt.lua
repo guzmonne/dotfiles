@@ -56,7 +56,6 @@ Try to use simple language on your writing, that match the tone of the original 
 
 function M.tlit()
     -- Get the current line and column number
-    local line, _ = unpack(vim.api.nvim_win_get_cursor(0))
     local text = vim.api.nvim_get_current_line()
 
     local prompt = TECHINAL_PROMPT .. "```\n" .. text .. "\n```"
@@ -65,30 +64,7 @@ function M.tlit()
         print("Prompt: " .. prompt)
     end
 
-    local output = vim.fn.system({ "ollama", "run", options.ollama_model, prompt })
-
-    -- Trim the output newline
-    output = output:sub(1, -2)
-
-    -- Print the type of the output for debugging.
-    if options.debug then
-        print("Output: " .. output)
-    end
-
-    -- Split the output by newline characters
-    local lines = functions.split_newline(output)
-
-    -- Get all the lines on the buffer
-    local buffer = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-    -- Add the lines from the current cursor position
-    vim.api.nvim_buf_set_lines(0, line - 1, line + #lines - 1, false, lines)
-    -- Add the remaining buffer lines
-    vim.api.nvim_buf_set_lines(0, line + #lines, #buffer + #lines - 2, false,
-        functions.slice_table(buffer, line + 1, #buffer))
-
-    if options.debug then
-        print("Lines: " .. vim.inspect(lines))
-    end
+    functions.spawn({ "ollama.sh", "generate", "-m", options.ollama_model, prompt }, nil, options.debug)
 end
 
 --- Edits the current line and replaces it with an edited version of it.
@@ -227,7 +203,7 @@ end
 
 -- Setup custom options
 M.setup({
-    debug = false,
+    debug = false ,
     previous_lines = 3,
     novelai_previous_lines = 10,
     max_tokens = 256,

@@ -1,20 +1,30 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2154
+# shellcheck disable=SC2016
 # @name ollama
 # @version 0.1.0
-# @description A rargs script template
-# @author
+# @description A simple wrapper build around ollama
+# @author Guzmán Monné
+# @default run
+# @rule no-first-option-help
+# @flag -v --verbose Enable verbose output.
 
-# Remember that all comments will be striped by default. You can use `##` to keep them around.
+# @cmd Runs ollama against the given model
+# @option -m --model! The model to run
+# @arg prompt! The prompt to use
+generate() {
+  if [[ "$rargs_prompt" == "-" ]]; then
+    rargs_prompt="$(cat -)"
+  fi
 
-# This function will be called if no sub-sommand it's passed to it. I'll inherit the `@flags`,
-# `@options`, `@args`, etc., from the global scope.
-root() {
-  echo "Root command"
-}
+  curl -N -sX POST "http://localhost:11434/api/generate" -d "$(jo \
+    model="$rargs_model" \
+    prompt="$rargs_prompt" \
+  )" | while read -r line; do
+    if [[ -z "$line" ]]; then
+      continue
+    fi
 
-# This function will be called if the subcommand `subcommand` is passed to it. It will override any
-# `@flags`, `@options`, `@args`, etc., from the global scope, and inherit the rest.
-# @cmd Subcommand example
-subcommand() {
-  echo "Subcommand"
+    eval printf "%s" "$(jq '.response' <<<"$line" | grep -v '^null$' | perl -pe 's/\\n/\n/g')"
+  done
 }
