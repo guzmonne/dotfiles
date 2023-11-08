@@ -136,6 +136,8 @@ generate_usage() {
   printf "    The model to run\n"
   printf "  --echo\n"
   printf "    Echo the prompt\n"
+  printf "  --glow\n"
+  printf "    Make your prompt glow\n"
   printf "  -v --verbose\n"
   printf "    Enable verbose output.\n"
   printf "  -h --help\n"
@@ -155,6 +157,10 @@ parse_generate_arguments() {
     case "$key" in
       --echo)
         rargs_echo=1
+        shift
+        ;;
+      --glow)
+        rargs_glow=1
         shift
         ;;
       -v | --verbose)
@@ -188,6 +194,7 @@ parse_generate_arguments() {
 # Runs ollama against the given model
 generate() {
   local rargs_echo
+  local rargs_glow
   local rargs_verbose
   local rargs_model
   local rargs_prompt
@@ -216,7 +223,7 @@ generate() {
     rargs_prompt="$(cat -)"
   fi
   if [[ -n "$rargs_echo" ]]; then
-    printf "%s\n" "$rargs_prompt"
+    printf "%s\n" "$rargs_prompt" | glow
   fi
   curl -N -sX POST "http://localhost:11434/api/generate" -d "$(jo \
     model="$rargs_model" \

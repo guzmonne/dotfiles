@@ -11,7 +11,8 @@ function! GoFullZen() abort
 endfunction
 command! GoFullZen call GoFullZen()
 function! GoZen() abort
-  Goyo 90
+  vertical resize 81
+  " setlocal spell spelllang=en_us
   set wrap
   set nolinebreak
   set lbr
@@ -19,27 +20,6 @@ function! GoZen() abort
   set conceallevel=1
 endfunction
 command! GoZen call GoZen()
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Goyo
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! s:goyo_enter()
-  set wrap
-  set nolinebreak
-  set lbr
-  set textwidth=0 wrapmargin=0
-  set conceallevel=3
-endfunction
-
-function! s:goyo_leave()
-  set nowrap
-  set linebreak
-  set nolbr
-  set textwidth=120 wrapmargin=10
-  set conceallevel=1
-endfunction
-
-autocmd! User GoyoEnter nested call <SID>goyo_enter()
-autocmd! User GoyoLeave nested call <SID>goyo_leave()
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Zoom / Restore window.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

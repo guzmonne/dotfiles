@@ -69,6 +69,8 @@ set expandtab                              " Replace tabs with spaces
 set shiftwidth=2                           " Visual mode indentation (match tabstop)
 set foldmethod=expr                        " Kind of fold used for the current window.
 set foldexpr=nvim_treesitter#foldexpr()    " Use Treesitter to handle folds
+set foldopen+=jump                         " Automatically open folds when moving over them
+set nofoldenable                           " Start with all folds open
 set pumblend=15                            " Enable pseudo-transparency on pop-up windows.
 set winblend=15                            " Enable pseudo-transparency for a floating window.
 set textwidth=100                          " Set text width to 80
@@ -165,4 +167,7 @@ augroup GUX
   " Nvim-Lint
   au BufWritePost *.md lua require("lint").try_lint()
   au BufWritePost *.txt lua require("lint").try_lint()
+
+  " Open all folds
+  autocmd BufReadPost,FileReadPost * normal zR
 augroup END

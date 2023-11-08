@@ -76,3 +76,8 @@ if [ -f "$HOME/.local/bin/gpt.sh" ]; then
     alias gpt4="gpt.sh"
     alias claude2="gpt.sh -m claude2"
 fi
+
+# If jqp is install alias it to use the right theme.
+if command -v jqp>/dev/null; then
+    alias jqp="jqp -t doom-one2"
+fi

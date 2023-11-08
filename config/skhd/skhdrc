@@ -1,14 +1,14 @@
 # Labeled spaces
-alt - 1     : yabai -m space --focus "kitty"
-alt - 2     : yabai -m space --focus "brave"
-alt - 3     : yabai -m space --focus "firefox"
-alt - 4     : yabai -m space --focus "outlook"
-alt - 5     : yabai -m space --focus "slack"
-alt - 6     : yabai -m space --focus "fantastical"
-alt - 7     : yabai -m space --focus "spotify"
-alt - 8     : yabai -m space --focus "linear"
-alt - 9     : yabai -m space --focus "zoom"
-alt - 0     : yabai -m space --focus "safari"
+alt - 1     : yabai -m space --focus "alacritty"
+alt - 2     : yabai -m space --focus "arc"
+alt - 3     : yabai -m space --focus "brave"
+alt - 4     : yabai -m space --focus "firefox"
+alt - 5     : yabai -m space --focus "outlook"
+alt - 6     : yabai -m space --focus "slack"
+alt - 7     : yabai -m space --focus "fantastical"
+alt - 8     : yabai -m space --focus "spotify"
+alt - 9     : yabai -m space --focus "linear"
+alt - 1     : yabai -m space --focus "safari"
 
 # Force window arrangement
 alt - m     : yabai -m space --layout bsp && yabai -m space --balance
@@ -55,15 +55,21 @@ alt - f         : yabai -m window --toggle zoom-fullscreen
 shift + alt - f : yabai -m window --toggle native-fullscreen
 
 # Open sessionizer
-cmd - p : { source $HOME/Projects/Personal/dotfiles/.bashrc; tmux new-window sessionizer sessions go }
-cmd - n : { source $HOME/Projects/Personal/dotfiles/.bashrc; tmux new-window sessionizer sessions new }
-alt - w  : { source $HOME/Projects/Personal/dotfiles/.bashrc; sessionizer sessions next }
-alt - b  : { source $HOME/Projects/Personal/dotfiles/.bashrc; sessionizer sessions prev }
-shift + alt - w : tmux switch-client -n
-shift + alt - b : tmux switch-client -p
+cmd - p [
+    "alacritty": tmux new-window $HOME/.local/bin/sessionizer sessions go
+]
+cmd - n [
+    "alacritty": tmux new-window $HOME/.local/bin/sessionizer sessions new
+]
+cmd - w [
+    "alacritty" : $HOME/.local/bin/sessionizer sessions next
+]
+cmd - b [
+    "alacritty": $HOME/.local/bin/sessionizer sessions prev
+]
 
 # Tmux Pane Navigation
-alt - h       : tmux select-pane -L
-alt - j       : tmux select-pane -D
-alt - k       : tmux select-pane -U
-alt - l       : tmux select-pane -R
+alt - h : tmux select-pane -L
+alt - j : tmux select-pane -D
+alt - k : tmux select-pane -U
+alt - l : tmux select-pane -R

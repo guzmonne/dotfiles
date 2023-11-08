@@ -3,13 +3,10 @@
 " Hint: Make sure you use single quotes.
 call plug#begin('~/.config/nvim/plugged')
 
-Plug 'junegunn/goyo.vim'
-Plug 'javiorfo/nvim-spinetta'
 Plug 'jvirtanen/vim-hcl'
 Plug 'mfussenegger/nvim-lint'
 Plug 'stevearc/dressing.nvim'
 Plug 'lepture/vim-jinja'
-Plug 'folke/zen-mode.nvim'
 Plug 'RRethy/vim-illuminate'
 Plug 'stevearc/oil.nvim'
 Plug 'brenoprata10/nvim-highlight-colors'
@@ -60,7 +57,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-surround'
 Plug 'numToStr/Comment.nvim'
-Plug 'jose-elias-alvarez/null-ls.nvim'
 
 " Don't configure any plugin under this line.
 call plug#end()

@@ -29,6 +29,8 @@ Stylistic Details:
 - Detailed Changes: Be specific and descriptive with your edits.
 - Concision: Brevity is appreciated in technical documents; avoid being verbose.
 - Improvement: Introduce additional content if it increases the clarity or quality of the document.
+- Any set of words in `backticks` ` can't be changed.
+- Don't replace `backticks` ` for other characters.
 
 Language Considerations:
 You can use technical lingo and complex terminology, as long as it enhances the text and abides by the author's original intention.
@@ -39,6 +41,8 @@ Aim to refine the prose and integrate additional details if necessary.
 **PLEASE RETURN ONLY THE EDITED VERSION OF THE TEXT!!!**
 
 **DON'T RETURN ANY ADDITIONAL COMMENT OTHER THAN THE REVISED TEXT!!!**
+
+**Use MARKDOWN format to return the edited text.**
 
 Here's the text for you to edit:
 

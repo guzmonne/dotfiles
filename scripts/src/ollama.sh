@@ -12,6 +12,7 @@
 # @cmd Runs ollama against the given model
 # @option -m --model! The model to run
 # @flag --echo Echo the prompt
+# @flag --glow Make your prompt glow
 # @arg prompt! The prompt to use
 generate() {
   if [[ "$rargs_prompt" == "-" ]]; then
@@ -19,7 +20,7 @@ generate() {
   fi
 
   if [[ -n "$rargs_echo" ]]; then
-    printf "%s\n" "$rargs_prompt"
+    printf "%s\n" "$rargs_prompt" | glow
   fi
 
   curl -N -sX POST "http://localhost:11434/api/generate" -d "$(jo \
