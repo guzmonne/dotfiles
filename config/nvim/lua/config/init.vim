@@ -34,16 +34,18 @@ function! GetVisual() range
   return escaped_selection
 endfunction
 
-" Strip trailing empty newlines
+" Updated Strip trailing empty newlines
 function! TrimTrailingLines()
   " Save the current cursor position
   let currentPos = getpos(".")
 
   let lastLine = line('$')
-  let lastNonblankLine = prevnonblank(lastLine)
-  if lastLine > 0 && lastNonblankLine != lastLine
-    " Use "silent" to avoid the need for "undojoin"
-    silent! execute lastNonblankLine + 1 . ',$delete _'
+  let lastNonBlankLine = prevnonblank(lastLine)
+  if lastLine > lastNonBlankLine + 1 " Check if there's more than one empty line
+    " We want to delete from the line right after the last non-blank line
+    " to the second-to-last line of the file. If there's only one new line,
+    " this will do nothing.
+    silent! execute lastNonBlankLine + 2 . ",$delete _"
   endif
 
   " Restore the saved cursor position
@@ -61,6 +63,12 @@ endfunction
 vnoremap <C-r> <Esc>:%s/<c-r>=GetVisual()<cr>//g<left><left><c-r>=GetVisual()<cr>
 " Codepilot mappings
 imap <silent><script><expr> <C-y> copilot#Accept("\<CR>")
+
+" Only run the `Copilot enable` command if the `Copilot` command is defined.
+if exists(':Copilot')
+  " Enable Copilot on every file on enter
+  Copilot enable
+endif
 
 augroup GUX
   autocmd!
@@ -85,9 +93,6 @@ augroup GUX
   " Disable diagnostics in node modules (0 is current buffer only)
   autocmd BufRead */node_modules/* :lua vim.lsp.diagnostic.disable(0)
   autocmd BufNewFile */node_modules/* :lua vim.lsp.diagnostic.disable(0)
-
-  " Enable Copilot on every file on enter
-  autocmd BufEnter * :Copilot enable
 
   " Cursorline transparency
   autocmd ColorScheme * highlight CursorLine guibg=#0f0f0f ctermbg=none

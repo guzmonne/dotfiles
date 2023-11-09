@@ -97,3 +97,6 @@ vim.keymap.set({ "n", "v" }, "k", "gk")
 
 -- Show the diagnostic view floating
 vim.keymap.set("n", "gl", vim.diagnostic.open_float)
+
+-- Save and close file
+vim.keymap.set("n", "<leader>wq", ":wq<CR>")
