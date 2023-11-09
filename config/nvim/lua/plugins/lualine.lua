@@ -1,19 +1,16 @@
 -- Lualine --
-local tokyonight = require 'lualine.themes.tokyonight'
+local tokyonight = require("lualine.themes.tokyonight")
 
-tokyonight.normal.a.bg = '#9ece6a'
-tokyonight.normal.b.fg = '#9ece6a'
+tokyonight.normal.a.bg = "#9ece6a"
+tokyonight.normal.b.fg = "#9ece6a"
 
-tokyonight.insert.a.bg = '#7aa2f7'
-tokyonight.insert.b.fg = '#7dcfff'
+tokyonight.insert.a.bg = "#7aa2f7"
+tokyonight.insert.b.fg = "#7dcfff"
 
-function Codeium() return vim.fn['codeium#GetStatusString']() end
-
-function Codeium_lualine()
-    return '{…} ' .. Codeium()
-end
-
-require 'lualine'.setup({
-    options = { theme = tokyonight, component_separators = '|', section_separators = '' },
-    sections = { lualine_c = { 'filename', Codeium_lualine }, lualine_x = { 'filetype' }, lualine_y = { 'progress' } }
-})
+return {
+  "nvim-lualine/lualine.nvim",
+  opts = function(_, opts)
+    opts.options =
+      vim.tbl_extend("force", opts.options, { theme = tokyonight, component_separators = "|", section_separators = "" })
+  end,
+}

@@ -3,256 +3,251 @@
 # Modifying it manually is not recommended
 
 if [[ "${BASH_VERSINFO:-0}" -lt 4 ]]; then
-  printf "bash version 4 or higher is required\n" >&2
-  exit 1
+	printf "bash version 4 or higher is required\n" >&2
+	exit 1
 fi
 
 if [[ -n "${DEBUG:-}" ]]; then
-  set -x
+	set -x
 fi
 set -e
 
-
 normalize_input() {
-  local arg flags
+	local arg flags
 
-  while [[ $# -gt 0 ]]; do
-    arg="$1"
-    if [[ $arg =~ ^(--[a-zA-Z0-9_\-]+)=(.+)$ ]]; then
-      input+=("${BASH_REMATCH[1]}")
-      input+=("${BASH_REMATCH[2]}")
-    elif [[ $arg =~ ^(-[a-zA-Z0-9])=(.+)$ ]]; then
-      input+=("${BASH_REMATCH[1]}")
-      input+=("${BASH_REMATCH[2]}")
-    elif [[ $arg =~ ^-([a-zA-Z0-9][a-zA-Z0-9]+)$ ]]; then
-      flags="${BASH_REMATCH[1]}"
-      for ((i = 0; i < ${#flags}; i++)); do
-        input+=("-${flags:i:1}")
-      done
-    else
-      input+=("$arg")
-    fi
+	while [[ $# -gt 0 ]]; do
+		arg="$1"
+		if [[ $arg =~ ^(--[a-zA-Z0-9_\-]+)=(.+)$ ]]; then
+			input+=("${BASH_REMATCH[1]}")
+			input+=("${BASH_REMATCH[2]}")
+		elif [[ $arg =~ ^(-[a-zA-Z0-9])=(.+)$ ]]; then
+			input+=("${BASH_REMATCH[1]}")
+			input+=("${BASH_REMATCH[2]}")
+		elif [[ $arg =~ ^-([a-zA-Z0-9][a-zA-Z0-9]+)$ ]]; then
+			flags="${BASH_REMATCH[1]}"
+			for ((i = 0; i < ${#flags}; i++)); do
+				input+=("-${flags:i:1}")
+			done
+		else
+			input+=("$arg")
+		fi
 
-    shift
-  done
+		shift
+	done
 }
 
 inspect_args() {
-  prefix="rargs_"
-  args="$(set | grep ^$prefix || true)"
-  if [[ -n "$args" ]]; then
-    echo
-    echo args:
-    for var in $args; do
-      echo "- $var" | sed 's/=/ = /g'
-    done
-  fi
+	prefix="rargs_"
+	args="$(set | grep ^$prefix || true)"
+	if [[ -n "$args" ]]; then
+		echo
+		echo args:
+		for var in $args; do
+			echo "- $var" | sed 's/=/ = /g'
+		done
+	fi
 
-  if ((${#deps[@]})); then
-    readarray -t sorted_keys < <(printf '%s\n' "${!deps[@]}" | sort)
-    echo
-    echo deps:
-    for k in "${sorted_keys[@]}"; do echo "- \${deps[$k]} = ${deps[$k]}"; done
-  fi
+	if ((${#deps[@]})); then
+		readarray -t sorted_keys < <(printf '%s\n' "${!deps[@]}" | sort)
+		echo
+		echo deps:
+		for k in "${sorted_keys[@]}"; do echo "- \${deps[$k]} = ${deps[$k]}"; done
+	fi
 
-  if ((${#other_args[@]})); then
-    echo
-    echo other_args:
-    echo "- \${other_args[*]} = ${other_args[*]}"
-    for i in "${!other_args[@]}"; do
-      echo "- \${other_args[$i]} = ${other_args[$i]}"
-    done
-  fi
+	if ((${#other_args[@]})); then
+		echo
+		echo other_args:
+		echo "- \${other_args[*]} = ${other_args[*]}"
+		for i in "${!other_args[@]}"; do
+			echo "- \${other_args[$i]} = ${other_args[$i]}"
+		done
+	fi
 }
 
-
 usage() {
-  printf "Useful commands to interact with LLMs from the CLI.\n"
-  printf "\n\033[4m%s\033[0m\n" "Usage:"
-  printf "  gpt.sh [OPTIONS] [COMMAND] [COMMAND_OPTIONS]\n"
-  printf "  gpt.sh -h|--help\n"
-  printf "\n\033[4m%s\033[0m\n" "Commands:"
-  cat <<EOF
-  write .... Writes a message to anthropic or openai using `c`.
+	printf "Useful commands to interact with LLMs from the CLI.\n"
+	printf "\n\033[4m%s\033[0m\n" "Usage:"
+	printf "  gpt.sh [OPTIONS] [COMMAND] [COMMAND_OPTIONS]\n"
+	printf "  gpt.sh -h|--help\n"
+	printf "\n\033[4m%s\033[0m\n" "Commands:"
+	cat <<EOF
+  write .... Writes a message to anthropic or openai using $(c).
 EOF
-  printf "  [@default write]\n"
+	printf "  [@default write]\n"
 
-  printf "\n\033[4m%s\033[0m\n" "Options:"
-  printf "  -h --help\n"
-  printf "    Print help\n"
+	printf "\n\033[4m%s\033[0m\n" "Options:"
+	printf "  -h --help\n"
+	printf "    Print help\n"
 }
 
 parse_arguments() {
-  while [[ $# -gt 0 ]]; do
-    case "${1:-}" in
-      -h|--help)
-        usage
-        exit
-        ;;
-      *)
-        break
-        ;;
-    esac
-  done
-  action="${1:-}"
+	while [[ $# -gt 0 ]]; do
+		case "${1:-}" in
+		-h | --help)
+			usage
+			exit
+			;;
+		*)
+			break
+			;;
+		esac
+	done
+	action="${1:-}"
 
-  case $action in
-    write)
-      action="write"
-      input=("${input[@]:1}")
-      ;;
-    -h|--help)
-      usage
-      exit
-      ;;
-    "")
-      action="write"
-      ;;
-    *)
-      action="write"
-      ;;
-  esac
+	case $action in
+	write)
+		action="write"
+		input=("${input[@]:1}")
+		;;
+	-h | --help)
+		usage
+		exit
+		;;
+	"")
+		action="write"
+		;;
+	*)
+		action="write"
+		;;
+	esac
 }
 write_usage() {
-  printf "Writes a message to anthropic or openai using `c`.\n"
+	printf "Writes a message to anthropic or openai using $(c).\n"
 
-  printf "\n\033[4m%s\033[0m\n" "Usage:"
-  printf "  write [OPTIONS] [PROMPT]\n"
-  printf "  write -h|--help\n"
-  printf "\n\033[4m%s\033[0m\n" "Arguments:"
-  printf "  PROMPT\n"
-  printf "    The prompt to use.\n"
+	printf "\n\033[4m%s\033[0m\n" "Usage:"
+	printf "  write [OPTIONS] [PROMPT]\n"
+	printf "  write -h|--help\n"
+	printf "\n\033[4m%s\033[0m\n" "Arguments:"
+	printf "  PROMPT\n"
+	printf "    The prompt to use.\n"
 
-  printf "\n\033[4m%s\033[0m\n" "Options:"
-  printf "  -m --model [<MODEL>]\n"
-  printf "    The model to use.\n"
-  printf "    [@default gpt4, @choices gpt4, claude2]\n"
-  printf "  -h --help\n"
-  printf "    Print help\n"
+	printf "\n\033[4m%s\033[0m\n" "Options:"
+	printf "  -m --model [<MODEL>]\n"
+	printf "    The model to use.\n"
+	printf "    [@default gpt4, @choices gpt4, claude2]\n"
+	printf "  -h --help\n"
+	printf "    Print help\n"
 }
 parse_write_arguments() {
-  while [[ $# -gt 0 ]]; do
-    case "${1:-}" in
-      -h|--help)
-        write_usage
-        exit
-        ;;
-      *)
-        break
-        ;;
-    esac
-  done
+	while [[ $# -gt 0 ]]; do
+		case "${1:-}" in
+		-h | --help)
+			write_usage
+			exit
+			;;
+		*)
+			break
+			;;
+		esac
+	done
 
-  while [[ $# -gt 0 ]]; do
-    key="$1"
-    case "$key" in
-      -m | --model)
-        rargs_model="$2"
-        shift 2
-        ;;
-      -?*)
-        printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Invalid option: " "$key" >&2
-        exit 1
-        ;;
-      *)
-        if [[ -z "$rargs_prompt" ]]; then
-          rargs_prompt=$key
-          shift
-        else
-          printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Invalid argument: " "$key" >&2
-          exit 1
-        fi
-        ;;
-    esac
-  done
+	while [[ $# -gt 0 ]]; do
+		key="$1"
+		case "$key" in
+		-m | --model)
+			rargs_model="$2"
+			shift 2
+			;;
+		-?*)
+			printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Invalid option: " "$key" >&2
+			exit 1
+			;;
+		*)
+			if [[ -z "$rargs_prompt" ]]; then
+				rargs_prompt=$key
+				shift
+			else
+				printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Invalid argument: " "$key" >&2
+				exit 1
+			fi
+			;;
+		esac
+	done
 }
 # Writes a message to anthropic or openai using `c`.
 write() {
-  # Parse command arguments
-  parse_write_arguments "$@"
+	# Parse command arguments
+	parse_write_arguments "$@"
 
-  
-    
-  if [[ -z "$rargs_model" ]]; then
-    rargs_model="gpt4"
-  fi
-    
-  
-  if [[ -n "$rargs_model" ]]; then
-    if [[ ! "(gpt4 claude2)" =~ $rargs_model ]]; then
-      printf "\e[31m%s\e[33m%s\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Invalid option for " "model" ": " "$rargs_model" >&2
-      write_usage >&2
-      exit 1
-    fi
-  fi
-  # If the model is gpt4 we'll want to use the openai command, and if its claude2 we want to use
-  # anthropic instead.
-  if [[ "$rargs_model" == "gpt4" ]]; then
-    command="openai"
-  elif [[ "$rargs_model" == "claude2" ]]; then
-    command="anthropic"
-  else
-    echo "Invalid model: $rargs_model"
-    exit 1
-  fi
-  # If the prompt is empty we'll open `nvim` to write the prompt, then save it to the `prompt`
-  # variable.
-  # If the prompt value is empty or it equals `-` we listend from stdin.
-  if [[ "$rargs_prompt" == "-" ]]; then
-    prompt=$(cat)
-  elif [[ -z "$rargs_prompt" ]]; then
-    tmp="$(mktemp)"
-    if ! nvim  \
-      -c "setlocal filetype=markdown" \
-      -c "startinsert" \
-      -c "setlocal spell" \
-      -c "setlocal spelllang=en_us" \
-      "$tmp"; then
-      exit 1
-    fi
-    prompt="$(cat "$tmp")"
-  else
-    prompt="$rargs_prompt"
-  fi
-  # If the prompt is empty we'll exit.
-  if [[ -z "$prompt" ]]; then
-    echo "Prompt is empty."
-    exit 1
-  fi
-  echo "$prompt"
-  # Call `c` with the right command and pass in the prompt.
-  printf '%s' "$prompt" | c "$command" -m "$rargs_model" --stream -
+	if [[ -z "$rargs_model" ]]; then
+		rargs_model="gpt4"
+	fi
+
+	if [[ -n "$rargs_model" ]]; then
+		if [[ ! "(gpt4 claude2)" =~ $rargs_model ]]; then
+			printf "\e[31m%s\e[33m%s\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Invalid option for " "model" ": " "$rargs_model" >&2
+			write_usage >&2
+			exit 1
+		fi
+	fi
+	# If the model is gpt4 we'll want to use the openai command, and if its claude2 we want to use
+	# anthropic instead.
+	if [[ "$rargs_model" == "gpt4" ]]; then
+		command="openai"
+	elif [[ "$rargs_model" == "claude2" ]]; then
+		command="anthropic"
+	else
+		echo "Invalid model: $rargs_model"
+		exit 1
+	fi
+	# If the prompt is empty we'll open `nvim` to write the prompt, then save it to the `prompt`
+	# variable.
+	# If the prompt value is empty or it equals `-` we listend from stdin.
+	if [[ "$rargs_prompt" == "-" ]]; then
+		prompt=$(cat)
+	elif [[ -z "$rargs_prompt" ]]; then
+		tmp="$(mktemp)"
+		if ! nvim \
+			-c "setlocal filetype=markdown" \
+			-c "startinsert" \
+			-c "setlocal spell" \
+			-c "setlocal spelllang=en_us" \
+			"$tmp"; then
+			exit 1
+		fi
+		prompt="$(cat "$tmp")"
+	else
+		prompt="$rargs_prompt"
+	fi
+	# If the prompt is empty we'll exit.
+	if [[ -z "$prompt" ]]; then
+		echo "Prompt is empty."
+		exit 1
+	fi
+	echo "$prompt"
+	# Call `c` with the right command and pass in the prompt.
+	printf '%s' "$prompt" | c "$command" -m "$rargs_model" --stream -
 }
 
 run() {
-  declare -A deps=()
-  declare -a input=()
-  normalize_input "$@"
-  parse_arguments "${input[@]}"
-  # Check global dependencies
-  
-  for dependency in curl c; do
-    if ! command -v $dependency >/dev/null 2>&1; then
-      printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Missing dependency: " "$dependency" >&2
-      printf "Install with brew\n" >&2
-      exit 1
-    else
-      deps["$dependency"]="$(command -v $dependency | head -n1)"
-    fi
-  done
+	declare -A deps=()
+	declare -a input=()
+	normalize_input "$@"
+	parse_arguments "${input[@]}"
+	# Check global dependencies
 
-  # Call the right command action
-  case "$action" in
-    "write")
-      write "${input[@]}"
-      exit
-      ;;
-    "")
-      write
-      exit
-      ;;
-    
-  esac
+	for dependency in curl c; do
+		if ! command -v $dependency >/dev/null 2>&1; then
+			printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Missing dependency: " "$dependency" >&2
+			printf "Install with brew\n" >&2
+			exit 1
+		else
+			deps["$dependency"]="$(command -v $dependency | head -n1)"
+		fi
+	done
+
+	# Call the right command action
+	case "$action" in
+	"write")
+		write "${input[@]}"
+		exit
+		;;
+	"")
+		write
+		exit
+		;;
+
+	esac
 }
 
 run "$@"
