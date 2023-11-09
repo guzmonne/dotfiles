@@ -196,7 +196,7 @@ add() {
 		mapfile -t selected_files < <(echo "$modified_files" | fzf -m \
 			--preview 'git diff -- {}' \
 			--preview-window=up:80% \
-			--height 80% \
+			--height 100% \
 			--border)
 		for file in "${selected_files[@]}"; do
 			git add "$file"
