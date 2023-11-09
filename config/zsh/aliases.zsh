@@ -81,3 +81,8 @@ fi
 if command -v jqp>/dev/null; then
     alias jqp="jqp -t doom-one2"
 fi
+
+# Aliases to use if `c` is installed
+if command -v c>/dev/null; then
+  alias co='c o --max-tokens=4000 --stream "$(textarea.sh)"'
+fi

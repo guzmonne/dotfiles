@@ -1,5 +1,3 @@
-echo ${HOSTNAME} "on" ${OSTYPE}
-
 # Disable ctrl-s and ctrl-q
 stty -ixon
 
@@ -70,7 +68,6 @@ zsh_add_plugin "zsh-users/zsh-autosuggestions"
 zsh_add_plugin "zsh-users/zsh-completions"
 zsh_add_plugin "zdharma-continuum/fast-syntax-highlighting"
 zsh_add_plugin "hlissner/zsh-autopair"
-zsh_add_plugin "mattberther/zsh-pyenv"
 zsh_add_plugin "zsh-users/zsh-history-substring-search"
 
 # Normal files to source
@@ -126,4 +123,3 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-
