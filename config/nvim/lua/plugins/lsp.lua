@@ -140,6 +140,11 @@ return {
     keys[#keys + 1] = { "E", vim.diagnostic.open_float }
   end,
   opts = {
+    setup = {
+      markdownlint = function()
+        return true
+      end,
+    },
     servers = {
       yamlls = {
         settings = {
