@@ -22,7 +22,7 @@
         {
           "foreground": "#ffe873",
           "properties": {
-            "command": "if [ -f './.python-version' ]; then echo  $(/bin/cat ./.python-version); else [ -n \"$VIRTUAL_ENV_PROMPT\" ]; then echo \" $VIRTUAL_ENV_PROMPT\"; fi",
+            "command": "if [ -f './.python-version' ]; then echo  $(/bin/cat ./.python-version); elif [ -n \"$VIRTUAL_ENV_PROMPT\" ]; then echo \" $VIRTUAL_ENV_PROMPT\"; fi",
             "shell": "zsh"
           },
           "style": "plain",
