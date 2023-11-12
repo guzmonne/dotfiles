@@ -288,13 +288,13 @@ semantic() {
 		      Your response should be returned in XML format. The following is an example of a valid response:
 		      """xml
 		      <context>
-		      ...
+		      The changes made...
 		      </context>
 		      <thinking>
-		      ...
+		      Given that...
 		      </thinking>
 		      <output>
-		      ...
+		      style(sessionizer): description
 		      </output>
 		      """
 		  Begin your response with a '<context></context>' section that highlights all code changes. Next,
