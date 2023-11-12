@@ -18,7 +18,8 @@ semantic() {
 
 	tmp="$(mktemp)"
 
-	cat <<-EOF | tee "$tmp"
+	# Create the master prompt using `cat` and `tee`. Also, remove any leading spaces from each line.
+	cat <<-'EOF' | sed 's/^[ \t]*//' | tee "$tmp"
 		  Consider the following text as your guide to creating a semantic git commit from the given 'git diff' output.
 
 		  Your semantic commit should start with one of these prefixes:
@@ -41,6 +42,20 @@ semantic() {
 		  semantic commit in parentheses. For instance, if changes have been made to the 'sessionizer'
 		  service, you should write '(sessionizer)' following the prefix. If you've decided on the 'feat'
 		  prefix, the final semantic commit would read as 'feat(sessionizer): ...'.
+
+		      Your response should be returned in `XML` format. The following is an example of a valid response:
+
+		      ```xml
+		      <context>
+		      ...
+		      </context>
+		      <thinking>
+		      ...
+		      </thinking>
+		      <output>
+		      ...
+		      </output>
+		      ```
 
 		  Begin your response with a '<context></context>' section that highlights all code changes. Next,
 		  provide a '<thinking></thinking>' section where you meticulously explain your thought process

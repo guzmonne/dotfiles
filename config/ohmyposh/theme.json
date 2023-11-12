@@ -22,7 +22,7 @@
         {
           "foreground": "#ffe873",
           "properties": {
-            "command": "if [ -f './.python-version' ]; then echo  $(/bin/cat ./.python-version); elif [ -n \"$CONDA_DEFAULT_ENV\" ]; then echo \" $CONDA_DEFAULT_ENV\"; elif [ -n \"$PYENV_VERSION\" ]; then echo \" $PYENV_VERSION\"; fi",
+            "command": "if [ -f './.python-version' ]; then echo  $(/bin/cat ./.python-version); else [ -n \"$VIRTUAL_ENV_PROMPT\" ]; then echo \" $VIRTUAL_ENV_PROMPT\"; fi",
             "shell": "zsh"
           },
           "style": "plain",

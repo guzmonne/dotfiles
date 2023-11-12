@@ -224,3 +224,8 @@ export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
+
+# Add the /opt/homebrew/opt/mysql-client/bin:$PATH to the PATH if it exists.
+if [ -d "/opt/homebrew/opt/mysql-client/bin" ]; then
+  export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
+fi

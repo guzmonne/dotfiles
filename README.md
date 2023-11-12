@@ -2,17 +2,17 @@
 
 On this folder I can find all my personal configuration files and scripts.
 
-* [Getting Started](#getting-started)
-  * [Clone repository](#clone-repository)
-  * [Install Dependencies [1/2]](#install-dependencies-[1/2])
-  * [Stowing configuration files](#stowing-configuration-files)
-  * [Decrypt secrets](#decrypt-secrets)
-  * [Install Dependencies [2/2]](#install-dependencies-[2/2])
-  * [Font Configuration](#font-configuration)
-  * [Kitty Configuration](#kitty-configuration)
-  * [Nvim Configuration](#nvim-configuration)
-* [Tinker Tool](#tinker-tool)
-* [Yabai and Skhd](#yabai-and-skhd)
+- [Getting Started](#getting-started)
+  - [Clone repository](#clone-repository)
+  - [Install Dependencies [1/2]](#install-dependencies-[1/2])
+  - [Stowing configuration files](#stowing-configuration-files)
+  - [Decrypt secrets](#decrypt-secrets)
+  - [Install Dependencies [2/2]](#install-dependencies-[2/2])
+  - [Font Configuration](#font-configuration)
+  - [Kitty Configuration](#kitty-configuration)
+  - [Nvim Configuration](#nvim-configuration)
+- [Tinker Tool](#tinker-tool)
+- [Yabai and Skhd](#yabai-and-skhd)
 
 ## Getting Started
 
@@ -176,3 +176,32 @@ behavior of the finder and dock application.
 
 Lastly, install [`yabai`](https://github.com/koekeishiya/yabai) and
 [`skhd`](https://github.com/koekeishiya/skhd) by following their respective guides.
+
+## Pyenv
+
+This is the best guide I could find to install `pyenv`.
+
+[Setting up your python development environment (with pyenv, virtualenv, and virtualenvwrapper)](https://gist.github.com/wronk/a902185f5f8ed018263d828e1027009b)
+
+### Workflow
+
+Once installed, you can manage:
+
+- Python versions with `pyenv`.
+- Create new virtual environments with `mkvirtualenv`.
+- Change between virtual environments through `workon`.
+
+**Example:**
+
+```bash
+pyenv global 3.6.3           # Set your system's Python version with pyenv
+mkvirtualenv my_legacy_proj  # Create a new virtual environment using virtualenvwrapper; it'll be tied to Python 3.6.3
+pip install numpy scipy      # Install the packages you want in this environment
+
+pyenv global 3.8.2         # Set your system's Python version with pyenv
+mkvirtualenv new_web_proj  # Create and switch to a new virtual environment with a newer version of python
+pip install flask boto
+
+workon                 # List the environments available
+workon my_legacy_proj  # Use virtualenvwrapper to switch back to the original Projects
+```
