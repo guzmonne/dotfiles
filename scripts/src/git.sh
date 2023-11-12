@@ -47,13 +47,13 @@ semantic() {
 
 		      """xml
 		      <context>
-		      ...
+		      The changes made...
 		      </context>
 		      <thinking>
-		      ...
+		      Given that...
 		      </thinking>
 		      <output>
-		      ...
+		      style(sessionizer): description
 		      </output>
 		      """
 
