@@ -1,6 +1,29 @@
 " Set the python executable to use.
 let g:python3_host_prog = '/opt/homebrew/opt/python@3.11/libexec/bin/python'
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Enable ZenMode
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! GoFullZen() abort
+  ZenMode
+  set wrap
+  set nolinebreak
+  set lbr
+  set textwidth=0 wrapmargin=0
+  set conceallevel=1
+endfunction
+command! GoFullZen call GoFullZen()
+function! GoZen() abort
+  vertical resize 81
+  " setlocal spell spelllang=en_us
+  set wrap
+  set nolinebreak
+  set lbr
+  set textwidth=0 wrapmargin=0
+  set conceallevel=1
+endfunction
+command! GoZen call GoZen()
+
 " Escape special characters in a string for exact matching.
 " This is useful to copying strings from the file to the search tool
 " Based on this - http://peterodding.com/code/vim/profile/autoload/xolox/escape.vim

@@ -14,158 +14,157 @@ folders="$ROOT/folders"
 
 # @cmd List the values of the history
 history() {
-  yq '.sessions.history[] | .' -r "$CONFIG"
+	yq '.sessions.history[] | .' -r "$CONFIG"
 }
 
 # @cmd Go to a currently active session
 go() {
-  local session
-  # local envs
-  #
-  # envs="$(yq '.env[] | .' "$CONFIG" | xargs)"
-  # shellcheck disable=SC2016
-  session=$(tmux list-sessions | awk '{print $1}' | tr -d ':' |
-    fzf \
-      --header 'Press CTRL-X to delete a session.' \
-      --bind 'ctrl-x:execute-silent(sessionizer sessions remove {+})+reload(tmux list-sessions | awk '"'"'{print $1}'"'"' | tr -d ':')')
+	local session
+	# local envs
+	#
+	# envs="$(yq '.env[] | .' "$CONFIG" | xargs)"
+	# shellcheck disable=SC2016
+	session=$(tmux list-sessions | awk '{print $1}' | tr -d ':' |
+		fzf \
+			--header 'Press CTRL-X to delete a session.' \
+			--bind 'ctrl-x:execute-silent('"$0"' remove {+})+reload(tmux list-sessions | awk '"'"'{print $1}'"'"' | tr -d ':')')
 
-  if [[ -z "$session" ]]; then
-    exit 0
-  fi
+	if [[ -z "$session" ]]; then
+		exit 0
+	fi
 
-  session_name="$(printf "%s" "$session" | tr '.' '·')"
+	session_name="$(printf "%s" "$session" | tr '.' '·')"
 
-  current="$(yq '.sessions.current' "$CONFIG")"
-  if [[ -n "$current" ]]; then
-    # Append the $current session to the beginning of the history array.
-    yq '.sessions.history |= . + ["'"$current"'"] | .sessions.history |= (. | reverse | unique | reverse)' -i "$CONFIG"
-  fi
+	current="$(yq '.sessions.current' "$CONFIG")"
+	if [[ -n "$current" ]]; then
+		# Append the $current session to the beginning of the history array.
+		yq '.sessions.history |= . + ["'"$current"'"] | .sessions.history |= (. | reverse | unique | reverse)' -i "$CONFIG"
+	fi
 
-  # Set the current session and potentially filter it from the history.
-  yq '.sessions.current |= "'"$session"'" | del(.sessions.history[] | select(. ==  "'"$session"'"))' -i "$CONFIG"
+	# Set the current session and potentially filter it from the history.
+	yq '.sessions.current |= "'"$session"'" | del(.sessions.history[] | select(. ==  "'"$session"'"))' -i "$CONFIG"
 
-  $self set "$session"
+	$self set "$session"
 }
 
 # @cmd Remove a session from the history
 # @arg name! Session name
 remove() {
-  tmux kill-session -t "$argc_name"
-  session_name="$(printf "%s" "$argc_name" | tr '·' '.')"
-  yq '.sessions.history -= ["'"$session_name"'"]' "$CONFIG" -i
-  echo yq '.sessions.history -= ["'"$session_name"'"]' "$CONFIG" -i
+	tmux kill-session -t "$argc_name"
+	session_name="$(printf "%s" "$argc_name" | tr '·' '.')"
+	yq '.sessions.history -= ["'"$session_name"'"]' "$CONFIG" -i
+	echo yq '.sessions.history -= ["'"$session_name"'"]' "$CONFIG" -i
 }
 
 # @cmd Sets a session
 # @arg name! Session name
 set() {
-  local current
-  local envs
-  local session_name
+	local current
+	local envs
+	local session_name
 
-  envs="$(yq '.env[] | .' "$CONFIG" | xargs)"
-  session_name="$(printf "%s" "$argc_name" | tr '.' '·')"
+	envs="$(yq '.env[] | .' "$CONFIG" | xargs)"
+	session_name="$(printf "%s" "$argc_name" | tr '.' '·')"
 
-  # Create new session if it doesn't exist
-  if ! tmux has-session -t "=$session_name" 2>/dev/null; then
-    # shellcheck disable=SC2086
-    env $envs tmux new-session -s "$session_name" -c "$argc_name" -d
-  fi
+	# Create new session if it doesn't exist
+	if ! tmux has-session -t "=$session_name" 2>/dev/null; then
+		# shellcheck disable=SC2086
+		env $envs tmux new-session -s "$session_name" -c "$argc_name" -d
+	fi
 
-  # Connect to existing session
-  if ! tmux attach -t "=$session_name" 2>/dev/null; then
-    # shellcheck disable=SC2086
-    env $envs tmux switch-client -t "$session_name"
-  fi
+	# Connect to existing session
+	if ! tmux attach -t "=$session_name" 2>/dev/null; then
+		# shellcheck disable=SC2086
+		env $envs tmux switch-client -t "$session_name"
+	fi
 }
 
 # @cmd Set previous session
 # @flag --show Show the next session but don't transition to it
 prev() {
-  local current
-  local last
-  local length
+	local current
+	local last
+	local length
 
-  length="$(yq '.sessions.history | length' "$CONFIG")"
+	length="$(yq '.sessions.history | length' "$CONFIG")"
 
-  if [[ "$length" == "0" ]]; then
-    exit 1
-  fi
+	if [[ "$length" == "0" ]]; then
+		exit 1
+	fi
 
-  current="$(yq '.sessions.current' "$CONFIG")"
-  last="$(yq '.sessions.history[-1]' "$CONFIG")"
+	current="$(yq '.sessions.current' "$CONFIG")"
+	last="$(yq '.sessions.history[-1]' "$CONFIG")"
 
-  if [[ -n "$argc_show" ]]; then
-    echo "$last"
-    exit 0
-  fi
+	if [[ -n "$argc_show" ]]; then
+		echo "$last"
+		exit 0
+	fi
 
-  current="$(yq '.sessions.current' "$CONFIG")"
-  if [[ -n "$current" ]]; then
-    # Append the $current session to the beginning of the history array.
-    yq '.sessions.history |= ["'"$current"'"] + . | .sessions.history |= (. | unique)' -i "$CONFIG"
-  fi
+	current="$(yq '.sessions.current' "$CONFIG")"
+	if [[ -n "$current" ]]; then
+		# Append the $current session to the beginning of the history array.
+		yq '.sessions.history |= ["'"$current"'"] + . | .sessions.history |= (. | unique)' -i "$CONFIG"
+	fi
 
-  # Remove the tail of the history array and set the current session.
-  yq '.sessions.current |= "'"$last"'" | .sessions.history |= .[:-1]' -i "$CONFIG"
+	# Remove the tail of the history array and set the current session.
+	yq '.sessions.current |= "'"$last"'" | .sessions.history |= .[:-1]' -i "$CONFIG"
 
-  $self set "$last"
+	$self set "$last"
 }
 
 # @cmd Set next session
 # @flag --show Show the next session but don't transition to it
 next() {
-  local current
-  local first
-  local length
+	local current
+	local first
+	local length
 
-  length="$(yq '.sessions.history | length' "$CONFIG")"
+	length="$(yq '.sessions.history | length' "$CONFIG")"
 
-  if [[ "$length" == "0" ]]; then
-    exit 1
-  fi
+	if [[ "$length" == "0" ]]; then
+		exit 1
+	fi
 
-  current="$(yq '.sessions.current' "$CONFIG")"
-  first="$(yq '.sessions.history[0]' "$CONFIG")"
+	current="$(yq '.sessions.current' "$CONFIG")"
+	first="$(yq '.sessions.history[0]' "$CONFIG")"
 
-  if [[ -n "$argc_show" ]]; then
-    echo "$first"
-    exit 0
-  fi
+	if [[ -n "$argc_show" ]]; then
+		echo "$first"
+		exit 0
+	fi
 
-  current="$(yq '.sessions.current' "$CONFIG")"
-  if [[ -n "$current" ]]; then
-    # Append the $current session to the end of the history array.
-    yq '.sessions.history |= . + ["'"$current"'"] | .sessions.history |= (. | reverse | unique | reverse)' -i "$CONFIG"
-  fi
+	current="$(yq '.sessions.current' "$CONFIG")"
+	if [[ -n "$current" ]]; then
+		# Append the $current session to the end of the history array.
+		yq '.sessions.history |= . + ["'"$current"'"] | .sessions.history |= (. | reverse | unique | reverse)' -i "$CONFIG"
+	fi
 
-  # Remove the head of the history array and set the current session.
-  yq '.sessions.current |= "'"$first"'" | .sessions.history |= .[1:]' -i "$CONFIG"
+	# Remove the head of the history array and set the current session.
+	yq '.sessions.current |= "'"$first"'" | .sessions.history |= .[1:]' -i "$CONFIG"
 
-  $self set "$first"
+	$self set "$first"
 }
 
 # @cmd Creates a new session
 new() {
-  local folder_name
+	local folder_name
 
-  folder_name="$($folders evaluate)"
+	folder_name="$($folders evaluate)"
 
-  if [[ -z "$folder_name" ]]; then
-    exit 0
-  fi
+	if [[ -z "$folder_name" ]]; then
+		exit 0
+	fi
 
-  current="$(yq '.sessions.current' "$CONFIG")"
-  if [[ -n "$current" ]]; then
-    # Append the $current session to the end of the history array.
-    yq '.sessions.history |= . + ["'"$current"'"] | .sessions.history |= (. | reverse | unique | reverse)' -i "$CONFIG"
-  fi
+	current="$(yq '.sessions.current' "$CONFIG")"
+	if [[ -n "$current" ]]; then
+		# Append the $current session to the end of the history array.
+		yq '.sessions.history |= . + ["'"$current"'"] | .sessions.history |= (. | reverse | unique | reverse)' -i "$CONFIG"
+	fi
 
-  # Set the current session.
-  yq '.sessions.current |= "'"$folder_name"'"' -i "$CONFIG"
+	# Set the current session.
+	yq '.sessions.current |= "'"$folder_name"'"' -i "$CONFIG"
 
-  $self set "$folder_name"
+	$self set "$folder_name"
 }
-
 
 eval "$(argc "$0" "$@")"

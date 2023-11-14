@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+contexts=$(yq '.contexts[] | .name' ~/.kube/config)
+
+if [[ -n "$1" ]]; then
+	grep_contexts=$(echo "$contexts" | grep "$1")
+	if [[ "$(echo "$grep_contexts" | wc -l | tr -d ' ')" -eq 1 ]]; then
+		config="$grep_contexts"
+	else
+		config=$(fzf-tmux -p 80%,40% <<<"$grep_contexts")
+	fi
+fi
+
+if [[ -z "$config" ]]; then
+	config=$(fzf-tmux -p 80%,40% <<<"$contexts")
+fi
+
+if [ -z "$config" ]; then exit 0; fi
+
+tmux new-window -n "k9s" "k9s --context $config"

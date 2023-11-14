@@ -60,7 +60,7 @@ ansible-playbook "$HOME/Projects/Personal/ansible/luarocks.yml" --extra-vars="ro
 
 ### Stowing configuration files
 
-The next step requires `stowing` our configuration files into their apropriate folders. Most of them
+The next step requires `stowing` our configuration files into their appropriate folders. Most of them
 will go inside the `~/.config` and `~/.local/bin` folders so start by creating them.
 
 ```bash
@@ -152,7 +152,7 @@ given that its not a free font.
 
 You can buy it and follow the steps here to create your own:
 
-https://github.com/ryanoasis/nerd-fonts#option-9-patch-your-own-font
+[https://github.com/ryanoasis/nerd-fonts#option-9-patch-your-own-font](https://github.com/ryanoasis/nerd-fonts#option-9-patch-your-own-font)
 
 ### Kitty Configuration
 
