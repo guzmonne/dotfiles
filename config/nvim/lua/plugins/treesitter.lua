@@ -27,6 +27,7 @@ return {
       "typescript",
       "vim",
       "yaml",
+      "sql",
     },
     highlight = {
       enable = true,
@@ -104,4 +105,25 @@ return {
       lint_events = { "BufWrite", "CursorHold" },
     },
   },
+  config = function(_, opts)
+    require("nvim-treesitter.configs").setup(opts)
+
+    -- REST
+    vim.filetype.add({
+      extension = {
+        rest = "rest",
+      },
+    })
+
+    vim.treesitter.language.register("http", "rest")
+
+    -- MDX
+    vim.filetype.add({
+      extension = {
+        mdx = "mdx",
+      },
+    })
+
+    vim.treesitter.language.register("markdown", "mdx")
+  end,
 }

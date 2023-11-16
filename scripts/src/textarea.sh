@@ -14,7 +14,18 @@ root() {
 	nvim "$tmpfile" -c "startinsert" >/dev/tty
 	if [ ! -s "$tmpfile" ]; then
 		# Print error message to stderr
-		echo "Error: File is empty." >&2
+		gum style "File is empty. Press any key to exit." \
+			--foreground="blue" \
+			--background="black" \
+			--border="rounded" \
+			--border-foreground="green" \
+			--align="center" \
+			--height=3 \
+			--width=50 \
+			--margin="1" \
+			--padding="1" \
+			--bold \
+			--underline >&2
 		rm -f "$tmpfile" # Clean up temp file
 		exit 1           # Exit with a non-zero exit code
 	fi

@@ -12,6 +12,7 @@ return {
     opts.preselect = "None"
     opts.completion = vim.tbl_extend("force", opts.completion, {
       completeopt = "menu,menuone,noinsert,noselect",
+      autocomplete = false,
     })
     opts.mapping = vim.tbl_extend("force", opts.mapping, {
       ["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
@@ -29,5 +30,7 @@ return {
       ["<C-y>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true }),
       ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
     })
+
+    table.insert(opts.sources, { name = "emoji" })
   end,
 }

@@ -1,7 +1,7 @@
 return {
   { "bufferline.nvim", enabled = false },
   { "dashboard-nvim", enabled = false },
-  { "echasnovski/mini.animate", enabled = false },
+  { "echasnovski/mini.animate", enabled = true },
   { "echasnovski/mini.indentscope", enabled = true },
   { "echasnovski/mini.pairs", enabled = false },
   { "echasnovski/mini.surround", enabled = false },

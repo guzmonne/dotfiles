@@ -51,6 +51,11 @@ return {
       require("telescope.builtin").current_buffer_fuzzy_find,
       "Current buffer fuzzy find",
     },
+    {
+      "<leader>;",
+      require("telescope.builtin").resume,
+      "Resume the previous telescope picker",
+    },
   },
   opts = {
     defaults = {

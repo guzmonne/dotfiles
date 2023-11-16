@@ -61,11 +61,26 @@ cmd - p [
 cmd - n [
     "alacritty": tmux new-window $HOME/.local/bin/sessionizer sessions new
 ]
-cmd - w [
+cmd - u [
     "alacritty" : $HOME/.local/bin/sessionizer sessions next
 ]
-cmd - b [
+cmd - d [
     "alacritty": $HOME/.local/bin/sessionizer sessions prev
+]
+cmd - b [
+    "alacritty": tmux previous-window
+]
+cmd - w [
+    "alacritty": tmux next-window
+]
+cmd - g [
+    "alacritty": tmux new-window '$HOME/.local/bin/mods.sh; read -n 1 -s -r -p "Press any key to exit"'
+]
+
+
+# K9s
+cmd - k [
+    "alacritty": echo $HOME/.local/bin/kubectl-k9s
 ]
 
 # Tmux Pane Navigation

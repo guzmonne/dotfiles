@@ -18,32 +18,61 @@ parse_root() {
   while [[ $# -gt 0 ]]; do
     key="$1"
     case "$key" in
+      -s | --session)
+        rargs_session="$2"
+        shift 2
+        ;;
+      --)
+        shift
+        other_args+=("$@")
+        break
+        ;;
       -?*)
-        printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Invalid option: " "$key" >&2
-        exit 1
+        other_args+=("$1")
+        shift
         ;;
       *)
-        if [[ "$key" == "" ]]; then
-          break
-        fi
-        printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Invalid argument: " "$key" >&2
-        exit 1
+        other_args+=("$1")
+        shift
         ;;
     esac
   done
 }
 
 root() {
+  local rargs_session
+  # Parse environment variables
+  
+  if [[ -z "${OPENAI_API_KEY:-}" ]]; then
+    printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Missing required environment variable: " "OPENAI_API_KEY" >&2
+    usage >&2
+    exit 1
+  fi
+
   # Parse command arguments
   parse_root "$@"
 
-	tmpfile="$(mktemp).md"
-	trap 'rm -f "$tmpfile"' EXIT
-	touch "$tmpfile"
-	nvim "$tmpfile" -c "startinsert" >/dev/tty
-	if [ ! -s "$tmpfile" ]; then
-		# Print error message to stderr
-		gum style "File is empty. Press any key to exit." \
+	if [[ -z "$rargs_session" ]]; then
+		rargs_session="$(
+			$mods --list --raw |
+				cut -c 9- |
+				$gum filter \
+					--reverse \
+					--sort \
+					--header="Select the mods session to use" \
+					--placeholder="..." \
+					--prompt="❯ " \
+					--indicator=" "
+		)"
+	fi
+	if [[ -z "$rargs_session" ]]; then
+		continue="--continue $rargs_session"
+	else
+		continue=""
+	fi
+	prompt="$($textarea)"
+	if [[ -z "$prompt" ]]; then
+		gum style "Empty prompt" \
 			--foreground="blue" \
 			--background="black" \
 			--border="rounded" \
@@ -55,10 +84,9 @@ root() {
 			--padding="1" \
 			--bold \
 			--underline >&2
-		rm -f "$tmpfile" # Clean up temp file
-		exit 1           # Exit with a non-zero exit code
+		return 1
 	fi
-	cat "$tmpfile" # If the file is not empty, display its contents
+	$mods "$continue" "$rargs_session" "$other_args" "$prompt"
 }
 
 
@@ -114,19 +142,26 @@ inspect_args() {
   fi
 }
 
-set -o pipefail
+mods="/opt/homebrew/bin/mods"
+gum="/opt/homebrew/bin/gum"
+textarea="$HOME/.local/bin/textarea.sh"
 
 version() {
   echo "0.1.0"
 }
 usage() {
-  printf "Use nvim as a textare\n"
+  printf "A script built around `rargs` to extend its functionality.\n"
   printf "\n\033[4m%s\033[0m\n" "Usage:"
-  printf "  textarea [OPTIONS]\n"
-  printf "  textarea -h|--help\n"
-  printf "  textarea -v|--version\n"
+  printf "  mods [OPTIONS] ...[MODS_ARGUMENTS]\n"
+  printf "  mods -h|--help\n"
+  printf "  mods -v|--version\n"
+  printf "\n\033[4m%s\033[0m\n" "Arguments:"
+  printf "  MODS_ARGUMENTS\n"
+  printf "    Optional arguments to pass to "mods".\n"
 
   printf "\n\033[4m%s\033[0m\n" "Options:"
+  printf "  -s --session [<SESSION>]\n"
+  printf "    The session to use.\n"
   printf "  -h --help\n"
   printf "    Print help\n"
   printf "  -v --version\n"
@@ -167,9 +202,18 @@ parse_arguments() {
 
 run() {
   declare -A deps=()
+  declare -a other_args=()
   declare -a input=()
   normalize_input "$@"
   parse_arguments "${input[@]}"
+  # Check global environment variables
+  
+  if [[ -z "${OPENAI_API_KEY:-}" ]]; then
+    printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Missing required environment variable: " "OPENAI_API_KEY" >&2
+    usage >&2
+    exit 1
+  fi
+
   root "${input[@]}"
 }
 

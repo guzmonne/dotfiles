@@ -87,14 +87,6 @@ endfunction
 
 " Replace all the occurances of what you have visually selected.
 vnoremap <C-r> <Esc>:%s/<c-r>=GetVisual()<cr>//g<left><left><c-r>=GetVisual()<cr>
-" Codepilot mappings
-imap <silent><script><expr> <C-y> copilot#Accept("\<CR>")
-
-" Only run the `Copilot enable` command if the `Copilot` command is defined.
-if exists(':Copilot')
-  " Enable Copilot on every file on enter
-  Copilot enable
-endif
 
 augroup GUX
   autocmd!

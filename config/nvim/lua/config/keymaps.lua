@@ -100,3 +100,6 @@ vim.keymap.set("n", "gl", vim.diagnostic.open_float)
 
 -- Save and close file
 vim.keymap.set("n", "<leader>wq", ":wq<CR>")
+
+-- Select all
+vim.keymap.set("n", "<C-a>", "gg<S-v>G")
