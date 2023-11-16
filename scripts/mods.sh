@@ -52,23 +52,26 @@ root() {
   # Parse command arguments
   parse_root "$@"
 
-	if [[ -z "$rargs_session" ]]; then
+	declare -a names
+	declare -a continue
+	# Assuming each session is on a new line and consists of an id followed by a name
+	sessions="$($mods --list --raw 2>&1)"
+	# Read the second column (Names) into the names array
+	mapfile -t names < <(echo -n "$sessions" | awk -F'\t' '{print $2}')
+	if [[ "$sessions" != *"No conversations found."* ]] && [[ -z "$rargs_session" ]]; then
 		rargs_session="$(
-			$mods --list --raw |
-				cut -c 9- |
-				$gum filter \
-					--reverse \
-					--sort \
-					--header="Select the mods session to use" \
-					--placeholder="..." \
-					--prompt="❯ " \
-					--indicator=" "
+			$gum filter \
+				--value="" \
+				--reverse \
+				--sort \
+				--header="Select the mods session to use" \
+				--placeholder="..." \
+				--prompt="❯ " \
+				--indicator=" " <<<"$(printf "%s\n" "${names[@]}")" || true
 		)"
-	fi
-	if [[ -z "$rargs_session" ]]; then
-		continue="--continue $rargs_session"
+		continue=('--continue' "$rargs_session")
 	else
-		continue=""
+		continue=('--continue' "$rargs_session")
 	fi
 	prompt="$($textarea)"
 	if [[ -z "$prompt" ]]; then
@@ -86,7 +89,8 @@ root() {
 			--underline >&2
 		return 1
 	fi
-	$mods "$continue" "$rargs_session" "$other_args" "$prompt"
+	# shellcheck disable=SC2068
+	$mods ${continue[@]} "$rargs_session" "$other_args" "$prompt"
 }
 
 

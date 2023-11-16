@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2154
+# shellcheck disable=SC2090
 # @name mods
 # @version 0.1.0
 # @description A script built around `rargs` to extend its functionality.
@@ -13,24 +14,30 @@ textarea="$HOME/.local/bin/textarea.sh"
 
 # @option -s --session The session to use.
 root() {
-	if [[ -z "$rargs_session" ]]; then
-		rargs_session="$(
-			$mods --list --raw |
-				cut -c 9- |
-				$gum filter \
-					--reverse \
-					--sort \
-					--header="Select the mods session to use" \
-					--placeholder="..." \
-					--prompt="❯ " \
-					--indicator=" "
-		)"
-	fi
+	declare -a names
+	declare -a continue
 
-	if [[ -z "$rargs_session" ]]; then
-		continue="--continue $rargs_session"
+	# Assuming each session is on a new line and consists of an id followed by a name
+	sessions="$($mods --list --raw 2>&1)"
+
+	# Read the second column (Names) into the names array
+	mapfile -t names < <(echo -n "$sessions" | awk -F'\t' '{print $2}')
+
+	if [[ "$sessions" != *"No conversations found."* ]] && [[ -z "$rargs_session" ]]; then
+		rargs_session="$(
+			$gum filter \
+				--value="" \
+				--reverse \
+				--sort \
+				--header="Select the mods session to use" \
+				--placeholder="..." \
+				--prompt="❯ " \
+				--indicator=" " <<<"$(printf "%s\n" "${names[@]}")" || true
+		)"
+
+		continue=('--continue' "$rargs_session")
 	else
-		continue=""
+		continue=('--continue' "$rargs_session")
 	fi
 
 	prompt="$($textarea)"
@@ -51,5 +58,6 @@ root() {
 		return 1
 	fi
 
-	$mods "$continue" "$rargs_session" "$other_args" "$prompt"
+	# shellcheck disable=SC2068
+	$mods ${continue[@]} "$rargs_session" "$other_args" "$prompt"
 }
