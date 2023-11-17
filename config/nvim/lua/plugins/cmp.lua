@@ -1,12 +1,13 @@
 local cmp = require("cmp")
 
-cmp.register_source("zk", require("user.zk.cmp_source"))
-
 return {
   "hrsh7th/nvim-cmp",
   dependencies = {
     "hrsh7th/cmp-emoji",
   },
+  setup = function()
+    cmp.register_source("zk", require("user.zk.cmp_source"))
+  end,
   ---@param opts cmp.ConfigSchema
   opts = function(_, opts)
     opts.preselect = "None"
@@ -14,9 +15,7 @@ return {
       completeopt = "menu,menuone,noinsert,noselect",
       autocomplete = false,
     })
-    opts.mapping = vim.tbl_extend("force", opts.mapping, {
-      ["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
-      ["<C-p>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "i", "c" }),
+    opts.mapping = cmp.mapping.preset.insert({
       ["<C-n>"] = cmp.mapping(function()
         if cmp.visible() then
           cmp.select_next_item()
@@ -24,13 +23,21 @@ return {
           cmp.complete()
         end
       end, { "i", "c" }),
-      ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+      ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+      ["<C-b>"] = cmp.mapping.scroll_docs(-4),
       ["<C-f>"] = cmp.mapping.scroll_docs(4),
-      ["<C-e>"] = cmp.mapping.close(),
-      ["<C-y>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true }),
-      ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
+      ["<C-Space>"] = cmp.mapping.complete(),
+      ["<C-e>"] = cmp.mapping.abort(),
+      ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+      ["<C-y>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+      ["<S-CR>"] = cmp.mapping.confirm({
+        behavior = cmp.ConfirmBehavior.Replace,
+        select = true,
+      }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+      ["<C-CR>"] = function(fallback)
+        cmp.abort()
+        fallback()
+      end,
     })
-
-    table.insert(opts.sources, { name = "emoji" })
   end,
 }
