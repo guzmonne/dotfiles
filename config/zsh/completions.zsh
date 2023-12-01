@@ -16,6 +16,10 @@ if [[ -x "$(command -v pandoc)" ]]; then
   eval "$(pandoc --bash-completion)"
 fi
 
+# Homebrew completions
+if [[ -d "$(brew --prefix)/share/zsh/site-functions $fpath" ]]; then
+  fpath="$(brew --prefix)/share/zsh/site-functions $fpath"
+fi
 
 # dasel cli completions
 export fpath=(~/zsh/site-functions $fpath)

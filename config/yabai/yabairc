@@ -66,6 +66,7 @@ yabai -m rule --add app="^pong" manage=off
 yabai -m rule --add app="^Loom" manage=off
 yabai -m rule --add label="brave" app="^Brave Browser$" manage=on
 yabai -m rule --add app="^AWS VPN Client" manage=off
+yabai -m rule --add app="^System Settings" manage=off
 
 # === Main ===
 

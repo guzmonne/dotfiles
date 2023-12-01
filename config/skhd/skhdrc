@@ -76,6 +76,9 @@ cmd - w [
 cmd - g [
     "alacritty": tmux new-window -n mods '$HOME/.local/bin/mods.sh; read -n 1 -s -r -p "Press any key to exit"'
 ]
+cmd - h [
+    "alacritty": tmux new-window -n mods '$HOME/.local/bin/mods.sh; read -n 1 -s -r -p "Press any key to exit"'
+]
 
 
 # K9s
@@ -88,3 +91,6 @@ alt - h : tmux select-pane -L
 alt - j : tmux select-pane -D
 alt - k : tmux select-pane -U
 alt - l : tmux select-pane -R
+
+# Control Spotify
+f8 : osascript -e 'tell application "Spotify" to playpause'

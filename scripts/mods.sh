@@ -18,21 +18,29 @@ parse_root() {
   while [[ $# -gt 0 ]]; do
     key="$1"
     case "$key" in
+      --no-show)
+        rargs_no_show=1
+        shift
+        ;;
+      -o | --option)
+        rargs_option="$2"
+        shift 2
+        ;;
       -s | --session)
         rargs_session="$2"
         shift 2
         ;;
       --)
         shift
-        other_args+=("$@")
+        rargs_other_args+=("$@")
         break
         ;;
       -?*)
-        other_args+=("$1")
+        rargs_other_args+=("$1")
         shift
         ;;
       *)
-        other_args+=("$1")
+        rargs_other_args+=("$1")
         shift
         ;;
     esac
@@ -40,6 +48,7 @@ parse_root() {
 }
 
 root() {
+  local rargs_option
   local rargs_session
   # Parse environment variables
   
@@ -52,66 +61,50 @@ root() {
   # Parse command arguments
   parse_root "$@"
 
-	declare -a names
-	declare -a continue
-	# Assuming each session is on a new line and consists of an id followed by a name
-	sessions="$($mods --list --raw 2>&1)"
-	# Read the second column (Names) into the names array
-	mapfile -t names < <(echo -n "$sessions" | awk -F'\t' '{print $2}')
-	if [[ "$sessions" != *"No conversations found."* ]] && [[ -z "$rargs_session" ]]; then
-		rargs_session="$(
-			$gum filter \
-				--value="" \
-				--reverse \
-				--sort \
-				--header="Select the mods session to use" \
-				--placeholder="..." \
-				--prompt="❯ " \
-				--indicator=" " <<<"$(printf "%s\n" "${names[@]}")" || true
-		)"
-		continue=('--continue' "$rargs_session")
-	else
-		continue=('--continue' "$rargs_session")
+	if [[ -z "$rargs_option" ]]; then
+		rargs_option="$(echo -e "1. Start a new session.\n2. Continue an existing session.\n3. Show existing session." | filter)"
 	fi
-	prompt="$($textarea)"
-	if [[ -z "$prompt" ]]; then
-		gum style "Empty prompt" \
-			--foreground="blue" \
-			--background="black" \
-			--border="rounded" \
-			--border-foreground="green" \
-			--align="center" \
-			--height=3 \
-			--width=50 \
-			--margin="1" \
-			--padding="1" \
-			--bold \
-			--underline >&2
+	if [[ -z "$rargs_option" ]]; then
+		alert "No option selected"
 		return 1
 	fi
-	# shellcheck disable=SC2068
-	$mods ${continue[@]} "$rargs_session" "$other_args" "$prompt"
+	option="$(echo -n "$rargs_option" | awk -F'.' '{print $1}')"
+	case "$option" in
+	"1")
+		new
+		;;
+	"2")
+		cont
+		;;
+	"3")
+		show
+		;;
+	*)
+		alert "No option selected"
+		return 1
+		;;
+	esac
 }
 
 
-normalize_input() {
+normalize_rargs_input() {
   local arg flags
 
   while [[ $# -gt 0 ]]; do
     arg="$1"
     if [[ $arg =~ ^(--[a-zA-Z0-9_\-]+)=(.+)$ ]]; then
-      input+=("${BASH_REMATCH[1]}")
-      input+=("${BASH_REMATCH[2]}")
+      rargs_input+=("${BASH_REMATCH[1]}")
+      rargs_input+=("${BASH_REMATCH[2]}")
     elif [[ $arg =~ ^(-[a-zA-Z0-9])=(.+)$ ]]; then
-      input+=("${BASH_REMATCH[1]}")
-      input+=("${BASH_REMATCH[2]}")
+      rargs_input+=("${BASH_REMATCH[1]}")
+      rargs_input+=("${BASH_REMATCH[2]}")
     elif [[ $arg =~ ^-([a-zA-Z0-9][a-zA-Z0-9]+)$ ]]; then
       flags="${BASH_REMATCH[1]}"
       for ((i = 0; i < ${#flags}; i++)); do
-        input+=("-${flags:i:1}")
+        rargs_input+=("-${flags:i:1}")
       done
     else
-      input+=("$arg")
+      rargs_input+=("$arg")
     fi
 
     shift
@@ -120,7 +113,7 @@ normalize_input() {
 
 inspect_args() {
   prefix="rargs_"
-  args="$(set | grep ^$prefix || true)"
+  args="$(set | grep ^$prefix | grep -v rargs_run || true)"
   if [[ -n "$args" ]]; then
     echo
     echo args:
@@ -136,12 +129,12 @@ inspect_args() {
     for k in "${sorted_keys[@]}"; do echo "- \${deps[$k]} = ${deps[$k]}"; done
   fi
 
-  if ((${#other_args[@]})); then
+  if ((${#rargs_other_args[@]})); then
     echo
-    echo other_args:
-    echo "- \${other_args[*]} = ${other_args[*]}"
-    for i in "${!other_args[@]}"; do
-      echo "- \${other_args[$i]} = ${other_args[$i]}"
+    echo rargs_other_args:
+    echo "- \${rargs_other_args[*]} = ${rargs_other_args[*]}"
+    for i in "${!rargs_other_args[@]}"; do
+      echo "- \${rargs_other_args[$i]} = ${rargs_other_args[$i]}"
     done
   fi
 }
@@ -149,6 +142,15 @@ inspect_args() {
 mods="/opt/homebrew/bin/mods"
 gum="/opt/homebrew/bin/gum"
 textarea="$HOME/.local/bin/textarea.sh"
+show() {
+	line="$(session)"
+	id="$(echo -n "$line" | awk -F'\t' '{print $1}' | tr -d ' ')"
+	$mods -s "$id"
+}
+old() {
+	declare -a names
+	declare -a continue
+}
 
 version() {
   echo "0.1.0"
@@ -156,16 +158,25 @@ version() {
 usage() {
   printf "A script built around `rargs` to extend its functionality.\n"
   printf "\n\033[4m%s\033[0m\n" "Usage:"
-  printf "  mods [OPTIONS] ...[MODS_ARGUMENTS]\n"
+  printf "  mods [OPTIONS] [COMMAND] [COMMAND_OPTIONS] [...MODS_ARGUMENTS]\n"
   printf "  mods -h|--help\n"
   printf "  mods -v|--version\n"
   printf "\n\033[4m%s\033[0m\n" "Arguments:"
   printf "  MODS_ARGUMENTS\n"
   printf "    Optional arguments to pass to "mods".\n"
+  printf "\n\033[4m%s\033[0m\n" "Commands:"
+  cat <<EOF
+  cont .... Continue an existing session
+  new ..... Start a new mods session
+EOF
 
   printf "\n\033[4m%s\033[0m\n" "Options:"
+  printf "  -o --option [<OPTION>]\n"
+  printf "    Option to chose\n"
   printf "  -s --session [<SESSION>]\n"
   printf "    The session to use.\n"
+  printf "  --no-show\n"
+  printf "    Don't show the previous answers\n"
   printf "  -h --help\n"
   printf "    Print help\n"
   printf "  -v --version\n"
@@ -191,6 +202,34 @@ parse_arguments() {
   action="${1:-}"
 
   case $action in
+    alert)
+      action="alert"
+      rargs_input=("${rargs_input[@]:1}")
+      ;;
+    cont)
+      action="cont"
+      rargs_input=("${rargs_input[@]:1}")
+      ;;
+    filter)
+      action="filter"
+      rargs_input=("${rargs_input[@]:1}")
+      ;;
+    get_prompt)
+      action="get_prompt"
+      rargs_input=("${rargs_input[@]:1}")
+      ;;
+    input)
+      action="input"
+      rargs_input=("${rargs_input[@]:1}")
+      ;;
+    new)
+      action="new"
+      rargs_input=("${rargs_input[@]:1}")
+      ;;
+    session)
+      action="session"
+      rargs_input=("${rargs_input[@]:1}")
+      ;;
     -h|--help)
       usage
       exit
@@ -203,13 +242,670 @@ parse_arguments() {
       ;;
   esac
 }
+alert_usage() {
+  printf "Print an alert message\n"
 
-run() {
+  printf "\n\033[4m%s\033[0m\n" "Usage:"
+  printf "  alert [OPTIONS] [MESSAGE] ...[]\n"
+  printf "  alert -h|--help\n"
+  printf "\n\033[4m%s\033[0m\n" "Arguments:"
+  printf "  MESSAGE\n"
+  printf "    Message to print inside the alert\n"
+  printf "  MODS_ARGUMENTS\n"
+  printf "    Optional arguments to pass to "mods".\n"
+
+  printf "\n\033[4m%s\033[0m\n" "Options:"
+  printf "  -o --option [<OPTION>]\n"
+  printf "    Option to chose\n"
+  printf "  -s --session [<SESSION>]\n"
+  printf "    The session to use.\n"
+  printf "  --no-show\n"
+  printf "    Don't show the previous answers\n"
+  printf "  -h --help\n"
+  printf "    Print help\n"
+}
+parse_alert_arguments() {
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      -h|--help)
+        alert_usage
+        exit
+        ;;
+      *)
+        break
+        ;;
+    esac
+  done
+
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      --no-show)
+        rargs_no_show=1
+        shift
+        ;;
+      -o | --option)
+        rargs_option="$2"
+        shift 2
+        ;;
+      -s | --session)
+        rargs_session="$2"
+        shift 2
+        ;;
+      --)
+        shift
+        rargs_other_args+=("$@")
+        break
+        ;;
+      -?*)
+        rargs_other_args+=("$1")
+        shift
+        ;;
+      *)
+        if [[ -z "$rargs_message" ]]; then
+          rargs_message=$key
+          shift
+        else
+          rargs_other_args+=("$1")
+          shift
+        fi
+        ;;
+    esac
+  done
+}
+# Print an alert message
+alert() {
+  local rargs_no_show
+  local rargs_option
+  local rargs_session
+  local rargs_message
+  # Parse environment variables
+  
+  if [[ -z "${OPENAI_API_KEY:-}" ]]; then
+    printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Missing required environment variable: " "OPENAI_API_KEY" >&2
+    alert_usage >&2
+    exit 1
+  fi
+
+  # Parse command arguments
+  parse_alert_arguments "$@"
+
+	gum style "$rargs_alert" \
+		--foreground="blue" \
+		--background="black" \
+		--border="rounded" \
+		--border-foreground="green" \
+		--align="center" \
+		--height=3 \
+		--width=50 \
+		--margin="1" \
+		--padding="1" \
+		--bold \
+		--underline >&2
+}
+cont_usage() {
+  printf "Continue an existing session\n"
+
+  printf "\n\033[4m%s\033[0m\n" "Usage:"
+  printf "  cont [OPTIONS] ...[MODS_ARGUMENTS]\n"
+  printf "  cont -h|--help\n"
+  printf "\n\033[4m%s\033[0m\n" "Arguments:"
+  printf "  MODS_ARGUMENTS\n"
+  printf "    Optional arguments to pass to "mods".\n"
+
+  printf "\n\033[4m%s\033[0m\n" "Options:"
+  printf "  -o --option [<OPTION>]\n"
+  printf "    Option to chose\n"
+  printf "  -s --session [<SESSION>]\n"
+  printf "    The session to use.\n"
+  printf "  --no-show\n"
+  printf "    Don't show the previous answers\n"
+  printf "  -h --help\n"
+  printf "    Print help\n"
+}
+parse_cont_arguments() {
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      -h|--help)
+        cont_usage
+        exit
+        ;;
+      *)
+        break
+        ;;
+    esac
+  done
+
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      --no-show)
+        rargs_no_show=1
+        shift
+        ;;
+      -o | --option)
+        rargs_option="$2"
+        shift 2
+        ;;
+      -s | --session)
+        rargs_session="$2"
+        shift 2
+        ;;
+      --)
+        shift
+        rargs_other_args+=("$@")
+        break
+        ;;
+      -?*)
+        rargs_other_args+=("$1")
+        shift
+        ;;
+      *)
+        rargs_other_args+=("$1")
+        shift
+        ;;
+    esac
+  done
+}
+# Continue an existing session
+cont() {
+  local rargs_no_show
+  local rargs_option
+  local rargs_session
+  # Parse environment variables
+  
+  if [[ -z "${OPENAI_API_KEY:-}" ]]; then
+    printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Missing required environment variable: " "OPENAI_API_KEY" >&2
+    cont_usage >&2
+    exit 1
+  fi
+
+  # Parse command arguments
+  parse_cont_arguments "$@"
+
+	line="$(session)"
+	id="$(echo -n "$line" | awk -F'\t' '{print $1}' | tr -d ' ')"
+	title="$(echo -n "$line" | awk -F'\t' '{print $2}')"
+	prompt="$(get_prompt)"
+	$mods --continue "$id" --title "$title" "$prompt"
+}
+filter_usage() {
+  printf "Filter a list of values\n"
+
+  printf "\n\033[4m%s\033[0m\n" "Usage:"
+  printf "  filter [OPTIONS] ...[MODS_ARGUMENTS]\n"
+  printf "  filter -h|--help\n"
+  printf "\n\033[4m%s\033[0m\n" "Arguments:"
+  printf "  MODS_ARGUMENTS\n"
+  printf "    Optional arguments to pass to "mods".\n"
+
+  printf "\n\033[4m%s\033[0m\n" "Options:"
+  printf "  -o --option [<OPTION>]\n"
+  printf "    Option to chose\n"
+  printf "  -s --session [<SESSION>]\n"
+  printf "    The session to use.\n"
+  printf "  --no-show\n"
+  printf "    Don't show the previous answers\n"
+  printf "  -h --help\n"
+  printf "    Print help\n"
+}
+parse_filter_arguments() {
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      -h|--help)
+        filter_usage
+        exit
+        ;;
+      *)
+        break
+        ;;
+    esac
+  done
+
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      --no-show)
+        rargs_no_show=1
+        shift
+        ;;
+      -o | --option)
+        rargs_option="$2"
+        shift 2
+        ;;
+      -s | --session)
+        rargs_session="$2"
+        shift 2
+        ;;
+      --)
+        shift
+        rargs_other_args+=("$@")
+        break
+        ;;
+      -?*)
+        rargs_other_args+=("$1")
+        shift
+        ;;
+      *)
+        rargs_other_args+=("$1")
+        shift
+        ;;
+    esac
+  done
+}
+# Filter a list of values
+filter() {
+  local rargs_no_show
+  local rargs_option
+  local rargs_session
+  # Parse environment variables
+  
+  if [[ -z "${OPENAI_API_KEY:-}" ]]; then
+    printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Missing required environment variable: " "OPENAI_API_KEY" >&2
+    filter_usage >&2
+    exit 1
+  fi
+
+  # Parse command arguments
+  parse_filter_arguments "$@"
+
+	cat - |
+		$gum filter \
+			--reverse \
+			--prompt="❯ " \
+			--indicator=" " \
+			--selected-prefix=" ◉ " \
+			--unselected-prefix=" ○ " \
+			--limit=1 \
+			--placeholder="Type to filter..." \
+			--sort
+}
+get_prompt_usage() {
+  printf "Gets the user prompt\n"
+
+  printf "\n\033[4m%s\033[0m\n" "Usage:"
+  printf "  get_prompt [OPTIONS] ...[MODS_ARGUMENTS]\n"
+  printf "  get_prompt -h|--help\n"
+  printf "\n\033[4m%s\033[0m\n" "Arguments:"
+  printf "  MODS_ARGUMENTS\n"
+  printf "    Optional arguments to pass to "mods".\n"
+
+  printf "\n\033[4m%s\033[0m\n" "Options:"
+  printf "  -o --option [<OPTION>]\n"
+  printf "    Option to chose\n"
+  printf "  -s --session [<SESSION>]\n"
+  printf "    The session to use.\n"
+  printf "  --no-show\n"
+  printf "    Don't show the previous answers\n"
+  printf "  -h --help\n"
+  printf "    Print help\n"
+}
+parse_get_prompt_arguments() {
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      -h|--help)
+        get_prompt_usage
+        exit
+        ;;
+      *)
+        break
+        ;;
+    esac
+  done
+
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      --no-show)
+        rargs_no_show=1
+        shift
+        ;;
+      -o | --option)
+        rargs_option="$2"
+        shift 2
+        ;;
+      -s | --session)
+        rargs_session="$2"
+        shift 2
+        ;;
+      --)
+        shift
+        rargs_other_args+=("$@")
+        break
+        ;;
+      -?*)
+        rargs_other_args+=("$1")
+        shift
+        ;;
+      *)
+        rargs_other_args+=("$1")
+        shift
+        ;;
+    esac
+  done
+}
+# Gets the user prompt
+get_prompt() {
+  local rargs_no_show
+  local rargs_option
+  local rargs_session
+  # Parse environment variables
+  
+  if [[ -z "${OPENAI_API_KEY:-}" ]]; then
+    printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Missing required environment variable: " "OPENAI_API_KEY" >&2
+    get_prompt_usage >&2
+    exit 1
+  fi
+
+  # Parse command arguments
+  parse_get_prompt_arguments "$@"
+
+	prompt="$($textarea)"
+	if [[ -z "$prompt" ]]; then
+		exit 1
+	fi
+	echo -n "$prompt"
+}
+input_usage() {
+  printf "Input box\n"
+
+  printf "\n\033[4m%s\033[0m\n" "Usage:"
+  printf "  input [OPTIONS] ...[MODS_ARGUMENTS]\n"
+  printf "  input --help\n"
+  printf "\n\033[4m%s\033[0m\n" "Arguments:"
+  printf "  MODS_ARGUMENTS\n"
+  printf "    Optional arguments to pass to "mods".\n"
+
+  printf "\n\033[4m%s\033[0m\n" "Options:"
+  printf "  -h --header [<HEADER>]\n"
+  printf "    Input header\n"
+  printf "  -o --option [<OPTION>]\n"
+  printf "    Option to chose\n"
+  printf "  -p --placeholder [<PLACEHOLDER>]\n"
+  printf "    Input placeholder\n"
+  printf "  -P --prompt [<PROMPT>]\n"
+  printf "    Input prompt\n"
+  printf "  -s --session [<SESSION>]\n"
+  printf "    The session to use.\n"
+  printf "  --no-show\n"
+  printf "    Don't show the previous answers\n"
+  printf "  --help\n"
+  printf "    Print help\n"
+}
+parse_input_arguments() {
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      -h|--help)
+        input_usage
+        exit
+        ;;
+      *)
+        break
+        ;;
+    esac
+  done
+
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      --no-show)
+        rargs_no_show=1
+        shift
+        ;;
+      -h | --header)
+        rargs_header="$2"
+        shift 2
+        ;;
+      -o | --option)
+        rargs_option="$2"
+        shift 2
+        ;;
+      -p | --placeholder)
+        rargs_placeholder="$2"
+        shift 2
+        ;;
+      -P | --prompt)
+        rargs_prompt="$2"
+        shift 2
+        ;;
+      -s | --session)
+        rargs_session="$2"
+        shift 2
+        ;;
+      --)
+        shift
+        rargs_other_args+=("$@")
+        break
+        ;;
+      -?*)
+        rargs_other_args+=("$1")
+        shift
+        ;;
+      *)
+        rargs_other_args+=("$1")
+        shift
+        ;;
+    esac
+  done
+}
+# Input box
+input() {
+  local rargs_no_show
+  local rargs_header
+  local rargs_option
+  local rargs_placeholder
+  local rargs_prompt
+  local rargs_session
+  # Parse environment variables
+  
+  if [[ -z "${OPENAI_API_KEY:-}" ]]; then
+    printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Missing required environment variable: " "OPENAI_API_KEY" >&2
+    input_usage >&2
+    exit 1
+  fi
+
+  # Parse command arguments
+  parse_input_arguments "$@"
+
+	gum input \
+		--placeholder="$rargs_placeholder" \
+		--prompt="$rargs_prompt" \
+		--header="$rargs_header" \
+		--width=40 \
+		--char-limit=400
+}
+new_usage() {
+  printf "Start a new mods session\n"
+
+  printf "\n\033[4m%s\033[0m\n" "Usage:"
+  printf "  new [OPTIONS] ...[MODS_ARGUMENTS]\n"
+  printf "  new -h|--help\n"
+  printf "\n\033[4m%s\033[0m\n" "Arguments:"
+  printf "  MODS_ARGUMENTS\n"
+  printf "    Optional arguments to pass to "mods".\n"
+
+  printf "\n\033[4m%s\033[0m\n" "Options:"
+  printf "  -o --option [<OPTION>]\n"
+  printf "    Option to chose\n"
+  printf "  -s --session [<SESSION>]\n"
+  printf "    The session to use.\n"
+  printf "  -t --title [<TITLE>]\n"
+  printf "    Session title\n"
+  printf "  --no-show\n"
+  printf "    Don't show the previous answers\n"
+  printf "  -h --help\n"
+  printf "    Print help\n"
+}
+parse_new_arguments() {
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      -h|--help)
+        new_usage
+        exit
+        ;;
+      *)
+        break
+        ;;
+    esac
+  done
+
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      --no-show)
+        rargs_no_show=1
+        shift
+        ;;
+      -o | --option)
+        rargs_option="$2"
+        shift 2
+        ;;
+      -s | --session)
+        rargs_session="$2"
+        shift 2
+        ;;
+      -t | --title)
+        rargs_title="$2"
+        shift 2
+        ;;
+      --)
+        shift
+        rargs_other_args+=("$@")
+        break
+        ;;
+      -?*)
+        rargs_other_args+=("$1")
+        shift
+        ;;
+      *)
+        rargs_other_args+=("$1")
+        shift
+        ;;
+    esac
+  done
+}
+# Start a new mods session
+new() {
+  local rargs_no_show
+  local rargs_option
+  local rargs_session
+  local rargs_title
+  # Parse environment variables
+  
+  if [[ -z "${OPENAI_API_KEY:-}" ]]; then
+    printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Missing required environment variable: " "OPENAI_API_KEY" >&2
+    new_usage >&2
+    exit 1
+  fi
+
+  # Parse command arguments
+  parse_new_arguments "$@"
+
+	if [[ -z "$rargs_title" ]]; then
+		rargs_title="$(input \
+			-P "New Title: " \
+			-h "Please enter a new title for the 'mods' session" \
+			-p "E.g. Bashy")"
+	fi
+	if [[ -z "$rargs_title" ]]; then
+		alert "The session title name is required"
+		return 1
+	fi
+	prompt="$(get_prompt)"
+	$mods --title "$rargs_title" "$prompt"
+}
+session_usage() {
+  printf "Selects an existing session\n"
+
+  printf "\n\033[4m%s\033[0m\n" "Usage:"
+  printf "  session [OPTIONS] ...[MODS_ARGUMENTS]\n"
+  printf "  session -h|--help\n"
+  printf "\n\033[4m%s\033[0m\n" "Arguments:"
+  printf "  MODS_ARGUMENTS\n"
+  printf "    Optional arguments to pass to "mods".\n"
+
+  printf "\n\033[4m%s\033[0m\n" "Options:"
+  printf "  -o --option [<OPTION>]\n"
+  printf "    Option to chose\n"
+  printf "  -s --session [<SESSION>]\n"
+  printf "    The session to use.\n"
+  printf "  --no-show\n"
+  printf "    Don't show the previous answers\n"
+  printf "  -h --help\n"
+  printf "    Print help\n"
+}
+parse_session_arguments() {
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      -h|--help)
+        session_usage
+        exit
+        ;;
+      *)
+        break
+        ;;
+    esac
+  done
+
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      --no-show)
+        rargs_no_show=1
+        shift
+        ;;
+      -o | --option)
+        rargs_option="$2"
+        shift 2
+        ;;
+      -s | --session)
+        rargs_session="$2"
+        shift 2
+        ;;
+      --)
+        shift
+        rargs_other_args+=("$@")
+        break
+        ;;
+      -?*)
+        rargs_other_args+=("$1")
+        shift
+        ;;
+      *)
+        rargs_other_args+=("$1")
+        shift
+        ;;
+    esac
+  done
+}
+# Selects an existing session
+session() {
+  local rargs_no_show
+  local rargs_option
+  local rargs_session
+  # Parse environment variables
+  
+  if [[ -z "${OPENAI_API_KEY:-}" ]]; then
+    printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Missing required environment variable: " "OPENAI_API_KEY" >&2
+    session_usage >&2
+    exit 1
+  fi
+
+  # Parse command arguments
+  parse_session_arguments "$@"
+
+	# Assuming each session is on a new line and consists of an id followed by a name
+	sessions="$($mods --list --raw 2>&1)"
+	session="$(echo "$sessions" | filter)"
+	echo "$session"
+}
+
+rargs_run() {
   declare -A deps=()
-  declare -a other_args=()
-  declare -a input=()
-  normalize_input "$@"
-  parse_arguments "${input[@]}"
+  declare -a rargs_other_args=()
+  declare -a rargs_input=()
+  normalize_rargs_input "$@"
+  parse_arguments "${rargs_input[@]}"
   # Check global environment variables
   
   if [[ -z "${OPENAI_API_KEY:-}" ]]; then
@@ -218,7 +914,45 @@ run() {
     exit 1
   fi
 
-  root "${input[@]}"
+  # Call the right command action
+  case "$action" in
+    "alert")
+      alert "${rargs_input[@]}"
+      exit
+      ;;
+    "cont")
+      cont "${rargs_input[@]}"
+      exit
+      ;;
+    "filter")
+      filter "${rargs_input[@]}"
+      exit
+      ;;
+    "get_prompt")
+      get_prompt "${rargs_input[@]}"
+      exit
+      ;;
+    "input")
+      input "${rargs_input[@]}"
+      exit
+      ;;
+    "new")
+      new "${rargs_input[@]}"
+      exit
+      ;;
+    "session")
+      session "${rargs_input[@]}"
+      exit
+      ;;
+    root)
+      root "${rargs_input[@]}"
+      exit
+      ;;
+    "")
+      root "${rargs_input[@]}"
+      ;;
+    
+  esac
 }
 
-run "$@"
+rargs_run "$@"
