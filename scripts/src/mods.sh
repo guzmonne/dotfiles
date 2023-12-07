@@ -12,6 +12,8 @@ mods="/opt/homebrew/bin/mods"
 gum="/opt/homebrew/bin/gum"
 textarea="$HOME/.local/bin/textarea.sh"
 
+export GLAMOUR_STYLE=/Users/guzmanmonne/.glamour.tokyonight
+
 # @cmd Print an alert message
 # @arg message Message to print inside the alert
 # @private

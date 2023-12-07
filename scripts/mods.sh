@@ -18,16 +18,8 @@ parse_root() {
   while [[ $# -gt 0 ]]; do
     key="$1"
     case "$key" in
-      --no-show)
-        rargs_no_show=1
-        shift
-        ;;
       -o | --option)
         rargs_option="$2"
-        shift 2
-        ;;
-      -s | --session)
-        rargs_session="$2"
         shift 2
         ;;
       --)
@@ -49,7 +41,6 @@ parse_root() {
 
 root() {
   local rargs_option
-  local rargs_session
   # Parse environment variables
   
   if [[ -z "${OPENAI_API_KEY:-}" ]]; then
@@ -142,14 +133,11 @@ inspect_args() {
 mods="/opt/homebrew/bin/mods"
 gum="/opt/homebrew/bin/gum"
 textarea="$HOME/.local/bin/textarea.sh"
+export GLAMOUR_STYLE=/Users/guzmanmonne/.glamour.tokyonight
 show() {
 	line="$(session)"
 	id="$(echo -n "$line" | awk -F'\t' '{print $1}' | tr -d ' ')"
 	$mods -s "$id"
-}
-old() {
-	declare -a names
-	declare -a continue
 }
 
 version() {
@@ -173,10 +161,6 @@ EOF
   printf "\n\033[4m%s\033[0m\n" "Options:"
   printf "  -o --option [<OPTION>]\n"
   printf "    Option to chose\n"
-  printf "  -s --session [<SESSION>]\n"
-  printf "    The session to use.\n"
-  printf "  --no-show\n"
-  printf "    Don't show the previous answers\n"
   printf "  -h --help\n"
   printf "    Print help\n"
   printf "  -v --version\n"
@@ -257,10 +241,6 @@ alert_usage() {
   printf "\n\033[4m%s\033[0m\n" "Options:"
   printf "  -o --option [<OPTION>]\n"
   printf "    Option to chose\n"
-  printf "  -s --session [<SESSION>]\n"
-  printf "    The session to use.\n"
-  printf "  --no-show\n"
-  printf "    Don't show the previous answers\n"
   printf "  -h --help\n"
   printf "    Print help\n"
 }
@@ -280,16 +260,8 @@ parse_alert_arguments() {
   while [[ $# -gt 0 ]]; do
     key="$1"
     case "$key" in
-      --no-show)
-        rargs_no_show=1
-        shift
-        ;;
       -o | --option)
         rargs_option="$2"
-        shift 2
-        ;;
-      -s | --session)
-        rargs_session="$2"
         shift 2
         ;;
       --)
@@ -315,9 +287,7 @@ parse_alert_arguments() {
 }
 # Print an alert message
 alert() {
-  local rargs_no_show
   local rargs_option
-  local rargs_session
   local rargs_message
   # Parse environment variables
   
@@ -356,10 +326,6 @@ cont_usage() {
   printf "\n\033[4m%s\033[0m\n" "Options:"
   printf "  -o --option [<OPTION>]\n"
   printf "    Option to chose\n"
-  printf "  -s --session [<SESSION>]\n"
-  printf "    The session to use.\n"
-  printf "  --no-show\n"
-  printf "    Don't show the previous answers\n"
   printf "  -h --help\n"
   printf "    Print help\n"
 }
@@ -379,16 +345,8 @@ parse_cont_arguments() {
   while [[ $# -gt 0 ]]; do
     key="$1"
     case "$key" in
-      --no-show)
-        rargs_no_show=1
-        shift
-        ;;
       -o | --option)
         rargs_option="$2"
-        shift 2
-        ;;
-      -s | --session)
-        rargs_session="$2"
         shift 2
         ;;
       --)
@@ -409,9 +367,7 @@ parse_cont_arguments() {
 }
 # Continue an existing session
 cont() {
-  local rargs_no_show
   local rargs_option
-  local rargs_session
   # Parse environment variables
   
   if [[ -z "${OPENAI_API_KEY:-}" ]]; then
@@ -442,10 +398,6 @@ filter_usage() {
   printf "\n\033[4m%s\033[0m\n" "Options:"
   printf "  -o --option [<OPTION>]\n"
   printf "    Option to chose\n"
-  printf "  -s --session [<SESSION>]\n"
-  printf "    The session to use.\n"
-  printf "  --no-show\n"
-  printf "    Don't show the previous answers\n"
   printf "  -h --help\n"
   printf "    Print help\n"
 }
@@ -465,16 +417,8 @@ parse_filter_arguments() {
   while [[ $# -gt 0 ]]; do
     key="$1"
     case "$key" in
-      --no-show)
-        rargs_no_show=1
-        shift
-        ;;
       -o | --option)
         rargs_option="$2"
-        shift 2
-        ;;
-      -s | --session)
-        rargs_session="$2"
         shift 2
         ;;
       --)
@@ -495,9 +439,7 @@ parse_filter_arguments() {
 }
 # Filter a list of values
 filter() {
-  local rargs_no_show
   local rargs_option
-  local rargs_session
   # Parse environment variables
   
   if [[ -z "${OPENAI_API_KEY:-}" ]]; then
@@ -533,10 +475,6 @@ get_prompt_usage() {
   printf "\n\033[4m%s\033[0m\n" "Options:"
   printf "  -o --option [<OPTION>]\n"
   printf "    Option to chose\n"
-  printf "  -s --session [<SESSION>]\n"
-  printf "    The session to use.\n"
-  printf "  --no-show\n"
-  printf "    Don't show the previous answers\n"
   printf "  -h --help\n"
   printf "    Print help\n"
 }
@@ -556,16 +494,8 @@ parse_get_prompt_arguments() {
   while [[ $# -gt 0 ]]; do
     key="$1"
     case "$key" in
-      --no-show)
-        rargs_no_show=1
-        shift
-        ;;
       -o | --option)
         rargs_option="$2"
-        shift 2
-        ;;
-      -s | --session)
-        rargs_session="$2"
         shift 2
         ;;
       --)
@@ -586,9 +516,7 @@ parse_get_prompt_arguments() {
 }
 # Gets the user prompt
 get_prompt() {
-  local rargs_no_show
   local rargs_option
-  local rargs_session
   # Parse environment variables
   
   if [[ -z "${OPENAI_API_KEY:-}" ]]; then
@@ -625,10 +553,6 @@ input_usage() {
   printf "    Input placeholder\n"
   printf "  -P --prompt [<PROMPT>]\n"
   printf "    Input prompt\n"
-  printf "  -s --session [<SESSION>]\n"
-  printf "    The session to use.\n"
-  printf "  --no-show\n"
-  printf "    Don't show the previous answers\n"
   printf "  --help\n"
   printf "    Print help\n"
 }
@@ -648,10 +572,6 @@ parse_input_arguments() {
   while [[ $# -gt 0 ]]; do
     key="$1"
     case "$key" in
-      --no-show)
-        rargs_no_show=1
-        shift
-        ;;
       -h | --header)
         rargs_header="$2"
         shift 2
@@ -666,10 +586,6 @@ parse_input_arguments() {
         ;;
       -P | --prompt)
         rargs_prompt="$2"
-        shift 2
-        ;;
-      -s | --session)
-        rargs_session="$2"
         shift 2
         ;;
       --)
@@ -690,12 +606,10 @@ parse_input_arguments() {
 }
 # Input box
 input() {
-  local rargs_no_show
   local rargs_header
   local rargs_option
   local rargs_placeholder
   local rargs_prompt
-  local rargs_session
   # Parse environment variables
   
   if [[ -z "${OPENAI_API_KEY:-}" ]]; then
@@ -727,12 +641,8 @@ new_usage() {
   printf "\n\033[4m%s\033[0m\n" "Options:"
   printf "  -o --option [<OPTION>]\n"
   printf "    Option to chose\n"
-  printf "  -s --session [<SESSION>]\n"
-  printf "    The session to use.\n"
   printf "  -t --title [<TITLE>]\n"
   printf "    Session title\n"
-  printf "  --no-show\n"
-  printf "    Don't show the previous answers\n"
   printf "  -h --help\n"
   printf "    Print help\n"
 }
@@ -752,16 +662,8 @@ parse_new_arguments() {
   while [[ $# -gt 0 ]]; do
     key="$1"
     case "$key" in
-      --no-show)
-        rargs_no_show=1
-        shift
-        ;;
       -o | --option)
         rargs_option="$2"
-        shift 2
-        ;;
-      -s | --session)
-        rargs_session="$2"
         shift 2
         ;;
       -t | --title)
@@ -786,9 +688,7 @@ parse_new_arguments() {
 }
 # Start a new mods session
 new() {
-  local rargs_no_show
   local rargs_option
-  local rargs_session
   local rargs_title
   # Parse environment variables
   
@@ -827,10 +727,6 @@ session_usage() {
   printf "\n\033[4m%s\033[0m\n" "Options:"
   printf "  -o --option [<OPTION>]\n"
   printf "    Option to chose\n"
-  printf "  -s --session [<SESSION>]\n"
-  printf "    The session to use.\n"
-  printf "  --no-show\n"
-  printf "    Don't show the previous answers\n"
   printf "  -h --help\n"
   printf "    Print help\n"
 }
@@ -850,16 +746,8 @@ parse_session_arguments() {
   while [[ $# -gt 0 ]]; do
     key="$1"
     case "$key" in
-      --no-show)
-        rargs_no_show=1
-        shift
-        ;;
       -o | --option)
         rargs_option="$2"
-        shift 2
-        ;;
-      -s | --session)
-        rargs_session="$2"
         shift 2
         ;;
       --)
@@ -880,9 +768,7 @@ parse_session_arguments() {
 }
 # Selects an existing session
 session() {
-  local rargs_no_show
   local rargs_option
-  local rargs_session
   # Parse environment variables
   
   if [[ -z "${OPENAI_API_KEY:-}" ]]; then
