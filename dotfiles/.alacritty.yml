@@ -513,14 +513,14 @@ selection:
 # Default:
 #   - (Linux/BSD/macOS) `$SHELL` or the user's login shell, if `$SHELL` is unset
 #   - (Windows) powershell
-shell:
-  program: /bin/zsh
-  args:
-    - --login
-    - --interactive
-    - -l
-    - -c
-    - sessionizer sessions new
+# shell:
+#   program: /bin/zsh
+#   args:
+#     - --login
+#     - --interactive
+#     - -l
+#     - -c
+#     - sessionizer sessions new
 
 # Startup directory
 #

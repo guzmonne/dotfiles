@@ -13,12 +13,27 @@
         {
           "foreground": "#a9b1d6",
           "properties": {
-            "command": "pwd | sed \"s|$HOME|~|\" | sed 's|/branches/| $(print -P %F{255}\ufb44%f) |'",
+            "style": "full"
+          },
+          "style": "powerline",
+          "template": "{{ if matchP \"/branches/\" .Path }}{{ .Path | replace \"/branches/\" \" <#FFFFFF>פּ</> \" }}{{ else }}{{ .Path }}{{ end }}",
+          "type": "path"
+        },
+        {
+          "foreground": "#ffffff",
+          "properties": {
+            "command": "if git rev-parse --is-inside-work-tree > /dev/null 2>&1; then printf \"\ue709 %s\" $(git branch --no-color --show-current); fi",
             "shell": "zsh"
           },
           "style": "plain",
           "type": "command"
-        },
+        }
+      ],
+      "type": "prompt"
+    },
+    {
+      "alignment": "right",
+      "segments": [
         {
           "foreground": "#ffe873",
           "properties": {
@@ -27,29 +42,7 @@
           },
           "style": "plain",
           "type": "command"
-        }
-      ],
-      "type": "prompt"
-    },
-    {
-      "alignment": "left",
-      "segments": [
-        {
-          "foreground": "#ffffff",
-          "properties": {
-            "command": "if [ -d './.git' ]; then git branch --no-color --show-current; else true; fi",
-            "shell": "zsh"
-          },
-          "style": "plain",
-          "template": "\ue709 {{ .Output }}",
-          "type": "command"
-        }
-      ],
-      "type": "prompt"
-    },
-    {
-      "alignment": "left",
-      "segments": [
+        },
         {
           "foreground": "#6CA35E",
           "powerline_symbol": "\ue0b0",
@@ -57,21 +50,6 @@
           "template": " \ue718 {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }} ",
           "type": "node"
         },
-        {
-          "foreground": "#9ece6a",
-          "properties": {
-            "style": "austin"
-          },
-          "style": "plain",
-          "template": " {{ .FormattedMs }} ",
-          "type": "executiontime"
-        }
-      ],
-      "type": "prompt"
-    },
-    {
-      "alignment": "right",
-      "segments": [
         {
           "foreground": "#FFA400",
           "properties": {
@@ -84,7 +62,7 @@
         {
           "foreground": "#7dcfff",
           "properties": {
-            "command": "if [[ -n \"$(rg \"current-context: .*$\" ~/.kube/config)\" ]]; then echo \" $(rg 'current-context: .*$' ~/.kube/config | sed -e 's|current-context: ||')\" ; fi",
+            "command": "if [[ -n \"$(rg \"current-context: .*$\" ~/.kube/config)\" ]]; then echo \" $(rg 'current-context: .*$' ~/.kube/config | sed -e 's|current-context: ||' | tr -d ' ')\" ; fi",
             "shell": "zsh"
           },
           "style": "plain",
@@ -104,13 +82,14 @@
             "always_enabled": true
           },
           "style": "plain",
-          "template": "\u276f ",
-          "type": "exit"
+          "template": "\u276f",
+          "type": "session"
         }
       ],
       "type": "prompt"
     }
   ],
+  "final_space": true,
   "console_title_template": "{{if .Root}}(Admin){{end}} {{.PWD}}",
   "version": 2
 }

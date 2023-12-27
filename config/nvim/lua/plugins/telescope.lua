@@ -71,8 +71,8 @@ return {
       mappings = {
         i = {
           ["<C-n>"] = actions.move_selection_next,
-          ["<C-u>"] = false,
-          ["<C-d>"] = false,
+          -- ["<C-u>"] = false,
+          -- ["<C-d>"] = false,
           ["?"] = action_layout.toggle_preview,
           ["<C-t>"] = trouble.open_with_trouble,
         },

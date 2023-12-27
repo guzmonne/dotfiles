@@ -63,6 +63,7 @@ yabai -m config \
 
 yabai -m rule --add app="^Xnapper" manage=off
 yabai -m rule --add app="^pong" manage=off
+yabai -m rule --add app="^asteroids" manage=off
 yabai -m rule --add app="^Loom" manage=off
 yabai -m rule --add label="brave" app="^Brave Browser$" manage=on
 yabai -m rule --add app="^AWS VPN Client" manage=off

@@ -95,7 +95,7 @@
   },
   "code_block": {
     "color": "#AFBAD4",
-    "margin": 2,
+    "margin": 0,
     "chroma": {
       "text": {
         "color": "#f8f8f2"

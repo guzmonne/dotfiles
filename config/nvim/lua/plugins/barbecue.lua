@@ -165,7 +165,7 @@ return {
       TypeParameter = "",
     },
   },
-  setup = function() -- optional
+  init = function() -- optional
     vim.opt.updatetime = 200
 
     vim.api.nvim_create_autocmd({

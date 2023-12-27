@@ -5,7 +5,7 @@ return {
   dependencies = {
     "hrsh7th/cmp-emoji",
   },
-  setup = function()
+  init = function()
     cmp.register_source("zk", require("user.zk.cmp_source"))
   end,
   ---@param opts cmp.ConfigSchema
