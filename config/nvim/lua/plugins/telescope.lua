@@ -78,7 +78,7 @@ return {
         },
         n = { ["<C-t>"] = trouble.open_with_trouble },
       },
-      prompt_prefix = " ",
+      prompt_prefix = "   ",
       selection_caret = " ",
       entry_prefix = "  ",
       initial_mode = "insert",

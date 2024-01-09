@@ -11,6 +11,9 @@ return {
   opts = {
     inlay_hints = { enabled = true },
     setup = {
+      yamlls = function()
+        return true
+      end,
       markdownlint = function()
         return true
       end,
@@ -47,14 +50,14 @@ return {
         },
       },
       html = {},
-      yamlls = {
-        settings = {
-          yaml = {
-            validate = false,
-            keyOrdering = false,
-          },
-        },
-      },
+      -- yamlls = {
+      --   settings = {
+      --     yaml = {
+      --       validate = false,
+      --       keyOrdering = false,
+      --     },
+      --   },
+      -- },
       bashls = {
         cmd = { "bash-language-server", "start" },
         flags = { debounce_text_changes = 150 },

@@ -2,8 +2,8 @@
 
 ROOT="$(dirname "$(readlink -f "$(which "$0")")")"
 
-kitty() {
-  yabai -m space --focus "kitty" || True
+alacritty() {
+	yabai -m space --focus "Alacritty" || True
 }
 
 "$ROOT/yabai-clean.sh"

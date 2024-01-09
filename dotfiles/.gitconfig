@@ -7,7 +7,7 @@
 	branch-tree = log --graph --simplify-by-decoration --pretty=format:'%d' --all
 	tree = log --all --graph --pretty=format:'%C(auto)%h%C(auto)%d %s %C(dim white)(%aN, %ar)'
 	rank = shortlog -s -n --no-merges
-	tags = log --oneline --decorate --tags --no-walk
+  tags = log --oneline --decorate --tags --no-walk
 [core]
 	pager = delta
 [interactive]

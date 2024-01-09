@@ -145,7 +145,7 @@ font:
     family: "CartographCF Nerd Font"
 
     # The `style` can be specified to pick a specific face.
-    style: Extra Bold
+    style: ExtraBold
 
   # Italic font face
   italic:
@@ -156,7 +156,7 @@ font:
     family: "CartographCF Nerd Font"
 
     # The `style` can be specified to pick a specific face.
-    style: Regular Italic
+    style: Italic
 
   # Bold italic font face
   bold_italic:
@@ -167,7 +167,7 @@ font:
     family: "CartographCF Nerd Font"
 
     # The `style` can be specified to pick a specific face.
-    style: Demi Bold Italic
+    style: DemiBold Italic
 
   # Point size
   size: 22.0
@@ -547,7 +547,7 @@ mouse:
   #
   # Terminal hints can be used to find text or hyperlink in the visible part of
   # the terminal and pipe it to other applications.
-  #hints:
+hints:
   # Keys used for the hint labels.
   #alphabet: "jfkdls;ahgurieowpq"
 

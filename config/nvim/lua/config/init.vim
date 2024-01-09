@@ -1,6 +1,10 @@
 " Set the python executable to use.
 let g:python3_host_prog = '/opt/homebrew/opt/python@3.11/libexec/bin/python'
 
+" Set smooth scrolling?
+set t_TI=^[[4?h
+set t_TE=^[[4?l
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Enable ZenMode
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
