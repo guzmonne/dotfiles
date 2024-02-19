@@ -104,7 +104,4 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 export PATH="$(perl -e 'print join(":", grep { not $seen{$_}++ } split(/:/, $ENV{PATH}))')"
 
 # Enable McFly
-# eval "$(mcfly init zsh)"
-
-# Enable Atuin
-eval "$(atuin init zsh)"
+eval "$(mcfly init zsh)"
