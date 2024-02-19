@@ -8,11 +8,8 @@
 # @env OPENAI_API_KEY! Your OpenAI API key.
 # @any <MODS_ARGUMENTS> Optional arguments to pass to "mods".
 
-mods="/opt/homebrew/bin/mods"
-gum="/opt/homebrew/bin/gum"
+mods="$HOME/.local/bin/mods"
 textarea="$HOME/.local/bin/textarea.sh"
-
-export GLAMOUR_STYLE=/Users/guzmanmonne/.glamour.tokyonight
 
 # @cmd Print an alert message
 # @arg message Message to print inside the alert
@@ -30,21 +27,6 @@ alert() {
 		--padding="1" \
 		--bold \
 		--underline >&2
-}
-
-# @cmd Filter a list of values
-# @private
-filter() {
-	cat - |
-		$gum filter \
-			--reverse \
-			--prompt="❯ " \
-			--indicator=" " \
-			--selected-prefix=" ◉ " \
-			--unselected-prefix=" ○ " \
-			--limit=1 \
-			--placeholder="Type to filter..." \
-			--sort
 }
 
 # @cmd Input box
@@ -96,11 +78,7 @@ new() {
 # @cmd Selects an existing session
 # @private
 session() {
-	# Assuming each session is on a new line and consists of an id followed by a name
-	sessions="$($mods --list --raw 2>&1)"
-
-	session="$(echo "$sessions" | filter)"
-
+	session="$($mods --list --raw 2>&1 | fzf)"
 	echo "$session"
 }
 
@@ -125,7 +103,7 @@ show() {
 # @option -o --option Option to chose
 root() {
 	if [[ -z "$rargs_option" ]]; then
-		rargs_option="$(echo -e "1. Start a new session.\n2. Continue an existing session.\n3. Show existing session." | filter)"
+		rargs_option="$(echo -e "1. Start a new session.\n2. Continue an existing session.\n3. Show existing session." | fzf)"
 	fi
 
 	if [[ -z "$rargs_option" ]]; then

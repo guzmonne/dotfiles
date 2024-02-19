@@ -5,6 +5,16 @@ let g:python3_host_prog = '/opt/homebrew/opt/python@3.11/libexec/bin/python'
 set t_TI=^[[4?h
 set t_TE=^[[4?l
 
+" You might have to force true color when using regular vim inside tmux as the
+" colorscheme can appear to be grayscale with "termguicolors" option enabled.
+if !has('gui_running') && &term =~ '^\%(screen\|tmux\)'
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+endif
+
+syntax on
+set termguicolors
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Enable ZenMode
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

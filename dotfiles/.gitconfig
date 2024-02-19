@@ -16,12 +16,33 @@
 	syntax-theme = ansi
 	line-numbers = true
 	side-by-side = true
-	navigate = true  # use n and N to move between diff sections
+  navigate = true  # use n and N to move between diff sections
+  file-style = omit
+  zero-style = syntax
+  commit-decoration-style ="#7aa2f7" box
+  commit-style = "#e0af68" bold italic
+  hunk-header-decoration-style = "#7aa2f7" box
+  hunk-header-file-style = "#bb9af7"
+  hunk-header-line-number-style = "#e0af68" box
+  hunk-header-style = file line-number syntax
+  line-numbers = true
+  line-numbers-left-style = "#7aa2f7"
+  line-numbers-minus-style = "#ff7a93" bold
+  line-numbers-plus-style = "#9ece6a" bold
+  line-numbers-right-style = "#0db9d7"
+  line-numbers-zero-style = "#acb0d0" italic
 [merge]
 	conflictstyle = diff3
+	tool = fugitive
 [diff]
 	colorMoved = default
 [url "git@github.com:"]
 	insteadOf = https://github.com
 [advice]
 	detachedHead = false
+[mergetool "fugitive"]
+  cmd = nvim -f -c \"Gvdiffsplit!\" \"$MERGED\"
+[includeIf "gitdir:~/Projects/Canoe/"]
+  path = ~/Projects/Canoe/.gitconfig
+[includeIf "gitdir:~/Projects/Universe/"]
+  path = ~/Projects/Universe/.gitconfig

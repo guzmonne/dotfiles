@@ -86,3 +86,19 @@ fi
 if command -v c>/dev/null; then
   alias co='c o --max-tokens=4000 --stream "$(textarea.sh)"'
 fi
+
+# Bedrock
+alias bedrock-dev="aws --profile bedrock-dev"
+alias bedrock-stage="aws --profile bedrock-stage"
+alias bedrock-prod="aws --profile bedrock-prod"
+alias bedrock-shared="aws --profile bedrock-shared"
+alias bedrock-root="aws --profile bedrock-root"
+
+# Terraform 1.4.5
+alias tf="AWS_PROFILE=aft-management-admin GIT_SSH_COMMAND='ssh -i ~/.ssh/id_rsa_canoe -F /dev/null' $HOME/.local/bin/terraform145"
+
+# Jinja2
+alias jinja2="$HOME/.pyenv/versions/3.8.18/bin/jinja2"
+
+# E1s
+alias e1s-dev="AWS_PROFILE=bedrock-dev e1s"

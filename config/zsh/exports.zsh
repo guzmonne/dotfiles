@@ -174,6 +174,7 @@ export $(cat "$HOME/Projects/Personal/secrets/gooseai.env" | xargs)
 export $(cat "$HOME/Projects/Personal/secrets/novelai.env" | xargs)
 export $(cat "$HOME/Projects/Personal/secrets/nlpcloud.env" | xargs)
 export $(cat "$HOME/Projects/Personal/secrets/qdrant.env" | xargs)
+export $(cat "$HOME/Projects/Personal/secrets/togetherai.env" | xargs)
 
 # Source JAVA_HOME
 export JAVA_HOME=$(/usr/libexec/java_home)
@@ -246,3 +247,6 @@ if brew list | grep paco >/dev/null; then
   export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
   export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
 fi
+
+# Configure the global Glamour style
+export GLAMOUR_STYLE=/Users/guzmanmonne/.glamour.tokyonight

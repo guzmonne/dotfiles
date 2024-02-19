@@ -61,10 +61,10 @@ cmd - n [
     "alacritty": tmux new-window $HOME/.local/bin/sessionizer sessions new
 ]
 cmd - u [
-    "alacritty" : $HOME/.local/bin/sessionizer sessions next
+    "alacritty" : tmux switch-client -n
 ]
 cmd - d [
-    "alacritty": $HOME/.local/bin/sessionizer sessions prev
+    "alacritty": tmux switch-client -p
 ]
 cmd - b [
     "alacritty": tmux previous-window
@@ -73,10 +73,10 @@ cmd - w [
     "alacritty": tmux next-window
 ]
 cmd - g [
-    "alacritty": tmux new-window -n mods '$HOME/.local/bin/mods.sh; read -n 1 -s -r -p "Press any key to exit"'
+    "alacritty": tmux new-window -n d '$HOME/.local/bin/d.sh; read -n 1 -s -r -p "Press any key to exit"'
 ]
 cmd - h [
-    "alacritty": tmux new-window -n mods '$HOME/.local/bin/mods.sh; read -n 1 -s -r -p "Press any key to exit"'
+    "alacritty": tmux new-window -n d '$HOME/.local/bin/d.sh; read -n 1 -s -r -p "Press any key to exit"'
 ]
 
 

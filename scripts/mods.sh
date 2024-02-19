@@ -53,7 +53,7 @@ root() {
   parse_root "$@"
 
 	if [[ -z "$rargs_option" ]]; then
-		rargs_option="$(echo -e "1. Start a new session.\n2. Continue an existing session.\n3. Show existing session." | filter)"
+		rargs_option="$(echo -e "1. Start a new session.\n2. Continue an existing session.\n3. Show existing session." | fzf)"
 	fi
 	if [[ -z "$rargs_option" ]]; then
 		alert "No option selected"
@@ -130,10 +130,8 @@ inspect_args() {
   fi
 }
 
-mods="/opt/homebrew/bin/mods"
-gum="/opt/homebrew/bin/gum"
+mods="$HOME/.local/bin/mods"
 textarea="$HOME/.local/bin/textarea.sh"
-export GLAMOUR_STYLE=/Users/guzmanmonne/.glamour.tokyonight
 show() {
 	line="$(session)"
 	id="$(echo -n "$line" | awk -F'\t' '{print $1}' | tr -d ' ')"
@@ -192,10 +190,6 @@ parse_arguments() {
       ;;
     cont)
       action="cont"
-      rargs_input=("${rargs_input[@]:1}")
-      ;;
-    filter)
-      action="filter"
       rargs_input=("${rargs_input[@]:1}")
       ;;
     get_prompt)
@@ -384,83 +378,6 @@ cont() {
 	title="$(echo -n "$line" | awk -F'\t' '{print $2}')"
 	prompt="$(get_prompt)"
 	$mods --continue "$id" --title "$title" "$prompt"
-}
-filter_usage() {
-  printf "Filter a list of values\n"
-
-  printf "\n\033[4m%s\033[0m\n" "Usage:"
-  printf "  filter [OPTIONS] ...[MODS_ARGUMENTS]\n"
-  printf "  filter -h|--help\n"
-  printf "\n\033[4m%s\033[0m\n" "Arguments:"
-  printf "  MODS_ARGUMENTS\n"
-  printf "    Optional arguments to pass to "mods".\n"
-
-  printf "\n\033[4m%s\033[0m\n" "Options:"
-  printf "  -o --option [<OPTION>]\n"
-  printf "    Option to chose\n"
-  printf "  -h --help\n"
-  printf "    Print help\n"
-}
-parse_filter_arguments() {
-  while [[ $# -gt 0 ]]; do
-    case "${1:-}" in
-      -h|--help)
-        filter_usage
-        exit
-        ;;
-      *)
-        break
-        ;;
-    esac
-  done
-
-  while [[ $# -gt 0 ]]; do
-    key="$1"
-    case "$key" in
-      -o | --option)
-        rargs_option="$2"
-        shift 2
-        ;;
-      --)
-        shift
-        rargs_other_args+=("$@")
-        break
-        ;;
-      -?*)
-        rargs_other_args+=("$1")
-        shift
-        ;;
-      *)
-        rargs_other_args+=("$1")
-        shift
-        ;;
-    esac
-  done
-}
-# Filter a list of values
-filter() {
-  local rargs_option
-  # Parse environment variables
-  
-  if [[ -z "${OPENAI_API_KEY:-}" ]]; then
-    printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Missing required environment variable: " "OPENAI_API_KEY" >&2
-    filter_usage >&2
-    exit 1
-  fi
-
-  # Parse command arguments
-  parse_filter_arguments "$@"
-
-	cat - |
-		$gum filter \
-			--reverse \
-			--prompt="❯ " \
-			--indicator=" " \
-			--selected-prefix=" ◉ " \
-			--unselected-prefix=" ○ " \
-			--limit=1 \
-			--placeholder="Type to filter..." \
-			--sort
 }
 get_prompt_usage() {
   printf "Gets the user prompt\n"
@@ -780,9 +697,7 @@ session() {
   # Parse command arguments
   parse_session_arguments "$@"
 
-	# Assuming each session is on a new line and consists of an id followed by a name
-	sessions="$($mods --list --raw 2>&1)"
-	session="$(echo "$sessions" | filter)"
+	session="$($mods --list --raw 2>&1 | fzf)"
 	echo "$session"
 }
 
@@ -808,10 +723,6 @@ rargs_run() {
       ;;
     "cont")
       cont "${rargs_input[@]}"
-      exit
-      ;;
-    "filter")
-      filter "${rargs_input[@]}"
       exit
       ;;
     "get_prompt")

@@ -1,3 +1,6 @@
+[env]
+TERM = "xterm-256color"
+
 [colors]
 draw_bold_text_with_bright_colors = false
 transparent_background_colors = true
@@ -35,7 +38,7 @@ style = "ExtraBold"
 
 [font.bold_italic]
 family = "CartographCF Nerd Font"
-style = "DemiBold Italic"
+style = "ExtraBold Italic"
 
 [font.italic]
 family = "CartographCF Nerd Font"
@@ -43,15 +46,14 @@ style = "Italic"
 
 [font.normal]
 family = "CartographCF Nerd Font"
-style = "Light"
+style = "ExtraLight"
 
 [font.offset]
-x = -1
-y = 0
+x = 0
+y = 1
 
 [mouse]
 hide_when_typing = true
-
 
 [[hints.enabled]]
 command = "open"
@@ -76,11 +78,12 @@ save_to_clipboard = true
 
 [window]
 decorations = "Buttonless"
-dynamic_padding = false
+dynamic_title = true
+dynamic_padding = true
 opacity = 0.9
 option_as_alt = "Both"
 blur = true
 
 [window.padding]
-x = 3
+x = 0
 y = 0

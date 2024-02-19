@@ -16,7 +16,7 @@
             "style": "full"
           },
           "style": "powerline",
-          "template": "{{ if matchP \"/branches/\" .Path }}{{ .Path | replace \"/branches/\" \" <#FFFFFF>פּ</> \" }}{{ else }}{{ .Path }}{{ end }}",
+          "template": "{{ if matchP \"/branches/\" .Path }}{{ .Path | replace \"/branches/\" \" <#FFFFFF>󱏒</> \" }}{{ else }}{{ .Path }}{{ end }}",
           "type": "path"
         },
         {
