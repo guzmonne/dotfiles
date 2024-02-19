@@ -17,8 +17,6 @@
 	line-numbers = true
 	side-by-side = true
   navigate = true  # use n and N to move between diff sections
-  file-style = omit
-  zero-style = syntax
   commit-decoration-style ="#7aa2f7" box
   commit-style = "#e0af68" bold italic
   hunk-header-decoration-style = "#7aa2f7" box
