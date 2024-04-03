@@ -102,3 +102,6 @@ alias jinja2="$HOME/.pyenv/versions/3.8.18/bin/jinja2"
 
 # E1s
 alias e1s-dev="AWS_PROFILE=bedrock-dev e1s"
+
+# Typeos
+alias nvmi="nvim"

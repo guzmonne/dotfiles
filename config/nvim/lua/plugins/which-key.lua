@@ -58,13 +58,6 @@ return {
         a = { "<cmd>qa!<CR>", "Close NeoVim without saving" },
         w = { "<cmd>xa<CR>", "Close NeoVim after saving all current open buffers" },
       },
-      -- Rest NVIM
-      r = {
-        name = "Rest NVIM",
-        r = { require("rest-nvim").run, "Run the query under the current cursor" },
-        l = { require("rest-nvim").run_last, "Run the last query" },
-        p = { require("rest-nvim").preview, "Preview the query under the current cursor" },
-      },
       -- Trouble
       t = { "<cmd>TroubleToggle<CR>", "Trouble Toggle" },
       -- ZK
@@ -110,7 +103,6 @@ return {
         l = { live_grep, "Live grep" },
       },
       ["-"] = { require("oil").open, "Open oil" },
-      ["?"] = { "<cmd>Telescope current_buffer_fuzzy_find<CR>", "Fuzzy find inside current file" },
     }, { prefix = "<leader>" })
 
     -- Quit mappings

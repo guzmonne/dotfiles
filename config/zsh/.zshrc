@@ -105,3 +105,6 @@ export PATH="$(perl -e 'print join(":", grep { not $seen{$_}++ } split(/:/, $ENV
 
 # Enable McFly
 eval "$(mcfly init zsh)"
+
+# bun completions
+[ -s "/Users/guzmanmonne/.bun/_bun" ] && source "/Users/guzmanmonne/.bun/_bun"

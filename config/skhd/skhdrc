@@ -55,16 +55,16 @@ shift + alt - f : yabai -m window --toggle native-fullscreen
 
 # Open sessionizer
 cmd - p [
-    "alacritty": tmux new-window $HOME/.local/bin/sessionizer sessions go
+    "alacritty": tmux new-window sessionizer sessions go
 ]
 cmd - n [
-    "alacritty": tmux new-window $HOME/.local/bin/sessionizer sessions new
+    "alacritty": tmux new-window sessionizer sessions new
 ]
 cmd - u [
-    "alacritty" : tmux switch-client -n
+    "alacritty": $HOME/.local/bin/sessionizer sessions prev --config $HOME/.sessionizer.yaml
 ]
 cmd - d [
-    "alacritty": tmux switch-client -p
+    "alacritty": $HOME/.local/bin/sessionizer sessions next --config $HOME/.sessionizer.yaml
 ]
 cmd - b [
     "alacritty": tmux previous-window
@@ -73,10 +73,10 @@ cmd - w [
     "alacritty": tmux next-window
 ]
 cmd - g [
-    "alacritty": tmux new-window -n d '$HOME/.local/bin/d.sh; read -n 1 -s -r -p "Press any key to exit"'
+    "alacritty": tmux new-window -n mods '$HOME/.local/bin/mods.sh; read -n 1 -s -r -p "Press any key to exit"'
 ]
 cmd - h [
-    "alacritty": tmux new-window -n d '$HOME/.local/bin/d.sh; read -n 1 -s -r -p "Press any key to exit"'
+    "alacritty": tmux new-window -n mods '$HOME/.local/bin/mods.sh; read -n 1 -s -r -p "Press any key to exit"'
 ]
 
 
