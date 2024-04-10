@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+osascript -e{'on run{a}','set the clipboard to posix file a',end} "$(greadlink -f -- "$1")";

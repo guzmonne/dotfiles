@@ -175,6 +175,7 @@ export $(cat "$HOME/Projects/Personal/secrets/novelai.env" | xargs)
 export $(cat "$HOME/Projects/Personal/secrets/nlpcloud.env" | xargs)
 export $(cat "$HOME/Projects/Personal/secrets/qdrant.env" | xargs)
 export $(cat "$HOME/Projects/Personal/secrets/togetherai.env" | xargs)
+export $(cat "$HOME/Projects/Personal/secrets/brave.env" | xargs)
 
 # Source JAVA_HOME
 export JAVA_HOME=$(/usr/libexec/java_home)

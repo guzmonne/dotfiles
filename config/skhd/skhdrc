@@ -55,10 +55,10 @@ shift + alt - f : yabai -m window --toggle native-fullscreen
 
 # Open sessionizer
 cmd - p [
-    "alacritty": tmux new-window sessionizer sessions go
+    "alacritty": tmux new-window sessionizer sessions go --config $HOME/.sessionizer.yaml
 ]
 cmd - n [
-    "alacritty": tmux new-window sessionizer sessions new
+    "alacritty": tmux new-window sessionizer sessions new --config $HOME/.sessionizer.yaml
 ]
 cmd - u [
     "alacritty": $HOME/.local/bin/sessionizer sessions prev --config $HOME/.sessionizer.yaml
@@ -77,6 +77,9 @@ cmd - g [
 ]
 cmd - h [
     "alacritty": tmux new-window -n mods '$HOME/.local/bin/mods.sh; read -n 1 -s -r -p "Press any key to exit"'
+]
+cmd - s [
+    "alacritty": bash -c 'export OUTPUT="/tmp/freeze_$(date +%s).png"; tmux capture-pane -pet 0 | freeze -o $OUTPUT -c user; open $OUTPUT;'
 ]
 
 

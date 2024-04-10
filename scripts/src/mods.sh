@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2154
 # shellcheck disable=SC2090
+# shellcheck disable=SC2016
 # @name mods
 # @version 0.1.0
 # @description A script built around `rargs` to extend its functionality.
@@ -78,7 +79,14 @@ new() {
 # @cmd Selects an existing session
 # @private
 session() {
-	session="$($mods --list --raw 2>&1 | fzf)"
+	session="$(
+		$mods --list --raw 2>&1 | fzf \
+			-m \
+			--preview 'mods -s "$(echo -n {} | awk '"'"'{print $1}'"'"')" --raw | bat -l markdown' \
+			--bind ctrl-d:preview-half-page-down,ctrl-u:preview-half-page-up \
+			--preview-window=right:60% \
+			--height 100%
+	)"
 	echo "$session"
 }
 
