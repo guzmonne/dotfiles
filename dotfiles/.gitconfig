@@ -1,7 +1,7 @@
 [init]
 	defaultBranch = main
 [user]
-	name = Guzmán Monné
+	name = guzmonne
 	email = guzmonne@hotmail.com
 [alias]
 	branch-tree = log --graph --simplify-by-decoration --pretty=format:'%d' --all

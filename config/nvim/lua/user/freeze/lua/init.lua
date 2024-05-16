@@ -29,6 +29,7 @@ local function onReadStdOut(err, data)
   if freeze.opts.action == "open" then
     freeze.open(freeze.output)
   end
+
   if freeze.opts.action == "copy" then
     freeze.copy(freeze.output)
   end

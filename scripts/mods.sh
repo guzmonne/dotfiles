@@ -53,7 +53,7 @@ root() {
   parse_root "$@"
 
 	if [[ -z "$rargs_option" ]]; then
-		rargs_option="$(echo -e "1. Start a new session.\n2. Continue an existing session.\n3. Show existing session." | fzf)"
+		rargs_option="$(echo -e "1. Start a new session.\n2. Continue an existing session.\n3. Show existing session.\n4. Start AiChat" | fzf)"
 	fi
 	if [[ -z "$rargs_option" ]]; then
 		alert "No option selected"
@@ -69,6 +69,9 @@ root() {
 		;;
 	"3")
 		show
+		;;
+	"4")
+		aichat
 		;;
 	*)
 		alert "No option selected"

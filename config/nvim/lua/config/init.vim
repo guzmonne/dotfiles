@@ -1,3 +1,10 @@
+" Mods commands
+command! -range -nargs=0 ModsEditor :'<,'>!mods --api ollama --model hermes2 --role editor --no-cache
+command! -range -nargs=0 ModsExplain :'<,'>w !mods --api ollama --model hermes2 "explain this, be very succint" --no-cache
+command! -range -nargs=* ModsRefactor :'<,'>!mods --api ollama --model hermes2 --role writer --no-cache
+command! -range -nargs=* ModsGPTWriter :'<,'>!mods --role writer --no-cache
+command! -range -nargs=+ Mods :'<,'>w !mods <q-args>
+
 " Set the python executable to use.
 let g:python3_host_prog = '/opt/homebrew/opt/python@3.11/libexec/bin/python'
 

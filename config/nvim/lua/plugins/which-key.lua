@@ -6,7 +6,7 @@ local function pwd()
 end
 
 local function reload_lua_plugins()
-  require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/lua/snippets" })
+  require("luasnip.loaders.from_lua").load({ paths = { "~/.config/nvim/lua/snippets" } })
 end
 
 local function format()
@@ -25,6 +25,14 @@ end
 
 local function live_grep()
   require("telescope.builtin").live_grep()
+end
+
+local function terminal_window()
+  vim.cmd.new()
+  vim.cmd.wincmd("J")
+  vim.api.nvim_win_set_height(0, 12)
+  vim.wo.winfixheight = true
+  vim.cmd.term()
 end
 
 return {
@@ -59,7 +67,10 @@ return {
         w = { "<cmd>xa<CR>", "Close NeoVim after saving all current open buffers" },
       },
       -- Trouble
-      t = { "<cmd>TroubleToggle<CR>", "Trouble Toggle" },
+      t = {
+        t = { "<cmd>TroubleToggle<CR>", "Trouble Toggle" },
+        w = { terminal_window, "Open a new Terminal Window in the bottom" },
+      },
       -- ZK
       z = {
         name = "ZK",

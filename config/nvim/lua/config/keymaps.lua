@@ -75,10 +75,6 @@ vim.keymap.set("i", "<C-c>", "<Esc>")
 -- Disable Q
 vim.keymap.set("n", "Q", "<nop>")
 
--- Move through loclist or quicklist
-vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
-vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
-
 -- Copy everything inside a markdown code fence
 vim.keymap.set("n", "<leader>m", ":?```<CR>jVNky")
 
@@ -103,3 +99,19 @@ vim.keymap.set("n", "<leader>wq", ":wq<CR>")
 
 -- Select all
 vim.keymap.set("n", "<C-a>", "gg<S-v>G")
+
+local ls = require("luasnip")
+
+-- Move to the next snippet completion
+vim.keymap.set({ "i", "s" }, "<tab>", function()
+  if ls.expand_or_jumpable() then
+    ls.expand_or_jump()
+  end
+end, { silent = true })
+
+-- Move to the prev snippet completion
+vim.keymap.set({ "i", "s" }, "<s-tab>", function()
+  if ls.jumpable(-1) then
+    ls.jump(-1)
+  end
+end, { silent = true })

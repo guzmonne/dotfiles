@@ -5,13 +5,13 @@ parts of my development environment.
 
 ## Before you get started
 
-All of the commands referenced in this guide are meant to be done from the
-root of the project, not the `ansible` folder. The problem is that, since the
-directory of the `playbooks` differ from the directory from where the command
-is run you have to do something to access other folders. So, instead of doing
-any of this, the `playboos` expect a `variable` called `root` that has the
-direct directory path for the `root` of the project. This is why you'll see
-the command `--extra-vars="root=$(pwd)`.
+All of the commands referenced in this guide are meant to be done from the root
+of the project, not the `ansible` folder. The problem is that, since the
+directory of the `playbooks` differ from the directory from where the command is
+run you have to do something to access other folders. So, instead of doing any
+of this, the `playbooks` expect a variable called `root` that has the direct
+directory path for the root of the project. This is why you'll see the command
+`--extra-vars="root=$(pwd)`.
 
 Also, all the commands require importing the `requirements.yml` file found at
 the root of the project. This file has nothing to do with the `requirements.yml`
@@ -70,5 +70,3 @@ _Command:_
 ```console
 ansible-playbook ansible/symlink.yml --extra-vars="root=`pwd`"
 ```
-
-

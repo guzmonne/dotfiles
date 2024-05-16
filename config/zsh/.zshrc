@@ -1,12 +1,6 @@
 # Disable ctrl-s and ctrl-q
 stty -ixon
 
-# Configure the folder where all zsh configuration will live.
-export ZDOTDIR=$HOME/.config/zsh
-
-# Add brew bin path
-export PATH=/opt/homebrew/bin:$PATH
-
 setopt appendhistory
 
 # Useful zsh options. See man zshoptions
@@ -34,7 +28,7 @@ bindkey -v
 zstyle :compinstall filename '/Users/gmonne/.config/zsh/.zshrc'
 
 autoload bashcompinit && bashcompinit
-autoload -Uz compinit && compinit
+autoload -Uz compaudit compinit zrecompile && compinit
 # End of lines added by compinstall
 zstyle ':completion:*' menu select
 zmodload zsh/complist
@@ -58,7 +52,8 @@ autoload -Uz colors && colors
 
 # Useful functions
 # Source: https://github.com/ChristianChiarulli/Machfiles
-source "$ZDOTDIR/functions.zsh"
+source "$HOME/.config/zsh/functions.zsh"
+source "$HOME/.config/zsh/git.zsh"
 
 # Plugins
 # More plugins at: https://github.com/unixorn/awesome-zsh-plugins

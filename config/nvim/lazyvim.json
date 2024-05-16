@@ -1,6 +1,8 @@
 {
   "extras": [
     "lazyvim.plugins.extras.coding.copilot",
+    "lazyvim.plugins.extras.coding.luasnip",
+    "lazyvim.plugins.extras.coding.mini-ai",
     "lazyvim.plugins.extras.formatting.black",
     "lazyvim.plugins.extras.formatting.prettier",
     "lazyvim.plugins.extras.lang.docker",
@@ -9,12 +11,15 @@
     "lazyvim.plugins.extras.lang.python",
     "lazyvim.plugins.extras.lang.rust",
     "lazyvim.plugins.extras.lang.terraform",
-    "lazyvim.plugins.extras.lang.tex",
     "lazyvim.plugins.extras.lang.typescript",
-    "lazyvim.plugins.extras.lang.yaml"
+    "lazyvim.plugins.extras.lsp.none-ls",
+    "lazyvim.plugins.extras.ui.mini-animate",
+    "lazyvim.plugins.extras.ui.mini-indentscope",
+    "lazyvim.plugins.extras.ui.mini-starter",
+    "lazyvim.plugins.extras.ui.treesitter-context"
   ],
   "news": {
-    "NEWS.md": "3314"
+    "NEWS.md": "4578"
   },
   "version": 3
 }

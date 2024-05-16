@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+# Configure the folder where all zsh configuration will live.
+export ZDOTDIR=$HOME/.config/zsh
+
+# Add brew bin path
+export PATH=/opt/homebrew/bin:$PATH
+
 # Configure default ansible config file
 export ANSIBLE_CONFIG=~/.ansible.cfg
 
@@ -148,7 +154,7 @@ export MCFLY_INTERFACE_VIEW=BOTTOM
 export MCFLY_DISABLE_MENU=TRUE
 
 # Configure Bat
-export BAT_THEME=ansi
+export BAT_THEME=tokyonight-storm
 
 # Add mysql@5.7 to the PATH if it has been installed through brew
 local brew_prefix=$(brew --prefix)
@@ -176,6 +182,8 @@ export $(cat "$HOME/Projects/Personal/secrets/nlpcloud.env" | xargs)
 export $(cat "$HOME/Projects/Personal/secrets/qdrant.env" | xargs)
 export $(cat "$HOME/Projects/Personal/secrets/togetherai.env" | xargs)
 export $(cat "$HOME/Projects/Personal/secrets/brave.env" | xargs)
+export $(cat "$HOME/Projects/Personal/secrets/groq.env" | xargs)
+export $(cat "$HOME/Projects/Personal/secrets/jira.env" | xargs)
 
 # Source JAVA_HOME
 export JAVA_HOME=$(/usr/libexec/java_home)

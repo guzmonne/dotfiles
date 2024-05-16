@@ -115,6 +115,8 @@ async function spaces(args = []) {
   const display = args[2];
 
   switch (cmd) {
+    case "destroy-empty":
+      return spaceDestroyEmpty();
     case "destroy":
       return spaceDestroy(index);
     case "create":
@@ -136,6 +138,20 @@ async function spaceGet(index) {
   const spaces = JSON.parse(await $`yabai -m query --spaces`);
 
   return index ? spaces.find((d) => d.index == parseInt(index, 10)) : spaces;
+}
+/**
+ * Destroys all empty spaces.
+ */
+async function spaceDestroyEmpty() {
+  const spaces = await spaceGet();
+
+  if (!spaces) return;
+
+  for (const space of spaces) {
+    if (space.windows.length === 0) {
+      await $`yabai -m space ${space.index} --destroy`;
+    }
+  }
 }
 /**
  * Destroys a space
@@ -336,7 +352,7 @@ async function appLaunch(name, display = 1, label) {
   if (!app) {
     let space = await displayEmptySpace(display);
     console.log(`Opening app: ${name}`);
-    app = await appOpen(name, space.index);
+    app = await withRetry(appOpen)(name, space.index);
   }
 
   if (app.display == display) {
@@ -350,12 +366,12 @@ async function appLaunch(name, display = 1, label) {
     }
   }
 
-  let space = await displayEmptySpace(display);
-  await spaceLabel(space.index, label);
-  await ruleAdd(label, name, space.index, display);
+  let space = await withRetry(displayEmptySpace)(display);
+  await withRetry(spaceLabel)(space.index, label);
+  await withRetry(ruleAdd)(label, name, space.index, display);
 
   console.log(`Moving app from space ${app.space} to ${space.index}`);
-  return await appSpace(name, space.index);
+  return await withRetry(appSpace)(name, space.index);
 }
 //
 // Rules
@@ -415,6 +431,8 @@ async function ruleRemove(label) {
  * @param {number} monitors - Number of monitors.
  */
 async function setup(monitors = 3) {
+  await withRetry(spaceDestroyEmpty)();
+
   for (let [key, tuple] of Object.entries(CONFIG)) {
     console.log({ key, tuple });
     await appLaunch(tuple[0], tuple[1][monitors - 1], key);
@@ -469,6 +487,27 @@ async function relabel() {
     console.log(`Applying label ${label} for app ${w.app}`);
     await $`yabai -m space ${w.space} --label ${label}`;
   }
+}
+//
+// Utils
+//
+function withRetry(callback, timeout = 1000, maxRetries = 3) {
+  let retries = 1;
+  return async function recursive(...args) {
+    try {
+      return await callback(...args);
+    } catch (err) {
+      if (retries >= maxRetries) {
+        console.error(err);
+        throw new Error(`Max retries count [${maxRetries}]`);
+      }
+      retries += 1;
+      if (timeout) {
+        await sleep(timeout);
+      }
+      return recursive(...args);
+    }
+  };
 }
 //
 // Main function

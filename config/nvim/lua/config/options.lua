@@ -6,6 +6,7 @@ vim.opt.list = false
 vim.opt.hlsearch = false
 vim.opt.scrolloff = 8
 vim.opt.swapfile = false
+vim.opt.inccommand = "split"
 
 vim.g.copilot_no_tab_map = true
 vim.g.copilot_assume_mapped = true
@@ -30,3 +31,18 @@ end
 -- Fold settings
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldnestmax = 1
+
+local set = vim.opt_local
+
+-- Set local settings for terminal buffers
+vim.api.nvim_create_autocmd("TermOpen", {
+  group = vim.api.nvim_create_augroup("custom-term-open", {}),
+  callback = function()
+    set.number = false
+    set.relativenumber = false
+    set.scrolloff = 0
+  end,
+})
+
+-- Easily hit escape in terminal mode
+vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>")
