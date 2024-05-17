@@ -12,12 +12,8 @@ return {
       sidebars = "transparent",
       floats = "transparent",
     },
-    hide_inactive_statusline = false,
-    dim_inactive = true,
-    lualine_bold = true,
-    -- Change the "hint" color to Orange.
-    on_colors = function(colors)
-      colors.hint = colors.orange
-    end,
+    hide_inactive_statusline = true,
+    dim_inactive = false,
+    lualine_bold = false,
   },
 }

@@ -1,5 +1,5 @@
 -- Telescope --
-local is_trouble_installed, trouble = pcall(require, "trouble.providers.telescope")
+local is_trouble_installed, trouble = pcall(require, "trouble.sources.telescope")
 local is_action_layout, action_layout = pcall(require, "telescope.actions.layout")
 local is_actions, actions = pcall(require, "telescope.actions")
 
@@ -74,9 +74,9 @@ return {
           -- ["<C-u>"] = false,
           -- ["<C-d>"] = false,
           ["?"] = action_layout.toggle_preview,
-          ["<C-t>"] = trouble.open_with_trouble,
+          ["<C-t>"] = trouble.open,
         },
-        n = { ["<C-t>"] = trouble.open_with_trouble },
+        n = { ["<C-t>"] = trouble.open },
       },
       prompt_prefix = "   ",
       selection_caret = " ",

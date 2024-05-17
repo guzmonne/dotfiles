@@ -103,14 +103,14 @@ vim.keymap.set("n", "<C-a>", "gg<S-v>G")
 local ls = require("luasnip")
 
 -- Move to the next snippet completion
-vim.keymap.set({ "i", "s" }, "<tab>", function()
+vim.keymap.set({ "i", "s" }, "<C-k>", function()
   if ls.expand_or_jumpable() then
     ls.expand_or_jump()
   end
 end, { silent = true })
 
 -- Move to the prev snippet completion
-vim.keymap.set({ "i", "s" }, "<s-tab>", function()
+vim.keymap.set({ "i", "s" }, "<C-j>", function()
   if ls.jumpable(-1) then
     ls.jump(-1)
   end

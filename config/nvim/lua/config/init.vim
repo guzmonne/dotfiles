@@ -111,6 +111,9 @@ vnoremap <C-r> <Esc>:%s/<c-r>=GetVisual()<cr>//g<left><left><c-r>=GetVisual()<cr
 " Use F6 to copy the current buffer path into the clipboard
 nnoremap <F6> :let @+=expand('%:p')<CR>
 
+" Disable Missing "neovim" npm (or yarn, pnpm) package.
+let g:loaded_node_provider = 0
+
 augroup GUX
   autocmd!
   autocmd BufWritePre * :call TrimWhitespace()
@@ -140,7 +143,4 @@ augroup GUX
 
   " Jinja Highlight
   au BufNewFile,BufRead *.tera set ft=jinja
-
-  " Open all folds
-  autocmd BufReadPost,FileReadPost * normal zR
 augroup END

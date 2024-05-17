@@ -12,10 +12,3 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt.conceallevel = 0
   end,
 })
-
-vim.api.nvim_create_augroup("markdown_autowrap", { clear = true })
-vim.api.nvim_create_autocmd("FileType", {
-  group = "markdown_autowrap",
-  pattern = "markdown",
-  command = "setlocal textwidth=80",
-})

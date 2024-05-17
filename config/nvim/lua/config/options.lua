@@ -14,10 +14,6 @@ vim.g.python3_host_prog = "/opt/homebrew/opt/python@3.11/libexec/bin/python"
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_perl_provider = 0
 
--- Undercurl
-vim.cmd([[let &t_Cs = "\e[4:3m"]])
-vim.cmd([[let &t_Ce = "\e[4:0m"]])
-
 -- Other options
 vim.opt.title = true
 
@@ -30,7 +26,7 @@ end
 
 -- Fold settings
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
-vim.opt.foldnestmax = 1
+vim.opt.foldnestmax = 0
 
 local set = vim.opt_local
 
@@ -46,3 +42,6 @@ vim.api.nvim_create_autocmd("TermOpen", {
 
 -- Easily hit escape in terminal mode
 vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>")
+
+-- Warnings
+vim.g.skip_ts_context_commentstring_module = true

@@ -5,6 +5,30 @@ local function pwd()
   vim.fn.setreg("+", full_path)
 end
 
+local conf = require("telescope.config").values
+local function toggle_telescope(harpoon_files)
+  local file_paths = {}
+  for _, item in ipairs(harpoon_files.items) do
+    table.insert(file_paths, item.value)
+  end
+
+  require("telescope.pickers")
+    .new({}, {
+      prompt_title = "Harpoon",
+      finder = require("telescope.finders").new_table({
+        results = file_paths,
+      }),
+      previewer = conf.file_previewer({}),
+      sorter = conf.generic_sorter({}),
+    })
+    :find()
+end
+
+local is_harpoon_installed, harpoon = pcall(require, "harpoon")
+if not is_harpoon_installed then
+  return
+end
+
 local function reload_lua_plugins()
   require("luasnip.loaders.from_lua").load({ paths = { "~/.config/nvim/lua/snippets" } })
 end
@@ -15,7 +39,7 @@ end
 
 local function create_go_to_file(index)
   return function()
-    require("harpoon.ui").nav_file(index)
+    harpoon:list():select(index)
   end
 end
 
@@ -68,7 +92,7 @@ return {
       },
       -- Trouble
       t = {
-        t = { "<cmd>TroubleToggle<CR>", "Trouble Toggle" },
+        t = { require("trouble.sources.telescope").open, "Trouble Toggle" },
         w = { terminal_window, "Open a new Terminal Window in the bottom" },
       },
       -- ZK
@@ -93,8 +117,30 @@ return {
         p = { pwd, "Print and copy the buffer full path" },
       },
       -- Harpoon
-      h = { require("harpoon.mark").add_file, "Add file to Harpoon" },
-      [","] = { require("harpoon.ui").toggle_quick_menu, "Toggle Harpoon's quick menu" },
+      h = {
+        function()
+          harpoon:list():add()
+        end,
+        "Add file to Harpoon",
+      },
+      n = {
+        function()
+          harpoon:list():next()
+        end,
+        "Toggle next buffer stored in Harpoon",
+      },
+      p = {
+        function()
+          harpoon:list():prev()
+        end,
+        "Toggle prev buffer stored in Harpoon",
+      },
+      [","] = {
+        function()
+          toggle_telescope(harpoon:list())
+        end,
+        "Toggle Harpoon's quick menu",
+      },
       ["1"] = { create_go_to_file(1), "Go to file " .. "1" },
       ["2"] = { create_go_to_file(2), "Go to file " .. "2" },
       ["3"] = { create_go_to_file(3), "Go to file " .. "3" },
