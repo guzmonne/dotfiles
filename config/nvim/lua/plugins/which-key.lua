@@ -137,7 +137,7 @@ return {
       },
       [","] = {
         function()
-          toggle_telescope(harpoon:list())
+          harpoon.ui:toggle_quick_menu(harpoon:list())
         end,
         "Toggle Harpoon's quick menu",
       },

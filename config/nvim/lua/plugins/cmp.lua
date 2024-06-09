@@ -3,7 +3,8 @@ local cmp = require("cmp")
 return {
   "hrsh7th/nvim-cmp",
   dependencies = {
-    "hrsh7th/cmp-emoji",
+    "luckasRanarison/tailwind-tools.nvim",
+    "onsails/lspkind-nvim",
   },
   init = function()
     cmp.register_source("zk", require("user.zk.cmp_source"))
@@ -14,6 +15,11 @@ return {
     opts.completion = vim.tbl_extend("force", opts.completion, {
       completeopt = "menu,menuone,noinsert,noselect",
       autocomplete = false,
+    })
+    opts.formatting = vim.tbl_extend("force", opts.formatting, {
+      format = require("lspkind").cmp_format({
+        before = require("tailwind-tools.cmp").lspkind_format,
+      }),
     })
     opts.sorting = {
       priority_weight = 2,

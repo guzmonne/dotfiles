@@ -39,7 +39,7 @@ return {
     {
       "<leader>fz",
       require("telescope.builtin").spell_suggest,
-      desc = "Spell Sugest",
+      desc = "Spell Suggest",
     },
     {
       "<leader>fl",

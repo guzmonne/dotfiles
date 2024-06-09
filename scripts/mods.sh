@@ -53,7 +53,7 @@ root() {
   parse_root "$@"
 
 	if [[ -z "$rargs_option" ]]; then
-		rargs_option="$(echo -e "1. Start a new session.\n2. Continue an existing session.\n3. Show existing session.\n4. Start AiChat" | fzf)"
+		rargs_option="$(echo -e "1. Select role\n2. Start a new session.\n3. Continue an existing session.\n4. Show existing session.\n5. Start AiChat" | fzf)"
 	fi
 	if [[ -z "$rargs_option" ]]; then
 		alert "No option selected"
@@ -62,15 +62,18 @@ root() {
 	option="$(echo -n "$rargs_option" | awk -F'.' '{print $1}')"
 	case "$option" in
 	"1")
-		new
+		role
 		;;
 	"2")
-		cont
+		new
 		;;
 	"3")
-		show
+		cont
 		;;
 	"4")
+		show
+		;;
+	"5")
 		aichat
 		;;
 	*)
@@ -157,6 +160,7 @@ usage() {
   cat <<EOF
   cont .... Continue an existing session
   new ..... Start a new mods session
+  role .... Start a new mods session with the selected role.
 EOF
 
   printf "\n\033[4m%s\033[0m\n" "Options:"
@@ -205,6 +209,14 @@ parse_arguments() {
       ;;
     new)
       action="new"
+      rargs_input=("${rargs_input[@]:1}")
+      ;;
+    role)
+      action="role"
+      rargs_input=("${rargs_input[@]:1}")
+      ;;
+    roles)
+      action="roles"
       rargs_input=("${rargs_input[@]:1}")
       ;;
     session)
@@ -634,6 +646,159 @@ new() {
 	prompt="$(get_prompt)"
 	$mods --title "$rargs_title" "$prompt"
 }
+role_usage() {
+  printf "Start a new mods session with the selected role.\n"
+
+  printf "\n\033[4m%s\033[0m\n" "Usage:"
+  printf "  role [OPTIONS] ...[MODS_ARGUMENTS]\n"
+  printf "  role -h|--help\n"
+  printf "\n\033[4m%s\033[0m\n" "Arguments:"
+  printf "  MODS_ARGUMENTS\n"
+  printf "    Optional arguments to pass to "mods".\n"
+
+  printf "\n\033[4m%s\033[0m\n" "Options:"
+  printf "  -o --option [<OPTION>]\n"
+  printf "    Option to chose\n"
+  printf "  -r --role [<ROLE>]\n"
+  printf "    \n"
+  printf "  -h --help\n"
+  printf "    Print help\n"
+}
+parse_role_arguments() {
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      -h|--help)
+        role_usage
+        exit
+        ;;
+      *)
+        break
+        ;;
+    esac
+  done
+
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      -o | --option)
+        rargs_option="$2"
+        shift 2
+        ;;
+      -r | --role)
+        rargs_role="$2"
+        shift 2
+        ;;
+      --)
+        shift
+        rargs_other_args+=("$@")
+        break
+        ;;
+      -?*)
+        rargs_other_args+=("$1")
+        shift
+        ;;
+      *)
+        rargs_other_args+=("$1")
+        shift
+        ;;
+    esac
+  done
+}
+# Start a new mods session with the selected role.
+role() {
+  local rargs_option
+  local rargs_role
+  # Parse environment variables
+  
+  if [[ -z "${OPENAI_API_KEY:-}" ]]; then
+    printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Missing required environment variable: " "OPENAI_API_KEY" >&2
+    role_usage >&2
+    exit 1
+  fi
+
+  # Parse command arguments
+  parse_role_arguments "$@"
+
+	if [[ -z "$rargs_role" ]]; then
+		rargs_role="$(roles)"
+	fi
+	prompt="$(get_prompt)"
+	$mods --role "$rargs_role" "$prompt"
+}
+roles_usage() {
+  printf "Selects an existing role\n"
+
+  printf "\n\033[4m%s\033[0m\n" "Usage:"
+  printf "  roles [OPTIONS] ...[MODS_ARGUMENTS]\n"
+  printf "  roles -h|--help\n"
+  printf "\n\033[4m%s\033[0m\n" "Arguments:"
+  printf "  MODS_ARGUMENTS\n"
+  printf "    Optional arguments to pass to "mods".\n"
+
+  printf "\n\033[4m%s\033[0m\n" "Options:"
+  printf "  -o --option [<OPTION>]\n"
+  printf "    Option to chose\n"
+  printf "  -h --help\n"
+  printf "    Print help\n"
+}
+parse_roles_arguments() {
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      -h|--help)
+        roles_usage
+        exit
+        ;;
+      *)
+        break
+        ;;
+    esac
+  done
+
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      -o | --option)
+        rargs_option="$2"
+        shift 2
+        ;;
+      --)
+        shift
+        rargs_other_args+=("$@")
+        break
+        ;;
+      -?*)
+        rargs_other_args+=("$1")
+        shift
+        ;;
+      *)
+        rargs_other_args+=("$1")
+        shift
+        ;;
+    esac
+  done
+}
+# Selects an existing role
+roles() {
+  local rargs_option
+  # Parse environment variables
+  
+  if [[ -z "${OPENAI_API_KEY:-}" ]]; then
+    printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Missing required environment variable: " "OPENAI_API_KEY" >&2
+    roles_usage >&2
+    exit 1
+  fi
+
+  # Parse command arguments
+  parse_roles_arguments "$@"
+
+	local settings_file
+	settings_file="$($mods --dirs | head -n1 | awk -F':' '{print $2}' | xargs | sed 's| |\\ |g')/mods.yml"
+	$mods --list-roles 2>&1 | fzf \
+		--preview 'yq '"'"'.roles.{}[] | .'"'"' -r '"$settings_file" \
+		--bind ctrl-d:preview-half-page-down,ctrl-u:preview-half-page-up \
+		--preview-window=right:60% \
+		--height 100%
+}
 session_usage() {
   printf "Selects an existing session\n"
 
@@ -745,6 +910,14 @@ rargs_run() {
       ;;
     "new")
       new "${rargs_input[@]}"
+      exit
+      ;;
+    "role")
+      role "${rargs_input[@]}"
+      exit
+      ;;
+    "roles")
+      roles "${rargs_input[@]}"
       exit
       ;;
     "session")

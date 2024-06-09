@@ -56,6 +56,18 @@ get_prompt() {
 	echo -n "$prompt"
 }
 
+# @cmd Start a new mods session with the selected role.
+# @option -r --role
+role() {
+	if [[ -z "$rargs_role" ]]; then
+		rargs_role="$(roles)"
+	fi
+
+	prompt="$(get_prompt)"
+
+	$mods --role "$rargs_role" "$prompt"
+}
+
 # @cmd Start a new mods session
 # @option -t --title Session title
 new() {
@@ -74,6 +86,20 @@ new() {
 	prompt="$(get_prompt)"
 
 	$mods --title "$rargs_title" "$prompt"
+}
+
+# @cmd Selects an existing role
+# @private
+roles() {
+	local settings_file
+
+	settings_file="$($mods --dirs | head -n1 | awk -F':' '{print $2}' | xargs | sed 's| |\\ |g')/mods.yml"
+
+	$mods --list-roles 2>&1 | fzf \
+		--preview 'yq '"'"'.roles.{}[] | .'"'"' -r '"$settings_file" \
+		--bind ctrl-d:preview-half-page-down,ctrl-u:preview-half-page-up \
+		--preview-window=right:60% \
+		--height 100%
 }
 
 # @cmd Selects an existing session
@@ -111,7 +137,7 @@ show() {
 # @option -o --option Option to chose
 root() {
 	if [[ -z "$rargs_option" ]]; then
-		rargs_option="$(echo -e "1. Start a new session.\n2. Continue an existing session.\n3. Show existing session.\n4. Start AiChat" | fzf)"
+		rargs_option="$(echo -e "1. Select role\n2. Start a new session.\n3. Continue an existing session.\n4. Show existing session.\n5. Start AiChat" | fzf)"
 	fi
 
 	if [[ -z "$rargs_option" ]]; then
@@ -123,15 +149,18 @@ root() {
 
 	case "$option" in
 	"1")
-		new
+		role
 		;;
 	"2")
-		cont
+		new
 		;;
 	"3")
-		show
+		cont
 		;;
 	"4")
+		show
+		;;
+	"5")
 		aichat
 		;;
 	*)
