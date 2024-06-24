@@ -70,7 +70,8 @@ semantic() {
 	EOF
 
 	response="$(mktemp)"
-	c o --stream - <"$tmp" | tee "$response"
+	mods --api anthropic --model opus <"$tmp" | tee "$response"
+	# c o --stream - <"$tmp" | tee "$response"
 
 	if [[ -z "$rargs_no_git_commit" ]]; then
 		commit="$(awk '/<output>/,/<\/output>/' "$response" | grep -vE '<output>|<\/output>' | perl -p -e 'chomp if eof')"

@@ -103,3 +103,5 @@ eval "$(mcfly init zsh)"
 
 # bun completions
 [ -s "/Users/guzmanmonne/.bun/_bun" ] && source "/Users/guzmanmonne/.bun/_bun"
+
+. "$HOME/.cargo/env"

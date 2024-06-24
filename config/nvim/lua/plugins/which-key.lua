@@ -5,25 +5,6 @@ local function pwd()
   vim.fn.setreg("+", full_path)
 end
 
-local conf = require("telescope.config").values
-local function toggle_telescope(harpoon_files)
-  local file_paths = {}
-  for _, item in ipairs(harpoon_files.items) do
-    table.insert(file_paths, item.value)
-  end
-
-  require("telescope.pickers")
-    .new({}, {
-      prompt_title = "Harpoon",
-      finder = require("telescope.finders").new_table({
-        results = file_paths,
-      }),
-      previewer = conf.file_previewer({}),
-      sorter = conf.generic_sorter({}),
-    })
-    :find()
-end
-
 local is_harpoon_installed, harpoon = pcall(require, "harpoon")
 if not is_harpoon_installed then
   return
@@ -101,11 +82,6 @@ return {
         n = { require("user.zk").new, "Create a new note" },
         z = { require("user.zk").telescope_list, "Find notes" },
         p = { require("user.zk").private, "Create a new private note" },
-      },
-      -- Misc
-      x = {
-        name = "Misc",
-        x = { "<cmd>ToggleComplete()<CR>", "Add an `x` to a complete task" },
       },
       -- Lua / Lsp
       l = {
