@@ -45,3 +45,8 @@ vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>")
 
 -- Warnings
 vim.g.skip_ts_context_commentstring_module = true
+
+-- Search and replace
+vim.opt.ignorecase = true -- Search case insensitive.
+vim.opt.smartcase = true -- Search matters if capital letter.
+vim.opt.inccommand = "split" -- For incsearch while sub.
