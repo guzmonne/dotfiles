@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
-eval "$(oh-my-posh --init --shell zsh --config ~/.config/ohmyposh/theme.json)"
+if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
+  eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/theme.toml)"
+fi

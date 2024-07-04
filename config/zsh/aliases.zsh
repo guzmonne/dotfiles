@@ -31,13 +31,12 @@ alias rm='rm -i'
 # Configure Kubernetes aliases
 alias k="kubectl"
 alias kc="kubecolor"
-compdef __start_kubectl kubectl
 alias kubeclr='sed -i "" -e "s/^current-context:.*$/current-context:/" ~/.kube/config'
 
 # Kitty alias
 alias kitty="/Applications/kitty.app/Contents/MacOS/kitty"
 
-# Alias rich to always use thr same template
+# Alias rich to always use the same template
 alias rich="rich --theme=inkpot"
 
 # luamake

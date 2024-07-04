@@ -1,0 +1,119 @@
+#:schema = "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json"
+
+version = 1
+final_space = true
+console_title_template = '{{ .Shell }} in {{ .Folder }}'
+
+[[blocks]]
+alignment = "left"
+type = "prompt"
+newline = false
+
+[palette]
+tokionight_green = "#73daca"
+tokionight_blue = "#6d91de"
+tokionight_purple = "#9d7cd8"
+tokionight_magenta = "#ff007c"
+
+[[blocks.segments]]
+background = 'transparent'
+foreground = "p:tokionight_green"
+style = "plain"
+template = "{{ if matchP \"/branches/\" .Path }}{{ .Path | replace \"/branches/\" \" <#FFF>󱏒</> <p:tokionight_blue>\" }}</>{{ else }}{{ .Path }}{{ end }}"
+type = "path"
+
+[blocks.segments.properties]
+style = "full"
+
+[[blocks.segments]]
+type = 'git'
+style = 'plain'
+foreground = "#ffffff"
+background = 'transparent'
+template = '  {{ .HEAD }}{{ if or (.Working.Changed) (.Staging.Changed) }}*{{ end }} <cyan>{{ if gt .Behind 0 }}⇣{{ end }}{{ if gt .Ahead 0 }}⇡{{ end }}</>'
+
+[blocks.segments.properties]
+branch_icon = ''
+commit_icon = '@'
+fetch_status = true
+
+[[blocks]]
+type = 'rprompt'
+overflow = 'hidden'
+
+[[blocks.segments]]
+type = 'executiontime'
+style = 'plain'
+foreground = 'yellow'
+background = 'transparent'
+template = '{{ .FormattedMs }}'
+
+[blocks.segments.properties]
+threshold = 5000
+
+[[blocks]]
+alignment = "right"
+type = "prompt"
+
+[[blocks.segments]]
+foreground = "#ffe873"
+style = "plain"
+type = "command"
+
+[blocks.segments.properties]
+command = "if [ -f './.python-version' ]; then echo  $(/bin/cat ./.python-version); elif [ -n \"$VIRTUAL_ENV_PROMPT\" ]; then echo \" $VIRTUAL_ENV_PROMPT\"; fi"
+shell = "zsh"
+
+[[blocks.segments]]
+foreground = "#6CA35E"
+powerline_symbol = "\ue0b0"
+style = "plain"
+template = " \ue718 {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }} "
+type = "node"
+
+[[blocks.segments]]
+foreground = "#FFA400"
+style = "plain"
+type = "command"
+
+[blocks.segments.properties]
+command = "if [[ -n $AWS_PROFILE ]]; then echo \" $AWS_PROFILE ($AWS_REGION)\" ; fi"
+shell = "zsh"
+
+[[blocks.segments]]
+foreground = "#7dcfff"
+style = "plain"
+type = "command"
+
+[blocks.segments.properties]
+command = "if [[ -n \"$(rg \"current-context: .*$\" ~/.kube/config)\" ]]; then echo \" $(rg 'current-context: .*$' ~/.kube/config | sed -e 's|current-context: ||' | tr -d ' ')\" ; fi"
+shell = "zsh"
+
+
+[[blocks]]
+type = 'prompt'
+alignment = 'left'
+newline = true
+
+[[blocks.segments]]
+type = 'text'
+style = 'plain'
+foreground_templates = [
+  "{{if gt .Code 0}}p:tokionight_magenta{{end}}",
+  "{{if eq .Code 0}}p:tokionight_purple{{end}}",
+]
+background = 'transparent'
+template = '❯'
+
+[transient_prompt]
+foreground_templates = [
+  "{{if gt .Code 0}}p:tokionight_magenta{{end}}",
+  "{{if eq .Code 0}}p:tokionight_purple{{end}}",
+]
+background = 'transparent'
+template = '❯ '
+
+[secondary_prompt]
+foreground = 'p:tokionight_magenta'
+background = 'transparent'
+template = '❯❯ '

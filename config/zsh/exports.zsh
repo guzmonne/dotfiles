@@ -54,9 +54,6 @@ if [ -f "${HOME}/.local/google-cloud-sdk/path.zsh.inc" ]; then . "${HOME}/.local
 # Make kubectl use the new gke_cloud_auth_plugin
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
-# The next line enables shell command completion for gcloud.
-if [ -f "${HOME}/.local/google-cloud-sdk/completion.zsh.inc" ]; then . "${HOME}/.local/google-cloud-sdk/completion.zsh.inc"; fi
-
 # Add gcloud to the global path
 export PATH=$PATH:"${HOME}/.local/google-cloud-sdk/bin"
 
@@ -132,7 +129,9 @@ export FS_BOLD="1m"
 export FS_UL="4m"
 
 # Add luarocks env variables
-eval $(luarocks path)
+if which luarocks >/dev/null 2>&1; then
+  eval $(luarocks path)
+fi
 
 # Configure the folder where all zsh configuration will live.
 export ZDOTDIR=$HOME/.config/zsh
@@ -216,45 +215,9 @@ if [ -d "/opt/homebrew/opt/python@3.11/libexec/bin" ]; then
   export PATH="/opt/homebrew/opt/python@3.11/libexec/bin:${PATH}"
 fi
 
-# Setup virtualenv home.
-export WORKON_HOME=$HOME/.virtualenvs
-
-# Source the virtualenvwrapper if it exists.
-if [ -f "/opt/homebrew/bin/virtualenvwrapper.sh" ]; then
-  source /opt/homebrew/bin/virtualenvwrapper.sh
-fi
-
-# Tell pyenv-virtualenvwrapper to use pyenv when creating new Python environments.
-export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
-
-# PyEnv configuration
-export PYENV_VIRTUALENV_DISABLE_PROMPT=1
-
-# Set the pyenv shims to initialize
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
-fi
-
 # Add the /opt/homebrew/opt/mysql-client/bin:$PATH to the PATH if it exists.
 if [ -d "/opt/homebrew/opt/mysql-client/bin" ]; then
   export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
-fi
-
-# If the llvm package is installed with brew, then setup the correct environment variables.
-if brew list | grep paco >/dev/null; then
-  # To use the bundled libc++ please add the following LDFLAGS:
-  # export LDFLAGS="-L/opt/homebrew/opt/llvm/lib/c++ -Wl,-rpath,/opt/homebrew/opt/llvm/lib/c++"
-
-  # llvm is keg-only, which means it was not symlinked into /opt/homebrew,
-  # because macOS already provides this software and installing another version in
-  # parallel can cause all kinds of trouble.
-
-  # If you need to have llvm first in your PATH, run:
-  echo 'export PATH="/opt/homebrew/opt/llvm/bin:$PATH"' >> ~/.zshrc
-
-  # For compilers to find llvm you may need to set:
-  export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
-  export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
 fi
 
 # Configure the global Glamour style

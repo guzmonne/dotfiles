@@ -23,21 +23,15 @@ unsetopt BEEP
 setopt autocd extendedglob nomatch notify
 unsetopt beep
 bindkey -v
-# End of lines configured by zsh-newuser-install
-# The following lines were added by compinstall
-zstyle :compinstall filename '/Users/gmonne/.config/zsh/.zshrc'
 
-autoload bashcompinit && bashcompinit
-autoload -Uz compaudit compinit zrecompile && compinit
-# End of lines added by compinstall
 zstyle ':completion:*' menu select
 zmodload zsh/complist
 
 # Compinit. Include hidden files.
 _comp_options+=(globdots)
 
-autoload -U up-line-or-beggining-search
-autoload -U down-line-or-beggining-search
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
 zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 zle -N backward-delete-charbindkey
@@ -57,22 +51,12 @@ source "$HOME/.config/zsh/git.zsh"
 
 # Plugins
 # More plugins at: https://github.com/unixorn/awesome-zsh-plugins
-zsh_add_plugin "lukechilds/zsh-nvm"
 zsh_add_plugin "Aloxaf/fzf-tab"
 zsh_add_plugin "zsh-users/zsh-autosuggestions"
 zsh_add_plugin "zsh-users/zsh-completions"
 zsh_add_plugin "zdharma-continuum/fast-syntax-highlighting"
 zsh_add_plugin "hlissner/zsh-autopair"
 zsh_add_plugin "zsh-users/zsh-history-substring-search"
-
-# Normal files to source
-source "$HOME/.config/zsh/history.zsh"
-source "$HOME/.config/zsh/exports.zsh"
-source "$HOME/.config/zsh/aliases.zsh"
-source "$HOME/.config/zsh/prompt.zsh"
-source "$HOME/.config/zsh/mappings.zsh"
-source "$HOME/.config/zsh/completions.zsh"
-source "$HOME/.config/zsh/autoload.zsh"
 
 # Zstyles
 # Select completions with arrow keys.
@@ -101,7 +85,26 @@ export PATH="$(perl -e 'print join(":", grep { not $seen{$_}++ } split(/:/, $ENV
 # Enable McFly
 eval "$(mcfly init zsh)"
 
-# bun completions
-[ -s "/Users/guzmanmonne/.bun/_bun" ] && source "/Users/guzmanmonne/.bun/_bun"
+# Normal files to source
+source "$HOME/.config/zsh/history.zsh"
+source "$HOME/.config/zsh/exports.zsh"
+source "$HOME/.config/zsh/aliases.zsh"
+source "$HOME/.config/zsh/mappings.zsh"
+source "$HOME/.config/zsh/autoload.zsh"
+source "$HOME/.config/zsh/prompt.zsh"
 
-. "$HOME/.cargo/env"
+autoload bashcompinit && bashcompinit
+autoload -Uz compinit
+if [ $(date +'%j') != $(stat -f '%Sm' -t '%j' ~/.zcompdump) ]; then
+  compinit
+else
+  compinit -C
+fi
+
+if which aws_completer > /dev/null 2>&1; then
+  complete -C '/usr/local/bin/aws_completer' aws
+fi
+
+if [ -f "${HOME}/.local/google-cloud-sdk/completion.zsh.inc" ]; then
+  source "${HOME}/.local/google-cloud-sdk/completion.zsh.inc"
+fi
