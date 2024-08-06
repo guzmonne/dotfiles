@@ -183,6 +183,7 @@ export $(cat "$HOME/Projects/Personal/secrets/togetherai.env" | xargs)
 export $(cat "$HOME/Projects/Personal/secrets/brave.env" | xargs)
 export $(cat "$HOME/Projects/Personal/secrets/groq.env" | xargs)
 export $(cat "$HOME/Projects/Personal/secrets/jira.env" | xargs)
+export $(cat "$HOME/Projects/Personal/secrets/stabilityai.env" | xargs)
 
 # Source JAVA_HOME
 export JAVA_HOME=$(/usr/libexec/java_home)

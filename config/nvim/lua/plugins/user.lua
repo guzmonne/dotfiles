@@ -2,6 +2,11 @@ local home = os.getenv("HOME")
 
 return {
   {
+    dir = "~/.config/nvim/lua/user/mods",
+    opts = {},
+    lazy = false,
+  },
+  {
     dir = "~/.config/nvim/lua/user/freeze",
     opts = {
       dir = home .. "/.config/freeze",

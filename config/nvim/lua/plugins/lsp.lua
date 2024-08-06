@@ -15,6 +15,9 @@ return {
   end,
   opts = {
     setup = {
+      rust_analyzer = function()
+        return true
+      end,
       yamlls = function(_, opts)
         opts.settings = {
           yaml = {

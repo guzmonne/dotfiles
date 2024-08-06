@@ -104,3 +104,7 @@ blur = true
 [window.padding]
 x = 5
 y = 0
+
+[[keyboard.bindings]]
+key = "F3"
+action = "ToggleFullScreen"

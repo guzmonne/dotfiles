@@ -265,7 +265,6 @@ semantic() {
 		return 0
 	fi
 	tmp="$(mktemp)"
-	# Create the master prompt using `cat` and `tee`. Also, remove any leading spaces from each line.
 	cat <<-EOF | sed 's/^[ \t]*//' | tee "$tmp"
 		  Consider the following text as your guide to creating a semantic git commit from the given 'git diff' output.
 		  Your semantic commit should start with one of these prefixes:
@@ -307,7 +306,7 @@ semantic() {
 		  """
 	EOF
 	response="$(mktemp)"
-	mods --api anthropic --model opus <"$tmp" | tee "$response"
+	mods --api anthropic --model sonnet <"$tmp" | tee "$response"
 	# c o --stream - <"$tmp" | tee "$response"
 	if [[ -z "$rargs_no_git_commit" ]]; then
 		commit="$(awk '/<output>/,/<\/output>/' "$response" | grep -vE '<output>|<\/output>' | perl -p -e 'chomp if eof')"

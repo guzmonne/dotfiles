@@ -108,3 +108,8 @@ fi
 if [ -f "${HOME}/.local/google-cloud-sdk/completion.zsh.inc" ]; then
   source "${HOME}/.local/google-cloud-sdk/completion.zsh.inc"
 fi
+
+eval "$(mcfly init zsh)"
+
+# bun completions
+[ -s "/Users/guzmanmonne/.bun/_bun" ] && source "/Users/guzmanmonne/.bun/_bun"

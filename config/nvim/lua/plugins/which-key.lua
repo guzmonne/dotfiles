@@ -40,107 +40,85 @@ local function terminal_window()
   vim.cmd.term()
 end
 
+local function harpoon_toggle_quick_menu()
+  harpoon.ui:toggle_quick_menu(harpoon:list())
+end
+local function harpoon_add_file()
+  harpoon:list():add()
+end
+local function harpoon_next()
+  harpoon:list():next()
+end
+local function harpoon_prev()
+  harpoon:list():next()
+end
+
 return {
   "folke/which-key.nvim",
   opts = {
     plugins = { spelling = true },
     defaults = {},
   },
-  config = function(_, opts)
-    local wk = require("which-key")
-    wk.setup(opts)
-    wk.register(opts.defaults)
-    wk.register({
-      -- Git
-      g = {
-        name = "Git",
-        s = { "<cmd>Git<CR>", "Open Git Fugitive" },
-        p = { "<cmd>Gitsigns preview_hunk<CR>", "Preview Hunk" },
-        t = { "<cmd>Gitsigns toggle_current_line_blame<CR>", "Toggle current line blame" },
-      },
-      -- Handle file permissions
-      c = {
-        name = "Commands",
-        p = { "<cmd>Copilot enable<CR>", "Enable GitHub Copilot for current buffer" },
-        x = { "<cmd>!chmod +x %<CR>", "Add execute permission to current file" },
-      },
-      -- Quit buffers
-      q = {
-        name = "Quit",
-        q = { "<cmd>bp<bar>sp<bar>bn<bar>bd<CR>", "Close buffer but keep split" },
-        a = { "<cmd>qa!<CR>", "Close NeoVim without saving" },
-        w = { "<cmd>xa<CR>", "Close NeoVim after saving all current open buffers" },
-      },
-      -- Trouble
-      t = {
-        t = { require("trouble.sources.telescope").open, "Trouble Toggle" },
-        w = { terminal_window, "Open a new Terminal Window in the bottom" },
-      },
-      -- ZK
-      z = {
-        name = "ZK",
-        n = { require("user.zk").new, "Create a new note" },
-        z = { require("user.zk").telescope_list, "Find notes" },
-        p = { require("user.zk").private, "Create a new private note" },
-      },
-      -- Lua / Lsp
-      l = {
-        name = "lua/lsp",
-        f = { format, "Format current buffer using LSP" },
-        l = { reload_lua_plugins, "Reload Lua plugins" },
-        e = { vim.diagnostic.open_float, "Open diagnostic float" },
-        r = { require("user.functions").reload, "Reload user lua modules" },
-        p = { pwd, "Print and copy the buffer full path" },
-      },
-      -- Harpoon
-      h = {
-        function()
-          harpoon:list():add()
-        end,
-        "Add file to Harpoon",
-      },
-      n = {
-        function()
-          harpoon:list():next()
-        end,
-        "Toggle next buffer stored in Harpoon",
-      },
-      p = {
-        function()
-          harpoon:list():prev()
-        end,
-        "Toggle prev buffer stored in Harpoon",
-      },
-      [","] = {
-        function()
-          harpoon.ui:toggle_quick_menu(harpoon:list())
-        end,
-        "Toggle Harpoon's quick menu",
-      },
-      ["1"] = { create_go_to_file(1), "Go to file " .. "1" },
-      ["2"] = { create_go_to_file(2), "Go to file " .. "2" },
-      ["3"] = { create_go_to_file(3), "Go to file " .. "3" },
-      ["4"] = { create_go_to_file(4), "Go to file " .. "4" },
-      -- Moving text
-      k = { "<cmd>m .-2<CR>==", "Move text up" },
-      j = { "<cmd>m .+1<CR>==", "Move text down" },
-      -- Telescope
-      f = {
-        name = "Telescope",
-        f = { find_files, "Find files" },
-        g = { "<cmd>Telescope git_files<CR>", "Find git files" },
-        b = { "<cmd>Telescope buffers<CR>", "Find open buffers" },
-        r = { "<cmd>Telescope lsp_references<CR>", "Find registers" },
-        s = { "<cmd>Telescope lsp_document_symbols<CR>", "Find symbols" },
-        z = { "<cmd>Telescope spell_suggest<CR>", "Spell suggest" },
-        l = { live_grep, "Live grep" },
-      },
-      ["-"] = { require("oil").open, "Open oil" },
-    }, { prefix = "<leader>" })
-
-    -- Quit mappings
-    wk.register({
-      Q = { "<cmd>bd<CR>", "Close the current buffer" },
-    })
-  end,
+  keys = {
+    { "<leader>,", harpoon_toggle_quick_menu, desc = "Toggle Harpoon's quick menu" },
+    { "<leader>-", require("oil").open, desc = "Open oil" },
+    { "<leader>1", create_go_to_file(1), desc = "Go to file 1" },
+    { "<leader>2", create_go_to_file(2), desc = "Go to file 2" },
+    { "<leader>3", create_go_to_file(3), desc = "Go to file 3" },
+    { "<leader>4", create_go_to_file(4), desc = "Go to file 4" },
+    { "<leader>c", group = "Commands" },
+    { "<leader>cp", "<cmd>Copilot enable<CR>", desc = "Enable GitHub Copilot for current buffer" },
+    { "<leader>cx", "<cmd>!chmod +x %<CR>", desc = "Add execute permission to current file" },
+    { "<leader>f", group = "Telescope" },
+    { "<leader>fb", "<cmd>Telescope buffers<CR>", desc = "Find open buffers" },
+    { "<leader>ff", find_files, desc = "Find files" },
+    { "<leader>fg", "<cmd>Telescope git_files<CR>", desc = "Find git files" },
+    { "<leader>fl", live_grep, desc = "Live grep" },
+    { "<leader>fr", "<cmd>Telescope lsp_references<CR>", desc = "Find registers" },
+    { "<leader>fs", "<cmd>Telescope lsp_document_symbols<CR>", desc = "Find symbols" },
+    { "<leader>fz", "<cmd>Telescope spell_suggest<CR>", desc = "Spell suggest" },
+    { "<leader>g", group = "Git" },
+    { "<leader>gp", "<cmd>Gitsigns preview_hunk<CR>", desc = "Preview Hunk" },
+    { "<leader>gs", "<cmd>Git<CR>", desc = "Open Git Fugitive" },
+    { "<leader>gt", "<cmd>Gitsigns toggle_current_line_blame<CR>", desc = "Toggle current line blame" },
+    { "<leader>gy", "<cmd>GpChatPaste vsplit<CR>", desc = "Paste into the latest chat in a vertical split" },
+    { "<leader>gt", "<cmd>GpChatToggle vsplit<CR>", desc = "Toggle chat in a vertical split window" },
+    { "<leader>gz", "<cmd>GpChatFinder<CR>", desc = "Open a dialog to search through chats" },
+    {
+      "<leader>gr",
+      "<cmd>'<,'>GpRewrite<CR>",
+      desc = "Open a dialog for entering a prompt and replaces text",
+      mode = { "v" },
+    },
+    {
+      "<leader>ga",
+      "<cmd>'<,'>GpAppend<CR>",
+      desc = "Open a dialog for entering a prompt and appends text",
+      mode = { "v" },
+    },
+    { "<leader>gc", "<cmd>GpContext<CR>", desc = "Provides custom context per repository" },
+    { "<leader>ge", "<cmd>'<,'>GpEdit<CR>", desc = "Edit the selected text", mode = { "v" } },
+    { "<leader>g[", "<cmd>GpNextAgent<CR>", desc = "Cycles between available agents" },
+    { "<leader>h", harpoon_add_file, desc = "Add file to Harpoon" },
+    { "<leader>j", "<cmd>m .+1<CR>==", desc = "Move text down" },
+    { "<leader>k", "<cmd>m .-2<CR>==", desc = "Move text up" },
+    { "<leader>l", group = "lua/lsp" },
+    { "<leader>le", vim.diagnostic.open_float, desc = "Open diagnostic float" },
+    { "<leader>lf", format, desc = "Format current buffer using LSP" },
+    { "<leader>ll", reload_lua_plugins, desc = "Reload Lua plugins" },
+    { "<leader>lp", pwd, desc = "Print and copy the buffer full path" },
+    { "<leader>lr", require("user.functions").reload, desc = "Reload user lua modules" },
+    { "<leader>n", harpoon_next, desc = "Toggle next buffer stored in Harpoon" },
+    { "<leader>p", harpoon_prev, desc = "Toggle prev buffer stored in Harpoon" },
+    { "<leader>q", group = "Quit" },
+    { "<leader>qa", "<cmd>qa!<CR>", desc = "Close NeoVim without saving" },
+    { "<leader>qq", "<cmd>bp<bar>sp<bar>bn<bar>bd<CR>", desc = "Close buffer but keep split" },
+    { "<leader>qw", "<cmd>xa<CR>", desc = "Close NeoVim after saving all current open buffers" },
+    { "<leader>tw", terminal_window, desc = "Open a new Terminal Window in the bottom" },
+    { "<leader>z", group = "ZK" },
+    { "<leader>zn", require("user.zk").new, desc = "Create a new note" },
+    { "<leader>zp", require("user.zk").private, desc = "Create a new private note" },
+    { "<leader>zz", require("user.zk").telescope_list, desc = "Find notes" },
+    { "Q", "<cmd>bd<CR>", desc = "Close the current buffer" },
+  },
 }

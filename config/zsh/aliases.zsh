@@ -6,6 +6,7 @@ alias vim="nvim"
 alias zconfig="vim ~/.zshrc"
 alias zsource="source ~/.zshrc"
 alias cat="bat"
+alias cd="z"
 # alias ls="lsd"
 # alias ll="ls -alh --color=auto"
 alias ls="exa"
@@ -104,3 +105,9 @@ alias e1s-dev="AWS_PROFILE=bedrock-dev e1s"
 
 # Typeos
 alias nvmi="nvim"
+
+# Mods
+alias manthropic="mods --api anthropic --model sonnet"
+alias mollama="mods --api ollama"
+alias mhermes2="mods --api ollama --model hermes2"
+alias mcommandr="mods --api ollama --model command-r"

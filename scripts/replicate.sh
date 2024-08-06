@@ -13,24 +13,24 @@ fi
 set -e
 
 
-normalize_input() {
+normalize_rargs_input() {
   local arg flags
 
   while [[ $# -gt 0 ]]; do
     arg="$1"
     if [[ $arg =~ ^(--[a-zA-Z0-9_\-]+)=(.+)$ ]]; then
-      input+=("${BASH_REMATCH[1]}")
-      input+=("${BASH_REMATCH[2]}")
+      rargs_input+=("${BASH_REMATCH[1]}")
+      rargs_input+=("${BASH_REMATCH[2]}")
     elif [[ $arg =~ ^(-[a-zA-Z0-9])=(.+)$ ]]; then
-      input+=("${BASH_REMATCH[1]}")
-      input+=("${BASH_REMATCH[2]}")
+      rargs_input+=("${BASH_REMATCH[1]}")
+      rargs_input+=("${BASH_REMATCH[2]}")
     elif [[ $arg =~ ^-([a-zA-Z0-9][a-zA-Z0-9]+)$ ]]; then
       flags="${BASH_REMATCH[1]}"
       for ((i = 0; i < ${#flags}; i++)); do
-        input+=("-${flags:i:1}")
+        rargs_input+=("-${flags:i:1}")
       done
     else
-      input+=("$arg")
+      rargs_input+=("$arg")
     fi
 
     shift
@@ -39,7 +39,7 @@ normalize_input() {
 
 inspect_args() {
   prefix="rargs_"
-  args="$(set | grep ^$prefix || true)"
+  args="$(set | grep ^$prefix | grep -v rargs_run || true)"
   if [[ -n "$args" ]]; then
     echo
     echo args:
@@ -55,12 +55,12 @@ inspect_args() {
     for k in "${sorted_keys[@]}"; do echo "- \${deps[$k]} = ${deps[$k]}"; done
   fi
 
-  if ((${#other_args[@]})); then
+  if ((${#rargs_other_args[@]})); then
     echo
-    echo other_args:
-    echo "- \${other_args[*]} = ${other_args[*]}"
-    for i in "${!other_args[@]}"; do
-      echo "- \${other_args[$i]} = ${other_args[$i]}"
+    echo rargs_other_args:
+    echo "- \${rargs_other_args[*]} = ${rargs_other_args[*]}"
+    for i in "${!rargs_other_args[@]}"; do
+      echo "- \${rargs_other_args[$i]} = ${rargs_other_args[$i]}"
     done
   fi
 }
@@ -68,20 +68,21 @@ inspect_args() {
 trap handle_exit SIGINT
 REPLICATE_API_PREDICTIONS_URL="https://api.replicate.com/v1/predictions"
 REPLICATE_CHATML_SYSTEM_PROMPT_TEMPLATE='<|im_start|>system ${SYSTEM_PROMPT}<|im_end|> <|im_start|>user {prompt}<|im_end|> <|im_start|>assistant:'
+REPLICATE_LLAMA3_SYSTEM_PROMPT_TEMPLATE='<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\n${SYSTEM_PROMPT}<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n{prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n'
 REPLICATE_LLAMA2_SYSTEM_PROMPT_TEMPLATE='[INST] {prompt} [/INST]\n'
 REPLICATE_MISTRAL_SYSTEM_PROMPT_TEMPLATE='<|system|>\n${SYSTEM_PROMPT}</s>\n<|user|>\n{prompt}</s>\n<|assistant|>\n'
 REPLICATE_DOLPHIN_SYSTEM_PROMPT_TEMPLATE='<|im_start|>system\n${SYSTEM_PROMPT}\n<|im_end|>\n<|im_start|>user\n{prompt}<|im_end|>\n<|im_start|>assistant\n'
 REPLICATE_FALCON_SYSTEM_PROMPT_TEMPLATE='{prompt}'
 REPLICATE_CANCEL_URL=""
 handle_exit() {
-  printf "\r\033[K[SININT] Exiting...\n" >&2
-  printf "%s" "$REPLICATE_CANCEL_URL" >&2
-  if [[ -n "$REPLICATE_CANCEL_URL" ]]; then
-    echo "Cancelling request... $REPLICATE_CANCEL_URL" >&2
-    curl -s -H "Authorization: Token $REPLICATE_API_TOKEN" "$REPLICATE_CANCEL_URL" >&2
-  fi
-  kill -- -$$
-  exit 1
+	printf "\r\033[K[SININT] Exiting...\n" >&2
+	printf "%s" "$REPLICATE_CANCEL_URL" >&2
+	if [[ -n "$REPLICATE_CANCEL_URL" ]]; then
+		echo "Cancelling request... $REPLICATE_CANCEL_URL" >&2
+		curl -s -H "Authorization: Token $REPLICATE_API_TOKEN" "$REPLICATE_CANCEL_URL" >&2
+	fi
+	kill -- -$$
+	exit 1
 }
 
 version() {
@@ -99,8 +100,10 @@ usage() {
   causallm-14b ................ Expose the Causal-LM model through Replicate
   codellama-34b-instruct ...... Expose the codellama-34b-instruct model through Replicate
   dolphin-2.2.1-mistral-7b .... Expose the dolphin-2.2.1-mistral-7b model through Replicate
+  dolphin29 ................... Expose the dolphin-2.9-llama3-70b-gguf model through Replicate
   falcon-40b-instruct ......... Expose the falcon-40b-instruct model through Replicate
   llama2-70b .................. Expose the llama2-70b model through Replicate
+  llama3-70b .................. Expose the llama2-70b model through Replicate
   mistral-7b-instruct-v0.1 .... Expose the mistral-7b-instruct-v0.1 through Replicate
   mistral-7b-openorca ......... Expose the mistral-7b-openorca model through Replicate
   openhermes-2-mistral-7b ..... Expose the openhermes-2-mistral-7b model through Replicate
@@ -134,79 +137,87 @@ parse_arguments() {
   case $action in
     airoboros-llama-2|airoboros|airoboros-llama-2-70b)
       action="airoboros-llama-2-70b"
-      input=("${input[@]:1}")
+      rargs_input=("${rargs_input[@]:1}")
       ;;
     api)
       action="api"
-      input=("${input[@]:1}")
+      rargs_input=("${rargs_input[@]:1}")
       ;;
     causallm|causal|causallm-14b)
       action="causallm-14b"
-      input=("${input[@]:1}")
+      rargs_input=("${rargs_input[@]:1}")
       ;;
     codellama-34b|codellama|codellama-34b-instruct)
       action="codellama-34b-instruct"
-      input=("${input[@]:1}")
+      rargs_input=("${rargs_input[@]:1}")
       ;;
     dolphin-mistral-7b|dolphin-mistral|dolphin-2.2.1-mistral-7b)
       action="dolphin-2.2.1-mistral-7b"
-      input=("${input[@]:1}")
+      rargs_input=("${rargs_input[@]:1}")
+      ;;
+    dolphin29|dolphin29)
+      action="dolphin29"
+      rargs_input=("${rargs_input[@]:1}")
       ;;
     falcon-40b|falcon|falcon-40b-instruct)
       action="falcon-40b-instruct"
-      input=("${input[@]:1}")
+      rargs_input=("${rargs_input[@]:1}")
       ;;
     llama2|llama2-70b)
       action="llama2-70b"
-      input=("${input[@]:1}")
+      rargs_input=("${rargs_input[@]:1}")
+      ;;
+    llama3|llama3-70b)
+      action="llama3-70b"
+      rargs_input=("${rargs_input[@]:1}")
       ;;
     long-pull)
       action="long-pull"
-      input=("${input[@]:1}")
+      rargs_input=("${rargs_input[@]:1}")
       ;;
     mistral-7b-instruct|mistral-7b|mistral|mistral-7b-instruct-v0.1)
       action="mistral-7b-instruct-v0.1"
-      input=("${input[@]:1}")
+      rargs_input=("${rargs_input[@]:1}")
       ;;
     openorca|mistral-7b-openorca)
       action="mistral-7b-openorca"
-      input=("${input[@]:1}")
+      rargs_input=("${rargs_input[@]:1}")
       ;;
     openhermes-2-mistral|openhermes-2|openhermes|hermes|openhermes-2-mistral-7b)
       action="openhermes-2-mistral-7b"
-      input=("${input[@]:1}")
+      rargs_input=("${rargs_input[@]:1}")
       ;;
     request)
       action="request"
-      input=("${input[@]:1}")
+      rargs_input=("${rargs_input[@]:1}")
       ;;
     request-chatml)
       action="request-chatml"
-      input=("${input[@]:1}")
+      rargs_input=("${rargs_input[@]:1}")
       ;;
     request-dolphin)
       action="request-dolphin"
-      input=("${input[@]:1}")
+      rargs_input=("${rargs_input[@]:1}")
       ;;
     request-falcon)
       action="request-falcon"
-      input=("${input[@]:1}")
+      rargs_input=("${rargs_input[@]:1}")
       ;;
     request-llama)
       action="request-llama"
-      input=("${input[@]:1}")
+      rargs_input=("${rargs_input[@]:1}")
       ;;
     request-mistral)
       action="request-mistral"
-      input=("${input[@]:1}")
+      rargs_input=("${rargs_input[@]:1}")
       ;;
     spinner)
       action="spinner"
-      input=("${input[@]:1}")
+      rargs_input=("${rargs_input[@]:1}")
       ;;
     zephyr-7b|zephyr|zephyr-7b-beta)
       action="zephyr-7b-beta"
-      input=("${input[@]:1}")
+      rargs_input=("${rargs_input[@]:1}")
       ;;
     -h|--help)
       usage
@@ -322,11 +333,11 @@ airoboros-llama-2-70b() {
     airoboros-llama-2-70b_usage >&2
     exit 1
   fi
-  request-llama -m "ae090a64e6b4468d7fa85c6ca33c979b3cd941c12b1cfa2a237b4a7aa6ebaac4" "$@"
+	request-llama -m "ae090a64e6b4468d7fa85c6ca33c979b3cd941c12b1cfa2a237b4a7aa6ebaac4" "$@"
 }
 api_usage() {
   printf "Interact with the replicate API\n"
-  printf "This command takes the union of options to configure multiple models. It's your responsability to check that the model you want to use supports them.\n"
+  printf "This command takes the union of options to configure multiple models. It's your responsibility to check that the model you want to use supports them.\n"
 
   printf "\n\033[4m%s\033[0m\n" "Usage:"
   printf "  api -m|--model <MODEL> [OPTIONS] PROMPT\n"
@@ -475,7 +486,7 @@ parse_api_arguments() {
   done
 }
 # Interact with the replicate API
-# This command takes the union of options to configure multiple models. It's your responsability to check that the model you want to use supports them.
+# This command takes the union of options to configure multiple models. It's your responsibility to check that the model you want to use supports them.
 api() {
   local rargs_use_lora
   local rargs_verbose
@@ -524,91 +535,91 @@ api() {
     api_usage >&2
     exit 1
   fi
-  if [[ "$rargs_prompt" == "-" ]]; then
-    rargs_prompt="$(cat -)"
-  fi
-  data="$(jo prompt="$rargs_prompt")"
-  # Temperature
-  if [[ -n "$rargs_temperature" ]]; then
-    data="$(jo -f <(echo -n "$data") temperature="$rargs_temperature")"
-  fi
-  # Top-p
-  if [[ -n "$rargs_top_p" ]]; then
-    data="$(jo -f <(echo -n "$data") top_p="$rargs_top_p")"
-  fi
-  # Top-k
-  if [[ -n "$rargs_top_k" ]]; then
-    data="$(jo -f <(echo -n "$data") top_k="$rargs_top_k")"
-  fi
-  # Presence penalty
-  if [[ -n "$rargs_presence_penalty" ]]; then
-    data="$(jo -f <(echo -n "$data") presence_penalty="$rargs_presence_penalty")"
-  fi
-  # Frequency penalty
-  if [[ -n "$rargs_frequency_penalty" ]]; then
-    data="$(jo -f <(echo -n "$data") frequency_penalty="$rargs_frequency_penalty")"
-  fi
-  # Prompt template
-  if [[ -n "$rargs_prompt_template" ]]; then
-    data="$(jo -f <(echo -n "$data") prompt_template="$rargs_prompt_template")"
-  fi
-  # System prompt
-  if [[ -n "$rargs_system_prompt" ]]; then
-    data="$(jo -f <(echo -n "$data") system_prompt="$rargs_system_prompt")"
-  fi
-  # Min new tokens
-  if [[ -n "$rargs_min_new_tokens" ]]; then
-    data="$(jo -f <(echo -n "$data") min_new_tokens="$rargs_min_new_tokens")"
-  fi
-  # Max new tokens
-  if [[ -n "$rargs_max_new_tokens" ]]; then
-    data="$(jo -f <(echo -n "$data") max_new_tokens="$rargs_max_new_tokens")"
-  fi
-  # Max tokens
-  if [[ -n "$rargs_max_tokens" ]]; then
-    data="$(jo -f <(echo -n "$data") max_tokens="$rargs_max_tokens")"
-  fi
-  # Min tokens
-  if [[ -n "$rargs_min_tokens" ]]; then
-    data="$(jo -f <(echo -n "$data") min_tokens="$rargs_min_tokens")"
-  fi
-  # Stop sequences
-  if [[ -n "$rargs_stop_sequences" ]]; then
-    data="$(jo -f <(echo -n "$data") stop_sequences="$rargs_stop_sequences")"
-  fi
-  # Seed
-  if [[ -n "$rargs_seed" ]]; then
-    data="$(jo -f <(echo -n "$data") seed="$rargs_seed")"
-  fi
-  # Debug
-  if [[ -n "$rargs_debug" ]]; then
-    data="$(jo -f <(echo -n "$data") debug="$rargs_debug")"
-  fi
-  # Use LoRa
-  if [[ -n "$rargs_use_lora" ]]; then
-    data="$(jo -f <(echo -n "$data") use_lora=true)"
-  fi
-  response="$(curl -s -X POST \
-    -H "Content-Type: application/json" \
-    -d "$(jo version="$rargs_model" input="$data")" \
-    -H "Authorization: Token $REPLICATE_API_TOKEN" \
-    "$REPLICATE_API_PREDICTIONS_URL")"
-  REPLICATE_CANCEL_URL="$(jq -r '.urls.cancel' <<< "$response")"
-  if [[ -n "$rargs_verbose" ]]; then
-    printf "\r\033[K%s\n" "$response" >&2
-  fi
-  timeout 120s "$0" long-pull "$(if [[ -n "$rargs_verbose" ]]; then echo "--verbose"; fi)" "$(jq -r '.urls.get' <<< "$response")" &
-  local long_pull_pid=$!
-  spinner "$long_pull_pid"
-  wait $long_pull_pid
-  local exit_status=$?
-  if [[ "$exit_status" -eq 124 ]]; then
-    printf "\r\033[KRequest timed out\n" >&2
-    if [[ -n "$REPLICATE_CANCEL_URL" ]]; then
-      printf "\r\033[KCancelling request... %s\n" "$REPLICATE_CANCEL_URL" >&2
-      curl -s -H "Authorization: Token $REPLICATE_API_TOKEN" "$REPLICATE_CANCEL_URL" >&2
-    fi
-  fi
+	if [[ "$rargs_prompt" == "-" ]]; then
+		rargs_prompt="$(cat -)"
+	fi
+	data="$(jo prompt="$rargs_prompt")"
+	# Temperature
+	if [[ -n "$rargs_temperature" ]]; then
+		data="$(jo -f <(echo -n "$data") temperature="$rargs_temperature")"
+	fi
+	# Top-p
+	if [[ -n "$rargs_top_p" ]]; then
+		data="$(jo -f <(echo -n "$data") top_p="$rargs_top_p")"
+	fi
+	# Top-k
+	if [[ -n "$rargs_top_k" ]]; then
+		data="$(jo -f <(echo -n "$data") top_k="$rargs_top_k")"
+	fi
+	# Presence penalty
+	if [[ -n "$rargs_presence_penalty" ]]; then
+		data="$(jo -f <(echo -n "$data") presence_penalty="$rargs_presence_penalty")"
+	fi
+	# Frequency penalty
+	if [[ -n "$rargs_frequency_penalty" ]]; then
+		data="$(jo -f <(echo -n "$data") frequency_penalty="$rargs_frequency_penalty")"
+	fi
+	# Prompt template
+	if [[ -n "$rargs_prompt_template" ]]; then
+		data="$(jo -f <(echo -n "$data") prompt_template="$rargs_prompt_template")"
+	fi
+	# System prompt
+	if [[ -n "$rargs_system_prompt" ]]; then
+		data="$(jo -f <(echo -n "$data") system_prompt="$rargs_system_prompt")"
+	fi
+	# Min new tokens
+	if [[ -n "$rargs_min_new_tokens" ]]; then
+		data="$(jo -f <(echo -n "$data") min_new_tokens="$rargs_min_new_tokens")"
+	fi
+	# Max new tokens
+	if [[ -n "$rargs_max_new_tokens" ]]; then
+		data="$(jo -f <(echo -n "$data") max_new_tokens="$rargs_max_new_tokens")"
+	fi
+	# Max tokens
+	if [[ -n "$rargs_max_tokens" ]]; then
+		data="$(jo -f <(echo -n "$data") max_tokens="$rargs_max_tokens")"
+	fi
+	# Min tokens
+	if [[ -n "$rargs_min_tokens" ]]; then
+		data="$(jo -f <(echo -n "$data") min_tokens="$rargs_min_tokens")"
+	fi
+	# Stop sequences
+	if [[ -n "$rargs_stop_sequences" ]]; then
+		data="$(jo -f <(echo -n "$data") stop_sequences="$rargs_stop_sequences")"
+	fi
+	# Seed
+	if [[ -n "$rargs_seed" ]]; then
+		data="$(jo -f <(echo -n "$data") seed="$rargs_seed")"
+	fi
+	# Debug
+	if [[ -n "$rargs_debug" ]]; then
+		data="$(jo -f <(echo -n "$data") debug="$rargs_debug")"
+	fi
+	# Use LoRa
+	if [[ -n "$rargs_use_lora" ]]; then
+		data="$(jo -f <(echo -n "$data") use_lora=true)"
+	fi
+	response="$(curl -s -X POST \
+		-H "Content-Type: application/json" \
+		-d "$(jo version="$rargs_model" input="$data")" \
+		-H "Authorization: Token $REPLICATE_API_TOKEN" \
+		"$REPLICATE_API_PREDICTIONS_URL")"
+	REPLICATE_CANCEL_URL="$(jq -r '.urls.cancel' <<<"$response")"
+	if [[ -n "$rargs_verbose" ]]; then
+		printf "\r\033[K%s\n" "$response" >&2
+	fi
+	timeout 120s "$0" long-pull "$(if [[ -n "$rargs_verbose" ]]; then echo "--verbose"; fi)" "$(jq -r '.urls.get' <<<"$response")" &
+	local long_pull_pid=$!
+	spinner "$long_pull_pid"
+	wait $long_pull_pid
+	local exit_status=$?
+	if [[ "$exit_status" -eq 124 ]]; then
+		printf "\r\033[KRequest timed out\n" >&2
+		if [[ -n "$REPLICATE_CANCEL_URL" ]]; then
+			printf "\r\033[KCancelling request... %s\n" "$REPLICATE_CANCEL_URL" >&2
+			curl -s -H "Authorization: Token $REPLICATE_API_TOKEN" "$REPLICATE_CANCEL_URL" >&2
+		fi
+	fi
 }
 causallm-14b_usage() {
   printf "Expose the Causal-LM model through Replicate\n"
@@ -705,7 +716,7 @@ causallm-14b() {
     causallm-14b_usage >&2
     exit 1
   fi
-  request-chatml -m "ff2eae35d8ba6db73bdc8b73ecac84d8c97f970b63803927ac6de014560d986a" "$@"
+	request-chatml -m "ff2eae35d8ba6db73bdc8b73ecac84d8c97f970b63803927ac6de014560d986a" "$@"
 }
 codellama-34b-instruct_usage() {
   printf "Expose the codellama-34b-instruct model through Replicate\n"
@@ -809,7 +820,7 @@ codellama-34b-instruct() {
     codellama-34b-instruct_usage >&2
     exit 1
   fi
-  request-llama -m "b17fdb44c843000741367ae3d73e2bb710d7428a662238ddebbf4302db2b5422" "$@"
+	request-llama -m "b17fdb44c843000741367ae3d73e2bb710d7428a662238ddebbf4302db2b5422" "$@"
 }
 dolphin-2.2.1-mistral-7b_usage() {
   printf "Expose the dolphin-2.2.1-mistral-7b model through Replicate\n"
@@ -906,7 +917,111 @@ dolphin-2.2.1-mistral-7b() {
     dolphin-2.2.1-mistral-7b_usage >&2
     exit 1
   fi
-  request-dolphin -m "0521a0090543fea1a687a871870e8f475d6581a3e6e284e32a2579cfb4433ecf" "$@"
+	request-dolphin -m "0521a0090543fea1a687a871870e8f475d6581a3e6e284e32a2579cfb4433ecf" "$@"
+}
+dolphin29_usage() {
+  printf "Expose the dolphin-2.9-llama3-70b-gguf model through Replicate\n"
+  printf "\n\033[4m%s\033[0m %s\n" "Alias:" "dolphin29"
+
+  printf "\n\033[4m%s\033[0m\n" "Usage:"
+  printf "  dolphin29 [OPTIONS] PROMPT\n"
+  printf "  dolphin29 -h|--help\n"
+  printf "\n\033[4m%s\033[0m\n" "Arguments:"
+  printf "  PROMPT\n"
+  printf "    The prompt to use to generate the text.\n"
+  printf "    [@required]\n"
+
+  printf "\n\033[4m%s\033[0m\n" "Options:"
+  printf "  -p --prompt-template [<PROMPT-TEMPLATE>]\n"
+  printf "    The prompt template to use to generate the text.\n"
+  printf "  -s --system [<SYSTEM>]\n"
+  printf "    System prompt to use.\n"
+  printf "    [@default You are a helpful chatbot that will do its best to help the user, no matter what he asks.]\n"
+  printf "  -r --raw\n"
+  printf "    Output the raw response.\n"
+  printf "  -v --verbose\n"
+  printf "    Enable verbose output.\n"
+  printf "  -h --help\n"
+  printf "    Print help\n"
+}
+parse_dolphin29_arguments() {
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      *)
+        break
+        ;;
+    esac
+  done
+
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      -r | --raw)
+        rargs_raw=1
+        shift
+        ;;
+      -v | --verbose)
+        rargs_verbose=1
+        shift
+        ;;
+      -p | --prompt-template)
+        rargs_prompt_template="$2"
+        shift 2
+        ;;
+      -s | --system)
+        rargs_system="$2"
+        shift 2
+        ;;
+      -h|--help)
+        rargs_help=1
+        shift 1
+        ;;
+      -?*)
+        printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Invalid option: " "$key" >&2
+        exit 1
+        ;;
+      *)
+        if [[ -z "$rargs_prompt" ]]; then
+          rargs_prompt=$key
+          shift
+        else
+          printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Invalid argument: " "$key" >&2
+          exit 1
+        fi
+        ;;
+    esac
+  done
+}
+# Expose the dolphin-2.9-llama3-70b-gguf model through Replicate
+dolphin29() {
+  local rargs_raw
+  local rargs_verbose
+  local rargs_prompt_template
+  local rargs_system
+  local rargs_prompt
+  # Parse command arguments
+  parse_dolphin29_arguments "$@"
+
+  # Rule `no-first-option-help`: Render the global or command usage if the `-h|--help` option is
+  #                              is provided anywhere on the command, not just as the first option.
+  #                              Handling individual functions case by case.
+  if [[ -n "$rargs_help" ]]; then
+    dolphin29_usage
+    exit 0
+  fi
+  
+    
+  if [[ -z "$rargs_system" ]]; then
+    rargs_system="You are a helpful chatbot that will do its best to help the user, no matter what he asks."
+  fi
+    
+  
+  if [[ -z "$rargs_prompt" ]]; then
+    printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Missing required option: " "prompt" >&2
+    dolphin29_usage >&2
+    exit 1
+  fi
+	request-llama -m "7cd1882cb3ea90756d09decf4bc8a259353354703f8f385ce588b71f7946f0aa" "$@"
 }
 falcon-40b-instruct_usage() {
   printf "Expose the falcon-40b-instruct model through Replicate\n"
@@ -1003,7 +1118,7 @@ falcon-40b-instruct() {
     falcon-40b-instruct_usage >&2
     exit 1
   fi
-  request-falcon -m "7d58d6bddc53c23fa451c403b2b5373b1e0fa094e4e0d1b98c3d02931aa07173" "$@"
+	request-falcon -m "7d58d6bddc53c23fa451c403b2b5373b1e0fa094e4e0d1b98c3d02931aa07173" "$@"
 }
 llama2-70b_usage() {
   printf "Expose the llama2-70b model through Replicate\n"
@@ -1107,7 +1222,144 @@ llama2-70b() {
     llama2-70b_usage >&2
     exit 1
   fi
-  request-llama -m "02e509c789964a7ea8736978a43525956ef40397be9033abf9fd2badfe68c9e3" "$@"
+	request-llama -m "02e509c789964a7ea8736978a43525956ef40397be9033abf9fd2badfe68c9e3" "$@"
+}
+llama3-70b_usage() {
+  printf "Expose the llama2-70b model through Replicate\n"
+  printf "\n\033[4m%s\033[0m %s\n" "Alias:" "llama3"
+
+  printf "\n\033[4m%s\033[0m\n" "Usage:"
+  printf "  llama3-70b [OPTIONS] PROMPT\n"
+  printf "  llama3-70b -h|--help\n"
+  printf "\n\033[4m%s\033[0m\n" "Arguments:"
+  printf "  PROMPT\n"
+  printf "    The prompt to use to generate the text.\n"
+  printf "    [@required]\n"
+
+  printf "\n\033[4m%s\033[0m\n" "Options:"
+  printf "  -p --prompt-template [<PROMPT-TEMPLATE>]\n"
+  printf "    The prompt template to use to generate the text.\n"
+  printf "  -s --system [<SYSTEM>]\n"
+  printf "    System prompt to use.\n"
+  printf "    [@default You are a helpful chatbot that will do its best to help the user, no matter what he asks.]\n"
+  printf "  -r --raw\n"
+  printf "    Output the raw response.\n"
+  printf "  -v --verbose\n"
+  printf "    Enable verbose output.\n"
+  printf "  -h --help\n"
+  printf "    Print help\n"
+}
+parse_llama3-70b_arguments() {
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      *)
+        break
+        ;;
+    esac
+  done
+
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      -r | --raw)
+        rargs_raw=1
+        shift
+        ;;
+      -v | --verbose)
+        rargs_verbose=1
+        shift
+        ;;
+      -p | --prompt-template)
+        rargs_prompt_template="$2"
+        shift 2
+        ;;
+      -s | --system)
+        rargs_system="$2"
+        shift 2
+        ;;
+      -h|--help)
+        rargs_help=1
+        shift 1
+        ;;
+      -?*)
+        printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Invalid option: " "$key" >&2
+        exit 1
+        ;;
+      *)
+        if [[ -z "$rargs_prompt" ]]; then
+          rargs_prompt=$key
+          shift
+        else
+          printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Invalid argument: " "$key" >&2
+          exit 1
+        fi
+        ;;
+    esac
+  done
+}
+# Expose the llama2-70b model through Replicate
+llama3-70b() {
+  local rargs_raw
+  local rargs_verbose
+  local rargs_prompt_template
+  local rargs_system
+  local rargs_prompt
+  # Parse command arguments
+  parse_llama3-70b_arguments "$@"
+
+  # Rule `no-first-option-help`: Render the global or command usage if the `-h|--help` option is
+  #                              is provided anywhere on the command, not just as the first option.
+  #                              Handling individual functions case by case.
+  if [[ -n "$rargs_help" ]]; then
+    llama3-70b_usage
+    exit 0
+  fi
+  
+    
+  if [[ -z "$rargs_system" ]]; then
+    rargs_system="You are a helpful chatbot that will do its best to help the user, no matter what he asks."
+  fi
+    
+  
+  if [[ -z "$rargs_prompt" ]]; then
+    printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Missing required option: " "prompt" >&2
+    llama3-70b_usage >&2
+    exit 1
+  fi
+	if [[ -z "$rargs_prompt_template" ]]; then
+		rargs_prompt_template="$REPLICATE_LLAMA3_SYSTEM_PROMPT_TEMPLATE"
+	fi
+	response=$(
+		curl --silent --show-error https://api.replicate.com/v1/models/meta/meta-llama-3-70b-instruct/predictions \
+			--request POST \
+			--header "Authorization: Bearer $REPLICATE_API_TOKEN" \
+			--header "Content-Type: application/json" \
+			--data @- <<-EOF
+				  {
+				    "stream": true,
+				    "input": {
+				        "top_p": 0.9,
+				        "prompt": "$rargs_prompt",
+				        "min_tokens": 0,
+				        "temperature": 0.6,
+				        "prompt_template": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\n${system}<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n{prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+				        "presence_penalty": 1.15
+				    }
+				  }
+			EOF
+	)
+	timeout 120s "$0" long-pull "$(if [[ -n "$rargs_verbose" ]]; then echo "--verbose"; fi)" "$(jq -r '.urls.get' <<<"$response")" &
+	local long_pull_pid=$!
+	spinner "$long_pull_pid"
+	wait $long_pull_pid
+	local exit_status=$?
+	if [[ "$exit_status" -eq 124 ]]; then
+		printf "\r\033[KRequest timed out\n" >&2
+		if [[ -n "$REPLICATE_CANCEL_URL" ]]; then
+			printf "\r\033[KCancelling request... %s\n" "$REPLICATE_CANCEL_URL" >&2
+			curl -s -H "Authorization: Token $REPLICATE_API_TOKEN" "$REPLICATE_CANCEL_URL" >&2
+		fi
+	fi
 }
 long-pull_usage() {
   printf "Long-pull the response from the API.\n"
@@ -1175,31 +1427,31 @@ long-pull() {
     long-pull_usage
     exit 0
   fi
-  while true; do
-    response="$(curl -s -H "Authorization: Token $REPLICATE_API_TOKEN" "$rargs_url")"
-    if [[ -n "$rargs_verbose" ]]; then
-      printf "\r\033[K%s\n" "$response" >&2
-    fi
-    error="$(jq -r '.error' <<< "$response")"
-    logs="$(jq -r '.logs' <<< "$response")"
-    status="$(jq -r '.status' <<< "$response")"
-    if [[ "$error" != "null" ]]; then
-      printf "\r\033[KError: %s\nLogs:\n%s" "$error" "$logs" >&2
-      exit 1
-    fi
-    if [[ -n "$rargs_verbose" ]]; then
-      printf "\r\033[K%s\n" "$logs" >&2
-    fi
-    if [[ "$status" == "succeeded" ]]; then
-      echo -n "$response"
-      break
-    fi
-    if [[ "$status" == "processing" ]]; then
-      sleep 1
-    else
-      sleep 10
-    fi
-  done
+	while true; do
+		response="$(curl -s -H "Authorization: Token $REPLICATE_API_TOKEN" "$rargs_url")"
+		if [[ -n "$rargs_verbose" ]]; then
+			printf "\r\033[K%s\n" "$response" >&2
+		fi
+		error="$(jq -r '.error' <<<"$response")"
+		logs="$(jq -r '.logs' <<<"$response")"
+		status="$(jq -r '.status' <<<"$response")"
+		if [[ "$error" != "null" ]]; then
+			printf "\r\033[KError: %s\nLogs:\n%s" "$error" "$logs" >&2
+			exit 1
+		fi
+		if [[ -n "$rargs_verbose" ]]; then
+			printf "\r\033[K%s\n" "$logs" >&2
+		fi
+		if [[ "$status" == "succeeded" ]]; then
+			echo -n "$response"
+			break
+		fi
+		if [[ "$status" == "processing" ]]; then
+			sleep 1
+		else
+			sleep 10
+		fi
+	done
 }
 mistral-7b-instruct-v0.1_usage() {
   printf "Expose the mistral-7b-instruct-v0.1 through Replicate\n"
@@ -1296,7 +1548,7 @@ mistral-7b-instruct-v0.1() {
     mistral-7b-instruct-v0.1_usage >&2
     exit 1
   fi
-  request-mistral -m "83b6a56e7c828e667f21fd596c338fd4f0039b46bcfa18d973e8e70e455fda70" "$@"
+	request-mistral -m "83b6a56e7c828e667f21fd596c338fd4f0039b46bcfa18d973e8e70e455fda70" "$@"
 }
 mistral-7b-openorca_usage() {
   printf "Expose the mistral-7b-openorca model through Replicate\n"
@@ -1393,7 +1645,7 @@ mistral-7b-openorca() {
     mistral-7b-openorca_usage >&2
     exit 1
   fi
-  request-dolphin -m "7afe21847d582f7811327c903433e29334c31fe861a7cf23c62882b181bacb88" "$@"
+	request-dolphin -m "7afe21847d582f7811327c903433e29334c31fe861a7cf23c62882b181bacb88" "$@"
 }
 openhermes-2-mistral-7b_usage() {
   printf "Expose the openhermes-2-mistral-7b model through Replicate\n"
@@ -1490,7 +1742,7 @@ openhermes-2-mistral-7b() {
     openhermes-2-mistral-7b_usage >&2
     exit 1
   fi
-  request-dolphin -m "fbb37246611e796dbabbe566e8718a9ceb689eb5a32ada546b852763c1ebf102" "$@"
+	request-dolphin -m "fbb37246611e796dbabbe566e8718a9ceb689eb5a32ada546b852763c1ebf102" "$@"
 }
 request_usage() {
   printf "Helper function to easily expose multiple Replicate Models through this script.\n"
@@ -1600,16 +1852,16 @@ request() {
     request_usage >&2
     exit 1
   fi
-  prompt_template="$(SYSTEM_PROMPT="$rargs_system" envsubst <<< "$rargs_prompt_template")"
-  response="$(api -m "$rargs_model" \
-    --prompt-template "$prompt_template" \
-    "$(if [[ -n "$rargs_verbose" ]]; then echo "--verbose"; fi)" \
-    "$rargs_prompt")"
-  if [[ -n "$rargs_raw" ]]; then
-    jq -r '.output | join("")' <<< "$response"
-  else
-    echo "$response"
-  fi
+	prompt_template="$(SYSTEM_PROMPT="$rargs_system" envsubst <<<"$rargs_prompt_template")"
+	response="$(api -m "$rargs_model" \
+		--prompt-template "$prompt_template" \
+		"$(if [[ -n "$rargs_verbose" ]]; then echo "--verbose"; fi)" \
+		"$rargs_prompt")"
+	if [[ -n "$rargs_raw" ]]; then
+		jq -r '.output | join("")' <<<"$response"
+	else
+		echo "$response"
+	fi
 }
 request-chatml_usage() {
   printf "Helper function to easily expose multiple Replicate Models that adhere to the chatml template.\n"
@@ -1712,7 +1964,7 @@ request-chatml() {
     request-chatml_usage >&2
     exit 1
   fi
-  request -p "$REPLICATE_CHATML_SYSTEM_PROMPT_TEMPLATE" "$@"
+	request -p "$REPLICATE_CHATML_SYSTEM_PROMPT_TEMPLATE" "$@"
 }
 request-dolphin_usage() {
   printf "Helper function to easily expose multiple Replicate Models that adhere to the dolphin template.\n"
@@ -1815,7 +2067,7 @@ request-dolphin() {
     request-dolphin_usage >&2
     exit 1
   fi
-  request -p "$REPLICATE_DOLPHIN_SYSTEM_PROMPT_TEMPLATE" "$@"
+	request -p "$REPLICATE_DOLPHIN_SYSTEM_PROMPT_TEMPLATE" "$@"
 }
 request-falcon_usage() {
   printf "Helper function to easily expose multiple Replicate Models that adhere to the falcon template.\n"
@@ -1918,7 +2170,7 @@ request-falcon() {
     request-falcon_usage >&2
     exit 1
   fi
-  request -p "$REPLICATE_FALCON_SYSTEM_PROMPT_TEMPLATE" "$@"
+	request -p "$REPLICATE_FALCON_SYSTEM_PROMPT_TEMPLATE" "$@"
 }
 request-llama_usage() {
   printf "Expose the Llama2 model through Replicate\n"
@@ -2028,20 +2280,20 @@ request-llama() {
     request-llama_usage >&2
     exit 1
   fi
-  if [[ -z "$rargs_prompt_template" ]]; then
-    rargs_prompt_template="$REPLICATE_LLAMA2_SYSTEM_PROMPT_TEMPLATE"
-  fi
-  response="$(api -m "$rargs_model" \
-    --prompt-template "$rargs_prompt_template" \
-    "$(if [[ -n "$rargs_verbose" ]]; then echo "--verbose"; fi)" \
-    --max-new-tokens 1000 \
-    --system-prompt "$rargs_system" \
-    "$rargs_prompt")"
-  if [[ -n "$rargs_raw" ]]; then
-    jq -r '.output | join("")' <<< "$response"
-  else
-    echo "$response"
-  fi
+	if [[ -z "$rargs_prompt_template" ]]; then
+		rargs_prompt_template="$REPLICATE_LLAMA2_SYSTEM_PROMPT_TEMPLATE"
+	fi
+	response="$(api -m "$rargs_model" \
+		--prompt-template "$rargs_prompt_template" \
+		"$(if [[ -n "$rargs_verbose" ]]; then echo "--verbose"; fi)" \
+		--max-new-tokens 1000 \
+		--system-prompt "$rargs_system" \
+		"$rargs_prompt")"
+	if [[ -n "$rargs_raw" ]]; then
+		jq -r '.output | join("")' <<<"$response"
+	else
+		echo "$response"
+	fi
 }
 request-mistral_usage() {
   printf "Helper function to easily expose multiple Replicate Models that adhere to the mistral template.\n"
@@ -2144,7 +2396,7 @@ request-mistral() {
     request-mistral_usage >&2
     exit 1
   fi
-  request -p "$REPLICATE_MISTRAL_SYSTEM_PROMPT_TEMPLATE" "$@"
+	request -p "$REPLICATE_MISTRAL_SYSTEM_PROMPT_TEMPLATE" "$@"
 }
 spinner_usage() {
   printf "Show a spinner while waiting for a previous command to finish.\n"
@@ -2239,12 +2491,12 @@ spinner() {
     rargs_frames="⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
   fi
     
-  while kill -0 "$rargs_pid" 2>/dev/null; do
-    i=$(( (i + 1) % ${#rargs_frames} ))
-    printf "\r\033[40m\033[97m   %s %s   \033[0m\r" "${rargs_frames:i:1}" "${SPINNER_TEXT:-"Waiting for replicate"}" >&2
-    sleep .1
-  done
-  printf "\r\033[K" >&2
+	while kill -0 "$rargs_pid" 2>/dev/null; do
+		i=$(((i + 1) % ${#rargs_frames}))
+		printf "\r\033[40m\033[97m   %s %s   \033[0m\r" "${rargs_frames:i:1}" "${SPINNER_TEXT:-"Waiting for replicate"}" >&2
+		sleep .1
+	done
+	printf "\r\033[K" >&2
 }
 zephyr-7b-beta_usage() {
   printf "Expose the Zephyr-7b-beta model through Replicate\n"
@@ -2341,14 +2593,14 @@ zephyr-7b-beta() {
     zephyr-7b-beta_usage >&2
     exit 1
   fi
-  request-mistral -m "b79f33de5c6c4e34087d44eaea4a9d98ce5d3f3a09522f7328eea0685003a931" "$@"
+	request-mistral -m "b79f33de5c6c4e34087d44eaea4a9d98ce5d3f3a09522f7328eea0685003a931" "$@"
 }
 
-run() {
+rargs_run() {
   declare -A deps=()
-  declare -a input=()
-  normalize_input "$@"
-  parse_arguments "${input[@]}"
+  declare -a rargs_input=()
+  normalize_rargs_input "$@"
+  parse_arguments "${rargs_input[@]}"
   # Rule `no-first-option-help`: Render the global or command usage if the `-h|--help` option is
   #                              is provided anywhere on the command, not just as the first option.
   #                              Handling the case where no action was selected.
@@ -2359,79 +2611,87 @@ run() {
   # Call the right command action
   case "$action" in
     "airoboros-llama-2-70b")
-      airoboros-llama-2-70b "${input[@]}"
+      airoboros-llama-2-70b "${rargs_input[@]}"
       exit
       ;;
     "api")
-      api "${input[@]}"
+      api "${rargs_input[@]}"
       exit
       ;;
     "causallm-14b")
-      causallm-14b "${input[@]}"
+      causallm-14b "${rargs_input[@]}"
       exit
       ;;
     "codellama-34b-instruct")
-      codellama-34b-instruct "${input[@]}"
+      codellama-34b-instruct "${rargs_input[@]}"
       exit
       ;;
     "dolphin-2.2.1-mistral-7b")
-      dolphin-2.2.1-mistral-7b "${input[@]}"
+      dolphin-2.2.1-mistral-7b "${rargs_input[@]}"
+      exit
+      ;;
+    "dolphin29")
+      dolphin29 "${rargs_input[@]}"
       exit
       ;;
     "falcon-40b-instruct")
-      falcon-40b-instruct "${input[@]}"
+      falcon-40b-instruct "${rargs_input[@]}"
       exit
       ;;
     "llama2-70b")
-      llama2-70b "${input[@]}"
+      llama2-70b "${rargs_input[@]}"
+      exit
+      ;;
+    "llama3-70b")
+      llama3-70b "${rargs_input[@]}"
       exit
       ;;
     "long-pull")
-      long-pull "${input[@]}"
+      long-pull "${rargs_input[@]}"
       exit
       ;;
     "mistral-7b-instruct-v0.1")
-      mistral-7b-instruct-v0.1 "${input[@]}"
+      mistral-7b-instruct-v0.1 "${rargs_input[@]}"
       exit
       ;;
     "mistral-7b-openorca")
-      mistral-7b-openorca "${input[@]}"
+      mistral-7b-openorca "${rargs_input[@]}"
       exit
       ;;
     "openhermes-2-mistral-7b")
-      openhermes-2-mistral-7b "${input[@]}"
+      openhermes-2-mistral-7b "${rargs_input[@]}"
       exit
       ;;
     "request")
-      request "${input[@]}"
+      request "${rargs_input[@]}"
       exit
       ;;
     "request-chatml")
-      request-chatml "${input[@]}"
+      request-chatml "${rargs_input[@]}"
       exit
       ;;
     "request-dolphin")
-      request-dolphin "${input[@]}"
+      request-dolphin "${rargs_input[@]}"
       exit
       ;;
     "request-falcon")
-      request-falcon "${input[@]}"
+      request-falcon "${rargs_input[@]}"
       exit
       ;;
     "request-llama")
-      request-llama "${input[@]}"
+      request-llama "${rargs_input[@]}"
       exit
       ;;
     "request-mistral")
-      request-mistral "${input[@]}"
+      request-mistral "${rargs_input[@]}"
       exit
       ;;
     "spinner")
-      spinner "${input[@]}"
+      spinner "${rargs_input[@]}"
       exit
       ;;
     "zephyr-7b-beta")
-      zephyr-7b-beta "${input[@]}"
+      zephyr-7b-beta "${rargs_input[@]}"
       exit
       ;;
     "")
@@ -2442,4 +2702,4 @@ run() {
   esac
 }
 
-run "$@"
+rargs_run "$@"
