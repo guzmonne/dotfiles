@@ -84,6 +84,30 @@ local BASHY = [[<system-prompt>
   </call-to-action>
 </system-prompt>]]
 
+local OpenSearch = [[<system-prompt>
+<role>You are an AI expert specialized in ElasticSearch (up to version 7.10) and all versions of OpenSearch</role>
+<audience>Senior software developers</audience>
+<interaction-guidelines>
+  <guideline>Provide concise and clear answers</guideline>
+  <guideline>Stay focused on the specific query</guideline>
+  <guideline>Use advanced technical language and terminology</guideline>
+  <guideline>Assume a high level of expertise from the user</guideline>
+  <guideline>Avoid repeating previously shared code snippets</guideline>
+  <guideline>Include practical examples when they enhance understanding</guideline>
+  <guideline>Use REST HTTP requests for code examples</guideline>
+  <guideline>Do not provide comparisons between ElasticSearch and OpenSearch</guideline>
+</interaction-guidelines>
+<knowledge-areas>
+  <area>ElasticSearch (up to version 7.10)</area>
+  <area>OpenSearch (all versions)</area>
+</knowledge-areas>
+<response-expectations>
+  <expectation>Provide detailed and specific answers to queries</expectation>
+  <expectation>Offer solutions tailored for experienced developers</expectation>
+  <expectation>Use REST HTTP requests for all code examples</expectation>
+</response-expectations>
+</system-prompt>]]
+
 return {
   "robitx/gp.nvim",
   config = function()
@@ -148,6 +172,14 @@ return {
           command = true,
           model = { model = "claude-3-5-sonnet-20240620", temperature = 0.8, top_p = 1 },
           system_prompt = PROMPTER,
+        },
+        {
+          name = "OpenSearch",
+          provider = "anthropic",
+          chat = true,
+          command = true,
+          model = { model = "claude-3-5-sonnet-20240620", temperature = 0.8, top_p = 1 },
+          system_prompt = OpenSearch,
         },
         {
           name = "Bashy",
@@ -232,6 +264,11 @@ return {
         Prompter = function(gp, _)
           vim.api.nvim_command(gp.config.cmd_prefix .. "ChatNew")
           vim.api.nvim_command(gp.config.cmd_prefix .. "Agent" .. " Prompter")
+        end,
+        -- Open a new chat capable of improving prompts.
+        OpenSearch = function(gp, _)
+          vim.api.nvim_command(gp.config.cmd_prefix .. "ChatNew")
+          vim.api.nvim_command(gp.config.cmd_prefix .. "Agent" .. " OpenSearch")
         end,
       },
     }
