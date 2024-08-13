@@ -1,6 +1,7 @@
 bash_path = '/opt/homebrew/bin/bash'
 load_dotenv = true
 strict_env = true
+hide_env_diff = true
 
 [whitelist]
 prefix = ["~/Projects"]

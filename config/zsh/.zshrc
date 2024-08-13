@@ -116,4 +116,6 @@ eval "$(mcfly init zsh)"
 # │ You should really make a not to check `man direnv-stdlib` whenever you want  │
 # │ to try something new with `direnv`. It's really powerful.                    │
 # ╰──────────────────────────────────────────────────────────────────────────────╯
-eval "$(direnv hook zsh)"
+eval "$(direnv hook zsh)" > /dev/null 2>&1
+clear
+

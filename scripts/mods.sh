@@ -49,11 +49,12 @@ root() {
     exit 1
   fi
 
+
   # Parse command arguments
   parse_root "$@"
 
 	if [[ -z "$rargs_option" ]]; then
-		rargs_option="$(echo -e "1. Select role\n2. Start a new session.\n3. Continue an existing session.\n4. Show existing session.\n5. Start AiChat" | fzf)"
+		rargs_option="$(echo -e "1. Select role\n2. Start a new session.\n3. Continue an existing session.\n4. Show existing session.\n5. Chat in NeoVim" | fzf)"
 	fi
 	if [[ -z "$rargs_option" ]]; then
 		alert "No option selected"
@@ -74,7 +75,7 @@ root() {
 		show
 		;;
 	"5")
-		aichat
+		$EDITOR -c 'GpChatNew' -c "GpAgent $1"
 		;;
 	*)
 		alert "No option selected"
@@ -108,34 +109,6 @@ normalize_rargs_input() {
   done
 }
 
-inspect_args() {
-  prefix="rargs_"
-  args="$(set | grep ^$prefix | grep -v rargs_run || true)"
-  if [[ -n "$args" ]]; then
-    echo
-    echo args:
-    for var in $args; do
-      echo "- $var" | sed 's/=/ = /g'
-    done
-  fi
-
-  if ((${#deps[@]})); then
-    readarray -t sorted_keys < <(printf '%s\n' "${!deps[@]}" | sort)
-    echo
-    echo deps:
-    for k in "${sorted_keys[@]}"; do echo "- \${deps[$k]} = ${deps[$k]}"; done
-  fi
-
-  if ((${#rargs_other_args[@]})); then
-    echo
-    echo rargs_other_args:
-    echo "- \${rargs_other_args[*]} = ${rargs_other_args[*]}"
-    for i in "${!rargs_other_args[@]}"; do
-      echo "- \${rargs_other_args[$i]} = ${rargs_other_args[$i]}"
-    done
-  fi
-}
-
 mods="$HOME/.local/bin/mods"
 textarea="$HOME/.local/bin/textarea.sh"
 show() {
@@ -145,7 +118,7 @@ show() {
 }
 
 version() {
-  echo "0.1.0"
+  echo -n "0.1.0"
 }
 usage() {
   printf "A script built around `rargs` to extend its functionality.\n"
@@ -306,6 +279,7 @@ alert() {
     exit 1
   fi
 
+
   # Parse command arguments
   parse_alert_arguments "$@"
 
@@ -385,6 +359,7 @@ cont() {
     exit 1
   fi
 
+
   # Parse command arguments
   parse_cont_arguments "$@"
 
@@ -456,6 +431,7 @@ get_prompt() {
     get_prompt_usage >&2
     exit 1
   fi
+
 
   # Parse command arguments
   parse_get_prompt_arguments "$@"
@@ -550,6 +526,7 @@ input() {
     exit 1
   fi
 
+
   # Parse command arguments
   parse_input_arguments "$@"
 
@@ -629,6 +606,7 @@ new() {
     new_usage >&2
     exit 1
   fi
+
 
   # Parse command arguments
   parse_new_arguments "$@"
@@ -716,6 +694,7 @@ role() {
     exit 1
   fi
 
+
   # Parse command arguments
   parse_role_arguments "$@"
 
@@ -787,6 +766,7 @@ roles() {
     roles_usage >&2
     exit 1
   fi
+
 
   # Parse command arguments
   parse_roles_arguments "$@"
@@ -862,6 +842,7 @@ session() {
     exit 1
   fi
 
+
   # Parse command arguments
   parse_session_arguments "$@"
 
@@ -877,7 +858,6 @@ session() {
 }
 
 rargs_run() {
-  declare -A deps=()
   declare -a rargs_other_args=()
   declare -a rargs_input=()
   normalize_rargs_input "$@"

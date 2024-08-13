@@ -137,7 +137,7 @@ show() {
 # @option -o --option Option to chose
 root() {
 	if [[ -z "$rargs_option" ]]; then
-		rargs_option="$(echo -e "1. Select role\n2. Start a new session.\n3. Continue an existing session.\n4. Show existing session.\n5. Start AiChat" | fzf)"
+		rargs_option="$(echo -e "1. Select role\n2. Start a new session.\n3. Continue an existing session.\n4. Show existing session.\n5. Chat in NeoVim" | fzf)"
 	fi
 
 	if [[ -z "$rargs_option" ]]; then
@@ -161,7 +161,7 @@ root() {
 		show
 		;;
 	"5")
-		aichat
+		$EDITOR -c 'GpChatNew' -c "GpAgent $1"
 		;;
 	*)
 		alert "No option selected"
