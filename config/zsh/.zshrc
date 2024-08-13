@@ -111,5 +111,9 @@ fi
 
 eval "$(mcfly init zsh)"
 
-# bun completions
-[ -s "/Users/guzmanmonne/.bun/_bun" ] && source "/Users/guzmanmonne/.bun/_bun"
+# ╭──────────────────────────────────────────────────────────────────────────────╮
+# │ NOTE:                                                                        │
+# │ You should really make a not to check `man direnv-stdlib` whenever you want  │
+# │ to try something new with `direnv`. It's really powerful.                    │
+# ╰──────────────────────────────────────────────────────────────────────────────╯
+eval "$(direnv hook zsh)"

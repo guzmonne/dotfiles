@@ -1,0 +1,6 @@
+bash_path = '/opt/homebrew/bin/bash'
+load_dotenv = true
+strict_env = true
+
+[whitelist]
+prefix = ["~/Projects"]
