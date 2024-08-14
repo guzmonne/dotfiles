@@ -68,6 +68,44 @@ role() {
 	$mods --role "$rargs_role" "$prompt"
 }
 
+# @cmd Start a chat with an Agent inside NeoVim
+# @arg stdin Prompt context. Pass in '-' to read from 'stdin'.
+# @option -a --agent
+# @flag --kill-window Close tmux window on exit
+gp() {
+	if [[ -z "$rargs_agent" ]]; then
+		local lua_file
+
+		lua_file="$HOME/.config/nvim/lua/plugins/gp.lua"
+		rargs_agent="$(grep -E 'name = ' "$lua_file" | awk '{print $3}' | tr -d '",' | fzf)"
+	fi
+
+	if [[ "$rargs_stdin" == "-" ]]; then
+		rargs_stdin="$(cat | sed -r "s/\x1b\[[0-9;]*m//g")"
+	fi
+
+	# Use a temporary file for the processed content
+	local tmpfile
+
+	tmpfile="$(mktemp /tmp/nvim_buffer_cleaned.XXXXXX)"
+
+	# Save the input to the tmpfile
+	echo "$rargs_stdin" >"$tmpfile"
+
+	# Process the input and open NeoVim directly, ensuring it doesn't suspend.
+	nvim -c "GpChatNew" \
+		-c "call append(line('$')-1, readfile('$tmpfile'))" \
+		-c "normal! Gdd" \
+		-c "GpAgent $rargs_agent" \
+		-c "startinsert"
+
+	rm -Rf "$tmpfile"
+
+	if [[ -n "$rargs_kill_window" ]]; then
+		tmux kill-window
+	fi
+}
+
 # @cmd Start a new mods session
 # @option -t --title Session title
 new() {
@@ -137,7 +175,7 @@ show() {
 # @option -o --option Option to chose
 root() {
 	if [[ -z "$rargs_option" ]]; then
-		rargs_option="$(echo -e "1. Select role\n2. Start a new session.\n3. Continue an existing session.\n4. Show existing session.\n5. Chat in NeoVim" | fzf)"
+		rargs_option="$(echo -e "1. Select Agent\n2. Start a new session.\n3. Continue an existing session.\n4. Show existing session.\n5. Mods" | fzf)"
 	fi
 
 	if [[ -z "$rargs_option" ]]; then
@@ -149,7 +187,7 @@ root() {
 
 	case "$option" in
 	"1")
-		role
+		gp --kill-window
 		;;
 	"2")
 		new
@@ -161,7 +199,7 @@ root() {
 		show
 		;;
 	"5")
-		$EDITOR -c 'GpChatNew' -c "GpAgent $1"
+		role
 		;;
 	*)
 		alert "No option selected"

@@ -54,7 +54,7 @@ root() {
   parse_root "$@"
 
 	if [[ -z "$rargs_option" ]]; then
-		rargs_option="$(echo -e "1. Select role\n2. Start a new session.\n3. Continue an existing session.\n4. Show existing session.\n5. Chat in NeoVim" | fzf)"
+		rargs_option="$(echo -e "1. Select Agent\n2. Start a new session.\n3. Continue an existing session.\n4. Show existing session.\n5. Mods" | fzf)"
 	fi
 	if [[ -z "$rargs_option" ]]; then
 		alert "No option selected"
@@ -63,7 +63,7 @@ root() {
 	option="$(echo -n "$rargs_option" | awk -F'.' '{print $1}')"
 	case "$option" in
 	"1")
-		role
+		gp --kill-window
 		;;
 	"2")
 		new
@@ -75,7 +75,7 @@ root() {
 		show
 		;;
 	"5")
-		$EDITOR -c 'GpChatNew' -c "GpAgent $1"
+		role
 		;;
 	*)
 		alert "No option selected"
@@ -132,6 +132,7 @@ usage() {
   printf "\n\033[4m%s\033[0m\n" "Commands:"
   cat <<EOF
   cont .... Continue an existing session
+  gp ...... Start a chat with an Agent inside NeoVim
   new ..... Start a new mods session
   role .... Start a new mods session with the selected role.
 EOF
@@ -174,6 +175,10 @@ parse_arguments() {
       ;;
     get_prompt)
       action="get_prompt"
+      rargs_input=("${rargs_input[@]:1}")
+      ;;
+    gp)
+      action="gp"
       rargs_input=("${rargs_input[@]:1}")
       ;;
     input)
@@ -441,6 +446,119 @@ get_prompt() {
 		exit 1
 	fi
 	echo -n "$prompt"
+}
+gp_usage() {
+  printf "Start a chat with an Agent inside NeoVim\n"
+
+  printf "\n\033[4m%s\033[0m\n" "Usage:"
+  printf "  gp [OPTIONS] [STDIN] ...[]\n"
+  printf "  gp -h|--help\n"
+  printf "\n\033[4m%s\033[0m\n" "Arguments:"
+  printf "  STDIN\n"
+  printf "    Prompt context. Pass in '-' to read from 'stdin'.\n"
+  printf "  MODS_ARGUMENTS\n"
+  printf "    Optional arguments to pass to "mods".\n"
+
+  printf "\n\033[4m%s\033[0m\n" "Options:"
+  printf "  -a --agent [<AGENT>]\n"
+  printf "    \n"
+  printf "  -o --option [<OPTION>]\n"
+  printf "    Option to chose\n"
+  printf "  --kill-window\n"
+  printf "    Close tmux window on exit\n"
+  printf "  -h --help\n"
+  printf "    Print help\n"
+}
+parse_gp_arguments() {
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      -h|--help)
+        gp_usage
+        exit
+        ;;
+      *)
+        break
+        ;;
+    esac
+  done
+
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      --kill-window)
+        rargs_kill_window=1
+        shift
+        ;;
+      -a | --agent)
+        rargs_agent="$2"
+        shift 2
+        ;;
+      -o | --option)
+        rargs_option="$2"
+        shift 2
+        ;;
+      --)
+        shift
+        rargs_other_args+=("$@")
+        break
+        ;;
+      -?*)
+        rargs_other_args+=("$1")
+        shift
+        ;;
+      *)
+        if [[ -z "$rargs_stdin" ]]; then
+          rargs_stdin=$key
+          shift
+        else
+          rargs_other_args+=("$1")
+          shift
+        fi
+        ;;
+    esac
+  done
+}
+# Start a chat with an Agent inside NeoVim
+gp() {
+  local rargs_kill_window
+  local rargs_agent
+  local rargs_option
+  local rargs_stdin
+  # Parse environment variables
+  
+  if [[ -z "${OPENAI_API_KEY:-}" ]]; then
+    printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Missing required environment variable: " "OPENAI_API_KEY" >&2
+    gp_usage >&2
+    exit 1
+  fi
+
+
+  # Parse command arguments
+  parse_gp_arguments "$@"
+
+	if [[ -z "$rargs_agent" ]]; then
+		local lua_file
+		lua_file="$HOME/.config/nvim/lua/plugins/gp.lua"
+		rargs_agent="$(grep -E 'name = ' "$lua_file" | awk '{print $3}' | tr -d '",' | fzf)"
+	fi
+	if [[ "$rargs_stdin" == "-" ]]; then
+		rargs_stdin="$(cat | sed -r "s/\x1b\[[0-9;]*m//g")"
+	fi
+	# Use a temporary file for the processed content
+	local tmpfile
+	tmpfile="$(mktemp /tmp/nvim_buffer_cleaned.XXXXXX)"
+	# Save the input to the tmpfile
+	echo "$rargs_stdin" >"$tmpfile"
+	# Process the input and open NeoVim directly, ensuring it doesn't suspend.
+	nvim -c "GpChatNew" \
+		-c "call append(line('$')-1, readfile('$tmpfile'))" \
+		-c "normal! Gdd" \
+		-c "GpAgent $rargs_agent" \
+		-c "startinsert"
+	rm -Rf "$tmpfile"
+	if [[ -n "$rargs_kill_window" ]]; then
+		tmux kill-window
+	fi
 }
 input_usage() {
   printf "Input box\n"
@@ -882,6 +1000,10 @@ rargs_run() {
       ;;
     "get_prompt")
       get_prompt "${rargs_input[@]}"
+      exit
+      ;;
+    "gp")
+      gp "${rargs_input[@]}"
       exit
       ;;
     "input")
