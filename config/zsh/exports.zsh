@@ -142,9 +142,6 @@ export PATH="$PATH:/Users/gmonne/Library/Application Support/Coursier/bin"
 # Configure the default folder for ZK notes.
 export ZK_NOTEBOOK_DIR="$HOME/Notes"
 
-# Configure BREW_TAP to install a fixed version of LibreSSL
-export BREW_TAP='coral/local-dev-setup'
-
 # Configure McFly
 export MCFLY_KEY_SCHEME=vim
 export MCFLY_FUZZY=2
@@ -167,6 +164,7 @@ fi
 export CLOUDSDK_PYTHON_SITEPACKAGES=1
 
 # Source Secret Environment Variables
+export $(cat "$HOME/Projects/Personal/secrets/google.env" | xargs)
 export $(cat "$HOME/Projects/Personal/secrets/cloudflare.env" | xargs)
 export $(cat "$HOME/Projects/Personal/secrets/openai.env" | xargs)
 export $(cat "$HOME/Projects/Personal/secrets/newrelic.env" | xargs)

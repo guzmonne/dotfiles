@@ -356,9 +356,25 @@ return {
           endpoint = "https://api.anthropic.com/v1/messages",
           secret = os.getenv("ANTHROPIC_API_KEY"),
         },
+
+        googleai = {
+          disable = false,
+          endpoint = "https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key={{secret}}",
+          secret = os.getenv("GOOGLE_API_KEY"),
+        },
       },
 
       agents = {
+        {
+          provider = "googleai",
+          name = "Gemini",
+          chat = true,
+          command = false,
+          -- string with model name or table with model name and parameters
+          model = { model = "gemini-pro", temperature = 1.1, top_p = 1 },
+          -- system prompt (use this to specify the persona/role of the AI)
+          system_prompt = require("gp.defaults").chat_system_prompt,
+        },
         {
           name = "Prompter",
           provider = "anthropic",
