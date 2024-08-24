@@ -109,13 +109,32 @@ if [ -f "${HOME}/.local/google-cloud-sdk/completion.zsh.inc" ]; then
   source "${HOME}/.local/google-cloud-sdk/completion.zsh.inc"
 fi
 
-eval "$(mcfly init zsh)"
+if command -v mcfly >/dev/null; then
+  eval "$(mcfly init zsh)"
+fi
 
 # ╭──────────────────────────────────────────────────────────────────────────────╮
 # │ NOTE:                                                                        │
 # │ You should really make a not to check `man direnv-stdlib` whenever you want  │
 # │ to try something new with `direnv`. It's really powerful.                    │
 # ╰──────────────────────────────────────────────────────────────────────────────╯
-eval "$(direnv hook zsh)" > /dev/null 2>&1
-clear
+if command -v direnv >/dev/null; then
+  eval "$(direnv hook zsh)" > /dev/null 2>&1
+fi
 
+# ╭────────────────────────────────────────────────────────────────────────╮
+# │ NOTE:                                                                  │
+# │ Dasel completions.                                                     │
+# │ [Source](https://github.com/TomWright/dasel?utm_source=tldrnewsletter) │
+# ╰────────────────────────────────────────────────────────────────────────╯
+export fpath=(~/zsh/site-functions $fpath)
+mkdir -p ~/zsh/site-functions
+dasel completion zsh > ~/zsh/site-functions/_dasel
+compinit
+
+if command -v yt >/dev/null; then
+  eval "$(yt completion zsh)"
+fi
+
+# bun completions
+[ -s "/Users/guzmanmonne/.bun/_bun" ] && source "/Users/guzmanmonne/.bun/_bun"

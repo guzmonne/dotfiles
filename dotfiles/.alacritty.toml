@@ -63,11 +63,11 @@ style = "Italic"
 
 [font.normal]
 family = "CartographCF Nerd Font"
-style = "ExtraLight"
+style = "Regular"
 
 [font.offset]
 x = 0
-y = 1
+y = 0
 
 [mouse]
 hide_when_typing = true

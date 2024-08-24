@@ -77,6 +77,7 @@ return {
     { "<leader>fr", "<cmd>Telescope lsp_references<CR>", desc = "Find registers" },
     { "<leader>fs", "<cmd>Telescope lsp_document_symbols<CR>", desc = "Find symbols" },
     { "<leader>fz", "<cmd>Telescope spell_suggest<CR>", desc = "Spell suggest" },
+    { "<leader>?", "<cmd>Telescope current_buffer_fuzzy_find<CR>", desc = "Current buffer fuzzy find" },
     { "<leader>g", group = "Git" },
     { "<leader>gh", "<cmd>Gitsigns preview_hunk<CR>", desc = "Preview Hunk" },
     { "<leader>gs", "<cmd>Git<CR>", desc = "Open Git Fugitive" },

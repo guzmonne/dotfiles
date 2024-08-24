@@ -92,14 +92,14 @@ function! TrimTrailingLines()
   call setpos('.', currentPos)
 endfunction
 
-" Remove all traling whitespaces
+" Remove all trailing whitespaces
 function! TrimWhitespace()
   let l:save = winsaveview()
   keeppatterns %s/\s\+$//e
   call winrestview(l:save)
 endfunction
 
-" Replace all the occurances of what you have visually selected.
+" Replace all the occurrences of what you have visually selected.
 vnoremap <C-r> <Esc>:%s/<c-r>=GetVisual()<cr>//g<left><left><c-r>=GetVisual()<cr>
 " Use F6 to copy the current buffer path into the clipboard
 nnoremap <F6> :let @+=expand('%:p')<CR>

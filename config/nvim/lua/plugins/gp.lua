@@ -322,6 +322,8 @@ local OpenSearch = [[<system-prompt>
 </response-expectations>
 </system-prompt>]]
 
+local GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+
 return {
   "robitx/gp.nvim",
   config = function()
@@ -360,7 +362,7 @@ return {
         googleai = {
           disable = false,
           endpoint = "https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key={{secret}}",
-          secret = os.getenv("GOOGLE_API_KEY"),
+          secret = GOOGLE_API_KEY,
         },
       },
 

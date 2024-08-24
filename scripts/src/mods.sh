@@ -95,8 +95,8 @@ gp() {
 	# Process the input and open NeoVim directly, ensuring it doesn't suspend.
 	nvim -c "GpChatNew" \
 		-c "call append(line('$')-1, readfile('$tmpfile'))" \
-		-c "normal! Gdd" \
 		-c "GpAgent $rargs_agent" \
+		-c "normal! Gdd" \
 		-c "startinsert"
 
 	rm -Rf "$tmpfile"

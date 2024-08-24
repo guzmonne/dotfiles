@@ -1,4 +1,5 @@
 return {
+  { "mfussenegger/nvim-dap", enabled = false },
   { "bufferline.nvim", enabled = false },
   { "dashboard-nvim", enabled = false },
   { "echasnovski/mini.pairs", enabled = false },

@@ -221,3 +221,7 @@ fi
 
 # Configure the global Glamour style
 export GLAMOUR_STYLE=/Users/guzmanmonne/.glamour.tokyonight
+
+if [[ -d "$HOME/.local/bin" ]]; then
+  export PATH="$HOME/.local/bin:$PATH"
+fi
