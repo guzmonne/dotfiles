@@ -372,7 +372,7 @@ cont() {
 	id="$(echo -n "$line" | awk -F'\t' '{print $1}' | tr -d ' ')"
 	title="$(echo -n "$line" | awk -F'\t' '{print $2}')"
 	prompt="$(get_prompt)"
-	$mods --continue "$id" --title "$title" "$prompt"
+	$mods --api copilot --continue "$id" --title "$title" "$prompt"
 }
 get_prompt_usage() {
   printf "Gets the user prompt\n"
@@ -740,7 +740,7 @@ new() {
 		return 1
 	fi
 	prompt="$(get_prompt)"
-	$mods --title "$rargs_title" "$prompt"
+	$mods --api copilot --title "$rargs_title" "$prompt"
 }
 role_usage() {
   printf "Start a new mods session with the selected role.\n"
@@ -820,7 +820,7 @@ role() {
 		rargs_role="$(roles)"
 	fi
 	prompt="$(get_prompt)"
-	$mods --role "$rargs_role" "$prompt"
+	$mods --api copilot --role "$rargs_role" "$prompt"
 }
 roles_usage() {
   printf "Selects an existing role\n"

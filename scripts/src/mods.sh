@@ -65,7 +65,7 @@ role() {
 
 	prompt="$(get_prompt)"
 
-	$mods --role "$rargs_role" "$prompt"
+	$mods --api copilot --role "$rargs_role" "$prompt"
 }
 
 # @cmd Start a chat with an Agent inside NeoVim
@@ -123,7 +123,7 @@ new() {
 
 	prompt="$(get_prompt)"
 
-	$mods --title "$rargs_title" "$prompt"
+	$mods --api copilot --title "$rargs_title" "$prompt"
 }
 
 # @cmd Selects an existing role
@@ -162,7 +162,7 @@ cont() {
 
 	prompt="$(get_prompt)"
 
-	$mods --continue "$id" --title "$title" "$prompt"
+	$mods --api copilot --continue "$id" --title "$title" "$prompt"
 }
 
 show() {
