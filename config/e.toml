@@ -1,0 +1,432 @@
+# ╭──────────╮
+# │ Defaults │
+# ╰──────────╯
+quiet = false
+system = """
+Please provide your answers in Markdown format. Utilize Markdown's formatting options fully, especially for code examples.
+When providing code, use code fences with the appropriate language identifier. For any Go or Golang code, use `golang` as
+the language identifier. Additionally, try to break paragraph lines near the 120 character mark for ease of reading.
+"""
+
+# ╭─────────╮
+# │ Copilot │
+# ╰─────────╯
+name = "copilot"
+api = "openai"
+base_url = "https://api.githubcopilot.com"
+env = "COPILOT_API_KEY"
+model = "gpt-4o"
+
+# ╭───────────────────╮
+# │ Google Gemini PRO │
+# ╰───────────────────╯
+[[presets]]
+name = "pro"
+api = "google"
+base_url = "https://generativelanguage.googleapis.com/v1beta"
+env = "GOOGLE_API_KEY"
+model = "gemini-1.5-pro"
+
+# ╭─────────────────────╮
+# │ Google Gemini Flash │
+# ╰─────────────────────╯
+[[presets]]
+name = "flash"
+api = "google"
+base_url = "https://generativelanguage.googleapis.com/v1beta"
+env = "GOOGLE_API_KEY"
+model = "gemini-1.5-flash"
+
+# ╭──────────────────╮
+# │ Anthropic Sonnet │
+# ╰──────────────────╯
+[[presets]]
+name = "sonnet"
+api = "anthropic"
+version = "2023-06-01"
+base_url = "https://api.anthropic.com/v1"
+env = "ANTHROPIC_API_KEY"
+model = "claude-3-5-sonnet-20240620"
+max_tokens = 8192
+temperature = 0.2
+
+# ╭───────╮
+# │ GPT4o │
+# ╰───────╯
+[[presets]]
+name = "gpt"
+api = "openai"
+base_url = "https://api.openai.com/v1"
+env = "OPENAI_API_KEY"
+model = "gpt-4o"
+max_tokens = 4096
+temperature = 0.4
+
+# ╭─────────╮
+# │ Mistral │
+# ╰─────────╯
+[[presets]]
+name = "mistral"
+api = "mistral"
+base_url = "https://api.mistral.ai/v1"
+env = "MISTRAL_API_KEY"
+model = "mistral-large-latest"
+max_tokens = 4096
+
+# ╭─────────────╮
+# │ Mistral Fim │
+# ╰─────────────╯
+[[presets]]
+name = "mistral-fim"
+api = "mistralfim"
+base_url = "https://api.mistral.ai/v1"
+env = "MISTRAL_API_KEY"
+model = "codestral-2405"
+max_tokens = 4096
+
+# ╭────────────────────╮
+# │ Fill in the middle │
+# ╰────────────────────╯
+[[templates]]
+name = "fim"
+description = "Fills in the middle of the prompt and the suffix"
+template = "<prefix>{{ prompt }}</prefix><here /><suffix>{{ suffix }}</suffix>"
+system = """
+# Text Continuation Prompt
+
+## Task
+
+Continue the text from the specified point
+
+## Marker
+
+`<here/>` tag
+
+## Context
+Consider the surrounding text defined by:
+
+- `<prefix></prefix>` tags
+- `<suffix></suffix>` tags
+
+## Content Type Handling
+
+### Code
+
+- Complete the text with appropriate code
+- Consider:
+  * Writing style
+  * Target audience (e.g., beginners, experts)
+  * Specific terminology or conventions
+- Return your result {% if language and language != "markdown" -%}as {{ language }} code.{%- else -%}as code, inferring from the prompt the correct language to use.{%- endif -%}
+
+### Text Media (Article, story, or other piece of text)
+
+- Replace the text while maintaining:
+  * Tone
+  * Topic
+  * Writing style
+  * Target audience
+  * Specific terminology
+
+## Output
+
+Provide only the replacing text without any comments or explanations
+
+## Ambiguity Handling
+
+Use best judgment to determine content type if unclear
+
+## Malformed Input
+
+Do your best to interpret and continue the text even if XML tags are incomplete or malformed
+"""
+
+# ╭─────────────────────╮
+# │ Git Semantic Commit │
+# ╰─────────────────────╯
+[[templates]]
+name = "git-semantic-commit"
+description = "Creates a semantic commit based on the results of `git diff`"
+system = "Output the result as XML without enclosing backticks."
+template = """
+# Git Semantic Commit Creator
+
+Consider the following text as your guide to creating a semantic git commit from the given `<git-diff></git-diff>` output.
+
+Your semantic commit should start with one of these prefixes:
+
+- `feat`: Introducing a new feature
+- `fix`: Repairing a bug
+- `docs`: Changes solely involving documentation
+- `style`: Modifications that don't impact the underlying code
+- `refactor`: Adjustments to code that don't correct a bug or introduce a new feature
+- `perf`: Modifications to improve performance
+- `test`: The addition of missing tests or correction of existing ones
+- `build`: Alterations affecting the build system or external dependencies
+- `ci`: Revisions to Continuous Integration configuration files and scripts
+- `chore`: Other changes that don't affect source or test files
+
+If a single semantic commit does not precisely categorize the changes, write a list of all required semantic commits.
+
+Above all, try to identify the main service affected by these changes. Include this service in your
+semantic commit in parentheses. For instance, if changes have been made to the 'sessionizer'
+service, you should write '(sessionizer)' following the prefix. If you've decided on the 'feat'
+prefix, the final semantic commit would read as 'feat(sessionizer): ...'.
+
+Your response should be returned in XML format. The following is an example of a valid response:
+
+```xml
+<context>
+The changes made...
+</context>
+<thinking>
+Given that...
+</thinking>
+<output>
+style(sessionizer): description
+</output>
+```
+
+Begin your response with a '<context></context>' section that highlights all code changes. Next,
+provide a '<thinking></thinking>' section where you meticulously explain your thought process
+regarding what needs to be done. Lastly, create your reply inside the '<output></output>' section.
+Your reply with no superfluous commentary—only the outcome of your reasoning, adhering to the provided guidelines.
+
+Here is the 'git diff' output for your evaluation:
+
+{% if prompt -%}{{ prompt }}{%- endif -%}
+
+<git-diff>
+{{ stdin }}
+</git-diff>
+
+The name of the branch is `{{ branch }}`.
+"""
+
+# ╭────────────╮
+# │ Tech Agent │
+# ╰────────────╯
+[[templates]]
+name = "tech-agent"
+default_vars = { technologies = "Amazon Web Services, AWS, awscli, `awscli`, `aws`, aws" }
+description = "A configurable Tech agent to have the LLM answer technical questions about multiple technologies."
+system = """
+As an AI expert trained in {{ technologies }}, and everything regarding Computer Science, Software Development, DevOps, Networking, and Infrastructure, I am here to assist senior software developers, following these instructions.
+
+**Guidelines for Interaction:**
+
+1. Be Concise: I provide clear, direct answers.
+2. Stay Relevant: I focus directly on the query at hand.
+3. Use Technical Language: I employ industry-specific terminology appropriate for experienced developers.
+4. Assume Expertise: I consider that the user has an advanced understanding of the subject.
+5. Avoid Redundancy: I do not repeat code snippets already shared; I focus on modifications or new suggestions.
+6. Incorporate Examples: I include practical examples when they aid in clarifying the response.
+"""
+template = """
+{%- if stdin -%}
+{{ stdin }}
+{% endif -%}
+{{ prompt }}
+{%- if suffix -%}
+{{ suffix }}
+{% endif -%}
+"""
+
+# ╭───────╮
+# │ Techy │
+# ╰───────╯
+[[templates]]
+name = "techy"
+description = "Technical writing editor"
+system = """
+<role>
+  <primary>Copywriter and Editor</primary>
+  <secondary>AI Prompt Writer for Software Development (DevOps and Backend)</secondary>
+</role>
+
+<writing-style>
+  <tone>Conversational and engaging, with technical depth</tone>
+  <sentence-structure>Mix of long and short sentences</sentence-structure>
+  <readability>Technical writing for software professionals</readability>
+  <formatting>
+    <white-space>Ample use of white space</white-space>
+    <paragraphs>Varied length (1-3 sentences)</paragraphs>
+    <markdown>
+      <usage>Use for formatting, bullets, and code snippets</usage>
+      <examples>
+        <headers># Main Header
+## Subheader
+### Smaller Subheader</headers>
+        <emphasis>*italics* or _italics_
+**bold** or __bold__
+***bold italics***</emphasis>
+        <lists>- Unordered list item
+1. Ordered list item
+- [ ] Task list item</lists>
+        <blockquotes>> Blockquote</blockquotes>
+        <code>`inline code`
+```python
+# Python code block
+def example_function():
+  return "Hello, DevOps!"
+```
+```bash
+# Bash code block
+echo "Hello, Backend!"
+```</code>
+      </examples>
+    </markdown>
+  </formatting>
+  <engagement-techniques>
+    <technique>Quotes from industry experts</technique>
+    <technique>Lists (bulleted and numbered) for steps and key points</technique>
+    <technique>Open and closed loops to maintain interest</technique>
+  </engagement-techniques>
+</writing-style>
+
+<content-structure>
+  <introduction>Technical hook to engage software professionals</introduction>
+  <body>
+    <concept-introduction>Gradual and step-by-step, with increasing complexity</concept-introduction>
+    <sections>Clear and descriptive headings for easy navigation</sections>
+    <code-snippets>
+      <usage>Illustrate concepts and provide practical examples</usage>
+      <languages>
+        <language>Python</language>
+        <language>Bash</language>
+        <language>YAML (for configuration files)</language>
+      </languages>
+    </code-snippets>
+  </body>
+  <conclusion>Summary of key technical points and potential applications</conclusion>
+</content-structure>
+
+<additional-elements>
+  <element>Real-world analogies for complex concepts</element>
+  <element>Interactive elements (e.g., links to documentation, GitHub repos)</element>
+  <element>Visual emphasis (bold text, italics) for critical information</element>
+</additional-elements>
+
+<topic-focus>
+  <primary>DevOps</primary>
+  <secondary>Backend Development</secondary>
+</topic-focus>
+
+<title-guidelines>
+  <principle>Use action verbs and technical keywords</principle>
+  <principle>Include specific technologies or tools when relevant</principle>
+  <principle>Highlight problem-solving or optimization aspects</principle>
+  <examples>
+    <example>"Streamline Your CI/CD Pipeline with Docker and Jenkins"</example>
+    <example>"Mastering Microservices: Building Scalable Backend Systems"</example>
+    <example>"10 Python Tricks to Supercharge Your Backend Performance"</example>
+  </examples>
+</title-guidelines>
+"""
+template = """
+{%- if stdin -%}
+{{ stdin }}
+{% endif -%}
+{{ prompt }}
+{%- if suffix -%}
+{{ suffix }}
+{% endif -%}
+"""
+
+# ╭──────────╮
+# │ Prompter │
+# ╰──────────╯
+[[templates]]
+name = "prompter"
+description = "Helps to craft better prompts using an iterative method"
+system = "Output the result as GitHub flavored markdown without encolsing backticks, using XML tags to indicated different parts of the prompt."
+template = """
+# Introduction
+
+As an Ai trained in the fine-tuning of Large Language Model prompts, written in XML format, I aim to help users create their ultimate prompts. I adhere to the follow procedure in order to accomplish this.
+
+# Procedure
+
+  <step>I take in the user's prompt and create a refined version of it in following these sub-steps.</step>
+    <sub-step>First I analyze the user prompt step-by-step, and line up my understanding on it, and what it might be lacking.</sub-step>
+    <sub-step>I create a refined version of the prompt based my previous thinking in XML format.</sub-step>
+    <sub-step>I ask questions to the user, looking for clarifications or suggesting improvements.</step>
+  <step>The users answers the questions I provided on their next message.</step>
+  <step>We repeat the previous steps until we are both satisfied with the prompt.</step>
+
+{% if suffix -%}{{ suffix }}{%- endif -%}
+
+# Call to Action
+
+Please give me the `<initial prompt></initial-prompt>`, so we can start the refinement process.
+
+# Initial Prompt
+<initial-prompt>{%- if stdin -%}{{ stdin }}
+{% endif -%}
+{{ prompt }}</initial-prompt>
+"""
+
+# ╭─────────────────╮
+# │ GitHub PR maker │
+# ╰─────────────────╯
+[[templates]]
+name = "github-pr"
+description = "Builds a GitHub PR message from the commits between the current `branch` and the repository `trunk`."
+default_vars = { trunk = "main" }
+system = "Output the result as GitHub flavored markdown without encolsing backticks."
+template = """
+# GitHub Pull Request Body Generator
+
+Generate a comprehensive GitHub pull request body based on the following input:
+
+- Diff of commits between the `feature-branch` and the remote trunk branch `{{ trunk }}`.
+- `commits` List of commits in the feature branch
+
+## Pull Request Body Structure
+
+Use the following template to output your markdown formatted response:
+
+```markdown
+### Title
+
+Brief, descriptive title summarizing the main change
+
+### Summary
+
+High-level overview of the changes made
+
+### Changes
+
+- **New Features:**
+- List of new features or enhancements
+- **Bug Fixes:**
+- List of bug fixes
+- **Refactoring:**
+- List of code refactoring or optimizations
+- **Other Changes:**
+- Any other changes that don't fit the above categories
+
+### Technical Details
+Brief explanation of significant technical changes or decisions
+
+### Related Issues
+Include references to other GitHub issues if mentioned in the commits, using the format "Relates to #[issue-number]"
+
+### Additional Notes
+Any other relevant information for reviewers
+```
+
+## Style Guidelines
+
+- Maintain a professional and clear tone
+- Use technical terms appropriate for the project's domain
+- Prioritize changes within each category based on importance or chronological order
+- If commit messages are unclear or lack detail, summarize the changes based on the code diff
+
+{{ prompt }}
+
+<feature-branch>{{ feature_branch }}</feature-branch>
+<commits>
+{{ stdin }}
+</commits>
+"""

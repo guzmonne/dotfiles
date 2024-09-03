@@ -61,56 +61,15 @@ end
 ---@param opts mods.Options `mods` options configuration.
 ---@param prompt string The prompt to use.
 function M.make_mods_spec_args(opts, prompt)
-  assert(opts.api, "Mods API option can't be undefined")
-  assert(opts.model, "Mods Model option can't be undefined")
-  assert(opts.role, "Mods Role option can't be undefined")
+  assert(opts.preset, "Mods API option can't be undefined")
+  assert(opts.template, "Mods Model option can't be undefined")
+  assert(opts.vars, "Mods Role option can't be undefined")
 
-  local args = { "--api", opts.api, "--model", opts.model, "--role", opts.role, "--tty" }
+  local args = { "--preset", opts.preset, "--template", opts.template, "--vars", opts.vars }
 
-  if opts.format and opts.format_as ~= nil then
-    table.insert(args, "--format")
-    table.insert(args, "--format-as")
-    table.insert(args, opts.format_as)
-  end
-  if opts.continue then
-    table.insert(args, "--continue")
-  end
-  if opts.continue_last then
-    table.insert(args, "--continue_last")
-  end
-  if opts.title then
-    table.insert(args, "--title")
-    table.insert(args, opts.title)
-  end
-  if opts.max_retries then
-    table.insert(args, "--max-retries")
-    table.insert(args, opts.max_retries)
-  end
-  if opts.no_limit then
-    table.insert(args, "--no-limit")
-  end
-  if opts.max_tokens then
-    table.insert(args, "--max-tokens")
-    table.insert(args, opts.max_tokens)
-  end
-  if opts.word_wrap then
-    table.insert(args, "--word-wrap")
-    table.insert(args, opts.word_wrap)
-  end
-  if opts.temp then
-    table.insert(args, "--temp")
-    table.insert(args, opts.temp)
-  end
-  if opts.stop then
-    table.insert(args, "--stop")
-    table.insert(args, opts.stop)
-  end
-  if opts.topp then
-    table.insert(args, "--topp")
-    table.insert(args, opts.topp)
-  end
-  if opts.no_cache then
-    table.insert(args, "--no-cache")
+  if opts.suffix ~= nil then
+    table.insert(args, "--suffix")
+    table.insert(args, opts.suffix)
   end
 
   table.insert(args, prompt)
@@ -133,20 +92,8 @@ function M.write_string_at_cursor(str)
       return
     end
 
-    local cursor_position = vim.api.nvim_win_get_cursor(current_window)
-    local row, col = cursor_position[1], cursor_position[2]
-
-    vim.print({ row, col })
-
-    local lines = vim.split(str, "\n")
-
     vim.cmd("undojoin")
-    vim.api.nvim_put(lines, "c", true, true)
-
-    local num_lines = #lines
-    local last_line_length = #lines[num_lines]
-
-    vim.api.nvim_win_set_cursor(current_window, { row + num_lines - 1, col + last_line_length })
+    vim.api.nvim_put({ str }, "l", true, true)
   end)
 end
 
@@ -176,14 +123,11 @@ local group = vim.api.nvim_create_augroup("ModsLLMAutoGroup", { clear = true })
 local active_job = nil
 
 -- Invokes `mods` and streams its output to the editor.
-function M.invoke_mods_and_stream_into_editor(opts)
+function M.invoke_mods_and_stream_into_editor(key, opts)
   vim.api.nvim_clear_autocmds({ group = group })
 
   local prompt = get_prompt(opts)
   local args = M.make_mods_spec_args(opts, prompt)
-
-  vim.print(prompt)
-  vim.print(active_job)
 
   if active_job then
     active_job:shutdown()
@@ -191,14 +135,11 @@ function M.invoke_mods_and_stream_into_editor(opts)
   end
 
   local function parse_and_call(chunk)
-    vim.print(chunk)
     M.write_string_at_cursor(chunk)
   end
 
-  vim.print(args)
-
   active_job = Job:new({
-    command = "mods",
+    command = "e",
     args = args,
     on_stdout = function(_, chunk)
       parse_and_call(chunk)
@@ -215,6 +156,7 @@ function M.invoke_mods_and_stream_into_editor(opts)
     pattern = "ModsLLMEscape",
     callback = function()
       if active_job then
+        require("fidget.notification").clear("mods:" .. key)
         active_job:shutdown()
         print("Mods streaming cancelled")
         active_job = nil
@@ -246,18 +188,18 @@ function M.setup(opts)
       return
     end
 
-    vim.print("Mods")
-
     for key, nestedTable in pairs(M.options) do
-      vim.print(key)
       M.fn[key] = function()
-        M.invoke_mods_and_stream_into_editor(nestedTable)
+        require("fidget").notify(
+          "mods:" .. key,
+          2,
+          { group = "mods:" .. key, annote = "Running LLM in the background...", ttl = "5" }
+        )
+        M.invoke_mods_and_stream_into_editor(key, nestedTable)
       end
     end
 
     M.loaded = true
-
-    vim.print(M)
   end
 
   load = vim.schedule_wrap(load)

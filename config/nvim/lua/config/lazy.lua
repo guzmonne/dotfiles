@@ -41,7 +41,7 @@ require("lazy").setup({
   },
   dev = {
     ---@type string | fun(plugin: LazyPlugin): string directory where you store your local plugin projects
-    path = vim.fn.stdpath("config") .. "/lua/user",
+    path = "~/Projects/Personal/plugins",
     ---@type string[] plugins that match these patterns will use your local versions instead of being fetched from GitHub
     patterns = { "cloudbridge" }, -- For example {"folke"}
     fallback = false, -- Fallback to git when local plugin doesn't exist
