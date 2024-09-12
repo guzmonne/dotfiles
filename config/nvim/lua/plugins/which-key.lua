@@ -109,5 +109,7 @@ return {
     { "<leader>zp", require("user.zk").private, desc = "Create a new private note" },
     { "<leader>zz", require("user.zk").telescope_list, desc = "Find notes" },
     { "Q", "<cmd>bd<CR>", desc = "Close the current buffer" },
+    { "<leader>bn", "<cmd>BaconLoad<CR>:w<CR>:BaconNext<CR>", "Navigate to the next Bacon location" },
+    { "<leader>bl", "<cmd>BaconList<CR>", "Open the Bacon list" },
   },
 }

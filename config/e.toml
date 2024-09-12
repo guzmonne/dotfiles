@@ -4,8 +4,8 @@
 quiet = false
 system = """
 Please provide your answers in Markdown format. Utilize Markdown's formatting options fully, especially for code examples.
-When providing code, use code fences with the appropriate language identifier. For any Go or Golang code, use `golang` as
-the language identifier. Additionally, try to break paragraph lines near the 120 character mark for ease of reading.
+When providing code, use code fences with the appropriate language identifier.
+Additionally, try to break paragraph lines near the 120 character mark for ease of reading.
 """
 
 # ╭─────────╮
@@ -26,6 +26,7 @@ api = "google"
 base_url = "https://generativelanguage.googleapis.com/v1beta"
 env = "GOOGLE_API_KEY"
 model = "gemini-1.5-pro"
+max_tokens = 8192
 
 # ╭─────────────────────╮
 # │ Google Gemini Flash │
@@ -36,6 +37,7 @@ api = "google"
 base_url = "https://generativelanguage.googleapis.com/v1beta"
 env = "GOOGLE_API_KEY"
 model = "gemini-1.5-flash"
+max_tokens = 8192
 
 # ╭──────────────────╮
 # │ Anthropic Sonnet │
@@ -84,6 +86,180 @@ env = "MISTRAL_API_KEY"
 model = "codestral-2405"
 max_tokens = 4096
 
+# ╭──────────────╮
+# │ Search Query │
+# ╰──────────────╯
+[[templates]]
+name = "search-query"
+description = "Takes in a simple question and transforms it into a proper search engine query"
+system = """
+## Task
+
+You'll take in a user <question> written in natural language, and you'll
+transform it into a more useful search query to be used on a web search engine
+like Google, to maximize its effectiveness to find the right web pages that
+could answer the user <question>.
+
+## Procedure
+
+You'll perform this task in 3 steps, using XML (xml) to format your answer:
+
+First, you'll create a <context> section where you'll include your goal and the
+user goal.
+
+Second, you'll create a <thinking> section where you'll think step-by-step on how
+best to achieve your goal given the current information.
+
+Lastly, you'll create an <output> section with the new revised query. You won't add
+any other information, just the revised search query. No additional comments, or
+formatting, just the revised version of the user <question>.
+"""
+template = """
+<question>{{ prompt }}</question>
+"""
+
+# ╭────────────╮
+# │ Article    │
+# ╰────────────╯
+[[templates]]
+name = "youtube-transcript"
+description = "Create an article based on a youtube transcript"
+system = """
+## Task
+
+Create an article based on the given YouTube transcript. Expand the content of the transcript into a fully fledge body, and add an Introduction and a Conclusion.
+
+If code is mention, recreate the examples in the right language. For example, if they talk about `rust`, use:
+
+```rust
+// Rust code...
+```
+If they talk about `go` use
+
+```golang
+# Golang code
+```
+
+Use markdown for the format of the article.
+"""
+template = """
+{%- if stdin -%}
+{{ stdin }}
+{% endif -%}
+{{ prompt }}
+{%- if suffix -%}
+{{ suffix }}
+{% endif -%}
+"""
+
+# ╭────────────╮
+# │ Summarizer │
+# ╰────────────╯
+[[templates]]
+name = "summarizer"
+description = "Summarizes an HTML to Markdown document"
+system = """
+Clean and format a Markdown file converted from HTML following this rules:
+
+
+- Standardize heading levels (ensure document starts with H1, followed by H2, etc.).
+- Remove elements resembling website navigation, keeping only section headings.
+- Retain only the main content of the document.
+- Remove all media references like images, iframes, and videos.
+- Remove all content related to scripts or styles.
+- Clean up tables while preserving their content and structure.
+- Preserve code fences and their content without modifications.
+- Move all link references to the end of the document.
+- Correct obvious spelling and grammatical errors in the main content.
+- Remove any embedded HTML, except for HTML comments.
+- Preserve lists (ordered and unordered) that relate to the main content; remove others.
+
+## Output
+
+A clean, well-formatted Markdown file containing the main content.
+"""
+template = """
+{%- if stdin -%}
+{{ stdin }}
+{% endif -%}
+{{ prompt }}
+{%- if suffix -%}
+{{ suffix }}
+{% endif -%}
+"""
+
+# ╭───────────╮
+# │ Puper RAG │
+# ╰───────────╯
+[[templates]]
+name = "puper-rag"
+description = "Answers a user query based on information retrieved through puper and d2m"
+system = """
+## Goal
+
+Your goal is to answer the user <query> based on your internal knowledge and the information
+provided to you in the <rag> section. In it, you'll find processed web results that
+should contain the answer to the user question.
+
+You'll do this in four steps.
+
+First, you'll analyze what you are required to do and the information you've been given, creating a summary of everything inside the <rag> section, and adding any additional information you poses without hallucinating.
+
+Then, you'll think in a step-by-step manner about what you should do in order to answer the user <query>.
+
+Lastly, you'll answer the <query> following your previous thinking, based on your knowledge and the information you can infer from the <rag> in the form of a fully fledged markdown article with an introduction, main body, and conclusion where the <query> is answered.
+
+If you, by combining both sources, can't answer the user <query> respond with **ONLY!!!** this:
+
+I'm sorry, but I don't have the necessary information to assist you. Try refining your query.
+"""
+template = """
+<rag>{{ stdin }}</rag>
+<query>{{ prompt }}</query>
+"""
+
+# ╭──────────────────╮
+# │ Brave Search API │
+# ╰──────────────────╯
+[[templates]]
+name = "brave-search"
+description = "Selects the appropriate brave query api links for the provided user prompt"
+system = """
+# Brave Search API Query Selector
+
+## Goal
+
+You'll be given a list of `<search-results>` related to a user `<query>`. Each
+`<search-result>` will include a `<title>`, a `<description>` and a `<url>`. You'll
+read each entry and pick, based on the user `<query>`, at most 5 results
+that have the most probability of including the answer to the user `<query>`.
+
+## Procedure
+
+To do this, you'll start by creating a `<context>` section where you'll redact
+in plain text your goal and how you are going to achieve it based on the provided information.
+
+Then, you'll create a `<thinking>` section where you'll describe in plain text, step-by-step,
+the actions you are going to take to achieve your goal.
+
+Lastly, you'll create an `<output>` section where you'll insert the `<url>` value
+of the selected `<search-result>` results. You won't include anything inside the
+`<output></output>` tags other than the selected `<url>` values, without enclosing
+quotes, brackets, or backticks.
+"""
+template = """
+<search-results>{%- if web and web.results -%}{%- for result in web.results %}
+  <search-result>
+    <title>{{ result.title }}</title>
+    <description>{{ result.description }}</description>
+    <url>{{ result.url }}</url>
+  </search-result>
+{% endfor -%}{%- endif -%}</search-results>
+
+<query>{{ prompt }}</query>
+"""
+
+
 # ╭────────────────────╮
 # │ Fill in the middle │
 # ╰────────────────────╯
@@ -98,16 +274,17 @@ system = """
 
 Continue the text from the specified point
 
-## Marker
+
 
 `<here/>` tag
 
-## Context
 Consider the surrounding text defined by:
 
 - `<prefix></prefix>` tags
 - `<suffix></suffix>` tags
 
+## Marker
+## Context
 ## Content Type Handling
 
 ### Code
@@ -203,6 +380,28 @@ Here is the 'git diff' output for your evaluation:
 The name of the branch is `{{ branch }}`.
 """
 
+# ╭───────────╮
+# │ Changelog │
+# ╰───────────╯
+[[templates]]
+name = "changelog"
+default_vars = { prev_version = "0.0.0", next_version = "0.0.1" }
+description = "Creates a CHANGELOG.md entry based on the output of git log ${PREV_VERSION}..HEAD --pretty=format:'%h %ad %s '--date=short"
+template = """
+<git-log>
+{{ prompt }}
+</git-log>
+Please build a CHANGELOG.md entry based on the provided contents of <git-log>, creatin by running the command `git log {{ prev_version }}..HEAD --pretty=format:'%h %ad %s '--date=short`.
+
+Some semantic commits have a service identified between brackets. For example: `feat(xtask): new changelog command added`. This mean that the changes affected only that service. Group your changes based on this identification. If there is no service, then the changes are global and affect ALL services.
+
+All lines should include one or more semantic commit messages, that can be used to infer the changes done between the previous version ({{ prev_version }}) and the next version ({{ next_version }})
+
+ONLY USE THE <git-log> information to generate your response. Nothing more. Don't add unrelated changes. Stick with what's inside the <git-log> tag.
+"""
+system = "Please return the new CHANGELOG.md entry without additional comments using markdown WITHOUT enclosing backticks."
+
+
 # ╭────────────╮
 # │ Tech Agent │
 # ╰────────────╯
@@ -256,7 +455,6 @@ system = """
       <examples>
         <headers># Main Header
 ## Subheader
-### Smaller Subheader</headers>
         <emphasis>*italics* or _italics_
 **bold** or __bold__
 ***bold italics***</emphasis>
@@ -266,13 +464,11 @@ system = """
         <blockquotes>> Blockquote</blockquotes>
         <code>`inline code`
 ```python
-# Python code block
-def example_function():
-  return "Hello, DevOps!"
+# Python code blockdef example_function():
+return "Hello, DevOps!"
 ```
 ```bash
-# Bash code block
-echo "Hello, Backend!"
+# Bash code blockecho "Hello, Backend!"
 ```</code>
       </examples>
     </markdown>
@@ -341,6 +537,7 @@ name = "prompter"
 description = "Helps to craft better prompts using an iterative method"
 system = "Output the result as GitHub flavored markdown without encolsing backticks, using XML tags to indicated different parts of the prompt."
 template = """
+### Smaller Subheader</headers>
 # Introduction
 
 As an Ai trained in the fine-tuning of Large Language Model prompts, written in XML format, I aim to help users create their ultimate prompts. I adhere to the follow procedure in order to accomplish this.
@@ -406,16 +603,16 @@ High-level overview of the changes made
 - **Other Changes:**
 - Any other changes that don't fit the above categories
 
-### Technical Details
 Brief explanation of significant technical changes or decisions
 
-### Related Issues
 Include references to other GitHub issues if mentioned in the commits, using the format "Relates to #[issue-number]"
 
-### Additional Notes
 Any other relevant information for reviewers
 ```
 
+### Technical Details
+### Related Issues
+### Additional Notes
 ## Style Guidelines
 
 - Maintain a professional and clear tone

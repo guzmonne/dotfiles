@@ -138,3 +138,20 @@ fi
 
 # bun completions
 [ -s "/Users/guzmanmonne/.bun/_bun" ] && source "/Users/guzmanmonne/.bun/_bun"
+
+if command -v carapace > /dev/null; then
+  export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense' # optional
+  zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
+  source <(carapace _carapace)
+fi
+
+
+if command -v bedrock > /dev/null; then
+  #compdef bedrock
+
+  _bedrock_completion() {
+    eval $(env _TYPER_COMPLETE_ARGS="${words[1,$CURRENT]}" _BEDROCK_COMPLETE=complete_zsh bedrock)
+  }
+
+  compdef _bedrock_completion bedrock
+fi

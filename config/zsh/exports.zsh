@@ -164,25 +164,7 @@ fi
 export CLOUDSDK_PYTHON_SITEPACKAGES=1
 
 # Source Secret Environment Variables
-export $(cat "$HOME/Projects/Personal/secrets/google.env" | xargs)
-export $(cat "$HOME/Projects/Personal/secrets/cloudflare.env" | xargs)
-export $(cat "$HOME/Projects/Personal/secrets/openai.env" | xargs)
-export $(cat "$HOME/Projects/Personal/secrets/newrelic.env" | xargs)
-export $(cat "$HOME/Projects/Personal/secrets/anthropic.env" | xargs)
-export $(cat "$HOME/Projects/Personal/secrets/huggingface.env" | xargs)
-export $(cat "$HOME/Projects/Personal/secrets/c.env" | xargs)
-export $(cat "$HOME/Projects/Personal/secrets/github.env" | xargs)
-export $(cat "$HOME/Projects/Personal/secrets/replicate.env" | xargs)
-export $(cat "$HOME/Projects/Personal/secrets/gooseai.env" | xargs)
-export $(cat "$HOME/Projects/Personal/secrets/novelai.env" | xargs)
-export $(cat "$HOME/Projects/Personal/secrets/nlpcloud.env" | xargs)
-export $(cat "$HOME/Projects/Personal/secrets/qdrant.env" | xargs)
-export $(cat "$HOME/Projects/Personal/secrets/togetherai.env" | xargs)
-export $(cat "$HOME/Projects/Personal/secrets/brave.env" | xargs)
-export $(cat "$HOME/Projects/Personal/secrets/groq.env" | xargs)
-export $(cat "$HOME/Projects/Personal/secrets/jira.env" | xargs)
-export $(cat "$HOME/Projects/Personal/secrets/stabilityai.env" | xargs)
-export $(cat "$HOME/Projects/Personal/secrets/mistral.env" | xargs)
+export $(cat $HOME/Projects/Personal/secrets/*.env | xargs)
 
 # Source JAVA_HOME
 export JAVA_HOME=$(/usr/libexec/java_home)
@@ -226,3 +208,6 @@ export GLAMOUR_STYLE=/Users/guzmanmonne/.glamour.tokyonight
 if [[ -d "$HOME/.local/bin" ]]; then
   export PATH="$HOME/.local/bin:$PATH"
 fi
+
+# Configure cargo
+export CARGO_TERM_COLOR=always

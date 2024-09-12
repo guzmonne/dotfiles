@@ -1,10 +1,14 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 # shellcheck disable=SC2154
 # @name summarize
 # @version 0.1.0
 # @description Uses the bravecli and mods to get information in the web and summarizes it with mods.
 # @author "Guzmán Monné <guzman.monne@cloudbridge.com.uy>"
 # @deps bravecli|mods|jq|parallel|mdka-cli|glow|yt|gum
+# @rule no-check-bash-v4
+# @rule no-disclaimer
+
+SELF="$(readlink -f "$(which "$0")")"
 
 TRANSCRIPT_PROMPT="$(
 	cat <<EOF
@@ -113,6 +117,136 @@ EOF
 
 declare -a URLS
 
+# @cmd Crafts a proper web search engine query from a natural language user question.
+# @arg query The question to be converted.
+# @option --e-preset=pro E Slow model preset.
+# @option --intermediate-stream="/dev/null" Stream the intermediate output of the subcommands to a specific stream like "stderr".
+# @private
+craft-search-query() {
+	e "$rargs_query" \
+		--preset "$rargs_e_preset" \
+		--template search-query |
+		tee "$rargs_intermediate_stream" |
+		awk '/<output>/,/<\/output>/' |
+		grep -vE '<output>|<\/output>' |
+		perl -p -e 'chomp if eof'
+}
+
+# @cmd Downloads a docs.rs site, converts it to markdown, and extracts all the references to crate references.
+# @arg url Documentation URL.
+# @option -o --output! Output directory for the doc files.
+# @flag --force Force overwrite of the output files.
+docs-rs() {
+  local base_path
+  local html_path
+  local md_path
+
+  base_path="${rargs_output}/$(echo -n "$rargs_url" | awk -F'https://docs.rs/|/' '
+  {
+    if ($NF ~ /\.html$/) {
+      gsub(/\.html$/, "", $NF)
+      print $2"/"$3"/"$4"/"$5
+    } else {
+      print $2"/"$3"/"$4"/crate"
+    }
+  }')"
+
+  # If base_path has `crate` for suffix.
+  if [[ "$base_path" =~ "crate$" ]]; then
+    gum log --level info "Creating directory for crate"
+    mkdir -p "${base_path%crate}"
+  fi
+
+  html_path="${base_path}.html"
+  md_path="${base_path}.md"
+
+  gum log --level info "html_path: $html_path"
+  gum log --level info "md_path: $md_path"
+
+  if [[ -f "$html_path" ]] && [[ -z "$rargs_force" ]]; then
+    gum log --level error "File $html_path already exists. Use --force to overwrite."
+    return 1
+  fi
+
+  gum log --level info "Downloading $html_path"
+  puper "$rargs_url" > "$html_path"
+
+  if [[ "$!" != "0" ]]; then
+    gum log --level error "Failed to download $rargs_url"
+    return 1
+  fi
+
+  gum log --level info echo "Converting HTML to MD"
+  d2m -i "$html_path" --extract-main --track-table-columns 2>/dev/null |
+    awk 'NF{if (blank) print ""; blank=0; print} !NF{blank++}' > "$md_path"
+
+  if [[ "$!" != "0" ]]; then
+    gum log --level error "Failed to convert $html_path to $md"
+    return 1
+  fi
+
+  if [[ "$base_path" =~ "crate$" ]]; then
+    gum log --level info "Extracting hrefs"
+    gum log --level info "$SELF docs-rs ${rargs_url}{} --output $rargs_output"
+    cat "$html_path" |
+      pup 'a json{}' |
+      jq '.[] | .href' -r |
+      grep -E 'struct|trait|enum|type|constant' |
+      grep -v '#' |
+      grep -v 'http' |
+      grep -v 'target-redirect' |
+      sort |
+      uniq |
+      tee /dev/null |
+      if [[ -n "$rargs_force" ]]; then
+        parallel --progress "$SELF docs-rs ${rargs_url}{} --output $rargs_output" --force
+      else
+        parallel --progress "$SELF docs-rs ${rargs_url}{} --output $rargs_output"
+      fi
+
+    if [[ "$!" != "0" ]]; then
+      gum log --level error "Failed to extract hrefs from $html_path"
+      return 1
+    fi
+  fi
+
+  return 0
+}
+
+# @cmd Ask a question and have it answered by a combination of tools.
+# @arg query Your question.
+# @option --e-slow-preset=pro E Slow model preset.
+# @option --e-fast-preset=flash E Fast model preset.
+# @option --e-pick-url-template=brave-search E Pick URL template.
+# @option --e-summarizer-template=summarizer E summarizer template.
+# @option --e-answer-template=puper-rag E Answer template.
+# @option --freshness="$(date -v -1y +%Y-%m-%d)to$(date +%Y-%m-%d)" Query freshness. Defaults to 1 year.
+# @option --bravecli-count=20 Bravecli Search API result count.
+# @option --intermediate-stream="/dev/null" Stream the intermediate output of the subcommands to a specific stream like "stderr".
+# @deps e|awk|bravecli|grep|perl|puper|parallel You are missing dependencies to run this command.
+answer() {
+	local search_query
+
+	search_query="$(craft-search-query "$rargs_query" --e-preset "$rargs_e_slow_preset" --intermediate-stream "$rargs_intermediate_stream")"
+
+	if [[ -z "$search_query" ]]; then
+		echo "No search query found"
+		return 1
+	fi
+
+	e "$rargs_query" \
+		--preset "$rargs_e_fast_preset" \
+		--template "$rargs_e_pick_url_template" \
+		--vars "$(bravecli search "$search_query" --freshness "$rargs_freshness" --count "$rargs_bravecli_count" | jq -c)" |
+		tee "$rargs_intermediate_stream" |
+		awk '/<output>/,/<\/output>/' |
+		grep -vE '<output>|<\/output>' |
+		perl -p -e 'chomp if eof' |
+		parallel --progress 'd2m -i =(puper {}) --extract-main --track-table-columns 2>/dev/null | e - --template '"$rargs_e_summarizer_template"' --preset '"$rargs_e_fast_preset" |
+		tee "$rargs_intermediate_stream" |
+		e - "$rargs_query" --preset "$rargs_e_fast_preset" --template "$rargs_e_answer_template"
+}
+
 # @cmd Searches for a topic, then attempts to get the output
 # @option --search-prompt Search prompt
 # @option -a --api=google Mods api to use.
@@ -194,17 +328,17 @@ search() {
 		elif [[ "$choice" == "Continue" ]]; then
 			echo
 		elif [[ "$choice" == "Abort" ]]; then
-			exit 1
+			return 1
 		fi
 	elif [[ "$choice" == "Continue" ]]; then
 		echo
 	elif [[ "$choice" == "Abort" ]]; then
-		exit 1
+		return 1
 	fi
 
 	if [[ "${#URLS[@]}" == 0 ]]; then
 		gum log --level error No options selected
-		exit 1
+		return 1
 	fi
 
 	gum log --level info Running summary for selected "${#URLS[@]}" results.
