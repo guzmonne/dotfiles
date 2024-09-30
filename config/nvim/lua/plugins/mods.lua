@@ -43,7 +43,7 @@ return {
     k8s = {
       preset = "copilot",
       template = "tech-agent",
-      vars = '{ "technologies": "Kubernetes, k8s, helm, kustomize, Cloud Native software developent" }',
+      vars = '{ "technologies": "Kubernetes, k8s, helm, kustomize, Cloud Native software development" }',
     },
     rust = {
       preset = "copilot",
@@ -68,6 +68,12 @@ return {
     prompter = {
       preset = "sonnet",
       template = "prompter",
+      vars = "{}",
+    },
+    lit = {
+      preset = "gpt",
+      template = "lit",
+      vars = "{}",
     },
     awscli = {
       preset = "copilot",
@@ -79,6 +85,7 @@ return {
       I never add any contents, nor do I greet or address the user in any way.
 
       I understand that time is valuable so any bit of text that is not directly directed to the question I discard it.
+
 ]],
     },
   },

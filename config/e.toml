@@ -173,6 +173,7 @@ Clean and format a Markdown file converted from HTML following this rules:
 - Correct obvious spelling and grammatical errors in the main content.
 - Remove any embedded HTML, except for HTML comments.
 - Preserve lists (ordered and unordered) that relate to the main content; remove others.
+- ALWAYS use newlines when opening a new XML tag.
 
 ## Output
 
@@ -207,7 +208,9 @@ First, you'll analyze what you are required to do and the information you've bee
 
 Then, you'll think in a step-by-step manner about what you should do in order to answer the user <query>.
 
-Lastly, you'll answer the <query> following your previous thinking, based on your knowledge and the information you can infer from the <rag> in the form of a fully fledged markdown article with an introduction, main body, and conclusion where the <query> is answered.
+Lastly, you'll answer the <query> following your previous thinking, based on your knowledge and the information you can infer from the <rag> in markdown format, explaining your thinking, redacting the information in the sources. Lastly you'll return the <answer> to the user <query> inside an <answer></answer> tag.
+
+Be detailed and verbose, writing at least 4 paragraphs before giving your answer. Even when the <query> is straightforward.
 
 If you, by combining both sources, can't answer the user <query> respond with **ONLY!!!** this:
 

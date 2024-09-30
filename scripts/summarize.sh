@@ -350,17 +350,18 @@ answer() {
 		echo "No search query found"
 		return 1
 	fi
-	e "$rargs_query" \
+	llm-stream "$rargs_query" \
 		--preset "$rargs_e_fast_preset" \
 		--template "$rargs_e_pick_url_template" \
 		--vars "$(bravecli search "$search_query" --freshness "$rargs_freshness" --count "$rargs_bravecli_count" | jq -c)" |
 		tee "$rargs_intermediate_stream" |
 		awk '/<output>/,/<\/output>/' |
-		grep -vE '<output>|<\/output>' |
+    sed -E 's/<\/?output>//g' |
 		perl -p -e 'chomp if eof' |
-		parallel --progress 'd2m -i =(puper {}) --extract-main --track-table-columns 2>/dev/null | e - --template '"$rargs_e_summarizer_template"' --preset '"$rargs_e_fast_preset" |
+		tee "/dev/stdout" |
+		parallel --progress 'd2m -i =(puper {}) --extract-main --track-table-columns 2>/dev/null | llm-stream --template '"$rargs_e_summarizer_template"' --preset '"$rargs_e_fast_preset" |
 		tee "$rargs_intermediate_stream" |
-		e - "$rargs_query" --preset "$rargs_e_fast_preset" --template "$rargs_e_answer_template"
+		llm-stream "$rargs_query" --preset "$rargs_e_fast_preset" --template "$rargs_e_answer_template"
 }
 craft-search-query_usage() {
   printf "Crafts a proper web search engine query from a natural language user question.\n"
@@ -447,7 +448,7 @@ craft-search-query() {
 		--template search-query |
 		tee "$rargs_intermediate_stream" |
 		awk '/<output>/,/<\/output>/' |
-		grep -vE '<output>|<\/output>' |
+    sed -E 's/<\/?output>//g' |
 		perl -p -e 'chomp if eof'
 }
 docs-rs_usage() {
