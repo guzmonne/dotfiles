@@ -27,7 +27,7 @@ Takes a list of GitHub/GitLab repositories and installs them inside the
 
 _Command:_
 
-```console
+```bash
 ansible-playbook ansible/clone.yml --extra-vars="root=`pwd`"
 ```
 
@@ -41,18 +41,18 @@ You **need** to have Homebrew installed before running this command.
 
 _Command:_
 
-```console
+```bash
 ansible-playbook ansible/brew.yml --extra-vars="root=`pwd`"
 ```
 
 ### `tasks.yml`
 
-This playbook runs aditional `tasks` needed by other playbooks. You probably want
+This playbook runs additional `tasks` needed by other playbooks. You probably want
 to run this playbook before running the `symlink.yml` playbook.
 
 _Command:_
 
-```console
+```bash
 ansible-playbook ansible/tasks.yml --extra-vars="root=`pwd`"
 ```
 
@@ -67,6 +67,6 @@ paths created by them.
 
 _Command:_
 
-```console
+```bash
 ansible-playbook ansible/symlink.yml --extra-vars="root=`pwd`"
 ```
