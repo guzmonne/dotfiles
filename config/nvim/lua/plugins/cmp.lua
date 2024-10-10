@@ -1,5 +1,7 @@
 local cmp = require("cmp")
 
+local WIDE_HEIGHT = 40
+
 return {
   "hrsh7th/nvim-cmp",
   dependencies = {
@@ -50,6 +52,24 @@ return {
       { name = "luasnip", group_index = 3 },
       { name = "buffer", grpup_index = 4 },
     })
+    opts.window = {
+      completion = {
+        border = { " ", "", " ", " ", " ", "", " ", " " },
+        winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,CursorLine:PmenuSel,Search:None",
+        winblend = vim.o.pumblend,
+        scrolloff = 0,
+        col_offset = 0,
+        side_padding = 0,
+        scrollbar = false,
+      },
+      documentation = {
+        max_height = math.floor(WIDE_HEIGHT * (WIDE_HEIGHT / vim.o.lines)),
+        max_width = math.floor((WIDE_HEIGHT * 2) * (vim.o.columns / (WIDE_HEIGHT * 2 * 16 / 9))),
+        border = { " ", "", " ", " ", " ", "", " ", " " },
+        winhighlight = "FloatBorder:NormalFloat",
+        winblend = vim.o.pumblend,
+      },
+    }
     opts.mapping = cmp.mapping.preset.insert({
       ["<C-n>"] = cmp.mapping(function()
         if cmp.visible() then
