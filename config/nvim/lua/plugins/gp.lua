@@ -213,6 +213,16 @@ return {
           system_prompt = tech_agent("Python, python, `python`, `python3`, typer, fastapi, pydantic"),
         },
         {
+          name = "auth",
+          provider = "copilot",
+          chat = true,
+          command = false,
+          model = { model = "gpt-4o" },
+          system_prompt = tech_agent(
+            "RBAC, Role Based Access Control, Authentication, Authorization, Audit, AAA, Okta, OpenFGA, ReBAC, Relationship Based Access Control"
+          ),
+        },
+        {
           name = "editor",
           provider = "anthropic",
           chat = true,
