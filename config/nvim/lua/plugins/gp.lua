@@ -106,11 +106,11 @@ return {
         },
         {
           name = "lua",
-          provider = "copilot",
+          provider = "anthropic",
           chat = true,
           command = false,
-          model = { model = "gpt-4o" },
-          system_prompt = tech_agent("PHP, `php`, php"),
+          model = { model = "claude-3-5-sonnet-20240620" },
+          system_prompt = tech_agent("Lua, lua, NVIM, NeoVim, nvim, `nvim`, Vim, `vim`, vim, luarocks"),
         },
         {
           name = "js",
