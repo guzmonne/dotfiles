@@ -50,7 +50,9 @@
 [url "git@github.com:"]
 	insteadOf = https://github.com
 [advice]
-	detachedHead = false
+  detachedHead = false
+[merge]
+  conflictstyle = diff3
 [mergetool "fugitive"]
   cmd = nvim -f -c \"Gvdiffsplit!\" \"$MERGED\"
 [includeIf "gitdir:~/Projects/Canoe/"]
