@@ -111,5 +111,6 @@ return {
     { "Q", "<cmd>bd<CR>", desc = "Close the current buffer" },
     { "<leader>bn", "<cmd>BaconLoad<CR>:w<CR>:BaconNext<CR>", "Navigate to the next Bacon location" },
     { "<leader>bl", "<cmd>BaconList<CR>", "Open the Bacon list" },
+    { "<Tab>", "<space><space>", "1 Tab == 2 spaces" },
   },
 }

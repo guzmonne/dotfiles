@@ -158,3 +158,11 @@ if command -v bedrock > /dev/null; then
 
   compdef _bedrock_completion bedrock
 fi
+
+if command -v scripts > /dev/null; then
+  eval "$(scripts completion zsh)"
+fi
+
+if [[ -d "/opt/homebrew/opt/gnu-sed/libexec/gnubin" ]]; then
+  export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
+fi

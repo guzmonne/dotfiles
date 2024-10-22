@@ -25,3 +25,4 @@ config/pgcli/history
 config/pgcli/log
 
 scripts/node_modules
+*.zcompdump*
