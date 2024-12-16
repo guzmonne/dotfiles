@@ -211,3 +211,14 @@ fi
 
 # Configure cargo
 export CARGO_TERM_COLOR=always
+
+# Configure `moar`
+if command -v moar >/dev/null; then
+  export MOAR="--statusbar=bold --no-linenumbers"
+  export PAGER="$(which moar)"
+fi
+
+# Configure pixi
+if [[ -d "${HOME}/.pixi/bin" ]]; then
+  export PATH="/Users/guzmanmonne/.pixi/bin:$PATH"
+fi

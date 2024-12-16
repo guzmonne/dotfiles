@@ -1,6 +1,7 @@
 # Disable ctrl-s and ctrl-q
 stty -ixon
 
+typeset -U PATH
 setopt appendhistory
 
 # Useful zsh options. See man zshoptions

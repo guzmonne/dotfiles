@@ -1,6 +1,6 @@
 #:schema = "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json"
 
-version = 1
+version = 2
 final_space = true
 console_title_template = '{{ .Shell }} in {{ .Folder }}'
 
@@ -10,16 +10,21 @@ type = "prompt"
 newline = false
 
 [palette]
-tokionight_green = "#73daca"
-tokionight_blue = "#6d91de"
-tokionight_purple = "#9d7cd8"
-tokionight_magenta = "#ff007c"
+tokyonight_green = "#73daca"
+tokyonight_blue = "#6d91de"
+tokyonight_gray = "#AFBAD4"
+tokyonight_purple = "#9d7cd8"
+tokyonight_magenta = "#ff007c"
+tokyonight_yellow = "#ffe873"
+aws_yellow = "#FFA400"
+node_green = "#6CA35E"
+kubernetes_blue = "#7dcfff"
 
 [[blocks.segments]]
 background = 'transparent'
-foreground = "p:tokionight_green"
+foreground = "p:tokyonight_green"
 style = "plain"
-template = "{{ if matchP \"/branches/\" .Path }}{{ .Path | replace \"/branches/\" \" <#FFF>󱏒</> <p:tokionight_blue>\" }}</>{{ else }}{{ .Path }}{{ end }}"
+template = "{{ if matchP \"/branches/\" .Path }}{{ .Path | replace \"/branches/\" \" <#FFF>󱏒</> <p:tokyonight_blue>\" }}</>{{ else }}{{ .Path }}{{ end }}"
 type = "path"
 
 [blocks.segments.properties]
@@ -30,12 +35,13 @@ type = 'git'
 style = 'plain'
 foreground = "#ffffff"
 background = 'transparent'
-template = '  {{ .HEAD }}{{ if or (.Working.Changed) (.Staging.Changed) }}*{{ end }} <cyan>{{ if gt .Behind 0 }}⇣{{ end }}{{ if gt .Ahead 0 }}⇡{{ end }}</>'
+template = '  {{ .HEAD }}{{ if or (.Working.Changed) (.Staging.Changed) }}*{{ end }} <p:tokyonight_purple>{{ if gt .Behind 0 }}{{ end }}{{ if gt .Ahead 0 }}{{ end }}</>'
 
 [blocks.segments.properties]
 branch_icon = ''
 commit_icon = '@'
 fetch_status = true
+tag_icon = ' '
 
 [[blocks]]
 type = 'rprompt'
@@ -44,51 +50,51 @@ overflow = 'hidden'
 [[blocks.segments]]
 type = 'executiontime'
 style = 'plain'
-foreground = 'yellow'
+foreground = 'p:tokyonight_yellow'
 background = 'transparent'
 template = '{{ .FormattedMs }}'
 
 [blocks.segments.properties]
 threshold = 5000
 
-[[blocks]]
-alignment = "right"
-type = "prompt"
-
-[[blocks.segments]]
-foreground = "#ffe873"
-style = "plain"
-type = "command"
-
-[blocks.segments.properties]
-command = "if [ -f './.python-version' ]; then echo  $(/bin/cat ./.python-version); elif [ -n \"$VIRTUAL_ENV_PROMPT\" ]; then echo \" $VIRTUAL_ENV_PROMPT\"; fi"
-shell = "zsh"
-
-[[blocks.segments]]
-foreground = "#6CA35E"
+[[tooltips]]
+tips = ["node", "npm", "ts-node"]
+foreground = "p:node_green"
 powerline_symbol = "\ue0b0"
 style = "plain"
 template = " \ue718 {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }} "
 type = "node"
 
-[[blocks.segments]]
-foreground = "#FFA400"
+[[tooltips]]
+tips = ["python"]
+foreground = 'p:tokyonight_yellow'
 style = "plain"
 type = "command"
 
-[blocks.segments.properties]
+[tooltips.properties]
+command = "if [ -n \"$VIRTUAL_ENV_PROMPT\" ]; then echo \" $VIRTUAL_ENV_PROMPT\"; elif [ -f './.python-version' ]; then echo  $(/bin/cat ./.python-version); fi"
+shell = "zsh"
+
+[[tooltips]]
+tips = ["aws"]
+background = "transparent"
+foreground = "p:aws_yellow"
+style = "plain"
+type = "command"
+
+[tooltips.properties]
 command = "if [[ -n $AWS_PROFILE ]]; then echo \" $AWS_PROFILE ($AWS_REGION)\" ; fi"
 shell = "zsh"
 
-[[blocks.segments]]
-foreground = "#7dcfff"
+[[tooltips]]
+tips = ["k", "kubectl"]
+foreground = "p:kubernetes_blue"
 style = "plain"
 type = "command"
 
-[blocks.segments.properties]
+[tooltips.properties]
 command = "if [[ -n \"$(rg \"current-context: .*$\" ~/.kube/config)\" ]]; then echo \" $(rg 'current-context: .*$' ~/.kube/config | sed -e 's|current-context: ||' | tr -d ' ')\" ; fi"
 shell = "zsh"
-
 
 [[blocks]]
 type = 'prompt'
@@ -99,21 +105,21 @@ newline = true
 type = 'text'
 style = 'plain'
 foreground_templates = [
-  "{{if gt .Code 0}}p:tokionight_magenta{{end}}",
-  "{{if eq .Code 0}}p:tokionight_purple{{end}}",
+  "{{if gt .Code 0}}p:tokyonight_magenta{{end}}",
+  "{{if eq .Code 0}}p:tokyonight_purple{{end}}",
 ]
 background = 'transparent'
 template = '❯'
 
 [transient_prompt]
 foreground_templates = [
-  "{{if gt .Code 0}}p:tokionight_magenta{{end}}",
-  "{{if eq .Code 0}}p:tokionight_purple{{end}}",
+  "{{if gt .Code 0}}p:tokyonight_magenta{{end}}",
+  "{{if eq .Code 0}}p:tokyonight_purple{{end}}",
 ]
 background = 'transparent'
 template = '❯ '
 
 [secondary_prompt]
-foreground = 'p:tokionight_magenta'
+foreground = 'p:tokyonight_magenta'
 background = 'transparent'
 template = '❯❯ '

@@ -73,18 +73,13 @@ y = 0
 hide_when_typing = true
 
 [[hints.enabled]]
+binding = { key = "1", mods = "Control" }
 command = "open"
 hyperlinks = true
+mouse.enabled = true
+persist = false
 post_processing = true
 regex = "(ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)[^\u0000-\u001F\u007F-<>\"\\s{-}\\^⟨⟩`]+"
-
-[hints.enabled.binding]
-key = "U"
-mods = "Control|Shift"
-
-[hints.enabled.mouse]
-enabled = true
-mods = "None"
 
 [scrolling]
 history = 10000

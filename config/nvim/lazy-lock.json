@@ -3,6 +3,7 @@
   "LuaSnip": { "branch": "master", "commit": "7552e6504ee95a9c8cfc6db53e389122ded46cd4" },
   "SchemaStore.nvim": { "branch": "main", "commit": "218a9887085b81b3eb0ee8f1e2d20c4a7fd7b1c9" },
   "barbecue": { "branch": "main", "commit": "cd7e7da622d68136e13721865b4d919efd6325ed" },
+  "beacon.nvim": { "branch": "master", "commit": "098ff96c33874339d5e61656f3050dbd587d6bd5" },
   "cmp-buffer": { "branch": "main", "commit": "3022dbc9166796b644a841a02de8dd1cc1d311fa" },
   "cmp-cmdline": { "branch": "main", "commit": "d250c63aa13ead745e3a40f61fdd3470efde3923" },
   "cmp-git": { "branch": "main", "commit": "169202582f900b0e189eed5153b291383bfbba47" },

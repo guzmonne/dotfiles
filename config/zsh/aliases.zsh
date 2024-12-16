@@ -9,7 +9,7 @@ alias cat="bat"
 alias cd="z"
 # alias ls="lsd"
 # alias ll="ls -alh --color=auto"
-alias ls="exa"
+alias ls="eza"
 alias ll="ls -la --icons --group-directories-first --git --no-user"
 alias ctags="`brew --prefix`/bin/ctags"
 alias uuid="uuidgen | tr '[:upper:]' '[:lower:]' | xargs -n1 -I {} echo -n {} | pbcopy"
@@ -111,3 +111,8 @@ alias manthropic="mods --api anthropic --model sonnet"
 alias mollama="mods --api ollama"
 alias mhermes2="mods --api ollama --model hermes2"
 alias mcommandr="mods --api ollama --model command-r"
+
+# PX
+if command -v px >/dev/null; then
+  alias pxk="px --sort=cpupercent --no-username | fzf --preview='px --color {1}' --bind 'ctrl-r:reload(px --sort=cpupercent --no-username)' --height=20 --no-hscroll --tac --no-sort --header-lines=1 | awk '{print $1}' | xargs kill -9"
+fi

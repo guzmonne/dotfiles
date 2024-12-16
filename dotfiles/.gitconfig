@@ -47,8 +47,8 @@
 	plus-style                    = syntax "#283b4d"
 [diff]
 	colorMoved = default
-[url "git@github.com:"]
-	insteadOf = https://github.com
+; [url "git@github.com:"]
+; 	insteadOf = https://github.com
 [advice]
   detachedHead = false
 [merge]
