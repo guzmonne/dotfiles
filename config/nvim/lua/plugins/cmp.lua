@@ -4,6 +4,7 @@ local WIDE_HEIGHT = 40
 
 return {
   "hrsh7th/nvim-cmp",
+  enabled = false,
   dependencies = {
     "luckasRanarison/tailwind-tools.nvim",
     "onsails/lspkind-nvim",

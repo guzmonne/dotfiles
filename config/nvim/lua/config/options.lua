@@ -50,3 +50,6 @@ vim.g.skip_ts_context_commentstring_module = true
 vim.opt.ignorecase = true -- Search case insensitive.
 vim.opt.smartcase = true -- Search matters if capital letter.
 vim.opt.inccommand = "split" -- For incsearch while sub.
+
+-- Blink
+vim.g.ai_cmp = false

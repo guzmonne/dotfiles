@@ -10,7 +10,7 @@ return {
   { "folke/noice.nvim", enabled = false },
   { "folke/neoconf.nvim", enabled = false },
   { "rcarriga/nvim-notify", enabled = false },
-  { "lukas-reineke/indent-blankline.nvim", enabled = true },
+  { "lukas-reineke/indent-blankline.nvim", enabled = false },
   { "dstein64/vim-startuptime", enabled = false },
   { "nvim-neo-tree/neo-tree.nvim", enabled = false },
   { "MeanderingProgrammer/markdown.nvim", enabled = false },
