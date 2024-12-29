@@ -1,35 +1,43 @@
 # Open scripts tmux
 cmd - p [
+    "ghostty": tmux new-window $HOME/.local/bin/scripts tmux go
     "alacritty": tmux new-window $HOME/.local/bin/scripts tmux go
 ]
 cmd - n [
+    "ghostty": tmux new-window $HOME/.local/bin/scripts tmux new
     "alacritty": tmux new-window $HOME/.local/bin/scripts tmux new
 ]
 cmd - u [
+    "ghostty": $HOME/.local/bin/scripts tmux prev
     "alacritty": $HOME/.local/bin/scripts tmux prev
 ]
 cmd - d [
+    "ghostty": $HOME/.local/bin/scripts tmux next
     "alacritty": $HOME/.local/bin/scripts tmux next
 ]
 cmd - b [
+    "ghostty": tmux previous-window
     "alacritty": tmux previous-window
 ]
 cmd - w [
+    "ghostty": tmux next-window
     "alacritty": tmux next-window
 ]
 cmd - g [
+    "ghostty": tmux new-window -n mods '$HOME/.local/bin/mods.sh; read -n 1 -s -r -p "Press any key to exit"'
     "alacritty": tmux new-window -n mods '$HOME/.local/bin/mods.sh; read -n 1 -s -r -p "Press any key to exit"'
 ]
 cmd - h [
+    "ghostty": tmux new-window -n mods '$HOME/.local/bin/mods.sh; read -n 1 -s -r -p "Press any key to exit"'
     "alacritty": tmux new-window -n mods '$HOME/.local/bin/mods.sh; read -n 1 -s -r -p "Press any key to exit"'
 ]
 cmd - s [
+    "ghostty": bash -c 'export OUTPUT="/tmp/freeze_$(date +%s).png"; tmux capture-pane -pet 0 | freeze -o $OUTPUT -c user; open $OUTPUT;'
     "alacritty": bash -c 'export OUTPUT="/tmp/freeze_$(date +%s).png"; tmux capture-pane -pet 0 | freeze -o $OUTPUT -c user; open $OUTPUT;'
 ]
-
-
 # K9s
 cmd - k [
+    "ghostty": echo $HOME/.local/bin/kubectl-k9s
     "alacritty": echo $HOME/.local/bin/kubectl-k9s
 ]
 
