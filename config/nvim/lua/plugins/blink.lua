@@ -1,9 +1,15 @@
 return {
   "saghen/blink.cmp",
   optional = true,
+  enabled = true,
   dependencies = { "giuxtaposition/blink-cmp-copilot", "echasnovski/mini.nvim" },
   opts = {
     keymap = {
+      ["<C-space>"] = {
+        function(cmp)
+          cmp.show({ providers = { "snippets" } })
+        end,
+      },
       ["<CR>"] = {},
       ["<Tab>"] = {
         function(cmp)
@@ -19,7 +25,8 @@ return {
     },
     completion = {
       menu = {
-        border = "single",
+        auto_show = true,
+        -- border = "single",
         -- Mini.Icons
         -- draw = {
         --   components = {
@@ -37,9 +44,9 @@ return {
         --   },
         -- },
       },
-      documentation = { window = { border = "single" } },
+      -- documentation = { window = { border = "single" } },
     },
-    signature = { window = { border = "single" } },
+    -- signature = { window = { border = "single" } },
     sources = {
       default = { "copilot" },
       providers = {

@@ -68,9 +68,9 @@ font-family-bold-italic = "CartographCF Nerd Font"
 # disabling the font style.
 font-style = default
 
-font-style-bold = ExtraBold
+font-style-bold = Heavy
 font-style-italic = Italic
-font-style-bold-italic = "ExtraBold Italic"
+font-style-bold-italic = "Heavy Italic"
 # Control whether Ghostty should synthesize a style if the requested style is
 # not available in the specified font-family.
 #
@@ -133,7 +133,7 @@ font-feature =
 # depending on your `window-inherit-font-size` setting. If that setting is
 # true, only the first window will be affected by this change since all
 # subsequent windows will inherit the font size of the previous window.
-font-size = 13
+font-size = 22
 
 # A repeatable configuration to set one or more font variations values for
 # a variable font. A variable font is a single font, usually with a filename
@@ -204,7 +204,7 @@ font-thicken = true
 #
 #   * Powerline glyphs will be adjusted along with the cell height so
 #     that things like status lines continue to look aligned.
-adjust-cell-width =
+adjust-cell-width = -10%
 
 adjust-cell-height =
 # Distance in pixels from the bottom of the cell to the text baseline.
@@ -1210,7 +1210,7 @@ keybind = super+v=paste_from_clipboard
 # left padding to 2 and the right padding to 4. If you want to set both
 # paddings to the same value, you can use a single value. For example,
 # `window-padding-x = 2` will set both paddings to 2.
-window-padding-x = 2
+window-padding-x = 5
 
 # Vertical window padding. This applies padding between the terminal cells and
 # the top and bottom window borders. The value is in points, meaning that it
@@ -1229,7 +1229,7 @@ window-padding-x = 2
 # top padding to 2 and the bottom padding to 4. If you want to set both
 # paddings to the same value, you can use a single value. For example,
 # `window-padding-y = 2` will set both paddings to 2.
-window-padding-y = 2
+window-padding-y = 5
 
 # The viewport dimensions are usually not perfectly divisible by the cell
 # size. In this case, some extra padding on the end of a column and the bottom
@@ -1243,7 +1243,7 @@ window-padding-y = 2
 # apply. The other padding is applied first and may affect how many grid cells
 # actually exist, and this is applied last in order to balance the padding
 # given a certain viewport size and grid cell size.
-window-padding-balance = false
+window-padding-balance = true
 
 # The color of the padding area of the window. Valid values are:
 #
@@ -1341,7 +1341,7 @@ window-theme = auto
 # Changing this value at runtime will only affect new windows.
 #
 # This setting is only supported on macOS.
-window-colorspace = srgb
+window-colorspace = "display-p3"
 
 # The initial window size. This size is in terminal grid cells by default.
 # Both values must be set to take effect. If only one value is set, it is
