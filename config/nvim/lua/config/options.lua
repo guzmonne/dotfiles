@@ -1,7 +1,6 @@
 -- Options are automatically loaded before lazy.nvim startup
 -- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
 -- Add any additional options here
-vim.opt.cc = "100,120"
 vim.opt.list = false
 vim.opt.hlsearch = false
 vim.opt.scrolloff = 8
@@ -53,3 +52,12 @@ vim.opt.inccommand = "split" -- For incsearch while sub.
 
 -- Blink
 vim.g.ai_cmp = false
+
+-- Number bar
+vim.opt.cursorline = false
+
+-- Enable TOhtml
+vim.g.loaded_2html_plugin = nil
+
+-- Fix Markdown files
+vim.opt.conceallevel = 0

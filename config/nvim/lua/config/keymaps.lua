@@ -128,6 +128,9 @@ local function keymapOptions(desc)
   }
 end
 
+-- Execute Lua File
+vim.keymap.set("n", "<C-x><C-x>", ":luafile %<CR>", { noremap = true, silent = true })
+
 -- Chat commands
 vim.keymap.set({ "n", "i" }, "<C-g>c", "<cmd>GpChatNew<cr>", keymapOptions("New Chat"))
 vim.keymap.set({ "n", "i" }, "<C-g>t", "<cmd>GpChatToggle<cr>", keymapOptions("Toggle Chat"))

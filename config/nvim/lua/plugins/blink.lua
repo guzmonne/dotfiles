@@ -1,13 +1,14 @@
 return {
   "saghen/blink.cmp",
-  optional = true,
+  event = "VeryLazy",
   enabled = true,
-  dependencies = { "giuxtaposition/blink-cmp-copilot", "echasnovski/mini.nvim" },
+  dependencies = { "rafamadriz/friendly-snippets", "giuxtaposition/blink-cmp-copilot", "echasnovski/mini.nvim" },
+  version = "*",
   opts = {
     keymap = {
       ["<C-space>"] = {
         function(cmp)
-          cmp.show({ providers = { "snippets" } })
+          cmp.show()
         end,
       },
       ["<CR>"] = {},
@@ -25,7 +26,7 @@ return {
     },
     completion = {
       menu = {
-        auto_show = true,
+        auto_show = false,
         -- border = "single",
         -- Mini.Icons
         -- draw = {
@@ -48,8 +49,13 @@ return {
     },
     -- signature = { window = { border = "single" } },
     sources = {
-      default = { "copilot" },
+      default = { "copilot", "lsp", "path", "snippets", "buffer", "markdown" },
       providers = {
+        markdown = {
+          name = "RenderMarkdown",
+          module = "render-markdown.integ.blink",
+          fallbacks = { "lsp" },
+        },
         copilot = {
           name = "copilot",
           module = "blink-cmp-copilot",

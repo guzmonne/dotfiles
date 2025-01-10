@@ -204,7 +204,7 @@ font-thicken = true
 #
 #   * Powerline glyphs will be adjusted along with the cell height so
 #     that things like status lines continue to look aligned.
-adjust-cell-width = -10%
+adjust-cell-width = -5%
 
 adjust-cell-height =
 # Distance in pixels from the bottom of the cell to the text baseline.
@@ -1210,7 +1210,7 @@ keybind = super+v=paste_from_clipboard
 # left padding to 2 and the right padding to 4. If you want to set both
 # paddings to the same value, you can use a single value. For example,
 # `window-padding-x = 2` will set both paddings to 2.
-window-padding-x = 5
+window-padding-x = 2
 
 # Vertical window padding. This applies padding between the terminal cells and
 # the top and bottom window borders. The value is in points, meaning that it
@@ -1229,7 +1229,7 @@ window-padding-x = 5
 # top padding to 2 and the bottom padding to 4. If you want to set both
 # paddings to the same value, you can use a single value. For example,
 # `window-padding-y = 2` will set both paddings to 2.
-window-padding-y = 5
+window-padding-y = 2
 
 # The viewport dimensions are usually not perfectly divisible by the cell
 # size. In this case, some extra padding on the end of a column and the bottom
