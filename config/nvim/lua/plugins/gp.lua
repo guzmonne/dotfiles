@@ -1,3 +1,9 @@
+local STORY =
+  [[You are an AI trained as the perfect ghostwriter. The user will provide you with a snippet of text, and you will continue the story seamlessly from the last written word, adopting the same voice, tone, and style as the original. The narrative is expected to include explicit scenes, and the use of crude or lewd language is permitted and should be maintained when the context requires it. No grammar or spelling errors should be introduced. Dialogue may be added if it appropriately enhances the narrative.
+
+The user may supplement the narrative with extra guidelines enclosed in triple square brackets [[[ \]\]\] and supply additional lore using triple curly brackets {{{ }}}. The AI should infer all necessary context and narrative depth from both the provided snippet and the additional markers.
+]]
+
 local EXPLAIN_TEMPLATE = [[I have the following code from {{filename}}:
 
 ```{{filetype}}
@@ -59,9 +65,22 @@ return {
           endpoint = "https://api.anthropic.com/v1/messages",
           secret = os.getenv("ANTHROPIC_API_KEY"),
         },
+
+        deepseek = {
+          endpoint = "https://api.deepseek.com/chat/completions",
+          secret = os.getenv("DEEPSEEK_API_KEY"),
+        },
       },
 
       agents = {
+        -- {
+        --   provider = "deepseek",
+        --   name = "ghostwriter",
+        --   chat = true,
+        --   command = false,
+        --   model = { model = "deepseek-chat", max_tokens = 200 },
+        --   system_prompt = STORY,
+        -- },
         {
           provider = "anthropic",
           name = "tech-anthropic",
@@ -117,6 +136,14 @@ return {
           command = false,
           model = { model = "claude-3-5-sonnet-20240620" },
           system_prompt = tech_agent("Lua, lua, NVIM, NeoVim, nvim, `nvim`, Vim, `vim`, vim, luarocks"),
+        },
+        {
+          name = "zig",
+          provider = "copilot",
+          chat = true,
+          command = false,
+          model = { model = "gpt-4o" },
+          system_prompt = tech_agent("Zig, zig"),
         },
         {
           name = "js",

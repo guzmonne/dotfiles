@@ -12,3 +12,5 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt.conceallevel = 0
   end,
 })
+
+vim.api.nvim_create_augroup("markdown_autowrap", { clear = true })

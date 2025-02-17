@@ -771,7 +771,7 @@ mouse-scroll-multiplier = 1
 # On macOS, background opacity is disabled when the terminal enters native
 # fullscreen. This is because the background becomes gray and it can cause
 # widgets to show through which isn't generally desirable.
-background-opacity = 0.75
+background-opacity = 0.9
 
 # A positive value enables blurring of the background when background-opacity
 # is less than 1. The value is the blur radius to apply. A value of 20
@@ -790,7 +790,7 @@ background-blur-radius = 20
 # is 0.15. This value still looks weird but you can at least see what's going
 # on. A value outside of the range 0.15 to 1 will be clamped to the nearest
 # valid value.
-unfocused-split-opacity = 0.7
+unfocused-split-opacity = 0.5
 
 # The color to dim the unfocused split. Unfocused splits are dimmed by
 # rendering a semi-transparent rectangle over the split. This sets the color of

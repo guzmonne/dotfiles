@@ -11,13 +11,15 @@
     "lazyvim.plugins.extras.lang.terraform",
     "lazyvim.plugins.extras.lang.toml",
     "lazyvim.plugins.extras.lang.typescript",
+    "lazyvim.plugins.extras.lang.zig",
     "lazyvim.plugins.extras.lsp.none-ls",
     "lazyvim.plugins.extras.ui.mini-animate",
     "lazyvim.plugins.extras.ui.mini-indentscope",
     "lazyvim.plugins.extras.ui.treesitter-context"
   ],
+  "install_version": 7,
   "news": {
     "NEWS.md": "10960"
   },
-  "version": 7
+  "version": 8
 }

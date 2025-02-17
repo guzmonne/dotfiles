@@ -133,16 +133,6 @@ if command -v direnv >/dev/null; then
   eval "$(direnv hook zsh)" > /dev/null 2>&1
 fi
 
-# ╭────────────────────────────────────────────────────────────────────────╮
-# │ NOTE:                                                                  │
-# │ Dasel completions.                                                     │
-# │ [Source](https://github.com/TomWright/dasel?utm_source=tldrnewsletter) │
-# ╰────────────────────────────────────────────────────────────────────────╯
-export fpath=(~/zsh/site-functions $fpath)
-mkdir -p ~/zsh/site-functions
-dasel completion zsh > ~/zsh/site-functions/_dasel
-compinit
-
 if command -v yt >/dev/null; then
   eval "$(yt completion zsh)"
 fi
