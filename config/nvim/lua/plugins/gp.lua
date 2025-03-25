@@ -73,14 +73,14 @@ return {
       },
 
       agents = {
-        -- {
-        --   provider = "deepseek",
-        --   name = "ghostwriter",
-        --   chat = true,
-        --   command = false,
-        --   model = { model = "deepseek-chat", max_tokens = 200 },
-        --   system_prompt = STORY,
-        -- },
+        {
+          provider = "deepseek",
+          name = "ghostwriter",
+          chat = true,
+          command = false,
+          model = { model = "deepseek-chat", max_tokens = 160 },
+          system_prompt = STORY,
+        },
         {
           provider = "anthropic",
           name = "tech-anthropic",
