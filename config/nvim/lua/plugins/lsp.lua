@@ -13,24 +13,26 @@ return {
     keys[#keys + 1] = { "<leader>ca", vim.lsp.buf.code_action }
     keys[#keys + 1] = { "E", vim.diagnostic.open_float }
   end,
-  opts = {
-    setup = {
-      rust_analyzer = function()
-        return true
-      end,
-      yamlls = function(_, opts)
-        opts.settings = {
-          yaml = {
-            validate = false,
-            keyOrdering = false,
-          },
-        }
-      end,
-      lua_ls = function(_, opts)
-        opts.settings.Lua.diagnostics = {
-          globals = { "vim" },
-        }
-      end,
-    },
-  },
+  opts = function(_, opts)
+    opts.setup = vim.tbl_extend("force", opts.setup or {}, {
+      setup = {
+        rust_analyzer = function()
+          return true
+        end,
+        yamlls = function(_, lopts)
+          lopts.settings = {
+            yaml = {
+              validate = false,
+              keyOrdering = false,
+            },
+          }
+        end,
+        lua_ls = function(_, lopts)
+          lopts.settings.Lua.diagnostics = {
+            globals = { "vim" },
+          }
+        end,
+      },
+    })
+  end,
 }

@@ -725,7 +725,7 @@ cursor-click-to-move = true
 # when the mouse is used (button, movement, etc.). Platform-specific behavior
 # may dictate other scenarios where the mouse is shown. For example on macOS,
 # the mouse is shown again when a new window, tab, or split is created.
-mouse-hide-while-typing = false
+mouse-hide-while-typing = true
 
 # Determines whether running programs can detect the shift key pressed with a
 # mouse click. Typically, the shift key is used to extend mouse selection.

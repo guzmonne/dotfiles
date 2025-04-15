@@ -1,69 +1,31 @@
 return {
   "saghen/blink.cmp",
-  event = "VeryLazy",
-  enabled = true,
-  dependencies = { "rafamadriz/friendly-snippets", "giuxtaposition/blink-cmp-copilot", "echasnovski/mini.nvim" },
-  version = "*",
-  opts = {
-    keymap = {
-      ["<C-space>"] = {
-        function(cmp)
-          cmp.show()
-        end,
+  opts = function(_, opts)
+    opts.appearance = opts.appearance or {}
+    opts.appearance.kind_icons = vim.tbl_extend("force", opts.appearance.kind_icons or {}, LazyVim.config.icons.kinds)
+    table.insert(opts.sources.default, 1, "copilot")
+    opts.completion.menu.auto_show = false
+    opts.signature = vim.tbl_extend("force", opts.signature or {}, { enabled = true })
+    opts.sources.providers = vim.tbl_extend("force", opts.sources.providers, {
+      copilot = {
+        name = "copilot",
+        module = "blink-cmp-copilot",
+        kind = "Copilot",
+        score_offset = 100,
+        async = true,
       },
+    })
+    opts.keymap = vim.tbl_extend("force", opts.keymap, {
       ["<CR>"] = {},
-      ["<Tab>"] = {
+      ["<C-n>"] = {
         function(cmp)
-          if cmp.snippet_active() then
-            return cmp.accept()
+          if not cmp.is_visible() then
+            cmp.show()
           else
-            return cmp.select_and_accept()
+            cmp.select_next()
           end
         end,
-        "snippet_forward",
-        "fallback",
       },
-    },
-    completion = {
-      menu = {
-        auto_show = false,
-        -- border = "single",
-        -- Mini.Icons
-        -- draw = {
-        --   components = {
-        --     kind_icon = {
-        --       ellipsis = false,
-        --       text = function(ctx)
-        --         local kind_icon, _, _ = require("mini.icons").get("lsp", ctx.kind)
-        --         return kind_icon
-        --       end,
-        --       highlight = function(ctx)
-        --         local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
-        --         return hl
-        --       end,
-        --     },
-        --   },
-        -- },
-      },
-      -- documentation = { window = { border = "single" } },
-    },
-    -- signature = { window = { border = "single" } },
-    sources = {
-      default = { "copilot", "lsp", "path", "snippets", "buffer", "markdown" },
-      providers = {
-        markdown = {
-          name = "RenderMarkdown",
-          module = "render-markdown.integ.blink",
-          fallbacks = { "lsp" },
-        },
-        copilot = {
-          name = "copilot",
-          module = "blink-cmp-copilot",
-          kind = "Copilot",
-          score_offset = 100,
-          async = true,
-        },
-      },
-    },
-  },
+    })
+  end,
 }

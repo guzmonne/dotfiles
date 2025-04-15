@@ -91,8 +91,6 @@ return {
     { "<leader>ll", reload_lua_plugins, desc = "Reload Lua plugins" },
     { "<leader>lp", pwd, desc = "Print and copy the buffer full path" },
     { "<leader>lr", require("user.functions").reload, desc = "Reload user lua modules" },
-    { "<leader>n", harpoon_next, desc = "Toggle next buffer stored in Harpoon" },
-    { "<leader>p", harpoon_prev, desc = "Toggle prev buffer stored in Harpoon" },
     { "<leader>q", group = "Quit" },
     { "<leader>qa", "<cmd>qa!<CR>", desc = "Close NeoVim without saving" },
     { "<leader>qq", "<cmd>bp<bar>sp<bar>bn<bar>bd<CR>", desc = "Close buffer but keep split" },

@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 
-clear;
+clear
 
 while true; do
-  screen=$("$@")
-  clear
-  printf "$screen"
-  sleep 2
+	screen=$("$@")
+	tput cup 0 0
+	printf "%s" "$screen"
+	sleep 2
 done
-
