@@ -1,3 +1,26 @@
+local LazyReload = {}
+
+--- Reloads a plugin by its name.
+---@param name string The name of the plugin to reload.
+---@return nil
+function LazyReload.reload(name)
+  local plugins = require("lazy.core.config").plugins
+  local plugin = plugins[name]
+
+  if plugin == nil then
+    vim.notify("Plugin " .. name .. " not found", vim.log.levels.ERROR)
+    return
+  end
+
+  require("lazy.core.loader").reload(plugin)
+  vim.notify("Plugin " .. name .. " reloaded", vim.log.levels.INFO)
+end
+
+local function reload_lua_plugins()
+  require("luasnip.loaders.from_lua").load({ paths = { "~/.config/nvim/lua/snippets" } })
+  LazyReload.reload("tmuxrepl")
+end
+
 -- Custom functions
 local function pwd()
   local full_path = vim.fn.expand("%:p")
@@ -8,10 +31,6 @@ end
 local is_harpoon_installed, harpoon = pcall(require, "harpoon")
 if not is_harpoon_installed then
   return
-end
-
-local function reload_lua_plugins()
-  require("luasnip.loaders.from_lua").load({ paths = { "~/.config/nvim/lua/snippets" } })
 end
 
 local function format()
@@ -46,12 +65,6 @@ end
 local function harpoon_add_file()
   harpoon:list():add()
 end
-local function harpoon_next()
-  harpoon:list():next()
-end
-local function harpoon_prev()
-  harpoon:list():next()
-end
 
 return {
   "folke/which-key.nvim",
@@ -60,12 +73,16 @@ return {
     defaults = {},
   },
   keys = {
+    { "<Tab>", "<space><space>", "1 Tab == 2 spaces" },
     { "<leader>,", harpoon_toggle_quick_menu, desc = "Toggle Harpoon's quick menu" },
     { "<leader>-", require("oil").open, desc = "Open oil" },
     { "<leader>1", create_go_to_file(1), desc = "Go to file 1" },
     { "<leader>2", create_go_to_file(2), desc = "Go to file 2" },
     { "<leader>3", create_go_to_file(3), desc = "Go to file 3" },
     { "<leader>4", create_go_to_file(4), desc = "Go to file 4" },
+    { "<leader>?", "<cmd>Telescope current_buffer_fuzzy_find<CR>", desc = "Current buffer fuzzy find" },
+    { "<leader>bl", "<cmd>BaconList<CR>", "Open the Bacon list" },
+    { "<leader>bn", "<cmd>BaconLoad<CR>:w<CR>:BaconNext<CR>", "Navigate to the next Bacon location" },
     { "<leader>c", group = "Commands" },
     { "<leader>cp", "<cmd>Copilot enable<CR>", desc = "Enable GitHub Copilot for current buffer" },
     { "<leader>cx", "<cmd>!chmod +x %<CR>", desc = "Add execute permission to current file" },
@@ -77,7 +94,6 @@ return {
     { "<leader>fr", "<cmd>Telescope lsp_references<CR>", desc = "Find registers" },
     { "<leader>fs", "<cmd>Telescope lsp_document_symbols<CR>", desc = "Find symbols" },
     { "<leader>fz", "<cmd>Telescope spell_suggest<CR>", desc = "Spell suggest" },
-    { "<leader>?", "<cmd>Telescope current_buffer_fuzzy_find<CR>", desc = "Current buffer fuzzy find" },
     { "<leader>g", group = "Git" },
     { "<leader>gh", "<cmd>Gitsigns preview_hunk<CR>", desc = "Preview Hunk" },
     { "<leader>gs", "<cmd>Git<CR>", desc = "Open Git Fugitive" },
@@ -102,13 +118,17 @@ return {
       { silent = true },
     },
     { "<leader>tw", terminal_window, desc = "Open a new Terminal Window in the bottom" },
+    {
+      "<leader>tc",
+      "TmuxRepl command_run",
+      desc = "Run the highlighted commented command(s) in a tmux split pane",
+      mode = { "n", "v" },
+    },
+    { "<leader>tr", "TmuxRepl run", desc = "Run the highlighted command(s) in a tmux split pane", { mode = "n", "v" } },
     { "<leader>z", group = "ZK" },
     { "<leader>zn", require("user.zk").new, desc = "Create a new note" },
     { "<leader>zp", require("user.zk").private, desc = "Create a new private note" },
     { "<leader>zz", require("user.zk").telescope_list, desc = "Find notes" },
     { "Q", "<cmd>bd<CR>", desc = "Close the current buffer" },
-    { "<leader>bn", "<cmd>BaconLoad<CR>:w<CR>:BaconNext<CR>", "Navigate to the next Bacon location" },
-    { "<leader>bl", "<cmd>BaconList<CR>", "Open the Bacon list" },
-    { "<Tab>", "<space><space>", "1 Tab == 2 spaces" },
   },
 }
