@@ -118,13 +118,6 @@ return {
       { silent = true },
     },
     { "<leader>tw", terminal_window, desc = "Open a new Terminal Window in the bottom" },
-    {
-      "<leader>tc",
-      "TmuxRepl command_run",
-      desc = "Run the highlighted commented command(s) in a tmux split pane",
-      mode = { "n", "v" },
-    },
-    { "<leader>tr", "TmuxRepl run", desc = "Run the highlighted command(s) in a tmux split pane", { mode = "n", "v" } },
     { "<leader>z", group = "ZK" },
     { "<leader>zn", require("user.zk").new, desc = "Create a new note" },
     { "<leader>zp", require("user.zk").private, desc = "Create a new private note" },

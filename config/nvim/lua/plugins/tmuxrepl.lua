@@ -1,5 +1,7 @@
 return {
   "cloudbridgeuy/tmuxrepl",
   dev = true,
-  opts = {},
+  opts = {
+    silent = false,
+  },
 }

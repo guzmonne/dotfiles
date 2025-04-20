@@ -8,7 +8,7 @@ local M = {
 		-- Time to wait after splitting a window.
 		wait_after_split = 1000,
 		-- Time to wait between send_keys
-		wait_after_send_keys = 1000,
+		wait_after_send_keys = 100,
 		-- Tmux `split-pane` options.
 		tmux_split_options = "-h",
 		-- Prompt before next command
@@ -20,6 +20,14 @@ local M = {
 
 local function trim(s)
 	return (s:gsub("^%s*(.-)%s*$", "%1"))
+end
+
+local function split(s)
+	local words = {}
+	for word in s:gmatch("%S+") do
+		table.insert(words, word)
+	end
+	return words
 end
 
 --- Returns the current tmux window index.
@@ -96,32 +104,29 @@ function M.split_pane()
 	return pane
 end
 
+local Job = require("plenary.job")
+
 --- Runs a command on a given Tmux pane in the current session and window.
 --- @param pane number The index of the pane to run the command on.A
 --- @param line string The command to run.
 --- @return nil
 function M.send_keys(pane, line)
-	local cmd = "tmux send-keys -t "
-		.. M.current_session()
-		.. ":"
-		.. M.current_window()
-		.. "."
-		.. pane
-		.. " '"
-		.. line
-		.. "' C-m"
-
-	local handle = io.popen(cmd)
-	if not handle then
-		vim.notify("Failed to send command to tmux", vim.log.levels.ERROR, { title = "TmuxRepl" })
-		return
-	end
+	Job:new({
+		command = "tmux",
+		args = {
+			"send-keys",
+			"-t",
+			M.current_session() .. ":" .. M.current_window() .. "." .. pane,
+			line,
+			"C-m",
+		},
+	}):sync()
 
 	uv.sleep(M.opts.wait_after_send_keys)
 end
 
 --- Runs the current line, or the selected commented lines.
---- @param opts table
+--- @param opts table Command options
 --- @property opts.count number
 --- @property opts.line1 number
 --- @property opts.line2 number
@@ -142,22 +147,11 @@ function M.comment_run(opts)
 	end
 
 	local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
-	for i, line in ipairs(lines) do
-		line = trim(line)
-		if line ~= "" then
-			line = line:match("^%s*%S+%s*(.*)$")
-			M.send_keys(pane, line)
 
-			if M.opts.prompt and i < #lines then
-				if opts.silent == false then
-					vim.notify("Continue with next command? (Y/n): ", vim.log.levels.INFO, { title = "TmuxRepl" })
-				end
-				local answer = vim.fn.input("Continue with next command? (Y/n): ")
-				answer = answer:lower()
-				if answer ~= "" and answer ~= "y" then
-					break
-				end
-			end
+	for i, line in ipairs(lines) do
+		line = line:match("^%s*%S+%s*(.*)$")
+		if M.run_blob(pane, line, M.opts.prompt and i < #lines) then
+			break
 		end
 	end
 
@@ -167,7 +161,7 @@ function M.comment_run(opts)
 end
 
 --- Runs the current line, or the selected lines.
---- @param opts table
+--- @param opts table Command options
 --- @property opts.count number
 --- @property opts.line1 number
 --- @property opts.line2 number
@@ -188,27 +182,39 @@ function M.run(opts)
 	end
 
 	local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
-	for i, line in ipairs(lines) do
-		line = trim(line)
-		if line ~= "" then
-			M.send_keys(pane, line)
 
-			if M.opts.prompt and i < #lines then
-				if opts.silent == false then
-					vim.notify("Continue with next command? (Y/n): ", vim.log.levels.INFO, { title = "TmuxRepl" })
-				end
-				local answer = vim.fn.input("Continue with next command? (Y/n): ")
-				answer = answer:lower()
-				if answer ~= "" and answer ~= "y" then
-					break
-				end
-			end
+	for i, line in ipairs(lines) do
+		if M.run_blob(pane, line, M.opts.prompt and i < #lines) then
+			break
 		end
 	end
 
 	if opts.silent == false then
 		vim.notify("Done!", vim.log.levels.INFO, { title = "TmuxRepl" })
 	end
+end
+
+--- Runs a command on a given Tmux pane in the current session and window.
+--- Returns `true` if the user wants to stop executing further commands.
+--- @param pane number The index of the pane to run the command on.
+--- @param blob string The command to run.
+--- @param prompt boolean Whether to prompt before running the next command.
+--- @return boolean
+function M.run_blob(pane, blob, prompt)
+	M.send_keys(pane, blob)
+
+	if prompt then
+		if M.opts.silent == false then
+			vim.notify("Continue with next command? (Y/n): ", vim.log.levels.INFO, { title = "TmuxRepl" })
+		end
+		local answer = vim.fn.input("Continue with next command? (Y/n): ")
+		answer = answer:lower()
+		if answer ~= "" and answer ~= "y" then
+			return true
+		end
+	end
+
+	return false
 end
 
 --- Gets the current tmux panes
@@ -247,7 +253,14 @@ function M.setup(opts)
 	end
 
 	vim.api.nvim_create_user_command("TmuxRepl", function(lopts)
-		local cmd = lopts.args
+		local cmd = "run"
+
+		local args = split(lopts.args)
+
+		if #args > 0 then
+			cmd = args[1]
+		end
+
 		if cmd == "run" then
 			M.run(lopts)
 		elseif cmd == "comment_run" then
@@ -263,7 +276,7 @@ function M.setup(opts)
 		end
 	end, {
 		complete = function()
-			return { "run", "panes", "current_session", "current_window" }
+			return { "run", "comment_run", "panes", "current_session", "current_window" }
 		end,
 		nargs = 1,
 		range = 1,

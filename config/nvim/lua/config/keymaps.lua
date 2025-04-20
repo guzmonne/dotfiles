@@ -175,3 +175,35 @@ vim.keymap.set("v", "<C-g>x", ":<C-u>'<,'>GpContext<cr>", keymapOptions("Visual 
 
 vim.keymap.set({ "n", "i", "v", "x" }, "<C-g>s", "<cmd>GpStop<cr>", keymapOptions("Stop"))
 vim.keymap.set({ "n", "i", "v", "x" }, "<C-g>n", "<cmd>GpNextAgent<cr>", keymapOptions("Next Agent"))
+
+-- TmuxRepl
+vim.keymap.set(
+  { "n" },
+  "<leader>tr",
+  "<cmd>TmuxRepl run<CR>",
+  { noremap = true, silent = true, nowait = true, desc = "Run commands under the selected lines" }
+)
+vim.keymap.set(
+  { "v" },
+  "<leader>tr",
+  ":<C-u>'<,'>TmuxRepl run<CR>",
+  { noremap = true, silent = true, nowait = true, desc = "Run commands under the selected lines" }
+)
+vim.keymap.set(
+  { "n" },
+  "<leader>tm",
+  ":?```<CR>jVNk:<C-u>'<,'>TmuxRepl run<CR>",
+  { noremap = true, silent = true, nowait = true, desc = "Run commands under the selected lines" }
+)
+vim.keymap.set(
+  { "n", "v" },
+  "<leader>tc",
+  "<cmd>TmuxRepl comment_run<CR>",
+  { noremap = true, silent = true, nowait = true, desc = "Run commands under the commented selected lines" }
+)
+vim.keymap.set(
+  { "v" },
+  "<leader>tc",
+  ":<C-u>'<,'>TmuxRepl comment_run<CR>",
+  { noremap = true, silent = true, nowait = true, desc = "Run commands under the selected lines" }
+)
