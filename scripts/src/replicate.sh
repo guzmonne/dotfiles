@@ -461,3 +461,21 @@ openhermes-2-mistral-7b() {
 falcon-40b-instruct() {
 	request-falcon -m "7d58d6bddc53c23fa451c403b2b5373b1e0fa094e4e0d1b98c3d02931aa07173" "$@"
 }
+
+# @cmd Run the DeepSeek R1 model from Replicate
+# @arg prompt! The prompt to use to generate the text.
+deepseek-r1() {
+	prediction=$(
+		curl --silent --show-error https://api.replicate.com/v1/models/deepseek-ai/deepseek-r1/predictions \
+			--request POST \
+			--header "Authorization: Bearer $REPLICATE_API_TOKEN" \
+			--header "Content-Type: application/json" \
+			--data "$(jo stream=true input="$(jo input="$rargs_prompt")")"
+	)
+
+	stream_url=$(printf "%s" "$prediction" | jq -r .urls.stream)
+
+	curl --silent --show-error --no-buffer "$stream_url" \
+		--header "Accept: text/event-stream" \
+		--header "Cache-Control: no-store" | rg 'data'
+}

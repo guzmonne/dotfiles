@@ -37,34 +37,6 @@ normalize_rargs_input() {
   done
 }
 
-inspect_args() {
-  prefix="rargs_"
-  args="$(set | grep ^$prefix | grep -v rargs_run || true)"
-  if [[ -n "$args" ]]; then
-    echo
-    echo args:
-    for var in $args; do
-      echo "- $var" | sed 's/=/ = /g'
-    done
-  fi
-
-  if ((${#deps[@]})); then
-    readarray -t sorted_keys < <(printf '%s\n' "${!deps[@]}" | sort)
-    echo
-    echo deps:
-    for k in "${sorted_keys[@]}"; do echo "- \${deps[$k]} = ${deps[$k]}"; done
-  fi
-
-  if ((${#rargs_other_args[@]})); then
-    echo
-    echo rargs_other_args:
-    echo "- \${rargs_other_args[*]} = ${rargs_other_args[*]}"
-    for i in "${!rargs_other_args[@]}"; do
-      echo "- \${rargs_other_args[$i]} = ${rargs_other_args[$i]}"
-    done
-  fi
-}
-
 trap handle_exit SIGINT
 REPLICATE_API_PREDICTIONS_URL="https://api.replicate.com/v1/predictions"
 REPLICATE_CHATML_SYSTEM_PROMPT_TEMPLATE='<|im_start|>system ${SYSTEM_PROMPT}<|im_end|> <|im_start|>user {prompt}<|im_end|> <|im_start|>assistant:'
@@ -86,7 +58,7 @@ handle_exit() {
 }
 
 version() {
-  echo "0.1.0"
+  echo -n "0.1.0"
 }
 usage() {
   printf "Utility functions to interact with replicate.\n"
@@ -99,6 +71,7 @@ usage() {
   airoboros-llama-2-70b ....... Expose the airoboros model through Replicate
   causallm-14b ................ Expose the Causal-LM model through Replicate
   codellama-34b-instruct ...... Expose the codellama-34b-instruct model through Replicate
+  deepseek-r1 ................. Run the DeepSeek R1 model from Replicate
   dolphin-2.2.1-mistral-7b .... Expose the dolphin-2.2.1-mistral-7b model through Replicate
   dolphin29 ................... Expose the dolphin-2.9-llama3-70b-gguf model through Replicate
   falcon-40b-instruct ......... Expose the falcon-40b-instruct model through Replicate
@@ -149,6 +122,10 @@ parse_arguments() {
       ;;
     codellama-34b|codellama|codellama-34b-instruct)
       action="codellama-34b-instruct"
+      rargs_input=("${rargs_input[@]:1}")
+      ;;
+    deepseek-r1)
+      action="deepseek-r1"
       rargs_input=("${rargs_input[@]:1}")
       ;;
     dolphin-mistral-7b|dolphin-mistral|dolphin-2.2.1-mistral-7b)
@@ -311,6 +288,7 @@ airoboros-llama-2-70b() {
   local rargs_prompt_template
   local rargs_system
   local rargs_prompt
+
   # Parse command arguments
   parse_airoboros-llama-2-70b_arguments "$@"
 
@@ -514,6 +492,7 @@ api() {
     exit 1
   fi
 
+
   # Parse command arguments
   parse_api_arguments "$@"
 
@@ -694,6 +673,7 @@ causallm-14b() {
   local rargs_verbose
   local rargs_system
   local rargs_prompt
+
   # Parse command arguments
   parse_causallm-14b_arguments "$@"
 
@@ -798,6 +778,7 @@ codellama-34b-instruct() {
   local rargs_prompt_template
   local rargs_system
   local rargs_prompt
+
   # Parse command arguments
   parse_codellama-34b-instruct_arguments "$@"
 
@@ -821,6 +802,92 @@ codellama-34b-instruct() {
     exit 1
   fi
 	request-llama -m "b17fdb44c843000741367ae3d73e2bb710d7428a662238ddebbf4302db2b5422" "$@"
+}
+deepseek-r1_usage() {
+  printf "Run the DeepSeek R1 model from Replicate\n"
+
+  printf "\n\033[4m%s\033[0m\n" "Usage:"
+  printf "  deepseek-r1 [OPTIONS] PROMPT\n"
+  printf "  deepseek-r1 -h|--help\n"
+  printf "\n\033[4m%s\033[0m\n" "Arguments:"
+  printf "  PROMPT\n"
+  printf "    The prompt to use to generate the text.\n"
+  printf "    [@required]\n"
+
+  printf "\n\033[4m%s\033[0m\n" "Options:"
+  printf "  -v --verbose\n"
+  printf "    Enable verbose output.\n"
+  printf "  -h --help\n"
+  printf "    Print help\n"
+}
+parse_deepseek-r1_arguments() {
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      *)
+        break
+        ;;
+    esac
+  done
+
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      -v | --verbose)
+        rargs_verbose=1
+        shift
+        ;;
+      -h|--help)
+        rargs_help=1
+        shift 1
+        ;;
+      -?*)
+        printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Invalid option: " "$key" >&2
+        exit 1
+        ;;
+      *)
+        if [[ -z "$rargs_prompt" ]]; then
+          rargs_prompt=$key
+          shift
+        else
+          printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Invalid argument: " "$key" >&2
+          exit 1
+        fi
+        ;;
+    esac
+  done
+}
+# Run the DeepSeek R1 model from Replicate
+deepseek-r1() {
+  local rargs_verbose
+  local rargs_prompt
+
+  # Parse command arguments
+  parse_deepseek-r1_arguments "$@"
+
+  # Rule `no-first-option-help`: Render the global or command usage if the `-h|--help` option is
+  #                              is provided anywhere on the command, not just as the first option.
+  #                              Handling individual functions case by case.
+  if [[ -n "$rargs_help" ]]; then
+    deepseek-r1_usage
+    exit 0
+  fi
+  
+  if [[ -z "$rargs_prompt" ]]; then
+    printf "\e[31m%s\e[33m%s\e[31m\e[0m\n\n" "Missing required option: " "prompt" >&2
+    deepseek-r1_usage >&2
+    exit 1
+  fi
+	prediction=$(
+		curl --silent --show-error https://api.replicate.com/v1/models/deepseek-ai/deepseek-r1/predictions \
+			--request POST \
+			--header "Authorization: Bearer $REPLICATE_API_TOKEN" \
+			--header "Content-Type: application/json" \
+			--data "$(jo stream=true input="$(jo input="$rargs_prompt")")"
+	)
+	stream_url=$(printf "%s" "$prediction" | jq -r .urls.stream)
+	curl --silent --show-error --no-buffer "$stream_url" \
+		--header "Accept: text/event-stream" \
+		--header "Cache-Control: no-store"
 }
 dolphin-2.2.1-mistral-7b_usage() {
   printf "Expose the dolphin-2.2.1-mistral-7b model through Replicate\n"
@@ -895,6 +962,7 @@ dolphin-2.2.1-mistral-7b() {
   local rargs_verbose
   local rargs_system
   local rargs_prompt
+
   # Parse command arguments
   parse_dolphin-2.2.1-mistral-7b_arguments "$@"
 
@@ -999,6 +1067,7 @@ dolphin29() {
   local rargs_prompt_template
   local rargs_system
   local rargs_prompt
+
   # Parse command arguments
   parse_dolphin29_arguments "$@"
 
@@ -1096,6 +1165,7 @@ falcon-40b-instruct() {
   local rargs_verbose
   local rargs_system
   local rargs_prompt
+
   # Parse command arguments
   parse_falcon-40b-instruct_arguments "$@"
 
@@ -1200,6 +1270,7 @@ llama2-70b() {
   local rargs_prompt_template
   local rargs_system
   local rargs_prompt
+
   # Parse command arguments
   parse_llama2-70b_arguments "$@"
 
@@ -1304,6 +1375,7 @@ llama3-70b() {
   local rargs_prompt_template
   local rargs_system
   local rargs_prompt
+
   # Parse command arguments
   parse_llama3-70b_arguments "$@"
 
@@ -1417,6 +1489,7 @@ parse_long-pull_arguments() {
 long-pull() {
   local rargs_verbose
   local rargs_url
+
   # Parse command arguments
   parse_long-pull_arguments "$@"
 
@@ -1526,6 +1599,7 @@ mistral-7b-instruct-v0.1() {
   local rargs_verbose
   local rargs_system
   local rargs_prompt
+
   # Parse command arguments
   parse_mistral-7b-instruct-v0.1_arguments "$@"
 
@@ -1623,6 +1697,7 @@ mistral-7b-openorca() {
   local rargs_verbose
   local rargs_system
   local rargs_prompt
+
   # Parse command arguments
   parse_mistral-7b-openorca_arguments "$@"
 
@@ -1720,6 +1795,7 @@ openhermes-2-mistral-7b() {
   local rargs_verbose
   local rargs_system
   local rargs_prompt
+
   # Parse command arguments
   parse_openhermes-2-mistral-7b_arguments "$@"
 
@@ -1830,6 +1906,7 @@ request() {
   local rargs_prompt_template
   local rargs_system
   local rargs_prompt
+
   # Parse command arguments
   parse_request_arguments "$@"
 
@@ -1942,6 +2019,7 @@ request-chatml() {
   local rargs_model
   local rargs_system
   local rargs_prompt
+
   # Parse command arguments
   parse_request-chatml_arguments "$@"
 
@@ -2045,6 +2123,7 @@ request-dolphin() {
   local rargs_model
   local rargs_system
   local rargs_prompt
+
   # Parse command arguments
   parse_request-dolphin_arguments "$@"
 
@@ -2148,6 +2227,7 @@ request-falcon() {
   local rargs_model
   local rargs_system
   local rargs_prompt
+
   # Parse command arguments
   parse_request-falcon_arguments "$@"
 
@@ -2258,6 +2338,7 @@ request-llama() {
   local rargs_prompt_template
   local rargs_system
   local rargs_prompt
+
   # Parse command arguments
   parse_request-llama_arguments "$@"
 
@@ -2374,6 +2455,7 @@ request-mistral() {
   local rargs_model
   local rargs_system
   local rargs_prompt
+
   # Parse command arguments
   parse_request-mistral_arguments "$@"
 
@@ -2470,6 +2552,7 @@ spinner() {
   local rargs_delay
   local rargs_frames
   local rargs_pid
+
   # Parse command arguments
   parse_spinner_arguments "$@"
 
@@ -2571,6 +2654,7 @@ zephyr-7b-beta() {
   local rargs_verbose
   local rargs_system
   local rargs_prompt
+
   # Parse command arguments
   parse_zephyr-7b-beta_arguments "$@"
 
@@ -2597,7 +2681,6 @@ zephyr-7b-beta() {
 }
 
 rargs_run() {
-  declare -A deps=()
   declare -a rargs_input=()
   normalize_rargs_input "$@"
   parse_arguments "${rargs_input[@]}"
@@ -2624,6 +2707,10 @@ rargs_run() {
       ;;
     "codellama-34b-instruct")
       codellama-34b-instruct "${rargs_input[@]}"
+      exit
+      ;;
+    "deepseek-r1")
+      deepseek-r1 "${rargs_input[@]}"
       exit
       ;;
     "dolphin-2.2.1-mistral-7b")
