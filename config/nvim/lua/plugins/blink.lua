@@ -4,9 +4,18 @@ return {
     opts.appearance = opts.appearance or {}
     opts.appearance.kind_icons = vim.tbl_extend("force", opts.appearance.kind_icons or {}, LazyVim.config.icons.kinds)
     table.insert(opts.sources.default, 1, "copilot")
+    table.insert(opts.sources.default, #opts.sources.default, "snippets")
     opts.completion.menu.auto_show = false
     opts.signature = vim.tbl_extend("force", opts.signature or {}, { enabled = true })
     opts.sources.providers = vim.tbl_extend("force", opts.sources.providers, {
+      snippets = {
+        name = "snippets",
+        module = "blink.cmp.sources.snippets",
+        enabled = true,
+        max_items = 8,
+        min_keyword_length = 2,
+        score_offset = 95,
+      },
       copilot = {
         name = "copilot",
         module = "blink-cmp-copilot",
