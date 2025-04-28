@@ -47,5 +47,12 @@ alt - j : tmux select-pane -D
 alt - k : tmux select-pane -U
 alt - l : tmux select-pane -R
 
+# Go to Arc
+f1 : open /Applications/Ghostty.app
+f2 : open /Applications/Arc.app
+f3 : open /Applications/Firefox\ Developer\ Edition.app
+f4 : open /Applications/Slack.app
+f5 : open /Applications/Microsoft\ Outlook.app
+
 # Control Spotify
 f8 : osascript -e 'tell application "Spotify" to playpause'
