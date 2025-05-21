@@ -10,5 +10,3 @@ fi
 
 echo "$command"
 eval "$command"
-
-

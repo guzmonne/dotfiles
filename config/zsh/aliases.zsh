@@ -37,6 +37,9 @@ alias kubeclr='sed -i "" -e "s/^current-context:.*$/current-context:/" ~/.kube/c
 # Kitty alias
 alias kitty="/Applications/kitty.app/Contents/MacOS/kitty"
 
+# VLC Alias
+alias vlc="/Applications/VLC.app/Contents/MacOS/VLC"
+
 # Alias rich to always use the same template
 alias rich="rich --theme=inkpot"
 
@@ -116,3 +119,11 @@ alias mcommandr="mods --api ollama --model command-r"
 if command -v px >/dev/null; then
   alias pxk="px --sort=cpupercent --no-username | fzf --preview='px --color {1}' --bind 'ctrl-r:reload(px --sort=cpupercent --no-username)' --height=20 --no-hscroll --tac --no-sort --header-lines=1 | awk '{print $1}' | xargs kill -9"
 fi
+
+# llm-stream
+alias rusty="llm-stream --preset sonnet --template rs-agent"
+alias bashy="llm-stream --preset sonnet --template sh-agent"
+alias pythy="llm-stream --preset sonnet --template py-agent"
+alias javy="llm-stream --preset sonnet --template js-agent"
+alias civy="llm-stream --preset sonnet --template ci-agent"
+

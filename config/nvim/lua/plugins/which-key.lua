@@ -118,6 +118,7 @@ return {
       { silent = true },
     },
     { "<leader>tw", terminal_window, desc = "Open a new Terminal Window in the bottom" },
+    { "<leader>rr", "<cmd>Telescope resume<CR>", desc = "Resumes the previously run Telescope command" },
     { "<leader>z", group = "ZK" },
     { "<leader>zn", require("user.zk").new, desc = "Create a new note" },
     { "<leader>zp", require("user.zk").private, desc = "Create a new private note" },

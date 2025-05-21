@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+set -x
+
 # Use fzg as a selector interface for RipGrep.
 # Every time you type the process will restart with the updated query string denoted by `{q}`.
 # We use the `--disabled` flag so that fzf doesn't do additional filtering.
