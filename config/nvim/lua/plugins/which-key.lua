@@ -66,6 +66,15 @@ local function harpoon_add_file()
   harpoon:list():add()
 end
 
+-- Toggle the vertical Git Diff functionality exposed by `vim-fugitive`.
+local function toggle_gvdiff()
+  if vim.wo.diff then
+    vim.cmd("wincmd h | close | wincmd l")
+  else
+    vim.cmd("Gvdiffsplit")
+  end
+end
+
 return {
   "folke/which-key.nvim",
   opts = {
@@ -98,6 +107,7 @@ return {
     { "<leader>gh", "<cmd>Gitsigns preview_hunk<CR>", desc = "Preview Hunk" },
     { "<leader>gs", "<cmd>Git<CR>", desc = "Open Git Fugitive" },
     { "<leader>gt", "<cmd>Gitsigns toggle_current_line_blame<CR>", desc = "Toggle current line blame" },
+    { "<leader>gd", toggle_gvdiff, desc = "Toggle the vertical vim-fugitive git diff view" },
     { "<leader>h", harpoon_add_file, desc = "Add file to Harpoon" },
     { "<leader>j", "<cmd>m .+1<CR>==", desc = "Move text down" },
     { "<leader>k", "<cmd>m .-2<CR>==", desc = "Move text up" },

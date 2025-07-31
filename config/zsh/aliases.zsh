@@ -127,3 +127,11 @@ alias pythy="llm-stream --preset sonnet --template py-agent"
 alias javy="llm-stream --preset sonnet --template js-agent"
 alias civy="llm-stream --preset sonnet --template ci-agent"
 
+if [[ -f "$HOME/.claude/local/claude" ]]; then
+  alias claude="$HOME/.claude/local/claude"
+fi
+
+if [[ -d "$HOME/Projects/Go/opencode" ]]; then
+  alias opencode-dev="bun $HOME/Projects/Go/opencode/packages/opencode/src/index.ts"
+fi
+

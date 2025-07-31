@@ -222,3 +222,15 @@ fi
 if [[ -d "${HOME}/.pixi/bin" ]]; then
   export PATH="/Users/guzmanmonne/.pixi/bin:$PATH"
 fi
+
+# PyTorch
+if [[ -d "/opt/homebrew/Cellar/pytorch/2.5.1_4" ]]; then
+  export LIBTORCH="/opt/homebrew/Cellar/pytorch/2.5.1_4"
+  export LD_LIBRARY_PATH="/opt/homebrew/Cellar/pytorch/2.5.1_4/lib:$LD_LIBRARY_PATH"
+fi
+
+# opencode
+if [[ -d /Users/guzmanmonne/.opencode/bin ]]; then
+  export PATH=/Users/guzmanmonne/.opencode/bin:$PATH
+fi
+

@@ -104,6 +104,23 @@ source "$HOME/.config/zsh/mappings.zsh"
 source "$HOME/.config/zsh/autoload.zsh"
 source "$HOME/.config/zsh/prompt.zsh"
 
+if [[ -f "$HOME/.local/miniforge3/bin/conda" ]]; then
+  # >>> conda initialize >>>
+  # !! Contents within this block are managed by 'conda init' !!
+  __conda_setup="$("$HOME/.local/miniforge3/bin/conda" 'shell.bash' 'hook' 2> /dev/null)"
+  if [ $? -eq 0 ]; then
+      eval "$__conda_setup"
+  else
+      if [ -f "$HOME/.local/miniforge3/etc/profile.d/conda.sh" ]; then
+          . "$HOME/.local/miniforge3/etc/profile.d/conda.sh"
+      else
+          export PATH="$HOME/.local/miniforge3/bin:$PATH"
+      fi
+  fi
+  unset __conda_setup
+  # <<< conda initialize <<<
+fi
+
 autoload bashcompinit && bashcompinit
 autoload -Uz compinit
 if [ $(date +'%j') != $(stat -f '%Sm' -t '%j' ~/.zcompdump) ]; then
@@ -156,4 +173,18 @@ fi
 
 if [[ -d "/opt/homebrew/opt/gnu-sed/libexec/gnubin" ]]; then
   export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
+fi
+
+# Set the mtg completions
+if command -v mtg 1>/dev/null 2>&1; then
+  eval "$(mtg completions generate zsh)"
+fi
+
+
+if command -v $HOME/Library/pnpm/pnpm >/dev/null 2>&1; then
+  export PNPM_HOME="$HOME/Library/pnpm"
+  case ":$PATH:" in
+    *":$PNPM_HOME:"*) ;;
+    *) export PATH="$PNPM_HOME:$PATH" ;;
+  esac
 fi

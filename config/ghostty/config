@@ -982,7 +982,7 @@ x11-instance-name =
 #   * `home` - The home directory of the executing user.
 #
 #   * `inherit` - The working directory of the launching process.
-working-directory =
+working-directory = inherit
 
 # Key bindings. The format is `trigger=action`. Duplicate triggers will
 # overwrite previously set values. The list of actions is available in
@@ -1783,7 +1783,8 @@ vt-kam-allowed = false
 #
 # Changing this value at runtime and reloading the configuration will only
 # affect new windows, tabs, and splits.
-# custom-shader = /Users/guzmanmonne/.config/ghostty/shaders/crt.glsl
+# custom-shader = /Users/guzmanmonne/Projects/Personal/config/ghostty/shaders/bloom.glsl
+custom-shader = /Users/guzmanmonne/Projects/Personal/config/ghostty/shaders/cursor_blaze_3.glsl
 
 # If `true` (default), the focused terminal surface will run an animation
 # loop when custom shaders are used. This uses slightly more CPU (generally
@@ -2221,4 +2222,3 @@ auto-update = check
 #
 # This only works on macOS since only macOS has an auto-update feature.
 auto-update-channel =
-

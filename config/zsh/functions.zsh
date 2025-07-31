@@ -102,3 +102,26 @@ function load-nvmrc() {
 function quill() {
   gum write --width 81 --height 10 --header "Chat" --placeholder "Write your prompt here..." --show-cursor-line --char-limit 0 "$@"
 }
+
+function trim() {
+    local trimmed
+
+    trimmed="$1"
+
+    if [[ -z "$trimmed" ]] || [[ "$trimmed" == "-" ]]; then
+      trimmed="$(cat)"
+    fi
+
+    # Strip leading spaces.
+    while [[ $trimmed == ' '* ]]; do
+       trimmed="${trimmed## }"
+    done
+    # Strip trailing spaces.
+    while [[ $trimmed == *' ' ]]; do
+        trimmed="${trimmed%% }"
+    done
+
+    echo "$trimmed"
+}
+
+export -f trim 1>/dev/null
